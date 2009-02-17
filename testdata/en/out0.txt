@@ -1,0 +1,12 @@
+{{wikipedia|Box}}
+[[Image:Shoukadou bentou.jpg|thumb|right|A wooden box.]]
+==English==
+
+===Pronunciation===
+* {{a|UK}} {{IPA|/bɒks/}}, {{SAMPA|/bQks/}}
+* {{a|US}} {{enPR|bäks}}, {{IPA|/bɑːks/}}, {{SAMPA|/bA:ks/}}
+* {{audio|en-us-box.ogg|Audio (US)}}
+* {{audio|foo.ogg|audio}}
+
+===Etymology===
+{{etyl|enm}} < {{etyl|ang}} < {{LL.}} {{term|buxis|lang=la}} < {{etyl|grc|en}} {{term|πυξίς||box|tr=puksis|lang=grc|sc=polytonic}} from {{term|πύξος|sc=polytonic|tr=puksos||box tree|lang=grc}}. Compare German {{term|Büchse|lang=de}}.

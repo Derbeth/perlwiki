@@ -1,0 +1,13 @@
+done
+archive
+.perlwikipedia*
+in.txt*
+out.txt*
+audio_*.txt*
+*wikt_audio_*.txt*
+errors_*.txt*
+done_*.txt*
+nottrans_*.txt*
+*.pl~
+settings.ini*
+.gitignore~

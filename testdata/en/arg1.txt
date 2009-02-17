@@ -1,0 +1,5 @@
+audio=foo.ogg
+plural=donot
+audio_pl=donot.ogg
+ipa=I1
+ipa_pl=I2
