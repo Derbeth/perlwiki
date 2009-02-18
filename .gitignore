@@ -1,5 +1,7 @@
 done
 archive
+page-cache
+
 .perlwikipedia*
 in.txt*
 out.txt*
@@ -11,3 +13,5 @@ nottrans_*.txt*
 *.pl~
 settings.ini*
 .gitignore~
+
+*.txt*

@@ -32,12 +32,17 @@ use URI::Escape qw/uri_escape_utf8/;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_page/;
-our $VERSION = 0.1.5;
+our $VERSION = 0.2.0;
 
-my $CACHE_DIR = 'Derbeth/cache/';
+my $CACHE_DIR = 'page-cache';
 my $MAX_FILES_IN_CACHE=1000;
 
 my $cache_pages=0;
+
+unless (-e $CACHE_DIR) {
+	mkdir($CACHE_DIR) or die "need to have directory '$CACHE_DIR' but cannot create it";
+	print "created cache dir $CACHE_DIR/\n";
+}
 
 # Parameters:
 #   $full_url - 'http://localhost/~piotr/enwikt/Main page'
@@ -80,7 +85,7 @@ sub get_page_from_cache {
 	my $full_url=shift @_;
 	
 	if (can_cache()) {
-		my $filename=$CACHE_DIR.md5_hex($full_url);
+		my $filename=$CACHE_DIR.'/'.md5_hex($full_url);
 		
 		if( -e $filename ) {
 			#print "reading cache\n"; #DEBUG
