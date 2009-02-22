@@ -193,5 +193,5 @@ close(OUT);
 # ==== end main
 
 sub save_results {
-	save_hash($donefile, \%done);
+	save_hash_sorted($donefile, \%done);
 }
