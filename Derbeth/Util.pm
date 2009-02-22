@@ -37,8 +37,9 @@ our @EXPORT = qw/read_hash_loose
 	save_hash_sorted
 	text_from_file
 	add_audio_count
-	escape_regex/;
-our $VERSION = 0.3.1;
+	escape_regex
+	appendfile/;
+our $VERSION = 0.3.2;
 
 # Reads hash from file.
 # Accepts lines:
@@ -141,6 +142,16 @@ sub escape_regex {
 	my ($text) = @_;
 	$text =~ s/([{[\]|()])/\\$1/g;
 	return $text;
+}
+
+sub appendfile {
+	my ($filename, @texts) = @_;
+	
+	open(OUT, ">>$filename");
+	foreach my $text (@texts) {
+		print OUT encode_utf8($text);
+	}
+	close(OUT);
 }
 
 1;

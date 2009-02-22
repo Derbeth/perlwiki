@@ -1,0 +1,20 @@
+== nić ({{język polski}}) ==
+[[Grafika:Garn i bomull lin och ull.jpg|thumb|nici (1.1)]]
+{{wymowa}} 
+{{znaczenia}}
+''rzeczownik, rodzaj żeński''
+: (1.1) [[cienki]]e [[włókno]] [[używane]] [[np.]] [[do]] [[szycia]]
+{{odmiana}} {{lp}} nić, nici, nici, nić, nicią, nici, nici; {{lm}} nici, nici, niciom, nici, niciami, niciach, nici
+{{przykłady}}
+: (1.1) ''[[łatać|Łatałam]] [[dziura|dziurę]] [[w]] [[ubranie|ubraniu]], [[ale]] [[pęknąć|pękła]] [[ja|mi]] '''nić''' [[i]] [[musieć|musiałam]] [[zaczynać]] [[od]] [[początek|początku]].''
+{{składnia}}
+{{kolokacje}} (1.1) ~ dentystyczna, ~ krawiecka; [[szpulka]]/[[kłębek]]/[[motek]] nici
+{{synonimy}}
+{{antonimy}}
+{{pokrewne}} (1.1) ''zdrobn.'' [[nitka]]
+{{frazeologia}} (1.1) [[nić Ariadny]]
+{{etymologia}}
+{{uwagi}}
+{{tłumaczenia}}
+* angielski: (1.1) [[thread]]
+* niemiecki: (1.1) [[Faden]] ''m''

@@ -14,4 +14,4 @@ nottrans_*.txt*
 settings.ini*
 .gitignore~
 
-*.txt*
+/*.txt*

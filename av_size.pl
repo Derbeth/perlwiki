@@ -3,12 +3,14 @@
 use strict;
 use utf8;
 
-# hasło po 2 kroku obrazkowego kursu: 285; po końcu: 571
+# hasło po 2 kroku obrazkowego kursu (testdata/av_size/nić1.txt): 285;
+#       po końcu (nić2.txt): 568
 # http://pl.wiktionary.org/w/index.php?title=demagogeria&oldid=487986 - 35
 
 use Derbeth::Wikitools;
 use Derbeth::Wiktionary;
 use Derbeth::Util;
+use Getopt::Long;
 use Encode;
 
 # ===== ustawienia
@@ -18,7 +20,7 @@ Derbeth::Web::enable_caching(1);
 my %settings = load_hash('settings.ini');
 my $user = $settings{bot_login};
 my $pass = $settings{bot_password};
-my $wiki = 'localhost/~piotr/'; #'pl.wiktionary.org';
+my $wiki = 'localhost/~piotr'; #'pl.wiktionary.org';
 my $prefix = 'plwikt'; #'w';
 my $donefile = "done/done_av_size.txt";
 
@@ -27,7 +29,8 @@ my $NOTENOUGH = 'not_enough';
 
 my %done; # 'polski' => 432.56
 my $length_sum;
-my $articles;
+my $articles; # total number of articles in current language
+my $with_audio; # total number of articles with audio file in current language
 
 # ===== subs
 
@@ -72,6 +75,8 @@ sub strip_notfilled {
 	$text =~ s/ \(\[\[pierwiastek]] \[\[chemiczny]] \[\[o]] \[\[symbol]]u.*//gm;
 	$text =~ s/ \(\[\[wg]] \[\[kalendarz]]a \[\[gregoriański]]ego\)//gm;
 	$text =~ s/#\S+ \([^)]+\)\|/|/g; # [[a#a (język polski)|a]] -> [[a|a]]
+	$text =~ s/\|thumb\|right|\|right\|thumb/|thumb/g;
+	$text =~ s/\[\[(plik|file|grafika|image):/[[Plik:/gi;
 	
 	$text =~ s/ +/ /g;	
 	$text =~ s/(\s){2,}/$1/g;
@@ -84,7 +89,7 @@ sub print_results {
 	print <<END;
 {| class="wikitable sortable" style="width:70%; margin: 0 auto;"
 ! miejsce !! język !! śr. długośc hasła !! liczba haseł
-! „suma długości” (w&nbsp;tys.)
+! „suma dł.” (w&nbsp;tys.) !! z nagraniem !! % z nagraniem
 END
 	my @filtered_langs;
 	while (my ($lang,$note) = each(%done)) {
@@ -95,6 +100,8 @@ END
 	
 	my @sorted_langs = sort {
 		my $c1 = $done{$a}; my $c2 = $done{$b};
+		$c1 =~ s/\|.*//;
+		$c2 =~ s/\|.*//;
 		if ($c1 != $c2) {
 			return $c2 <=> $c1;
 		} else {
@@ -105,7 +112,8 @@ END
 	my $place = 0;
 	foreach my $lang (@sorted_langs) {
 		++$place;
-		my $av = $done{$lang};
+		my $lang_data = $done{$lang};
+		my ($av,$with_a,$a_perc) = split /\|/, $lang_data;
 		my $lang_entries = get_category_contents($server, "Kategoria:$lang (indeks)");
 		my $lang_count = scalar($lang_entries);
 		my $sum = $av * $lang_count;
@@ -114,14 +122,24 @@ END
 		printf "| align=\"right\"| %.1f\n", $av;
 		print  "| align=\"right\"| $lang_count\n";
 		printf "| align=\"right\"| %d\n", ($sum/1000);
+		print  "| align=\"right\"| $with_a\n";
+		printf "| align=\"right\"| %.1f\n", ($a_perc*100);
 	}
 	print "|}\n";
 }
 
-if (1) {
-	my $text = text_from_file('in.txt');
+my $count_only=0;
+my $print_summary=0;
+my $infile='in.txt';
+
+GetOptions('c|count' => \$count_only, 's|summary' => \$print_summary,
+	'i|infile=s' => \$infile,
+);
+
+if ($count_only) {
+	my $text = text_from_file($infile);
 	my $shorter = strip_notfilled($text);
-	print $shorter;
+	print encode_utf8($shorter);
 	print STDERR "length: ",length($shorter),"\n";
 	exit;
 }
@@ -130,7 +148,7 @@ if (1) {
 
 read_hash_loose($donefile, \%done);
 
-if (0) {
+if ($print_summary) {
 	print_results();
 	exit();
 }
@@ -143,6 +161,7 @@ $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub {
 # ==== main
 
 my @indices = get_category_contents($server,'Kategoria:Indeks słów wg języków',undef,{'category'=>1});
+# @indices = ('Kategoria:czeski (indeks)', 'Kategoria:holenderski (indeks)');
 my $all_langs = scalar(@indices);
 my $lang_count = 0;
 
@@ -165,13 +184,14 @@ foreach my $index (@indices) {
 	
 	if ($lang_articles_count < 250) {
 		$done{$lang} = $NOTENOUGH;
-		print STDERR encode_utf8("$lang: $done{$lang}\n");
+		print STDERR encode_utf8("$lang: not enough ($lang_articles_count)\n");
 		next;
 	}
 	
 	my $errors = 0;
 	$length_sum = 0;
 	$articles = 0;
+	$with_audio = 0;
 	
 	foreach my $article (@articles_in_lang) {
 		if ($articles % 250 == 0) {
@@ -202,6 +222,7 @@ foreach my $index (@indices) {
 		}
 		
 		my $length = length(strip_notfilled($section));
+		++$with_audio if ($section =~ /{{audio/);
 		#print STDERR encode_utf8("$article: $length\n");
 		
 		++$articles;
@@ -217,7 +238,7 @@ foreach my $index (@indices) {
 		}
 	}
 	
-	$done{$lang} = $length_sum / $articles;
+	$done{$lang} = ($length_sum / $articles).'|'.$with_audio.'|'.($with_audio/$articles);
 	print STDERR encode_utf8("$lang: $done{$lang}\n");
 	
 	if ($lang_count >= 10000) {
@@ -233,6 +254,6 @@ sub save_results {
 }
 
 sub print_progress {
-	print STDERR "at the moment: ", $length_sum/$articles if($articles>0);
+	print STDERR "at the moment: ", $length_sum/$articles, " ${with_audio}a" if($articles>0);
 	print "\n";
 }
