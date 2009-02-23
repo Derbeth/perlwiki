@@ -35,7 +35,7 @@ our @EXPORT = qw/get_page/;
 our $VERSION = 0.2.0;
 
 my $CACHE_DIR = 'page-cache';
-my $MAX_FILES_IN_CACHE=1000;
+my $MAX_FILES_IN_CACHE=3000;
 
 my $cache_pages=0;
 

@@ -91,8 +91,8 @@ my $filtered_audio_filename;
 }
 
 my $donefile= ($filter_mode)
-	? "done_filter_${wikt_lang}.txt"
-	: "done_audio_${wikt_lang}.txt";
+	? "done/done_filter_${wikt_lang}.txt"
+	: "done/done_audio_${wikt_lang}.txt";
 
 if ($filter_mode == 1) {
 	$debug_mode = 0;
@@ -145,6 +145,9 @@ foreach my $l (@langs) {
 	
 	my $audio_filename='audio_'.$lang_code.'.txt';
 	$filtered_audio_filename=$wikt_lang.'wikt_'.$audio_filename;
+	
+	$audio_filename = 'audio/'.$audio_filename;
+	$filtered_audio_filename = 'audio/'.$filtered_audio_filename;
 	
 	if ($filter_mode) {
 		read_hash_strict($filtered_audio_filename, \%pronunciation_filtered);

@@ -63,7 +63,7 @@ if ($debug_mode) {
 	print "debug mode\n";
 }
 
-my $audio_filename='audio_en.txt';
+my $audio_filename='audio/audio_en.txt';
 read_hash_strict($audio_filename, \%pronunciation);
 
 my $visited_pages=0;

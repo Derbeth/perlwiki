@@ -50,7 +50,7 @@ my %settings = load_hash('settings.ini');
 my $user = $settings{bot_login};
 my $pass = $settings{bot_password};
 
-my $donefile = "done_dewikt_de.txt";
+my $donefile = "done/done_dewikt_de.txt";
 #`rm -f $donefile`;
 my $debug_orig_file='in.txt';
 my $debug_file='out.txt';
@@ -69,7 +69,7 @@ if ($debug_mode) {
 	print "debug mode\n";
 }
 
-my $audio_filename='audio_de.txt';
+my $audio_filename='audio/audio_de.txt';
 read_hash_strict($audio_filename, \%pronunciation);
 
 my $visited_pages=0;

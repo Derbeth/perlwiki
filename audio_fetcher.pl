@@ -351,9 +351,9 @@ while (my($cat,$code) = each(%categories)) {
 }
 
 while (my ($lang_code, $audio_hash) = each(%audio)) {
-	open(OUT, '>audio_'.$lang_code.'.txt');
+	open(OUT, '>audio/audio_'.$lang_code.'.txt');
 	
-	print "filename: ",'audio_',$lang_code,".txt\n";
+	print "filename: ",'audio/audio_',$lang_code,".txt\n";
 	
 	my @sorted_keys = sort(keys(%$audio_hash));
 	foreach my $key (@sorted_keys) {
