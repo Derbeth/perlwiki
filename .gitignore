@@ -14,5 +14,7 @@ nottrans_*.txt*
 *.pl~
 settings.ini*
 .gitignore~
+api
+mech
 
 /*.txt*

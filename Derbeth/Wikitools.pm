@@ -30,6 +30,7 @@ use strict;
 use Encode;
 use Derbeth::Web;
 use Derbeth::Util;
+use Perlwikipedia;
 use HTML::Entities;
 use URI::Escape qw/uri_escape_utf8/;
 
@@ -43,7 +44,7 @@ our @EXPORT = qw/split_before_sections
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.4.0;
+our $VERSION = 0.5.0;
 
 # Parameters:
 #  $article_text
@@ -254,20 +255,64 @@ sub _find_category_next_link {
 #   @retval - array of page names in UTF-8, after decode_utf8
 sub get_category_contents {
 	my ($server,$category,$maxparts,$allow_namespaces) = @_;
-	my @retval;
-	
-	#$category = encode_utf8($category);
-	$category = uri_escape_utf8($category);
 	
 	$allow_namespaces = {'main'=>1, 'image'=>1, 'file'=>1} unless (defined($allow_namespaces));
 	$allow_namespaces->{'main'} = 1 unless (exists($allow_namespaces->{main}));
+
+# 	return get_category_contents_perlwikipedia($server,$category,$maxparts,$allow_namespaces);
+	return get_category_contents_internal($server,$category,$maxparts,$allow_namespaces);
+}
+
+sub get_category_contents_perlwikipedia {
+	my ($full_server,$category,$maxparts,$allow_namespaces) = @_;
+	my @retval;
+
+	$full_server =~ s!^http://!!;
+	$full_server =~ m!^(.*)/([^/]+)/$! or die "invalid server spec";
+	my ($server, $prefix) = ($1,$2);
+
+	my %settings = load_hash('settings.ini');
+	my $user = $settings{bot_login};
+	my $pass = $settings{bot_password};
+
+	my $editor=Perlwikipedia->new($user);
+# 	$editor->{debug} = 1;
+	$editor->set_wiki($server,$prefix);
+# 	$editor->login($user, $pass);
+
+	my @pages = $editor->get_pages_in_category($category);
+	foreach my $page (@pages) {
+		print scalar(@pages);
+		if ($allow_namespaces->{'all'}) {
+			push @retval, $page;
+		} else {
+			if ($page =~ /(Category|Kategoria|Kategorie):/) {
+				push @retval, $page if ($allow_namespaces->{'category'});
+			} elsif ($page =~ /(Template|Szablon|Vorlage):/) {
+				push @retval, $page if ($allow_namespaces->{'template'});
+			}  elsif ($page =~ /(Image|File|Grafika|Plik):/) {
+				push @retval, $page if ($allow_namespaces->{'image'} || $allow_namespaces->{'file'});
+			} else {
+				push @retval, $page if ($allow_namespaces->{'main'});
+			}
+		}
+	}
+
+	return @retval;
+}
+
+sub get_category_contents_internal {
+	my ($server,$category,$maxparts,$allow_namespaces) = @_;
+	my @retval;
 	
+	$category = uri_escape_utf8($category);
 	my $page=$server.'index.php?title='.$category;
+# 	$page .= '&action=purge';
 	my $part=1;
 	
 	while($page ne '') {
 		my $page_text;
-		#print "visiting $page\n";
+# 		print "visiting $page\n";
 		$page_text=get_page($page);
 		$page_text=extract_page_contents($page_text);
 		

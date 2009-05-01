@@ -248,7 +248,7 @@ sub save_results {
 	
 	add_audio_count('audio_count_dewikt.txt', 'de', $added_files);
 	
-	save_hash($donefile, \%done);
+	save_hash_sorted($donefile, \%done);
 	$added_files = 0;
 }
 

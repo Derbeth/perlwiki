@@ -39,7 +39,7 @@ our @EXPORT = qw/read_hash_loose
 	add_audio_count
 	escape_regex
 	appendfile/;
-our $VERSION = 0.3.2;
+our $VERSION = 0.4.0;
 
 # Reads hash from file.
 # Accepts lines:
@@ -130,12 +130,9 @@ sub add_audio_count {
 	} else {
 		$count{$lang_code} = $added_files;
 	}
-	open(COUNT, '>count_temp.txt');
-	while (my ($lang,$c) = each(%count)) {
-		print COUNT "$lang=$c\n";
-	}
-	close(COUNT);
-	`mv count_temp.txt $countfile`;
+	my ($handle,$filename) = tempfile();
+	save_hash_sorted($filename, \%count);
+	move($filename,$countfile);
 }
 
 sub escape_regex {

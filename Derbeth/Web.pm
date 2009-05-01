@@ -32,10 +32,11 @@ use URI::Escape qw/uri_escape_utf8/;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_page/;
-our $VERSION = 0.2.0;
+our $VERSION = 0.3.0;
 
 my $CACHE_DIR = 'page-cache';
 my $MAX_FILES_IN_CACHE=3000;
+my $user_agent = 'Opera/10.00 (X11; Linux i686; U; pl) Presto/2.2.1';
 
 my $cache_pages=0;
 
@@ -50,7 +51,7 @@ sub get_page_from_web {
 	my $full_url=shift @_;
 	$full_url = encode_utf8($full_url);
 	my $ua = LWP::UserAgent->new;
-	$ua->agent("DerbethBot/beta (Kubuntu Linux) Opera rulez");
+	$ua->agent($user_agent);
 	my $text = $ua->get($full_url)->content;
 	return $text;
 }

@@ -106,7 +106,7 @@ my $server = "http://localhost/~piotr/${wikt_lang}wikt/";
 #$server = 'http://en.wiktionary.org/w/' if ($wikt_lang eq 'en');
 
 my $editor=Perlwikipedia->new($user);
-#$editor->{debug} = 1;
+# $editor->{debug} = 1;
 if ($filter_mode || $debug_mode) {
 	$editor->set_wiki('localhost/~piotr', $wikt_lang.'wikt');
 } else {

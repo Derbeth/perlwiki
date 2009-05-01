@@ -32,7 +32,7 @@ use utf8;
 # Fetches names of files from Commons Category:X pronunciation and
 # saves it to audio_xy.txt file
 
-#`rm -f audio_*.txt`;
+# `rm -f audio/*.txt`;
 
 Derbeth::Web::enable_caching(1);
 
@@ -57,13 +57,14 @@ my %categories=(
 # 	'Dutch pronunciation' => 'nl',
 # 	'Dutch pronunciation of countries' => 'nl',
 # 	'Dutch name pronunciation' => 'nl',
-	'English pronunciation' => 'en',
-	'British English pronunciation' => 'en',
-	'English pronunciation of countries' => 'en',
-	'English pronunciation of numbers' => 'en', # letter size!
-	'English pronunciation of rivers' => 'en',
-	'English pronunciation of states of the United States' => 'en',
-	'English pronunciation of terms' => 'en',
+# 	'English pronunciation' => 'en',
+# 	'British English pronunciation' => 'en',
+# 	'English pronunciation of countries' => 'en',
+# 	'English pronunciation of numbers' => 'en', # letter size!
+# 	'English pronunciation of rivers' => 'en',
+# 	'English pronunciation of states of the United States' => 'en',
+# 	'English pronunciation of terms' => 'en',
+# 	'Esperanto pronunciation' => 'eo',
 # 	'Farsi pronunciation' => 'fa',
 # 	'Finnish pronunciation' => 'fi',
 # 	'Finnish pronunciation of countries' => 'fi',
@@ -74,14 +75,18 @@ my %categories=(
 # 	'French pronunciation of countries' => 'fr', # la, l' un
 # 	'French pronunciation of days' => 'fr',
 # 	'French pronunciation of fruit' => 'fr',
+# 	'French pronunciation of nouns' => 'fr',
 # 	'French pronunciation of numbers' => 'fr', # letter size
 # 	'French pronunciation of planets' => 'fr',
-# 	'German pronunciation' => 'de',
-# 	'Austrian pronunciations' => 'de',
-# 	'Bavarian pronunciation' => 'de',
-# 	'German pronunciation of cities' => 'de',
-# 	'German pronunciation of countries' => 'de',
-# 	'German pronunciation of numbers' => 'de',
+# 	'French pronunciation of verbs' => 'fr',
+# 	'Georgian pronunciation' => 'ka',
+	'German pronunciation' => 'de',
+	'Austrian pronunciations' => 'de',
+	'Bavarian pronunciation' => 'de',
+	'German pronunciation of cities' => 'de',
+	'German pronunciation of countries' => 'de',
+	'German pronunciation of numbers' => 'de',
+# 	'Greek pronunciation' => 'el',
 # 	'Hungarian pronunciation' => 'hu',
 # 	'Hungarian pronunciation of adjectives' => 'hu',
 # 	'Hungarian pronunciation of birds' => 'hu',
@@ -100,22 +105,30 @@ my %categories=(
 # 	'Irish pronunciation' => 'ga',
 # 	'Italian pronunciation' => 'it',
 # 	'Italian pronunciation of countries' => 'it',
+# 	'Jèrriais pronunciation' => 'roa',
+# 	'Jèrriais pronunciation of countries' => 'roa',
 # 	'Latin pronunciation' => 'la',
 # 	'Latvian pronunciation' => 'lv', # wrong naming
 # 	'Latvian pronunciation of countries' => 'lv',
+# 	'Norwegian pronunciation' => 'nb',
+# 	'Norwegian pronunciation of adjectives' => 'nb',
+# 	'Norwegian pronunciation of adverbs' => 'nb',
+# 	'Norwegian pronunciation of nouns' => 'nb',
+# 	'Norwegian pronunciation of verbs' => 'nb',
 # 	'Polish pronunciation' => 'pl',
 # 	'Polish pronunciation of cities' => 'pl',
 # 	'Polish pronunciation of countries' => 'pl',
 # 	'Polish pronunciation of islands' => 'pl',
 # 	'Portuguese pronunciation' => 'pt',
 # 	'Portuguese pronunciation of countries' => 'pt',
-# 	'Romanian pronunciation' => 'ro',	
+# 	'Romanian pronunciation' => 'ro',
 # 	'Russian pronunciation' => 'ru',
 # 	'Russian pronunciation of cities' => 'ru',
 # 	'Russian pronunciation of countries' => 'ru',
 # 	'Russian pronunciation of states of the United States' => 'ru',
 # 	'Serbian pronunciation' => 'sr', # capitalisation problems
 # 	'Serbian pronunciation of adverbs' => 'sr',
+# 	'Serbian pronunciation of countries' => 'sr',
 # 	'Serbian pronunciation of nouns' => 'sr',
 # 	'Serbian pronunciation of numbers' => 'sr',
 # 	'Serbian pronunciation of verbs' => 'sr',
@@ -133,7 +146,8 @@ my %categories=(
 # 	'Ukrainian pronunciation' => 'uk',
 # 	'Ukrainian pronunciation of countries' => 'uk',
 # 	'Upper Sorbian pronunciation' => 'hsb',
-# 	'Welsh pronunciation' => 'cy'
+# 	'Welsh pronunciation' => 'cy',
+# 	'Wolof pronunciation' => 'wo',
 );
 #%categories=('Welsh pronunciation' => 'cy','Albanian pronunciation' => 'sq');
 
@@ -143,7 +157,9 @@ my %audio;
 
 my %regional_fr = ('fr-Paris' => 'Paris', 'fr FR-Paris' => 'Paris',
 	'ca-Montréal' => 'ca', 'fr BE' => 'be', 'fr CA' => 'ca');
-my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by');
+# normal language code => regexp for matching alternative code
+my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by', 'el' => 'ell', 'nb' => 'no',
+	'roa' => 'jer');
 
 # Parameters:
 #   $lang - 'en', 'de', 'tur'
@@ -155,7 +171,7 @@ sub save_pron {
 	my ($lang,$key,$file,$regional)=@_;
 	if ($regional eq 'gb') { $regional = 'uk'; }
 	
-	if ($lang =~ /^(be|fa|ru|uk)$/ && $key =~ /[a-zA-Z]/) {
+	if ($lang =~ /^(be|el|fa|ka|mk|ru|uk)$/ && $key =~ /[a-zA-Z]/) {
 		print "$lang-",encode_utf8($key)," contains latin chars; won't be added\n";
 		return;
 	}
@@ -199,7 +215,7 @@ while (my($cat,$code) = each(%categories)) {
 	
 	foreach my $page (@pages) {
 		$page =~ s/&#039;/'/g;
-	
+
 		next if ($page !~ /(?:File|Image):(.+)\.(ogg|OGG)/);
 		$page = $1.'.'.$2;
 		my $main_text = $1;
@@ -342,6 +358,7 @@ while (my($cat,$code) = each(%categories)) {
 		if ($cat eq 'English pronunciation of numbers'
 		#||  $cat eq 'French pronunciation'
 		||  $cat eq 'French pronunciation of numbers'
+		||  $cat eq 'Jèrriais pronunciation'
 		||  $code eq 'sr'
 		) {
 		
@@ -353,7 +370,7 @@ while (my($cat,$code) = each(%categories)) {
 while (my ($lang_code, $audio_hash) = each(%audio)) {
 	open(OUT, '>audio/audio_'.$lang_code.'.txt');
 	
-	print "filename: ",'audio/audio_',$lang_code,".txt\n";
+	print "filename: ",'audio/audio_',$lang_code,".txt: ", scalar(keys(%$audio_hash)), "\n";
 	
 	my @sorted_keys = sort(keys(%$audio_hash));
 	foreach my $key (@sorted_keys) {
