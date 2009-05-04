@@ -44,6 +44,8 @@ my $debug_mode=0;  # does not write anything to wiki, writes to
 my $filter_mode=0; # only filters data from audio_xy.txt to
                    # enwikt_audio_xy.txt
                    # disables $debug_mode
+my $clean_cache=0;
+my $clean_start=0; # removes all done files etc.
 
 my $page_limit=40000; # bot won't change more that x number of pages
 my $save_every=15000;   # bot saves results after modifying x pages
@@ -85,9 +87,19 @@ my $filtered_audio_filename;
 	
 	GetOptions('f|filter!' => \$filter_mode, 'd|debug!' => \$debug_mode,
 		'l|lang=s' => \$lang_codes, 'w|wikt=s' => \$wikt_lang,
-		'p|limit=i' => \$page_limit);
+		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
+		'cleancache!' => \$clean_cache);
 	
 	@langs = split /,/, $lang_codes;
+}
+
+if ($clean_cache) {
+	Derbeth::Web::clear_cache();
+}
+if ($clean_start) {
+	`rm audio/${wikt_lang}wikt_audio*`;
+	`rm done/done_filter_${wikt_lang}.txt done/done_audio_${wikt_lang}.txt`;
+	`rm audio_count_${wikt_lang}wikt.txt`;
 }
 
 my $donefile= ($filter_mode)

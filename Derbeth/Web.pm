@@ -40,9 +40,18 @@ my $user_agent = 'Opera/10.00 (X11; Linux i686; U; pl) Presto/2.2.1';
 
 my $cache_pages=0;
 
-unless (-e $CACHE_DIR) {
-	mkdir($CACHE_DIR) or die "need to have directory '$CACHE_DIR' but cannot create it";
-	print "created cache dir $CACHE_DIR/\n";
+_create_cache();
+
+sub clear_cache {
+	`rm -r $CACHE_DIR`;
+	_create_cache();
+}
+
+sub _create_cache {
+	unless (-e $CACHE_DIR) {
+		mkdir($CACHE_DIR) or die "need to have directory '$CACHE_DIR' but cannot create it";
+		print "created cache dir $CACHE_DIR/\n";
+	}
 }
 
 # Parameters:
