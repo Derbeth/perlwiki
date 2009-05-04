@@ -66,8 +66,8 @@ my %categories=(
 # 	'English pronunciation of terms' => 'en',
 # 	'Esperanto pronunciation' => 'eo',
 # 	'Farsi pronunciation' => 'fa',
-# 	'Finnish pronunciation' => 'fi',
-# 	'Finnish pronunciation of countries' => 'fi',
+	'Finnish pronunciation' => 'fi',
+	'Finnish pronunciation of countries' => 'fi',
 # 	'French pronunciation' => 'fr', # letter size
 # 	'French pronunciation of animals' => 'fr', # pauses
 # 	'French pronunciation of chemical elements' => 'fr',
@@ -80,12 +80,12 @@ my %categories=(
 # 	'French pronunciation of planets' => 'fr',
 # 	'French pronunciation of verbs' => 'fr',
 # 	'Georgian pronunciation' => 'ka',
-	'German pronunciation' => 'de',
-	'Austrian pronunciations' => 'de',
-	'Bavarian pronunciation' => 'de',
-	'German pronunciation of cities' => 'de',
-	'German pronunciation of countries' => 'de',
-	'German pronunciation of numbers' => 'de',
+# 	'German pronunciation' => 'de',
+# 	'Austrian pronunciations' => 'de',
+# 	'Bavarian pronunciation' => 'de',
+# 	'German pronunciation of cities' => 'de',
+# 	'German pronunciation of countries' => 'de',
+# 	'German pronunciation of numbers' => 'de',
 # 	'Greek pronunciation' => 'el',
 # 	'Hungarian pronunciation' => 'hu',
 # 	'Hungarian pronunciation of adjectives' => 'hu',
@@ -357,6 +357,7 @@ while (my($cat,$code) = each(%categories)) {
 		# === Letter size problems go here
 		if ($cat eq 'English pronunciation of numbers'
 		#||  $cat eq 'French pronunciation'
+		||  $cat eq 'Finnish pronunciation'
 		||  $cat eq 'French pronunciation of numbers'
 		||  $cat eq 'Jèrriais pronunciation'
 		||  $code eq 'sr'
