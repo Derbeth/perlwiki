@@ -29,7 +29,7 @@ use strict;
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name/;
-our $VERSION = 0.3.0;
+our $VERSION = 0.4.0;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
@@ -51,18 +51,18 @@ my %regional_names = (
 		'ecc' => 'kościelna'
 	},
 	'de' => {
-		'at' => 'Österr.',
-		'br' => 'Bras.',
-		'by' => 'Bairisch',
-		'uk' => 'Brit.',
-		'us' => 'Amerik.',
-		'us-inlandnorth' => 'Amerik. Inland North',
-		'nz' => 'Neuseel.',
-		'au' => 'Austral.',
-		'ca' => 'Kanad.',
-		'bo' => 'Boliv.',
-		'Paris' => 'Paris',
-		'be' => 'Belgien',
+		'at' => 'österreichisch',
+		'br' => 'brasilianisch',
+		'by' => 'bairisch',
+		'uk' => 'britisch',
+		'us' => 'US-amerikanisch',
+		'us-inlandnorth' => 'amerikanisch Inland North',
+		'nz' => 'neuseeländisch',
+		'au' => 'australisch',
+		'ca' => 'kanadisch',
+		'bo' => 'bolivianisch',
+		'Paris' => 'pariserisch',
+		'be' => 'belgisch',
 		'cls' => 'klassisches Latein',
 		'ecc' => 'Kirchenlatein'
 	},
