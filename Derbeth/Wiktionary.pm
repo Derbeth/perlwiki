@@ -35,6 +35,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/add_audio
 	add_audio_plwikt
 	add_audio_dewikt
+	decode_pron
 	initial_cosmetics
 	final_cosmetics
 	add_inflection_plwikt
@@ -129,18 +130,7 @@ sub create_audio_entries_plwikt {
 sub create_audio_entries {
 	my ($wikt_lang,$pron,$section,$plural) = @_;
 	
-	my @prons = split /\|/, $pron;
-	my %files; # 'en-us-solder.ogg' => 'us', 'en-solder.ogg' => ''
-	
-	foreach my $a_pron (@prons) {
-		$a_pron =~ /(.*.ogg)(<(.*)>)?/i;
-		my $file=$1;
-		my $region = $3 ? $3 : '';
-		if ($$section =~ /$file/i) {
-			next;
-		}
-		$files{$file} = $region;
-	}
+	my %files = decode_pron($pron, $section);
 	
 	my ($audios,$edit_summary);
 	if ($wikt_lang eq 'de') {
@@ -154,6 +144,29 @@ sub create_audio_entries {
 	}
 	
 	return ($audios, scalar(keys(%files)),$edit_summary);
+}
+
+# Parameters:
+#   $pron - 'en-us-solder.ogg<us>|en-solder.ogg|en-au-solder.ogg<au>'
+#
+# Returns:
+#   hash ('en-us-solder.ogg' => 'uk', 'solder' => '', 'en-au-solder.ogg' => 'au')
+sub decode_pron {
+	my ($pron, $section) = @_;
+
+	my @prons = split /\|/, $pron;
+	my %files; # 'en-us-solder.ogg' => 'us', 'en-solder.ogg' => ''
+	
+	foreach my $a_pron (@prons) {
+		$a_pron =~ /(.*.ogg)(<(.*)>)?/i;
+		my $file=$1;
+		my $region = $3 ? $3 : '';
+		if ($section && $$section =~ /$file/i) {
+			next;
+		}
+		$files{$file} = $region;
+	}
+	return %files;
 }
 
 
