@@ -44,7 +44,9 @@ our @EXPORT = qw/split_before_sections
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.5.0;
+our $VERSION = 0.6.0;
+
+our $use_perlwikipedia=0;
 
 # Parameters:
 #  $article_text
@@ -259,8 +261,11 @@ sub get_category_contents {
 	$allow_namespaces = {'main'=>1, 'image'=>1, 'file'=>1} unless (defined($allow_namespaces));
 	$allow_namespaces->{'main'} = 1 unless (exists($allow_namespaces->{main}));
 
-# 	return get_category_contents_perlwikipedia($server,$category,$maxparts,$allow_namespaces);
-	return get_category_contents_internal($server,$category,$maxparts,$allow_namespaces);
+	if ($use_perlwikipedia) {
+		return get_category_contents_perlwikipedia($server,$category,$maxparts,$allow_namespaces);
+	} else {
+		return get_category_contents_internal($server,$category,$maxparts,$allow_namespaces);
+	}
 }
 
 sub get_category_contents_perlwikipedia {

@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 # MIT License
 #
@@ -22,17 +22,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Fetches names of files from Commons Category:X pronunciation and
+# saves it to audio_xy.txt file
+
 use strict;
 use English;
 
 use Derbeth::Wikitools;
 use Encode;
+use Getopt::Long;
 use utf8;
 
-# Fetches names of files from Commons Category:X pronunciation and
-# saves it to audio_xy.txt file
+my $clean_cache=0;
+my $clean_start=0; # removes all done files etc.
 
-# `rm -f audio/*.txt`;
+GetOptions(
+	'c|cleanstart!' => \$clean_start,
+	'cleancache!' => \$clean_cache,
+	'p|perlwikipedia' => \$Derbeth::Wikitools::use_perlwikipedia,
+);
+
+if ($clean_start) {
+	`rm -f audio/*.txt`;
+}
+if ($clean_cache) {
+	Derbeth::Web::clear_cache();
+}
 
 Derbeth::Web::enable_caching(1);
 
