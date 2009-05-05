@@ -99,7 +99,8 @@ if ($clean_cache) {
 if ($clean_start) {
 	`rm audio/${wikt_lang}wikt_audio*`;
 	`rm done/done_filter_${wikt_lang}.txt done/done_audio_${wikt_lang}.txt`;
-	`rm audio_count_${wikt_lang}wikt.txt`;
+	unlink "audio_count_${wikt_lang}wikt.txt";
+	unlink $errors_file;
 }
 
 my $donefile= ($filter_mode)
@@ -245,7 +246,8 @@ foreach my $l (@langs) {
 		}
 		
 		if ($result == 2) {
-			unmark_done($word);
+# 			unmark_done($word);
+			mark_done($word,'error');
 			if ($debug_mode) {
 				print DEBUG encode_utf8($page_text),"\n";
 			}
@@ -289,6 +291,7 @@ foreach my $l (@langs) {
 				++$edited_pages;
 			} else {
 				print STDERR 'CANNOT edit ',encode_utf8($word),"\n";
+				mark_done($word,'error');
 				next; # something went wrong, don't mark as done
 			}
 		}
