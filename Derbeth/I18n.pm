@@ -238,6 +238,10 @@ my %language_names = (
 	}
 );
 
+# Function: get_regional_name
+# Parameters:
+#  $lang - wiktionary language ('en')
+#  $code - regional code ('us', 'Paris')
 sub get_regional_name {
 	my ($lang, $code) = @_;
 	if (!exists($regional_names{$lang}{$code})) {
@@ -246,6 +250,10 @@ sub get_regional_name {
 	return $regional_names{$lang}{$code};
 }
 
+# Function: get_language_name
+# Parameters:
+#  $lang - wiktionary language ('en')
+#  $code - language code ('hsb', 'nb')
 sub get_language_name {
 	my ($lang, $code) = @_;
 	if (!exists($language_names{$lang}{$code})) {

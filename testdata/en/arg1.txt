@@ -1,3 +1,5 @@
+result=0
+added_audios=1
 audio=foo.ogg
 plural=donot
 audio_pl=donot.ogg

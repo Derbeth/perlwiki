@@ -20,6 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Package: Derbeth::Web
+#   low-level functions for retrieving pages from server.
+#
+# Initialization:
+#   when loaded, this package creates subdirectory <$CACHE_DIR> under directory
+#   where it was called
 package Derbeth::Web;
 require Exporter;
 
@@ -32,16 +38,24 @@ use URI::Escape qw/uri_escape_utf8/;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_page/;
-our $VERSION = 0.3.0;
+our $VERSION = 0.3.1;
 
+# Variable: $CACHE_DIR
+#   name of directory holding cache
 my $CACHE_DIR = 'page-cache';
+# Variable: $MAX_FILES_IN_CACHE
+#   maximal number of cached pages
 my $MAX_FILES_IN_CACHE=3000;
-my $user_agent = 'Opera/10.00 (X11; Linux i686; U; pl) Presto/2.2.1';
+# Variable: $user_agent
+#   user agent passed to server when retrieving pages
+my $user_agent = 'DerbethBot/1.0 (Kubuntu Linux) Opera rulez';
 
 my $cache_pages=0;
 
 _create_cache();
 
+# Function: clear_cache
+#   removes cache dir and recreates it
 sub clear_cache {
 	`rm -r $CACHE_DIR`;
 	_create_cache();
@@ -54,6 +68,7 @@ sub _create_cache {
 	}
 }
 
+# Function: get_page_from_web
 # Parameters:
 #   $full_url - 'http://localhost/~piotr/enwikt/Main page'
 sub get_page_from_web {
@@ -65,6 +80,7 @@ sub get_page_from_web {
 	return $text;
 }
 
+# Function: get_page
 # Parameters:
 #   $full_url - 'http://localhost/~piotr/enwikt/Main page'
 sub get_page {

@@ -218,8 +218,9 @@ sub _extract_ipa {
 	return ($ipa_sing,$ipa_pl);
 }
 
+# Function: extract_de_inflection_dewikt
 # Parameters:
-#   $section_ref
+#   $section_ref - reference to section text
 #
 # Returns:
 #   $inflection - row for Polish Wiktionary:
@@ -274,9 +275,10 @@ sub extract_de_inflection_dewikt {
 	return ($retval,$singular,$plural,$ipa_sing,$ipa_pl);
 }
 
+# Function: extract_en_inflection_dewikt
 # Parameters:
 #   $word - article title
-#   $section_ref
+#   $section_ref - reference to section text
 #
 # Returns:
 #   $inflection - row for Polish Wiktionary:

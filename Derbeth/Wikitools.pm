@@ -46,10 +46,12 @@ our @EXPORT = qw/split_before_sections
 	get_wikicode/;
 our $VERSION = 0.6.0;
 
+# Variable: $use_perlwikipedia
 our $use_perlwikipedia=0;
 
+# Function: split_before_sections
 # Parameters:
-#  $article_text
+#  $article_text - article text
 #
 # Returns:
 #   ($before,$rest) - text before first of sections and rest
@@ -65,8 +67,9 @@ sub split_before_sections {
 	return(substr($article_text,0,$point),substr($article_text,$point));
 }
 
+# Function: split_article_wikt
 # Parameters:
-#   $wikt_lang - only 'de', 'en' or 'pl', other Wiktionaries are not
+#   $wikt_lang - only 'de', 'en', 'pl' or 'simple', other Wiktionaries are not
 #                supported
 #  $lang - 'język polski', 'język niemiecki', 'interlingua', 'slovio'
 #  $article_text - full article text
@@ -83,11 +86,19 @@ sub split_article_wikt {
 		return split_article_enwikt($lang, $article_text);
 	} elsif ($wikt_lang eq 'pl') {
 		return split_article_plwikt($lang, $article_text);
+	} elsif ($wikt_lang eq 'simple') {
+		return split_article_simplewikt($lang, $article_text);
 	} else {
 		die "Wiktionary $wikt_lang not supported";
 	}
 }
 
+sub split_article_simplewikt {
+	my ($lang, $article_text) = @_;
+	return ('',$article_text,'');
+}
+
+# Function: split_article_plwikt
 # Parameters:
 #  $lang - 'język polski', 'język niemiecki', 'interlingua', 'slovio'
 #  $article_text - full article text
@@ -158,6 +169,7 @@ sub _join_sections {
 	return ($before, $lang_section, $after);
 }
 
+# Function: split_article_dewikt
 # Parameters:
 #  $lang - 'Polnisch', 'Deutsch'
 #  $article_text - full article text
@@ -188,8 +200,9 @@ sub _split_article_de {
 	return ($lang_index, @sections);
 }
 
+# Function: split_article_enwikt
 # Parameters:
-#  $lang - 'Polnisch', 'Deutsch'
+#  $lang - 'Polish', 'German'
 #  $article_text - full article text
 sub split_article_enwikt {
 	my ($lang, $article_text) = @_;
@@ -218,6 +231,7 @@ sub _split_article_en {
 	return ($lang_index, @sections);
 }
 
+# Function: extract_page_contents
 # Parameters:
 #   $page_text - full page text
 sub extract_page_contents {
@@ -244,17 +258,23 @@ sub _find_category_next_link {
 	}
 }
 
+# Function: get_category_contents
+#   gets category contents. See also <$use_perlwikipedia>.
+#
 # Parameters:
 #   $server - 'http://localhost/~piotr/enwikt/', 'http://commons.wikimedia.org/w/'
 #   $category - 'Category:Arabic nouns', 'Kategoria:Gramatyka'
 #   $maxparts - how many result pages to visit (optional)
-#   $allow_namespaces - {main=>0, category=>1, image=>0, file=>0, template=>0}
+#   $allow_namespaces - hash
+#                        {main=>0, category=>1, image=>0, file=>0, template=>0}
 #                        by default main and image are accepted and all other
 #                        are rejected; special: all=>1 causes all namespaces to
-#						 be accepted
+#                        be accepted
 #
 # Returns:
 #   @retval - array of page names in UTF-8, after decode_utf8
+# See also:
+#   
 sub get_category_contents {
 	my ($server,$category,$maxparts,$allow_namespaces) = @_;
 	
@@ -365,6 +385,7 @@ sub get_category_contents_internal {
 	return @retval;
 }
 
+# Function: get_linking_to
 # Parameters:
 #   $server - 'http://localhost/~piotr/enwikt/', 'http://commons.wikimedia.org/w/'
 #   $article - 'Template:audio', 'Szablon:IPA'
@@ -403,6 +424,7 @@ sub get_linking_to {
 		if (defined($maxparts) && $part > $maxparts) {
 			last;
 		}
+
 		
 		$page='';
 		if ($page_text =~ /from=(\d+)&amp;back=\d+"/) {
@@ -414,6 +436,7 @@ sub get_linking_to {
 	return @retval;
 }
 
+# Function: get_wikicode
 # Parameters:
 #   $server - 'http://localhost/~piotr/enwikt/', 'http://commons.wikimedia.org/w/'
 #             (always with http://)

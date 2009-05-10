@@ -20,13 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-=head1 NAME
-
-Derbeth::Util
-
-=head1 METHODS
-
-=cut
 package Derbeth::Util;
 require Exporter;
 
@@ -48,18 +41,19 @@ our @EXPORT = qw/read_hash_loose
 	appendfile/;
 our $VERSION = 0.4.0;
 
-=head2 read_hash_loose($filename,$hash_ref)
-
-Reads hash from file.
-Accepts lines:
-  key=val
-  key (treated as key=1)
-
-=head3 returns
-
-1 on success, 0 on failure
-
-=cut
+# Function: read_hash_loose
+#   reads hash from file.
+# 
+# Accepts lines:
+#   key=val
+#   key (treated as key=1)
+#
+# Parameters:
+#   $filename - filename
+#   $hash_ref - reference to hash
+#
+# Returns:
+#   1 on success, 0 on failure
 sub read_hash_loose {
 	my ($filename, $hash_ref) = @_;
 	
@@ -75,17 +69,18 @@ sub read_hash_loose {
 	return 1;
 }
 
-=head2 read_hash_strict($filename,$hash_ref)
-
-Reads hash from file.
-Accepts lines:
-  key=val (only this)
-
-=head3 returns
-
-1 on success, 0 on failure
-
-=cut
+# Function: read_hash_strict
+#   reads hash from file.
+#
+# Accepts lines:
+#   key=val (only this)
+# 
+# Parameters:
+#   $filename - filename
+#   $hash_ref - reference to hash
+#
+# Returns:
+#   1 on success, 0 on failure
 sub read_hash_strict {
 	my ($filename, $hash_ref) = @_;
 	
@@ -101,11 +96,11 @@ sub read_hash_strict {
 	return 1;
 }
 
-=head2 load_hash($filename)
-
-loads hash and returns it
-
-=cut
+# Function: load_hash
+# loads hash and returns it
+#
+# Parameters:
+#   $filename - filename
 sub load_hash {
 	my ($filename) = @_;
 	my %retval;
@@ -114,9 +109,11 @@ sub load_hash {
 	return %retval;
 }
 
-=head2 save_hash($filename, $hash_ref, $sort)
-
-=cut
+# Function: save_hash
+# Parameters:
+#   $filename - filename
+#   $hash_ref - reference to hash
+#   $sort - whether to sort keys
 sub save_hash {
 	my ($filename, $hash_ref, $sort) = @_;
 	
@@ -131,19 +128,20 @@ sub save_hash {
 	move($tempfile_name, $filename);
 }
 
-=head2 save_hash_sorted($filename, $hash_ref)
-
-=cut
+# Function: save_hash_sorted
+# Parameters:
+#   $filename - filename to save to
+#   $hash_ref - reference to hash
 sub save_hash_sorted {
 	my ($filename, $hash_ref) = @_;
 	save_hash($filename, $hash_ref, 1);
 }
 
-=head2 text_from_file($filename)
-
-returns text read from file
-
-=cut
+# Function: text_from_file
+# returns text read from file
+# 
+# Parameters:
+#   $filename - filename
 sub text_from_file {
 	my ($filename) = @_;
 	my $retval = '';
@@ -156,9 +154,11 @@ sub text_from_file {
 	return $retval;
 }
 
-=head2 add_audio_count($countfile, $lang_code, $added_files)
-
-=cut
+# Function: add_audio_count
+# Parameters:
+#   $countfile - file with audio count
+#   $lang_code - code of language to add to
+#   $added_files - number of added files
 sub add_audio_count {
 	my ($countfile, $lang_code, $added_files) = @_;
 	my %count;
@@ -179,18 +179,19 @@ sub add_audio_count {
 	move($filename,$countfile);
 }
 
-=head2 escape_regex($text)
-
-=cut
+# Function: escape_regex
+# Parameters:
+#   $text - text to escape
 sub escape_regex {
 	my ($text) = @_;
 	$text =~ s/([{[\]|()])/\\$1/g;
 	return $text;
 }
 
-=head2 appendfile($filename, @texts)
-
-=cut
+# Function: appendfile
+# Parameters:
+#   $filename - filename to append to
+#   @texts - list of text to append to
 sub appendfile {
 	my ($filename, @texts) = @_;
 	

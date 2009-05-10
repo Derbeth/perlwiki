@@ -40,8 +40,9 @@ our @EXPORT = qw/add_audio
 	final_cosmetics
 	add_inflection_plwikt
 	should_not_be_in_category_plwikt/;
-our $VERSION = 0.7.0;
+our $VERSION = 0.8.0;
 
+# Function: create_audio_entries_enwikt
 # Parameters:
 #   %files - hash (file=>region) eg. 'en-us-solder.ogg' => 'us',
 #            'en-solder.ogg' => ''
@@ -116,6 +117,7 @@ sub create_audio_entries_plwikt {
 	return (join(' ', @audios), join(', ', @summary));
 }
 
+# Funcion: create_audio_entries
 # Parameters:
 #   $pron - 'en-us-solder.ogg<us>|en-solder.ogg|en-au-solder.ogg<au>'
 #   $section - reference to section where pronuciation should be
@@ -146,6 +148,7 @@ sub create_audio_entries {
 	return ($audios, scalar(keys(%files)),$edit_summary);
 }
 
+# Function: decode_pron
 # Parameters:
 #   $pron - 'en-us-solder.ogg<us>|en-solder.ogg|en-au-solder.ogg<au>'
 #
@@ -169,7 +172,7 @@ sub decode_pron {
 	return %files;
 }
 
-
+# Function: add_audio_enwikt
 # Returns:
 #   $result - 0 when ok, 1 when section already has all audio,
 #             2 when cannot add audio
@@ -284,6 +287,62 @@ sub add_audio_enwikt {
 	return (0,$audios_count,$edit_summary);
 }
 
+sub add_audio_simplewikt {
+	my ($section,$pron,$language,$check_only,$pron_pl,$plural) = @_;
+	($pron_pl,$plural) = ('',''); # turned off
+	
+	my ($audios,$audios_count,$edit_summary)
+		= create_audio_entries('en',$pron,$section);
+	
+	if ($audios eq '') {
+		return (1,0,'');
+	}
+	if ($check_only) {
+		return (0,0,'');
+	}
+
+	if ($$section =~ /^; *(verb|adjective|noun)/m) {
+		return (2,0,'cannot add audio: different parts of speech');
+	}
+	
+	$edit_summary = 'added audio '.$edit_summary;
+	my $MARK = '>>HERE<<';
+
+	if ($$section !~ /=== *Pronunciation *===/) {
+		$edit_summary .= '; added missing pron. section';
+
+		if ($$section =~ /=== *Etymology *===/) {
+			$$section =~ s/(=== *Etymology *===)/===Pronunciation===\n\n$1/;
+		} else {
+			$$section =~ s/^(== *[a-zA-Z])/===Pronunciation===\n\n$1/m;
+		}
+	}
+
+	if ($$section !~ /=== *Pronunciation *===/) {
+		$edit_summary .= '; cannot add pronunciation section';
+		return (2,$audios_count,$edit_summary);
+	}
+
+	$$section =~ s/(=== *Pronunciation *===)/$1\n*$MARK/;
+
+	$$section =~ s/\r\n/\n/g;
+	while ($$section =~ /(\* *$MARK\n)(\*[^\n]+\n)/) {
+		$$section =~ s/(\* *$MARK\n)(\*[^\n]+\n)/$2$1/;
+	}
+
+	unless ($$section =~ s/$MARK/$audios/) {
+		$edit_summary .= '; lost audios marker';
+		return (2,$audios_count,$edit_summary);
+	}
+	if ($$section =~ /$MARK/) {
+		$edit_summary .= '; cannot remove audios marker';
+		return (2,$audios_count,$edit_summary);
+	}
+
+	return (0,$audios_count,$edit_summary);
+}
+
+# Function: add_audio_dewikt
 # Returns:
 #   $result - 0 when ok, 1 when section already has all audio,
 #             2 when cannot add audio
@@ -443,6 +502,7 @@ sub _split_pron_plwikt {
 	return ($pron_line_prelude,$pron_line_sing,$pron_line_pl);
 }
 
+# Function: add_audio_plwikt
 # Parameters:
 #   $pron_pl - additional parameter; plural pronunciation
 #   $ipa_sing - IPA for singular, without brackets
@@ -533,6 +593,7 @@ sub add_audio_plwikt {
 	return (0,$audios_count,join('; ', @summary));
 }
 
+# Function: add_audio
 # Parameters:
 #   $section_ref - reference to text of section in processed language
 #   $pron - 'en-us-solder.ogg<us>|en-solder.ogg'
@@ -554,14 +615,18 @@ sub add_audio {
 		return add_audio_dewikt($section_ref,$pron,$language,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl);
 	} elsif ($wikt_lang eq 'pl') {
 		return add_audio_plwikt($section_ref,$pron,$language,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl);
+	} elsif ($wikt_lang eq 'simple') {
+		return add_audio_simplewikt($section_ref,$pron,$language,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl);
 	} else {
 		die "Wiktionary $wikt_lang not supported";
 	}
 }
 
-
-
 sub initial_cosmetics_enwikt {
+	return '';
+}
+
+sub initial_cosmetics_simplewikt {
 	return '';
 }
 
@@ -669,6 +734,12 @@ sub initial_cosmetics_plwikt {
 	return join(', ', @summary);
 }
 
+# Function: initial_cosmetics
+# Parameters:
+#   $wikt_lang - 'de', 'en', 'pl' or 'simple'
+#   $page_text_ref - reference to page text
+# Returns:
+#   edit summary
 sub initial_cosmetics {
 	my ($wikt_lang, $page_text_ref) = @_;
 	
@@ -694,6 +765,8 @@ sub initial_cosmetics {
 		return initial_cosmetics_enwikt($page_text_ref);
 	} elsif ($wikt_lang eq 'pl') {
 		return initial_cosmetics_plwikt($page_text_ref);
+	} elsif ($wikt_lang eq 'simple') {
+		return initial_cosmetics_simplewikt($page_text_ref);
 	} else {
 		die "Wiktionary $wikt_lang not supported";
 	}
@@ -711,6 +784,10 @@ sub final_cosmetics_dewikt {
 }
 
 sub final_cosmetics_enwikt {
+	return '';
+}
+
+sub final_cosmetics_simplewikt {
 	return '';
 }
 
@@ -757,6 +834,10 @@ sub final_cosmetics_plwikt {
 	return join(', ', @summary);
 }
 
+# Function: final_cosmetics
+# Parameters:
+#   $wikt_lang - 'de', 'en', 'pl' or 'simple'
+#   $page_text_ref - ref to page text
 # Returns: edit summary (may be empty)
 sub final_cosmetics {
 	my ($wikt_lang, $page_text_ref) = @_;
@@ -767,19 +848,22 @@ sub final_cosmetics {
 		return final_cosmetics_enwikt($page_text_ref);
 	} elsif ($wikt_lang eq 'pl') {
 		return final_cosmetics_plwikt($page_text_ref);
+	} elsif ($wikt_lang eq 'simple') {
+		return final_cosmetics_simplewikt($page_text_ref);
 	} else {
 		die "Wiktionary $wikt_lang not supported";
 	}
 }
 
+# Function: add_inflection_plwikt
 # Parameters:
-#   $section_ref
+#   $section_ref - reference to section text
 #   $inflection - {{lp}} der Bus, Busses, ~, ~; {{lm}} Busse, Busse, Bussen, Busse
 #   $word - 'Bus'
 #
 # Returns:
-#   0 if not added
-#   1 if added
+#   0 - if not added
+#   1 - if added
 sub add_inflection_plwikt {
 	my ($section_ref, $inflection,$word) = @_;
 	unless ($$section_ref =~ /{{odmiana[^}]*}}(.*)/) {
@@ -794,6 +878,7 @@ sub add_inflection_plwikt {
 	return (1, "+ odmiana z [[:de:$word|de.wikt]]");
 }
 
+# Function: should_not_be_in_category_plwikt
 # Parameters:
 #   $article - full article title
 # 

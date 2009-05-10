@@ -44,6 +44,7 @@ my $debug_mode=0;  # does not write anything to wiki, writes to
 my $filter_mode=0; # only filters data from audio_xy.txt to
                    # enwikt_audio_xy.txt
                    # disables $debug_mode
+my $randomize=0;   # process entries in random order
 my $clean_cache=0;
 my $clean_start=0; # removes all done files etc.
 
@@ -88,7 +89,7 @@ my $filtered_audio_filename;
 	GetOptions('f|filter!' => \$filter_mode, 'd|debug!' => \$debug_mode,
 		'l|lang=s' => \$lang_codes, 'w|wikt=s' => \$wikt_lang,
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
-		'cleancache!' => \$clean_cache);
+		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize);
 	
 	@langs = split /,/, $lang_codes;
 }
@@ -128,6 +129,7 @@ if ($filter_mode || $debug_mode) {
 $editor->login($user, $pass);
 
 if ($debug_mode) {
+	srand();
 	open(DEBUG,">$debug_file");
 	open(ORIG,">$debug_orig_file");
 }
@@ -183,9 +185,14 @@ foreach my $l (@langs) {
 		print scalar(keys(%pronunciation)), " audios to add\n";
 	}
 	
-	my @sorted_keys = sort(keys(%pronunciation));
-	my $word_count=scalar(@sorted_keys);
-	foreach my $word (@sorted_keys) {
+	my @keys = keys(%pronunciation);
+	unless($randomize) {
+		@keys = sort(@keys);
+	} else {
+		@keys = sort { return rand(3) -1; } @keys;
+	}
+	my $word_count=scalar(@keys);
+	foreach my $word (@keys) {
 		my $pron = $pronunciation{$word};
 		++$processed_words;
 		print STDERR "$processed_words/$word_count\n" if ($processed_words % 200 == 0);
