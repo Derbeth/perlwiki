@@ -81,8 +81,8 @@ my %categories=(
 # 	'English pronunciation of terms' => 'en',
 # 	'Esperanto pronunciation' => 'eo',
 # 	'Farsi pronunciation' => 'fa',
-	'Finnish pronunciation' => 'fi',
-	'Finnish pronunciation of countries' => 'fi',
+# 	'Finnish pronunciation' => 'fi',
+# 	'Finnish pronunciation of countries' => 'fi',
 # 	'French pronunciation' => 'fr', # letter size
 # 	'French pronunciation of animals' => 'fr', # pauses
 # 	'French pronunciation of chemical elements' => 'fr',
@@ -156,6 +156,7 @@ my %categories=(
 # 	'Swedish vowels' => 'sv',
 # 	'Swedish pronunciation of countries' => 'sv',
 # 	'Swedish pronunciation of numbers' => 'sv',
+	'Tagalog pronunciation' => 'tl',
 # 	'Turkish pronunciation' => 'tr',
 # 	'Vietnamese pronunciation' => 'vi',
 # 	'Ukrainian pronunciation' => 'uk',
@@ -184,6 +185,7 @@ my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by', 'el' => 'ell', 'nb' => 'no'
 sub save_pron {
 	
 	my ($lang,$key,$file,$regional)=@_;
+	die "undefined: $lang $key" unless($lang && $key);
 	if ($regional eq 'gb') { $regional = 'uk'; }
 	
 	if ($lang =~ /^(be|el|fa|ka|mk|ru|uk)$/ && $key =~ /[a-zA-Z]/) {
@@ -194,9 +196,15 @@ sub save_pron {
 	if (!exists($audio{$lang})) {
 		$audio{$lang} = {};
 	}
-	my $entry='';
 	
-	if(defined($regional)) {
+	if (!exists($audio{$lang}{$key})) {
+		$audio{$lang}{$key} = $file;
+		return;
+	}
+	
+	my $entry;
+	
+	if(defined($regional) && $regional ne '') {
 		if( index($audio{$lang}{$key}, "<$regional>") != -1) {
 			return; # already has
 		}
@@ -214,11 +222,7 @@ sub save_pron {
 		$entry = $file;
 	}
 	
-	if (!exists($audio{$lang}{$key})) {
-		$audio{$lang}{$key} = $entry;
-	} else {
-		$audio{$lang}{$key} .= '|'.$entry;
-	}
+	$audio{$lang}{$key} .= '|'.$entry;
 }
 
 my $server='http://commons.wikimedia.org/w/';
@@ -237,7 +241,7 @@ while (my($cat,$code) = each(%categories)) {
 		
 		my $skip_key_extraction=0;
 		my $key;
-		my $regional;
+		my $regional='';
 		
 		# === Non-standard naming goes here
 		if ($cat =~ /^Latvian pronunciation/) {
@@ -362,6 +366,12 @@ while (my($cat,$code) = each(%categories)) {
 			$key =~ s/-pronunciation$//;
 			if ($key =~ /^(at)-/) {
 				$regional = $1;
+				$key = $POSTMATCH;
+			}
+		}
+		elsif ($code eq 'tl') {
+			if ($key =~ /^ph-/i) {
+				# all Tagalog is spoken in Phillipines; it's not regional, so ignore
 				$key = $POSTMATCH;
 			}
 		}

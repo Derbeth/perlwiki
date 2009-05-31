@@ -219,7 +219,7 @@ foreach my $l (@langs) {
 		}
 		
 		my $original_page_text = $page_text;
-		if ($page_text !~ /\w/) {
+		if ($page_text !~ /[a-zA-Z]/) {
 			print "entry does not exist: ",encode_utf8($word),"\n";
 			mark_done($word,'no_entry');
 			next;

@@ -10,24 +10,15 @@ use Derbeth::Web;
 use Perlwikipedia;
 use Getopt::Long;
 
-my %done_audio;
-my %done_de;
+my $res = get_wikicode('http://en.wiktionary.org/w/','kita-noun');
 
-read_hash_loose('audio/audio_de.txt', \%done_audio);
-read_hash_loose('done/done_dewikt_de.txt', \%done_de);
+print ">>$res<<\n";
 
-my $deleted = 0;
-
-foreach my $audio (keys(%done_audio)) {
-	if (exists($done_de{$audio})) {
-		delete $done_de{$audio};
-		++$deleted;
-	}
+if ($res !~ /\w/) {
+	print "no word\n";
+} else {
+	print "has word\n";
 }
-
-print "deleted $deleted\n";
-
-save_hash_sorted('done/done_dewikt_de.txt', \%done_de);
 
 # while(<>) {
 # 	/^# \[\[(.+?)\]\] >/;
