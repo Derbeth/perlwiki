@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-use Perlwikipedia;
+use MediaWiki::Bot;
 use Derbeth::Wikitools;
 use Derbeth::Wiktionary;
 use Derbeth::I18n;
@@ -38,7 +38,7 @@ use utf8;
 my $debug_mode=0;  # does not write anything to wiki, writes to
 				   # $debug_file instead
 
-my $page_limit=50000; # bot won't change more that x number of pages
+my $page_limit=80000; # bot won't change more that x number of pages
 
 my $wikt_lang='de';   # 'en','de','pl'; other Wiktionaries are not
                       # supported
@@ -55,6 +55,7 @@ my $donefile = "done/done_dewikt_de.txt";
 my $debug_orig_file='in.txt';
 my $debug_file='out.txt';
 my $errors_file='errors_dewikt_de.txt';
+Derbeth::Web::enable_caching(1);
 
 # ============ end settings
 
@@ -75,18 +76,18 @@ read_hash_strict($audio_filename, \%pronunciation);
 my $visited_pages=0;
 my $added_files=0;
 
-my $local_server = 'http://localhost/~piotr/dewikt/';
+my $local_server = 'http://de.wiktionary.org/w/';
 
 my $editor_remote;
-if ($debug_mode) {
-	$editor_remote = Perlwikipedia->new($user);
+if ($debug_mode && 0) {
+	$editor_remote = MediaWiki::Bot->new($user);
 	$editor_remote->set_wiki('localhost/~piotr', 'dewikt');
-	$editor_remote->login($user, $pass);
+	$editor_remote->login($user, $pass) == 0 or die "cannot login";
 } else {
 
-	$editor_remote=Perlwikipedia->new($user);
+	$editor_remote=MediaWiki::Bot->new($user);
 	$editor_remote->set_wiki('de.wiktionary.org', 'w');
-	$editor_remote->login($user, $pass);
+	$editor_remote->login($user, $pass) == 0 or die "cannot login";
 }
 
 if ($debug_mode) {
@@ -98,11 +99,11 @@ open(ERRORS,">>$errors_file");
 
 # ==== main loop
 
-my $server='http://localhost/~piotr/dewikt/';
+my $server='http://de.wiktionary.org/w/';
 my $category='Kategorie:Deutsch';
 
 my @entries = get_category_contents($server,$category);
-#my @entries = ('zuhören');
+# my @entries = ('Abteilung');
 
 my $word_count = scalar(@entries);
 my $processed_words = 0;
@@ -158,13 +159,13 @@ foreach my $word (@entries) {
 		= add_audio_dewikt(\$section,$pron,$language,1,$pron_pl,$plural);
 	
 	if ($result == 1) {
-		#print encode_utf8($word),": has audio\n";
+		print encode_utf8($word),": has audio\n";
 		mark_done($word, 'has_audio');
 		next;
 	}
 
 	if (!$debug_mode) {
-		sleep 3;
+		sleep 2;
 	}
 	
 	# ===== section processing =======
@@ -272,3 +273,4 @@ sub is_done {
 	my $word = shift;
 	return exists($done{$word});
 }
+

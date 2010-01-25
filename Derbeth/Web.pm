@@ -45,7 +45,7 @@ our $VERSION = 0.3.1;
 my $CACHE_DIR = 'page-cache';
 # Variable: $MAX_FILES_IN_CACHE
 #   maximal number of cached pages
-my $MAX_FILES_IN_CACHE=3000;
+my $MAX_FILES_IN_CACHE=10000;
 # Variable: $user_agent
 #   user agent passed to server when retrieving pages
 my $user_agent = 'DerbethBot/1.0 (Kubuntu Linux) Opera rulez';
@@ -76,8 +76,13 @@ sub get_page_from_web {
 	$full_url = encode_utf8($full_url);
 	my $ua = LWP::UserAgent->new;
 	$ua->agent($user_agent);
-	my $text = $ua->get($full_url)->content;
-	return $text;
+	my $response = $ua->get($full_url);
+	if ($response->is_success) {
+		return $response->content;
+	} else {
+		print "error getting $full_url: ",$response->content,"\n";
+		return '';
+	}
 }
 
 # Function: get_page
@@ -86,6 +91,7 @@ sub get_page_from_web {
 sub get_page {
 	my $full_url=shift;
 	$full_url = encode_utf8($full_url);
+	print "getting from web: $full_url\n";
 	#$full_url = uri_escape_utf8($full_url);
 	if ($cache_pages) {
 		return get_page_from_cache($full_url);
@@ -96,6 +102,7 @@ sub get_page {
 
 
 sub enable_caching {
+	die "expects an argument" if ($#_ == -1);
 	$cache_pages = shift @_;
 }
 
@@ -114,7 +121,7 @@ sub get_page_from_cache {
 		my $filename=$CACHE_DIR.'/'.md5_hex($full_url);
 		
 		if( -e $filename ) {
-			#print "reading cache\n"; #DEBUG
+			print "reading cache for $full_url from $filename\n"; #DEBUG
 			return get_page_from_file($filename);
 		} else {
 			my $text = get_page_from_web($full_url);
@@ -146,3 +153,4 @@ sub save_page_to_file {
 }
 
 1;
+

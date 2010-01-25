@@ -30,7 +30,7 @@ use strict;
 use Encode;
 use Derbeth::Web;
 use Derbeth::Util;
-use Perlwikipedia;
+use MediaWiki::Bot;
 use HTML::Entities;
 use URI::Escape qw/uri_escape_utf8/;
 
@@ -44,7 +44,7 @@ our @EXPORT = qw/split_before_sections
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.6.0;
+our $VERSION = 0.7.0;
 
 # Variable: $use_perlwikipedia
 our $use_perlwikipedia=0;
@@ -215,19 +215,20 @@ sub _split_article_en {
 	
 	my @sections = split /(==[-a-zA-Z ]+==[^=])/, $article_text;
 	
-	#print "sections: $#sections\n";
+# 	print "sections: $#sections\n";
 	
 	my $lang_index=0;
-	#print "lang: '$lang'\n";
+# 	print "lang: '$lang'\n";
 	
 	foreach my $section (@sections) {
-			
+# 		print "$section\n&&&&&&&&&&&&\n";
 		if ($section =~ /==\s*$lang\s*==/) {
 			last;
 		}
 		++$lang_index;
 	}
 	
+# 	print "lang index: $lang_index\n";
 	return ($lang_index, @sections);
 }
 
@@ -300,7 +301,7 @@ sub get_category_contents_perlwikipedia {
 	my $user = $settings{bot_login};
 	my $pass = $settings{bot_password};
 
-	my $editor=Perlwikipedia->new($user);
+	my $editor=MediaWiki::Bot->new($user);
 # 	$editor->{debug} = 1;
 	$editor->set_wiki($server,$prefix);
 # 	$editor->login($user, $pass);
@@ -457,3 +458,4 @@ sub get_wikicode {
 }
 
 1;
+

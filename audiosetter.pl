@@ -26,7 +26,7 @@
 #   ./audiosetter.pl --[no]filter --[no]debug --l[anguage] hr
 #   --w[ikt] en --limit 40
 
-use Perlwikipedia;
+use MediaWiki::Bot;
 use Derbeth::Wikitools;
 use Derbeth::Wiktionary;
 use Derbeth::I18n;
@@ -89,19 +89,21 @@ my $filtered_audio_filename;
 	GetOptions('f|filter!' => \$filter_mode, 'd|debug!' => \$debug_mode,
 		'l|lang=s' => \$lang_codes, 'w|wikt=s' => \$wikt_lang,
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
-		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize);
+		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize) or die;
 	
 	@langs = split /,/, $lang_codes;
 }
+
+srand(time) if ($randomize);
 
 if ($clean_cache) {
 	Derbeth::Web::clear_cache();
 }
 if ($clean_start) {
-	`rm audio/${wikt_lang}wikt_audio*`;
-	`rm done/done_filter_${wikt_lang}.txt done/done_audio_${wikt_lang}.txt`;
-	unlink "audio_count_${wikt_lang}wikt.txt";
-	unlink $errors_file;
+	`rm -f audio/${wikt_lang}wikt_audio*`;
+	`rm -f done/done_filter_${wikt_lang}.txt done/done_audio_${wikt_lang}.txt`;
+	`rm -f audio_count_${wikt_lang}wikt.txt`;
+	`rm -f $errors_file`;
 }
 
 my $donefile= ($filter_mode)
@@ -116,17 +118,17 @@ $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); exit; };
 
 read_hash_loose($donefile, \%done);
 
-my $server = "http://localhost/~piotr/${wikt_lang}wikt/";
+my $server = "http://en.wiktionary.org/w/";
 #$server = 'http://en.wiktionary.org/w/' if ($wikt_lang eq 'en');
 
-my $editor=Perlwikipedia->new($user);
+my $editor=MediaWiki::Bot->new($user);
 # $editor->{debug} = 1;
 if ($filter_mode || $debug_mode) {
 	$editor->set_wiki('localhost/~piotr', $wikt_lang.'wikt');
 } else {
 	$editor->set_wiki("$wikt_lang.wiktionary.org",'w');
 }
-$editor->login($user, $pass);
+$editor->login($user, $pass) == 0 or die "cannot login"; # MediaWiki::Bot specific!
 
 if ($debug_mode) {
 	srand();
@@ -208,7 +210,7 @@ foreach my $l (@langs) {
 		}
 		
 		if (!$debug_mode && !$filter_mode) {
-			sleep 1;
+			sleep 2; # was: 1
 		}
 		
 		my $page_text;
@@ -230,7 +232,7 @@ foreach my $l (@langs) {
 		my($before,$section,$after) = split_article_wikt($wikt_lang,$language,$page_text);
 		
 		if ($section eq '') {
-			#print encode_utf8("$wikt_lang - $language\n");
+# 			print encode_utf8("$wikt_lang - $language\n");
 			print encode_utf8("no $language section: $word\n");
 			mark_done($word,'no_section');
 			next;

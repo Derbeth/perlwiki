@@ -5,6 +5,7 @@ done
 out
 page-cache
 
+.mediawiki*
 .perlwikipedia*
 in.txt*
 out.txt*
@@ -14,6 +15,7 @@ errors_*.txt*
 done_*.txt*
 nottrans_*.txt*
 *.pl~
+Derbeth.ini
 settings.ini*
 .gitignore~
 api
