@@ -217,14 +217,14 @@ sub add_audio_enwikt {
 	my $audio_marker = ">>HEREAUDIO<<";
 	
 	if ($$section =~ /\{\{:/) {
-		$edit_summary = 'handling page transclusion not supported';
+		$edit_summary .= '; handling page transclusion not supported';
 		return (2,0,$edit_summary);
 	} elsif ($$section =~ /= *Etymology +1 *=/
 	|| ($$section =~ /= *Etymology/i && $POSTMATCH =~ /= *Etymology/i)) {
-		$edit_summary = 'handling multiple etymologies not supported';
+		$edit_summary .= '; handling multiple etymologies not supported';
 		return (2,0,$edit_summary);
 	} elsif ($$section =~ /= *Pronunciation/i && $POSTMATCH =~ /= *Pronunciation/i) {
-		$edit_summary = 'handling multiple pronunciation sections not supported';
+		$edit_summary .= '; handling multiple pronunciation sections not supported';
 		return (2,0,$edit_summary);
 	} elsif ($$section !~ /=== *Pronunciation *===/) {
 		$edit_summary .= '; added missing pron. section';

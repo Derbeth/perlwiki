@@ -262,7 +262,7 @@ foreach my $l (@langs) {
 			}
 			print encode_utf8($word),': CANNOT add audio; ';
 			print encode_utf8($edit_summary), "\n";
-			print ERRORS encode_utf8($word),"($lang_code): CANNOT add audio; ";
+			print ERRORS encode_utf8($word),"($wikt_lang,$lang_code): CANNOT add audio; ";
 			print ERRORS encode_utf8($edit_summary), "\n";
 			next;
 		}
