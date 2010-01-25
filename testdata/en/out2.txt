@@ -1,0 +1,17 @@
+==English==
+
+===Pronunciation===
+* {{audio|En-rooibos.ogg|Audio}}
+* ROY-boss
+*{{IPA|ˈrɔɪbɒs}}
+
+===Noun===
+{{en-noun|-}}
+{{wikipedia}}
+
+# (south African) A bush (''[[Aspalanthus linearis]]'') from which [[rooibos tea]] is made.
+#* Antioxidants are hot topics in the health news these days, and an [[herbal]] tea called '''rooibos''' (pronounced ROY-boss) is becoming popular partly because it is being marketed as a healthful [[beverage]] with high levels of antioxidants. The '''rooibos''' plant (''Aspalathus linearis'' (Burm. f.) Dahlgren, Fabaceae) is a South African flowering shrub used to make a mild-tasting tea that has no [[caffeine]], very little [[tannin]], and significant amounts of polyphenol [[antioxidant]]s. [http://www.herbalgram.org/herbalgram/articleview.asp?a=2550]
+
+[[Category:South African English]]
+
+[[hu:rooibos]]

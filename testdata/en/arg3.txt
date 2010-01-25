@@ -1,0 +1,7 @@
+result=2
+added_audios=0
+audio=En-rooibos.ogg
+plural=
+audio_pl=
+ipa=
+ipa_pl=

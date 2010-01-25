@@ -1,0 +1,103 @@
+==English==
+
+===Pronunciation===
+{{rfap}}
+* {{a|UK}} {{IPA|/tɹʌmp/}}, {{SAMPA|/tr\Vmp/}}
+*: {{rhymes|ʌmp}}
+
+===Etymology 1===
+possibly from [[triumph]]
+
+====Noun====
+{{en-noun}}
+
+# {{US|singular}} The [[suit]], in a [[game]] of [[cards]], that [[outrank]]s all others.
+# {{British|in plural}} The [[suit]], in a [[game]] of [[cards]], that [[outrank]]s all others.
+#: ''Diamonds were declared '''trumps'''.''
+# A [[playing card]] of that suit.
+#: ''He played an even higher '''trump'''.''
+# {{figurative}} Something that gives one an [[advantage]], especially one held in [[reserve]].
+
+=====Translations=====
+{{trans-top|suit that outranks all others}}
+* Albanian: {{t+|sq|atu|xs=Albanian}}
+* Czech: {{t-|cs|trumfy|m|p}}
+* Dutch: [[troef]]
+* German: {{t+|de|Trumpf|m}}
+{{trans-mid}}
+* Hungarian: {{t+|hu|adu}}, {{t|hu|tromf}}
+* Portuguese: trunfo ((m))
+* Spanish: {{t|es|pinte|m}},  {{t|es|triunfo|m}}
+{{trans-bottom}}
+
+{{trans-top|playing card of that suit}}
+* Albanian: {{t+|sq|atu|xs=Albanian}}
+* Czech: {{t-|cs|trumf|m}}
+* Dutch: [[troef]]
+* Finnish: {{t-|fi|valttikortti}}
+* French: {{t+|fr|atout}}
+{{trans-mid}}
+* German: {{t+|de|Trumpf|m}}
+* Portuguese: trunfo (m)
+* Slovene: {{t-|sl|adut}}
+* Spanish: {{t|es|pinte|m}},  {{t|es|triunfo|m}}
+{{trans-bottom}}
+
+{{trans-top|something that gives one an advantage}}
+* Albanian: {{t+|sq|atu|xs=Albanian}}
+* Czech: {{t-|cs|trumf|m}}
+* Dutch: [[troef]]
+{{trans-mid}}
+* Finnish: {{t-|fi|valtti}}
+* German: {{t+|de|Trumpf|m}}
+* Portuguese: trunfo ((m))
+{{trans-bottom}}
+
+====Verb====
+{{en-verb}}
+
+# {{transitive}} To play a trump (on a card of another suit).
+#: ''He knew the hand was lost when his ace was '''trumped'''.''
+# {{intransitive}} To [[play]] a trump, or to take a [[trick]] with a trump; to [[ruff]].
+# {{transitive}} To [[get the better of]], or [[finesse]], a [[competitor]].
+# {{transitive}} To [[supersede]].
+#: ''In this election, it would seem issues of national security '''trumped''' economic issues.''
+
+=====Translations=====
+{{trans-top|To play a trump, or to take a trick with a trump; to ruff}}
+{{trans-mid}}
+{{trans-bottom}}
+
+{{trans-top|To get the better of, or finesse, a competitor}}
+* Finnish: [[päihittää]]
+{{trans-mid}}
+{{trans-bottom}}
+
+=====Derived terms=====
+* [[the last trump]]
+* [[no trump]]
+* [[over trump]]
+* [[trump card]]
+* [[trump out]]
+* [[trump up]]
+* [[under trump]]
+
+===Etymology 2===
+{{etyl|enm}} [[trompe]]
+
+====Noun====
+'''trump'''
+
+# {{obsolete}} A [[trumpet]].
+
+===External links===
+*{{Wikisource1911Enc Citation|Trump}}
+
+[[fa:trump]]
+[[fr:trump]]
+[[io:trump]]
+[[it:trump]]
+[[hu:trump]]
+[[ru:trump]]
+[[te:trump]]
+[[vi:trump]]
