@@ -93,6 +93,7 @@ my %regional_names = (
 		'us-inlandnorth' => 'US Inland North',
 	}
 );
+$regional_names{'simple'} = $regional_names{'en'};
 
 
 # for titles of language sections
@@ -254,6 +255,7 @@ my %language_names = (
 		'zh'  => 'Mandarin'
 	}
 );
+$language_names{'simple'} = $language_names{'en'};
 
 # Function: get_regional_name
 # Parameters:
