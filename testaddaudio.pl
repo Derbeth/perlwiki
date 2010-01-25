@@ -34,8 +34,8 @@ for my $wikt_lang(@tested_wikts) {
 		do_test($test_input, $wikt_lang, $test_input, $test_output, %args);
 		my $equal = &compare_files($test_output, $test_expected);
 		if (!$equal) {
-			print "Test failed.\n";
-			`kdiff3 $test_output $test_expected`;
+			print "Test $i failed.\n";
+			`kdiff3 $test_output $test_expected -L1 Received -L2 Expected`;
 			exit(11);
 		}
 

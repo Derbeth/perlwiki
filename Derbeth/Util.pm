@@ -59,6 +59,7 @@ sub read_hash_loose {
 	
 	open(IN,$filename) or return 0;
 	while(<IN>) {
+		next unless(/\S/);
 		chomp;
 		$_ = decode_utf8($_);
 		my ($key,$val) = split /=/, $_;
@@ -86,6 +87,7 @@ sub read_hash_strict {
 	
 	open(IN,$filename) or return 0;
 	while(<IN>) {
+		next unless(/\S/);
 		chomp;
 		$_ = decode_utf8($_);
 		if (/([^=]+)=(.+)/) {
@@ -162,13 +164,14 @@ sub text_from_file {
 sub add_audio_count {
 	my ($countfile, $lang_code, $added_files) = @_;
 	my %count;
-	open(COUNT, $countfile);
-	while(<COUNT>) {
-		if (/^(\w+)=(\d+)/) {
-			$count{$1} = $2;
+	if (open(COUNT, $countfile)) {
+		while(<COUNT>) {
+			if (/^(\w+)=(\d+)/) {
+				$count{$1} = $2;
+			}
 		}
+		close(COUNT);
 	}
-	close(COUNT);
 	if (exists($count{$lang_code})) {
 		$count{$lang_code} += $added_files;
 	} else {
@@ -205,3 +208,4 @@ sub appendfile {
 1;
 
 __END__
+

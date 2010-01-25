@@ -40,7 +40,7 @@ our @EXPORT = qw/add_audio
 	final_cosmetics
 	add_inflection_plwikt
 	should_not_be_in_category_plwikt/;
-our $VERSION = 0.8.0;
+our $VERSION = 0.8.1;
 
 # Function: create_audio_entries_enwikt
 # Parameters:
@@ -218,21 +218,21 @@ sub add_audio_enwikt {
 	
 	if ($$section =~ /\{\{:/) {
 		$edit_summary = 'handling page transclusion not supported';
-		return (2,$audios_count,$edit_summary);
+		return (2,0,$edit_summary);
 	} elsif ($$section =~ /= *Etymology +1 *=/
 	|| ($$section =~ /= *Etymology/i && $POSTMATCH =~ /= *Etymology/i)) {
 		$edit_summary = 'handling multiple etymologies not supported';
-		return (2,$audios_count,$edit_summary);
+		return (2,0,$edit_summary);
 	} elsif ($$section =~ /= *Pronunciation/i && $POSTMATCH =~ /= *Pronunciation/i) {
 		$edit_summary = 'handling multiple pronunciation sections not supported';
-		return (2,$audios_count,$edit_summary);
+		return (2,0,$edit_summary);
 	} elsif ($$section !~ /=== *Pronunciation *===/) {
 		$edit_summary .= '; added missing pron. section';
 		
 		if ($$section =~ /===\s*Etymology\s*={3,}(.|\n|\r|\f)*?==/) {
 			unless ($$section =~ s/(=== *Etymology *={3,}(.|\n|\r|\f)*?)(==)/$1===Pronunciation===\n* $audio_marker\n\n$3/) {
 				$edit_summary .= '; cannot add pron. after etymology';
-				return (2,$audios_count,$edit_summary)
+				return (2,0,$edit_summary)
 			}
 		} else { # no etymology at all
 			if ($$section =~ s/(==\s*$language\s*==(.|\n|\r|\f)*?)(==)/$1===Pronunciation===\n* $audio_marker\n\n$3/) {
@@ -241,13 +241,13 @@ sub add_audio_enwikt {
 				# ok, no heading, so just add after language
 			} else {
 				$edit_summary .= '; cannot add pron. after section begin';
-				return (2,$audios_count,$edit_summary);
+				return (2,0,$edit_summary);
 			}
 		}
 	} else {
 		unless ($$section =~ s/(===\s*Pronunciation\s*={3,})/$1\n* $audio_marker/) {
 			$edit_summary .= '; cannot add audio after pron. section';
-			return (2,$audios_count,$edit_summary);
+			return (2,0,$edit_summary);
 		}
 	}
 	
@@ -262,12 +262,20 @@ sub add_audio_enwikt {
 	}
 	unless ($$section =~ s/$audio_marker/$audios/) {
 		$edit_summary .= '; lost audios marker';
-		return (2,$audios_count,$edit_summary);
+		return (2,0,$edit_summary);
 	}
 	
 	if ($$section =~ /$audio_marker/) {
 		$edit_summary .= '; cannot remove audios marker';
-		return (2,$audios_count,$edit_summary);
+		return (2,0,$edit_summary);
+	}
+
+	if ($$section =~ /{{rfap/) {
+		if($$section =~ s/{{rfap}}\r?\n//) {
+			$edit_summary .= '; removed {{rfap}}';
+		} else {
+			$edit_summary .= '; cannot remove {{rfap}}';
+		}
 	}
 	
 	$$section =~ s/(\n|\r|\f){{IPA/$1*{{IPA/;
@@ -320,7 +328,7 @@ sub add_audio_simplewikt {
 
 	if ($$section !~ /=== *Pronunciation *===/) {
 		$edit_summary .= '; cannot add pronunciation section';
-		return (2,$audios_count,$edit_summary);
+		return (2,0,$edit_summary);
 	}
 
 	$$section =~ s/(=== *Pronunciation *===)/$1\n*$MARK/;
@@ -332,11 +340,11 @@ sub add_audio_simplewikt {
 
 	unless ($$section =~ s/$MARK/$audios/) {
 		$edit_summary .= '; lost audios marker';
-		return (2,$audios_count,$edit_summary);
+		return (2,0,$edit_summary);
 	}
 	if ($$section =~ /$MARK/) {
 		$edit_summary .= '; cannot remove audios marker';
-		return (2,$audios_count,$edit_summary);
+		return (2,0,$edit_summary);
 	}
 
 	return (0,$audios_count,$edit_summary);
@@ -372,7 +380,7 @@ sub add_audio_dewikt {
 	
 	if ($$section =~ /\{\{kSg\.\}\}/) {
 		$edit_summary .= 'met {{kSg.}}, won\'t add audio automatically';
-		return (2,$audios_count,$edit_summary);
+		return (2,0,$edit_summary);
 	}
 
 	my $newipa = ':[[Hilfe:IPA|IPA]]: {{Lautschrift|...}}';
@@ -389,7 +397,7 @@ sub add_audio_dewikt {
 		if ($$section !~ /{{Bedeutung/) {
 			unless ($$section =~ s/(==== *Übersetzungen)/{{Bedeutungen}}\n\n$1/) {
 				$edit_summary .= '; no {{Bedeutungen}} and cannot add it';
-				return (2,$audios_count,$edit_summary);
+				return (2,0,$edit_summary);
 			}
 			$edit_summary .= '; + {{Bedeutungen}} (leer)';
 		}
@@ -400,7 +408,7 @@ $newaudio
 
 {{Bedeutungen}}/xi) {
 			$edit_summary .= '; cannot add {{Aussprache}}';
-			return (2,$audios_count,$edit_summary);
+			return (2,0,$edit_summary);
 		}
 	}
 	if ($$section !~ /: *\[\[Hilfe:Hörbeispiele\|Hörbeispiele\]\]:/) {
@@ -412,12 +420,12 @@ $newaudio/x;
 		if ($$section =~ /Hörbeispiele\]\]: +(-|–|—|{{fehlend}})/) {
 			unless ($$section =~ s/Hörbeispiele\]\]: +(-|–|—|{{fehlend}})/Hörbeispiele]]: $audios/) {
 				$edit_summary .= '; cannot replace {{fehlend}}';
-				return (2,$audios_count,$edit_summary);
+				return (2,0,$edit_summary);
 			}
 		} else { # already some pronunciation
 			unless ($$section =~ s/Hörbeispiele\]\]: */Hörbeispiele]]: $audios /) {
 				$edit_summary .= '; cannot append pron.';
-				return (2,$audios_count,$edit_summary);
+				return (2,0,$edit_summary);
 			}
 			$$section =~ s/  / /g;
 		}
@@ -529,7 +537,7 @@ sub add_audio_plwikt {
 		push @summary, '+ brakująca sekcja {{wymowa}}';
 		unless ($$section_ref =~ s/{{znaczenia}}/{{wymowa}}\n{{znaczenia}}/) {
 			push @summary, 'nie udało się dodać sekcji "wymowa"';
-			return (2,$audios_count,join('; ', @summary));
+			return (2,0,join('; ', @summary));
 		}
 	}
 	
@@ -567,13 +575,13 @@ sub add_audio_plwikt {
 	if ($audios ne '') {
 		unless (_put_audio_plwikt(\$pron_line_sing,$audios)) {
 			push @summary, 'nie udało się dodać audio dla lp';
-			return (2,$audios_count,join('; ', @summary));
+			return (2,0,join('; ', @summary));
 		}
 	}
 	if ($audios_pl ne '') {
 		unless (_put_audio_plwikt(\$pron_line_pl,$audios_pl)) {
 			push @summary, 'nie udało się dodać audio dla lm';
-			return (2,$audios_count,join('; ', @summary));
+			return (2,0,join('; ', @summary));
 		}
 	}
 	

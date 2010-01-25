@@ -29,7 +29,7 @@ use strict;
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name/;
-our $VERSION = 0.5.0;
+our $VERSION = 0.5.2;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
@@ -44,9 +44,11 @@ my %regional_names = (
 		'ca' => 'kanadyjska',
 		'cls' => 'tradycyjna', # łacina
 		'ecc' => 'kościelna',
+		'mx' => 'meksykańska',
 		'nz' => 'nowozelandzka',
 		'Paris' => 'paryska',
 		'ph' => 'filipińska',
+		'sa' => 'południowoafrykańska',
 		'uk' => 'brytyjska',
 		'us' => 'amerykańska',
 		'us-inlandnorth' => 'amerykańska Inland North',
@@ -61,8 +63,11 @@ my %regional_names = (
 		'ca' => 'kanadisch',
 		'cls' => 'klassisches Latein',
 		'ecc' => 'Kirchenlatein',
+		'mx' => 'mexikanisch',
 		'nz' => 'neuseeländisch',
 		'Paris' => 'pariserisch',
+		'ph' => 'philippinisch',
+		'sa' => 'südafrikanisch',
 		'ph' => 'philippinisch',
 		'uk' => 'britisch',
 		'us' => 'US-amerikanisch',
@@ -78,9 +83,11 @@ my %regional_names = (
 		'ca' => 'CAN',
 		'cls' => 'classical',
 		'ecc' => 'ecclesiastical',
+		'mx' => 'Mexico',
 		'nz' => 'NZ',
 		'Paris' => 'Paris',
 		'ph' => 'PH',
+		'sa' => 'SA',
 		'uk' => 'UK',
 		'us' => 'US',
 		'us-inlandnorth' => 'US Inland North',
@@ -91,6 +98,7 @@ my %regional_names = (
 # for titles of language sections
 my %language_names = (
 	'pl' => {
+		'ar'  => 'język arabski',
 		'be'  => 'język białoruski',
 		'bg'  => 'język bułgarski',
 		'ce'  => 'język czeczeński',
@@ -142,6 +150,7 @@ my %language_names = (
 		'zh'  => 'język chiński' #  (uproszczony) ?
 	},
 	'de' => {
+		'ar'  => 'Arabisch',
 		'be'  => 'Weißrussisch',
 		'bg'  => 'Bulgarisch',
 		'ce'  => 'Tschetschenisch',
@@ -193,6 +202,7 @@ my %language_names = (
 		'zh'  => 'Chinesisch'
 	},
 	'en' => {
+		'ar'  => 'Arabic',
 		'be'  => 'Belarusian',
 		'bg'  => 'Bulgarian',
 		'ce'  => 'Chechen',
@@ -212,6 +222,7 @@ my %language_names = (
 		'he'  => 'Hebrew',
 		'hi'  => 'Hindi',
 		'hr'  => 'Croatian',
+		'hsb' => 'Upper Sorbian',
 		'hu'  => 'Hungarian',
 		'hy'  => 'Armenian',
 		'ia'  => 'Interlingua',
@@ -251,7 +262,8 @@ my %language_names = (
 sub get_regional_name {
 	my ($lang, $code) = @_;
 	if (!exists($regional_names{$lang}{$code})) {
-		return $code;
+		die "no code $code for $lang";
+# 		return $code;
 	}
 	return $regional_names{$lang}{$code};
 }
@@ -263,9 +275,11 @@ sub get_regional_name {
 sub get_language_name {
 	my ($lang, $code) = @_;
 	if (!exists($language_names{$lang}{$code})) {
-		return $code;
+		die "no code $code for $lang";
+# 		return $code;
 	}
 	return $language_names{$lang}{$code};
 }
 
 1;
+
