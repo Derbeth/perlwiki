@@ -55,38 +55,58 @@ $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit; };
 
 my %ips;
 
-my $editor=MediaWiki::Bot->new($user);
-#$editor->{debug} = 1;
-$editor->set_wiki($wiki, 'w');
-$editor->login($user, $pass) == 0 or die "cannot login to $wiki";
+my $admin=MediaWiki::Bot->new();
+#$admin->{debug} = 1;
+$admin->set_wiki($wiki, 'w');
+$admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 
-foreach my $entry (('en.wikipedia.org|Blocked Tor exit nodes', 'en.wikipedia.org|Open proxies blocked on Wikipedia', 'meta.wikimedia.org|Open proxies blocked on all participating projects')) {
-	my ($server,$cat) = split /\|/, $entry;
-	my @pages = get_category_contents("http://$server/w/","Category:$cat");
-	print "$cat: ", scalar(@pages), " pages\n";
-	foreach my $page (@pages) {
-		if ($page =~ /User talk:(\d+\.\d+\.\d+\.\d+)/) {
-			$ips{$1} = 1;
+{
+	my $en_wiki = MediaWiki::Bot->new();
+	$en_wiki->set_wiki('en.wikipedia.org');
+	my $text = $en_wiki->get_text('Wikipedia:Database reports/Range blocks');
+	if ($text eq '2' || $text !~ /\w/) {
+		die "cannot get list";
+	}
+	die "cannot find table" if ($text !~ /\{\|/ || $text !~ /\|\}/);
+	my @parts = split(/(?:\{\||\|\})/, $text);
+	die "no parts" unless($parts[1]);
+	my @records = split(/(?:\|-)/, $parts[1]);
+	foreach my $record (@records) {
+		next if ($record =~ /^!/);
+		my $time = ($record =~ /infinity/) ? '5 years' : '5 years';
+		if ($record =~ /\{\{ipr\|(?:1=)?([^ }]+)/) {
+			my $ip = $1;
+			$ip =~ s/^ +| +$//g;
+			if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
+				print STDERR "wrong ip '$ip'\n";
+			} else {
+				$ips{$ip} = $time;
+			}
 		}
 	}
 }
+
+#while (my ($ip,$time) = each(%ips)) {
+#	print "block '$ip' for '$time'\n";
+#}
+#exit 0;
 
 foreach my $ip (keys(%ips)) {
 	if (is_done($ip)) {
 		print "already done: $ip\n";
 		next;
 	}
-	if ($editor->test_blocked($ip)) {
+	if ($admin->test_blocked($ip)) {
 		mark_done($ip, 'alredy_blocked');
 		print "already blocked on $wiki: $ip\n";
 		next;
 	}
-	my $res = $editor->block($ip, '5 years', "open proxy wg en.wiki [[w:en:Special:Contributions/$ip]]", 1, 1, 1);
-	if ($res) {
-		print "blocked $ip on $wiki\n";
+	my $res = $admin->block($ip, $ips{$ip}, "open proxy lub podobne, range block na en.wiki", 1, 1, 1);
+	if ($res && $res !~ /^\d+/) {
+		print "blocked $ip on $wiki for $ips{$ip}\n";
 		mark_done($ip, 'blocked');
 	} else {
-		print "failed to block $ip\n";
+		print "failed to block $ip ($res)\n";
 	}
 	#last;
 }

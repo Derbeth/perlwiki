@@ -1,8 +1,14 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
-@params=('./audiosetter.pl', '--nofilter', '--nodebug',
-		'--limit', '100', '-w', 'de', '-l', 'fr');
+use strict;
 
-for($i=0; $i<30; ++$i) {
-	system(@params);
+use Getopt::Long;
+
+my $times = 10;
+
+GetOptions('times|t=i' => \$times) or die "wrong usage";
+
+foreach (my $i=0; $i<$times; ++$i) {
+	system(@ARGV);
 }
+

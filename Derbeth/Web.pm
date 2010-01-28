@@ -73,6 +73,7 @@ sub _create_cache {
 #   $full_url - 'http://localhost/~piotr/enwikt/Main page'
 sub get_page_from_web {
 	my $full_url=shift @_;
+	print "getting from web: $full_url\n";
 	$full_url = encode_utf8($full_url);
 	my $ua = LWP::UserAgent->new;
 	$ua->agent($user_agent);
@@ -91,7 +92,6 @@ sub get_page_from_web {
 sub get_page {
 	my $full_url=shift;
 	$full_url = encode_utf8($full_url);
-	print "getting from web: $full_url\n";
 	#$full_url = uri_escape_utf8($full_url);
 	if ($cache_pages) {
 		return get_page_from_cache($full_url);
