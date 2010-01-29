@@ -64,7 +64,7 @@ $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 {
 	my $en_wiki = MediaWiki::Bot->new();
 	$en_wiki->set_wiki('en.wikipedia.org');
-	foreach my $log ("&user=Zzuuzz","") {
+	foreach my $log ("&user=Zzuuzz","&user=ProcseeBot","&user=Spellcast","") {
 		my $url = "http://en.wikipedia.org/w/index.php?title=Special:log&limit=$limit&type=block&hide_patrol_log=1$log";
 		my $html = Derbeth::Web::get_page($url);
 		if (!$html || $html !~ /\w/) {
@@ -74,7 +74,7 @@ $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 			my $line = $1;
 			next unless ($line =~ / blocked /);
 			$line = $';
-			next unless ($line =~ /\{\{(?:blocked ?proxy|anonblock)\}\}|indefinite|5 years/);
+			next unless ($line =~ /\{\{(?:blocked ?proxy|anonblock|tor)\}\}|indefinite|5 years/i);
 			next unless($line =~ /class="mw-userlink">(\d+\.[^<]+)</);
 			my $ip = $1;
 			my $time = '2 years';
