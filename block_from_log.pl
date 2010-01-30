@@ -42,10 +42,15 @@ my $pass = $settings{'bot_password'};
 
 my $donefile = "done/block_proxies.txt";
 my $limit = 500;
+my $from = ''; # format: 2009-02-27
 Derbeth::Web::enable_caching(1);
 # ============ end settings
 
-GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit) or die "wrong usage";
+GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit, 'from|f=s' => \$from) or die "wrong usage";
+
+die "'from' is '$from', should be in form like '2009-02-27'" if ($from && $from !~ /^\d{4}-\d{2}-\d{2}$/);
+$from =~ s/-//g;
+$from .= '000000';
 
 my %done;
 read_hash_loose($donefile, \%done);
@@ -66,6 +71,7 @@ $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 	$en_wiki->set_wiki('en.wikipedia.org');
 	foreach my $log ("&user=Zzuuzz","&user=ProcseeBot","&user=Spellcast","") {
 		my $url = "http://en.wikipedia.org/w/index.php?title=Special:log&limit=$limit&type=block&hide_patrol_log=1$log";
+		$url .= "&offset=$from" if ($from);
 		my $html = Derbeth::Web::get_page($url);
 		if (!$html || $html !~ /\w/) {
 			die "cannot get $url";
@@ -81,6 +87,7 @@ $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 			if ($line =~ /indefinite|5 years/i) {
 				$time = '5 years';
 			} elsif ($line =~ /\d months|weeks/) {
+				next if ($from);
 				$time = '1 year';
 			}
 			$ip =~ s/^ +| +$//g;
