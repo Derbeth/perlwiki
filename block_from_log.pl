@@ -48,9 +48,11 @@ Derbeth::Web::enable_caching(1);
 
 GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit, 'from|f=s' => \$from) or die "wrong usage";
 
-die "'from' is '$from', should be in form like '2009-02-27'" if ($from && $from !~ /^\d{4}-\d{2}-\d{2}$/);
-$from =~ s/-//g;
-$from .= '000000';
+if ($from) {
+	die "'from' is '$from', should be in form like '2009-02-27'" if ($from !~ /^\d{4}-\d{2}-\d{2}$/);
+	$from =~ s/-//g;
+	$from .= '000000';
+}
 
 my %done;
 read_hash_loose($donefile, \%done);
