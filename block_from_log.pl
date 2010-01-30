@@ -100,13 +100,20 @@ print scalar(keys %ips), " IPs to block\n";
 #}
 #exit 0;
 
+my $all_processed=0;
+my $checked=0;
 foreach my $ip (keys(%ips)) {
+	++$all_processed;
 	if (is_done($ip)) {
 		print "already done: $ip\n";
 		next;
 	}
+	if (++$checked % 25 == 0) {
+		print "done $all_processed/", scalar(keys %ips), "\n";
+		save_results();
+	}
 	if ($admin->test_blocked($ip)) {
-		mark_done($ip, 'alredy_blocked');
+		mark_done($ip, 'already_blocked');
 		print "already blocked on $wiki: $ip\n";
 		next;
 	}

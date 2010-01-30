@@ -91,6 +91,7 @@ my $filtered_audio_filename;
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
 		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize) or die;
 	
+	die "provide -w and -l correctly!" unless($wikt_lang && $lang_codes);
 	@langs = split /,/, $lang_codes;
 }
 
