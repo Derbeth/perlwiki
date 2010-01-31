@@ -410,6 +410,14 @@ while (my($cat,$code) = each(%categories)) {
 				$key = $POSTMATCH;
 			}
 		}
+		elsif ($code eq 'nl') {
+			if ($key =~ / \(Belgium\)$/) {
+				$regional = 'be';
+				$key = $PREMATCH;
+			} elsif ($key =~ / \(Netherlands\)$/) {
+				$key = $PREMATCH;
+			}
+		}
 		# == end regional, now stripping articles
 
 		if ($code eq 'it') {

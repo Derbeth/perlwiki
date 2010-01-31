@@ -27,7 +27,7 @@ use utf8;
 use strict;
 use English;
 
-use Derbeth::I18n 0.5.2;
+use Derbeth::I18n 0.6.0;
 use Derbeth::Wikitools;
 use Encode;
 use Carp;
@@ -92,11 +92,7 @@ sub create_audio_entries_frwikt {
 	my @summary;
 	while (my ($file,$region) = each(%files)) {
 		my $text = ' {{pron-rég|';
-		$text .= $lang_code; # TODO TEMP
-		if ($region ne '' && 0) {
-# TODO TEMP
-			$text .= ' ('.get_regional_name('fr',$region).')';
-		}
+		$text .= get_regional_frwikt($lang_code,$region,$file);
 		$text .= '||'; # no IPA
 		$text .= "audio=$file";
 		$text .= '}}';

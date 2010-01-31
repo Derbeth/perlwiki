@@ -30,8 +30,9 @@ use Carp;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
-	get_language_name/;
-our $VERSION = 0.5.3;
+	get_language_name
+	get_regional_frwikt/;
+our $VERSION = 0.6.0;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
@@ -259,6 +260,11 @@ my %language_names = (
 );
 $language_names{'simple'} = $language_names{'en'};
 
+my %countries_fr = (
+	'be' => 'Belgique',
+	'ca' => 'Canada',
+);
+
 # Function: get_regional_name
 # Parameters:
 #  $lang - wiktionary language ('en')
@@ -283,6 +289,24 @@ sub get_language_name {
 # 		return $code;
 	}
 	return $language_names{$lang}{$code};
+}
+
+sub get_regional_frwikt {
+	my ($lang_code,$regional,$file) = @_;
+	confess "not implemented" unless ($lang_code eq 'fr');
+	my $result;
+	if ($regional && exists $countries_fr{$regional}) {
+		$result = $countries_fr{$regional};
+	} else {
+		$result = 'France';
+		if ($regional) {
+			if ($regional ne 'Paris') {
+				confess "unknown regional: '$regional'";
+			}
+			$result .= " ($regional)";
+		}
+	}
+	return $result;
 }
 
 1;

@@ -221,8 +221,10 @@
 * {{pron-rég|France (Paris)|ɛ̃|audio=Fr-Un-fr FR-Paris.ogg}}
 * {{pron-rég|France (Paris)|ɛ̃|audio=Fr-Un-fr-Paris.ogg}}
 * {{pron-rég|France|ɛ̃|audio=Fr-un_(duplicate).ogg}}
-* {{pron-rég|fr||audio=fr-be-un.ogg}}
-* {{pron-rég|fr||audio=fr-un (correct).ogg}}
+* {{pron-rég|Belgique||audio=fr-be-un.ogg}}
+* {{pron-rég|Canada||audio=fr-ca-un.ogg}}
+* {{pron-rég|France (Paris)||audio=fr-un (Paris).ogg}}
+* {{pron-rég|France||audio=fr-un (correct).ogg}}
 
 {{-homo-|fr}}
 * [[uns]]
