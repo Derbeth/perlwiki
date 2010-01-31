@@ -27,9 +27,10 @@ use utf8;
 use strict;
 use English;
 
-use Derbeth::I18n;
+use Derbeth::I18n 0.5.2;
 use Derbeth::Wikitools;
 use Encode;
+use Croak;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/add_audio
@@ -142,7 +143,7 @@ sub create_audio_entries {
 	} elsif ($wikt_lang eq 'pl') {
 		($audios,$edit_summary) = create_audio_entries_plwikt($plural,%files);
 	} else {
-		die "Wiktionary $wikt_lang not supported";
+		croak "Wiktionary $wikt_lang not supported";
 	}
 	
 	return ($audios, scalar(keys(%files)),$edit_summary);
@@ -626,7 +627,7 @@ sub add_audio {
 	} elsif ($wikt_lang eq 'simple') {
 		return add_audio_simplewikt($section_ref,$pron,$language,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl);
 	} else {
-		die "Wiktionary $wikt_lang not supported";
+		croak "Wiktionary $wikt_lang not supported";
 	}
 }
 
@@ -635,6 +636,10 @@ sub initial_cosmetics_enwikt {
 }
 
 sub initial_cosmetics_simplewikt {
+	return '';
+}
+
+sub initial_cosmetics_frwikt {
 	return '';
 }
 
@@ -775,8 +780,10 @@ sub initial_cosmetics {
 		return initial_cosmetics_plwikt($page_text_ref);
 	} elsif ($wikt_lang eq 'simple') {
 		return initial_cosmetics_simplewikt($page_text_ref);
+	} elsif ($wikt_lang eq 'fr') {
+		return initial_cosmetics_frwikt($page_text_ref);
 	} else {
-		die "Wiktionary $wikt_lang not supported";
+		croak "Wiktionary $wikt_lang not supported";
 	}
 }
 
@@ -859,7 +866,7 @@ sub final_cosmetics {
 	} elsif ($wikt_lang eq 'simple') {
 		return final_cosmetics_simplewikt($page_text_ref);
 	} else {
-		die "Wiktionary $wikt_lang not supported";
+		croak "Wiktionary $wikt_lang not supported";
 	}
 }
 

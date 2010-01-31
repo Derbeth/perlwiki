@@ -12,7 +12,7 @@ use Encode;
 my $TESTDATA_DIR = 'testdata';
 my $TEST_TEMP_DIR = '/tmp/testaddaudio-test';
 
-my @tested_wikts = ('de', 'en', 'pl', 'simple');
+my @tested_wikts = ('de', 'en', 'pl', 'simple', 'fr');
 
 `rm -rf $TEST_TEMP_DIR/`;
 `mkdir $TEST_TEMP_DIR`;
@@ -64,10 +64,11 @@ sub do_test {
 	open(OUT,">$test_output");
 
 	my $text = text_from_file($test_input);
-	my $language = get_language_name($wikt_lang,'en');
+	my $lang_code = 'en';
+	my $language = get_language_name($wikt_lang,$lang_code);
 
 	my $initial_summary = initial_cosmetics($wikt_lang,\$text);
-	my ($before, $section, $after) = split_article_wikt($wikt_lang,$language,$text);
+	my ($before, $section, $after) = split_article_wikt($wikt_lang,$lang_code,$text,1);
 	my ($result,$added_audios,$edit_summary) = add_audio($wikt_lang,\$section,$args{'audio'},$language,0,$args{'plural'},$args{'audio_pl'},$args{'ipa'},$args{'ipa_pl'});
 
 	if (exists($args{'result'}) && $args{'result'} != $result) {
@@ -80,3 +81,4 @@ sub do_test {
 	print OUT encode_utf8($before.$section.$after);
 	close(OUT);
 }
+

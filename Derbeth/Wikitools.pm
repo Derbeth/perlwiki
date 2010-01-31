@@ -24,12 +24,13 @@ package Derbeth::Wikitools;
 require Exporter;
 
 use strict;
-#use utf8;
-#use encoding 'utf8';
+use utf8;
 
+use Carp;
 use Encode;
 use Derbeth::Web;
 use Derbeth::Util;
+use Derbeth::I18n 0.5.2;
 use MediaWiki::Bot;
 use HTML::Entities;
 use URI::Escape qw/uri_escape_utf8/;
@@ -44,7 +45,7 @@ our @EXPORT = qw/split_before_sections
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.7.0;
+our $VERSION = 0.8.0;
 
 # Variable: $use_perlwikipedia
 our $use_perlwikipedia=0;
@@ -71,25 +72,29 @@ sub split_before_sections {
 # Parameters:
 #   $wikt_lang - only 'de', 'en', 'pl' or 'simple', other Wiktionaries are not
 #                supported
-#  $lang - 'język polski', 'język niemiecki', 'interlingua', 'slovio'
+#  $lang_code - 'en', 'de', 'hsb' (no regional part, no 'en-uk'!)
 #  $article_text - full article text
+#  $vercheck - as v0.8 breaks backward compatibility, this flag will be used untill all code is changed
 #
 # Returns:
 #  ($before,$lang_section,$after)
 #  if no lang section exists: ($article_text, '', '')
 sub split_article_wikt {
-	my ($wikt_lang, $lang, $article_text) = @_;
+	my ($wikt_lang, $lang_code, $article_text, $vercheck) = @_;
+	croak "version 0.8 breaks backward compatibility" unless($vercheck);
 	
 	if ($wikt_lang eq 'de') {
-		return split_article_dewikt($lang, $article_text);
+		return split_article_dewikt($lang_code, $article_text);
 	} elsif ($wikt_lang eq 'en') {
-		return split_article_enwikt($lang, $article_text);
+		return split_article_enwikt($lang_code, $article_text);
 	} elsif ($wikt_lang eq 'pl') {
-		return split_article_plwikt($lang, $article_text);
+		return split_article_plwikt($lang_code, $article_text);
 	} elsif ($wikt_lang eq 'simple') {
-		return split_article_simplewikt($lang, $article_text);
+		return split_article_simplewikt($lang_code, $article_text);
+	} elsif ($wikt_lang eq 'fr') {
+		return split_article_frwikt($lang_code, $article_text);
 	} else {
-		die "Wiktionary $wikt_lang not supported";
+		croak "Wiktionary $wikt_lang not supported";
 	}
 }
 
@@ -108,8 +113,9 @@ sub split_article_simplewikt {
 #  if no lang section exists: ($article_text, '', '')
 sub split_article_plwikt {
 	my ($lang, $article_text) = @_;
+	my $lang_name = get_language_name('pl',$lang);
 	return _join_sections($article_text,
-		_split_article_pl($lang, $article_text));
+		_split_article_pl($lang_name, $article_text));
 }
 
 # Parameters:
@@ -175,8 +181,9 @@ sub _join_sections {
 #  $article_text - full article text
 sub split_article_dewikt {
 	my ($lang, $article_text) = @_;
+	my $lang_name = get_language_name('de',$lang);
 	return _join_sections($article_text,
-		_split_article_de($lang, $article_text));
+		_split_article_de($lang_name, $article_text));
 }
 
 sub _split_article_de {
@@ -206,8 +213,9 @@ sub _split_article_de {
 #  $article_text - full article text
 sub split_article_enwikt {
 	my ($lang, $article_text) = @_;
+	my $lang_name = get_language_name('en',$lang);
 	return _join_sections($article_text,
-		_split_article_en($lang, $article_text));
+		_split_article_en($lang_name, $article_text));
 }
 
 sub _split_article_en {
@@ -228,6 +236,38 @@ sub _split_article_en {
 		++$lang_index;
 	}
 	
+# 	print "lang index: $lang_index\n";
+	return ($lang_index, @sections);
+}
+
+# Function: split_article_frwikt
+# Parameters:
+#  $lang - 'en', 'de'
+#  $article_text - full article text
+sub split_article_frwikt {
+	my ($lang, $article_text) = @_;
+	return _join_sections($article_text,
+		_split_article_fr($lang, $article_text));
+}
+
+sub _split_article_fr {
+	my ($lang, $article_text) = @_;
+
+	my @sections = split /(== *\{\{ *=[-a-zA-Z ]+= *\}\} *==)/, $article_text;
+
+# 	print "sections: $#sections\n";
+
+	my $lang_index=0;
+# 	print "lang: '$lang'\n";
+
+	foreach my $section (@sections) {
+# 		print "$section\n&&&&&&&&&&&&\n";
+		if ($section =~ /== *\{\{ *=$lang= *\}\} *==/) {
+			last;
+		}
+		++$lang_index;
+	}
+
 # 	print "lang index: $lang_index\n";
 	return ($lang_index, @sections);
 }

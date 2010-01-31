@@ -27,7 +27,7 @@
 #   --w[ikt] en --limit 40
 
 use MediaWiki::Bot;
-use Derbeth::Wikitools;
+use Derbeth::Wikitools 0.8.0;
 use Derbeth::Wiktionary;
 use Derbeth::I18n;
 use Derbeth::Util;
@@ -230,7 +230,7 @@ foreach my $l (@langs) {
 		
 		my $initial_summary = initial_cosmetics($wikt_lang,\$page_text);
 		
-		my($before,$section,$after) = split_article_wikt($wikt_lang,$language,$page_text);
+		my($before,$section,$after) = split_article_wikt($wikt_lang,$lang_code,$page_text,1);
 		
 		if ($section eq '') {
 # 			print encode_utf8("$wikt_lang - $language\n");

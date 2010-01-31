@@ -32,6 +32,7 @@ require Exporter;
 use strict;
 
 use LWP;
+use Carp;
 use Digest::MD5 'md5_hex';
 use Encode;
 use URI::Escape qw/uri_escape_utf8/;
@@ -102,7 +103,7 @@ sub get_page {
 
 
 sub enable_caching {
-	die "expects an argument" if ($#_ == -1);
+	croak "expects an argument" if ($#_ == -1);
 	$cache_pages = shift @_;
 }
 
