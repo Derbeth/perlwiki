@@ -424,6 +424,9 @@ while (my($cat,$code) = each(%categories)) {
 			$key =~ s/^(un|l)'//;
 			$key =~ s/^(un|una|uno|il|la|lo|i|le|gli) //;
 		}
+		elsif ($code eq 'fr') {
+			$key =~ s/ \((:?un|une|l’|la|le|du|des|les)\)$//;
+		}
 
 		# == saving
 

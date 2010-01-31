@@ -143,7 +143,6 @@ open(ERRORS,">>$errors_file");
 
 foreach my $l (@langs) {
 	$lang_code = $l;
-	my $language=get_language_name($wikt_lang,$lang_code);
 	
 	$processed_words=0;
 	$visited_pages=0;
@@ -233,8 +232,7 @@ foreach my $l (@langs) {
 		my($before,$section,$after) = split_article_wikt($wikt_lang,$lang_code,$page_text,1);
 		
 		if ($section eq '') {
-# 			print encode_utf8("$wikt_lang - $language\n");
-			print encode_utf8("no $language section: $word\n");
+			print encode_utf8("no $lang_code section: $word\n");
 			mark_done($word,'no_section');
 			next;
 		}
