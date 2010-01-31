@@ -26,10 +26,12 @@ require Exporter;
 use utf8;
 use strict;
 
+use Carp;
+
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name/;
-our $VERSION = 0.5.2;
+our $VERSION = 0.5.3;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
@@ -264,7 +266,7 @@ $language_names{'simple'} = $language_names{'en'};
 sub get_regional_name {
 	my ($lang, $code) = @_;
 	if (!exists($regional_names{$lang}{$code})) {
-		die "no code $code for $lang";
+		confess "no code '$code' for lang $lang";
 # 		return $code;
 	}
 	return $regional_names{$lang}{$code};
@@ -277,7 +279,7 @@ sub get_regional_name {
 sub get_language_name {
 	my ($lang, $code) = @_;
 	if (!exists($language_names{$lang}{$code})) {
-		die "no code $code for $lang";
+		confess "no code '$code' for lang $lang";
 # 		return $code;
 	}
 	return $language_names{$lang}{$code};

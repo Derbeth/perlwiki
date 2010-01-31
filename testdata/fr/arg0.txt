@@ -1,0 +1,9 @@
+lang_code=fr
+result=0
+added_audios=2
+audio=fr-be-un.ogg<be>|fr-un (duplicate).ogg|fr-un (correct).ogg
+plural=
+audio_pl=
+ipa=
+ipa_pl=
+

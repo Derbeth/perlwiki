@@ -35,13 +35,15 @@ for my $wikt_lang(@tested_wikts) {
 		my $equal = &compare_files($test_output, $test_expected);
 		if (!$equal) {
 			print "Test $i failed.\n";
-			`kdiff3 $test_output $test_expected -L1 Received -L2 Expected`;
+			#system("kdiff3 $test_output $test_expected -L1 Received -L2 Expected");
+			system("diff -u $test_output $test_expected");
 			exit(11);
 		}
 
 		++$i;
 	}
 	print "$wikt_lang: $i tests succeeded.\n";
+	system("rm -f $TEST_TEMP_DIR/*");
 }
 print "all ok\n";
 exit(0);
@@ -65,11 +67,13 @@ sub do_test {
 
 	my $text = text_from_file($test_input);
 	my $lang_code = 'en';
-	my $language = get_language_name($wikt_lang,$lang_code);
+	$lang_code = $args{'lang_code'} if (exists $args{'lang_code'});
 
 	my $initial_summary = initial_cosmetics($wikt_lang,\$text);
 	my ($before, $section, $after) = split_article_wikt($wikt_lang,$lang_code,$text,1);
-	my ($result,$added_audios,$edit_summary) = add_audio($wikt_lang,\$section,$args{'audio'},$language,0,$args{'plural'},$args{'audio_pl'},$args{'ipa'},$args{'ipa_pl'});
+	my ($result,$added_audios,$edit_summary) = add_audio_new($wikt_lang,\$section,$args{'audio'},$lang_code,0,$args{'plural'},$args{'audio_pl'},$args{'ipa'},$args{'ipa_pl'});
+	print OUT encode_utf8($before.$section.$after);
+	close(OUT);
 
 	if (exists($args{'result'}) && $args{'result'} != $result) {
 		die "$file: expected result $args{result} but got $result ($edit_summary)";
@@ -78,7 +82,5 @@ sub do_test {
 		die "$file: expected added $args{added_audios} but got $added_audios ($edit_summary)";
 	}
 	
-	print OUT encode_utf8($before.$section.$after);
-	close(OUT);
 }
 

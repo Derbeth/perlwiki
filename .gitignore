@@ -15,7 +15,7 @@ errors_*.txt*
 done_*.txt*
 nottrans_*.txt*
 *.pl~
-*.pl.swp
+*.swp
 Derbeth.ini
 settings.ini*
 .gitignore~
