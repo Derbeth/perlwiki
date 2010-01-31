@@ -88,7 +88,7 @@ $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 			my $time = '2 years';
 			if ($line =~ /indefinite|5 years/i) {
 				$time = '5 years';
-			} elsif ($line =~ /\d months|weeks/) {
+			} elsif ($line =~ /\d months|weeks|days|hours/) {
 				next if ($from);
 				$time = '1 year';
 			}
