@@ -1,7 +1,7 @@
 lang_code=fr
 result=0
-added_audios=4
-audio=fr-be-un.ogg<be>|fr-un (duplicate).ogg|fr-un (correct).ogg|fr-un (Paris).ogg<Paris>|fr-ca-un.ogg<ca>
+added_audios=5
+audio=fr-be-un.ogg<be>|fr-un (duplicate).ogg|fr-des un.ogg|fr-Paris--checkme (une).ogg<Paris>|Fr-Paris--checkme (l’).ogg<Paris>|fr-ca-un.ogg<ca>
 plural=
 audio_pl=
 ipa=

@@ -304,6 +304,8 @@ sub get_regional_frwikt {
 				confess "unknown regional: '$regional'";
 			}
 			$result .= " ($regional)";
+		} elsif ($file =~ /fr-ouest/) {
+			$result .= ' (Ouest)';
 		}
 	}
 	return $result;

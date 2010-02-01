@@ -91,14 +91,27 @@ sub create_audio_entries_frwikt {
 	my @audios;
 	my @summary;
 	while (my ($file,$region) = each(%files)) {
+		my $edit_summary = $file;
 		my $text = ' {{pron-rég|';
 		$text .= get_regional_frwikt($lang_code,$region,$file);
-		$text .= '||'; # no IPA
-		$text .= "audio=$file";
+		$text .= '|'; # no IPA
+		if ($file =~ /fr-((l'|(un|une|le|la|des|les) )[^-.(]+)\.ogg/i) {
+			$text .= "|titre=$1";
+			$edit_summary .= " as '$1'";
+		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((un|une|le|la|des|les|du)\)\.ogg/i) {
+			my $new_word = "$2 $1";
+			$text .= "|titre=$new_word";
+			$edit_summary .= " as '$new_word'";
+		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((l’)\)\.ogg/i) {
+			my $new_word = "l'$1";
+			$text .= "|titre=$new_word";
+			$edit_summary .= " as '$new_word'";
+		}
+		$text .= "|audio=$file";
 		$text .= '}}';
 
 		push @audios, $text;
-		push @summary, $file;
+		push @summary, $edit_summary;
 	}
 	return (join("\n*", @audios), join(', ', @summary));
 }
