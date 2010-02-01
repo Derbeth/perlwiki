@@ -433,6 +433,7 @@ sub add_audio_frwikt {
 		$ad = ($$section =~ s/(\{\{-anagr-)/$sec\n\n$1/) unless($ad);
 		$ad = ($$section =~ s/(\{\{-réf-)/$sec\n\n$1/) unless($ad);
 		$ad = ($$section =~ s/(\{\{-voir-)/$sec\n\n$1/) unless($ad);
+		$ad = ($$section =~ s/(\[\[Catégorie:)/$sec\n\n$1/) unless($ad);
 	}
 
 	unless ($$section =~ s/(\{\{-pron-\}\})/$1\n*$MARK/) {

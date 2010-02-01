@@ -78,6 +78,7 @@ my $visited_pages;
 my $edited_pages=0;
 my $added_files;
 my $last_save;
+my $input_list;
 
 # =========== Reading settings & variables
 
@@ -89,7 +90,8 @@ my $filtered_audio_filename;
 	GetOptions('f|filter!' => \$filter_mode, 'd|debug!' => \$debug_mode,
 		'l|lang=s' => \$lang_codes, 'w|wikt=s' => \$wikt_lang,
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
-		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize) or die;
+		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize,
+		'input|i=s'=> \$input_list) or die;
 	
 	die "provide -w and -l correctly!" unless($wikt_lang && $lang_codes);
 	@langs = split /,/, $lang_codes;
@@ -192,6 +194,10 @@ foreach my $l (@langs) {
 		@keys = sort(@keys);
 	} else {
 		@keys = sort { return rand(3) -1; } @keys;
+	}
+	if ($input_list) {
+		@keys = split /, */, $input_list;
+		print "using input list: ", encode_utf8($input_list), "\n";
 	}
 	my $word_count=scalar(@keys);
 	foreach my $word (@keys) {
