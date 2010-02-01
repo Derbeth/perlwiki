@@ -23,7 +23,7 @@ for my $wikt_lang(@tested_wikts) {
 		my $test_input = "${TESTDATA_DIR}/$wikt_lang/in${i}.txt";
 		my $test_output = "${TEST_TEMP_DIR}/out${i}.txt";
 		my $test_expected = "${TESTDATA_DIR}/$wikt_lang/out${i}.txt";
-		my $args_file = "${TESTDATA_DIR}/$wikt_lang/arg${i}.txt";
+		my $args_file = "${TESTDATA_DIR}/$wikt_lang/arg${i}.ini";
 
 		unless (-e $test_input) {
 			last;
