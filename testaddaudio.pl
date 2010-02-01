@@ -72,7 +72,9 @@ sub do_test {
 	my $initial_summary = initial_cosmetics($wikt_lang,\$text);
 	my ($before, $section, $after) = split_article_wikt($wikt_lang,$lang_code,$text,1);
 	my ($result,$added_audios,$edit_summary) = add_audio_new($wikt_lang,\$section,$args{'audio'},$lang_code,0,$args{'plural'},$args{'audio_pl'},$args{'ipa'},$args{'ipa_pl'});
-	print OUT encode_utf8($before.$section.$after);
+	$text = $before.$section.$after;
+	final_cosmetics($wikt_lang, \$text);
+	print OUT encode_utf8($text);
 	close(OUT);
 
 	if (exists($args{'result'}) && $args{'result'} != $result) {

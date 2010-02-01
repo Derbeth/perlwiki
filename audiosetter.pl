@@ -119,12 +119,12 @@ $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); exit; };
 
 read_hash_loose($donefile, \%done);
 
-my $server = "http://en.wiktionary.org/w/";
+my $server = "http://$wikt_lang.wiktionary.org/w/";
 #$server = 'http://en.wiktionary.org/w/' if ($wikt_lang eq 'en');
 
 my $editor=MediaWiki::Bot->new($user);
 # $editor->{debug} = 1;
-if ($filter_mode || $debug_mode) {
+if (0 && ($filter_mode || $debug_mode)) {
 	$editor->set_wiki('localhost/~piotr', $wikt_lang.'wikt');
 } else {
 	$editor->set_wiki("$wikt_lang.wiktionary.org",'w');
@@ -333,8 +333,7 @@ sub save_results {
 		save_hash_sorted($filtered_audio_filename,\%pronunciation_filtered);
 		
 	} else {
-		print STDERR "added $added_files files for ";
-		print STDERR encode_utf8(get_language_name($wikt_lang,$lang_code));
+		print STDERR "added $added_files files for ", $lang_code;
 		print STDERR ' at ',$wikt_lang,"wikt\n";
 		if ($debug_mode && $finish) {close DEBUG; exit(0); }
 		

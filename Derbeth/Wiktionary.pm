@@ -418,6 +418,8 @@ sub add_audio_frwikt {
 		$ad = ($$section =~ s/(\{\{-homo-)/$sec\n\n$1/) unless($ad);
 		$ad = ($$section =~ s/(\{\{-paro-)/$sec\n\n$1/) unless($ad);
 		$ad = ($$section =~ s/(\{\{-anagr-)/$sec\n\n$1/) unless($ad);
+		$ad = ($$section =~ s/(\{\{-réf-)/$sec\n\n$1/) unless($ad);
+		$ad = ($$section =~ s/(\{\{-voir-)/$sec\n\n$1/) unless($ad);
 	}
 
 	unless ($$section =~ s/(\{\{-pron-\}\})/$1\n*$MARK/) {
@@ -901,6 +903,10 @@ sub final_cosmetics_simplewikt {
 	return '';
 }
 
+sub final_cosmetics_frwikt {
+	return '';
+}
+
 sub final_cosmetics_plwikt {
 	my $page_text_ref = shift;
 	my @summary;
@@ -960,6 +966,8 @@ sub final_cosmetics {
 		return final_cosmetics_plwikt($page_text_ref);
 	} elsif ($wikt_lang eq 'simple') {
 		return final_cosmetics_simplewikt($page_text_ref);
+	} elsif ($wikt_lang eq 'fr') {
+		return final_cosmetics_frwikt($page_text_ref);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}
