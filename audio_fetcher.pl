@@ -376,7 +376,7 @@ while (my($cat,$code) = each(%categories)) {
 		}
 		elsif ($code eq 'fr') {
 			$key =~ s/^fr-//i;
-			if ($key =~ s/^Paris-{1,2}(.)/$1/) {
+			if ($key =~ s/^Paris-{1,2}(.)/$1/i) {
 				$regional = 'Paris';
 			}
 			$key =~ s/^(une|un|les|le|la)[ -]//gi;
