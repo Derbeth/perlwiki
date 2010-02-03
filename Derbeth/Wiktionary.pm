@@ -755,7 +755,14 @@ sub initial_cosmetics_enwikt {
 }
 
 sub initial_cosmetics_simplewikt {
-	return '';
+	my $page_text_ref = shift @_;
+	my @summary;
+
+	if ($$page_text_ref =~ s/^\*(\{\{(?:enPR|IPA|SAMPA|audio|US|UK))/* $1/gim) {
+		push @summary, 'cosmetic';
+	}
+
+	return join(', ', @summary);
 }
 
 sub initial_cosmetics_frwikt {
