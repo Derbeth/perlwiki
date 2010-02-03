@@ -42,17 +42,11 @@ my $pass = $settings{'bot_password'};
 
 my $donefile = "done/block_proxies.txt";
 my $limit = 500;
-my $from = ''; # format: 2009-02-27
+my $block_reason = "edytowanie przez proxy jest niedozwolone";
 Derbeth::Web::enable_caching(1);
 # ============ end settings
 
-GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit, 'from|f=s' => \$from) or die "wrong usage";
-
-if ($from) {
-	die "'from' is '$from', should be in form like '2009-02-27'" if ($from !~ /^\d{4}-\d{2}-\d{2}$/);
-	$from =~ s/-//g;
-	$from .= '000000';
-}
+GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit) or die "wrong usage";
 
 my %done;
 read_hash_loose($donefile, \%done);
@@ -69,29 +63,15 @@ $admin->set_wiki($wiki, 'w');
 $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 
 {
-	my $en_wiki = MediaWiki::Bot->new();
-	$en_wiki->set_wiki('en.wikipedia.org');
-	foreach my $log ("&user=Zzuuzz","&user=ProcseeBot","&user=Spellcast","&user=Dominic","") {
-		my $url = "http://en.wikipedia.org/w/index.php?title=Special:log&limit=$limit&type=block&hide_patrol_log=1$log";
-		$url .= "&offset=$from" if ($from);
+	foreach my $part (1..76) {
+		my $url = "http://prx.centrump2p.com/$part";
 		my $html = Derbeth::Web::get_page($url);
 		if (!$html || $html !~ /\w/) {
-			die "cannot get $url";
+			next "cannot get $url";
 		}
-		while ($html =~ /<li class="mw-logline-block">(.*)/gc) {
-			my $line = $1;
-			next unless ($line =~ / blocked /);
-			$line = $';
-			next unless ($line =~ /\{\{(?:blocked ?proxy|anonblock|tor)\}\}|indefinite|5 years/i);
-			next unless($line =~ /class="mw-userlink">(\d+\.[^<]+)</);
+		while ($html =~ /<td class="i\d"><a href="ip\/([^"]+)"/gc) {
 			my $ip = $1;
-			my $time = '2 years';
-			if ($line =~ /indefinite|5 years/i) {
-				$time = '5 years';
-			} elsif ($line =~ /\d months|weeks|days|hours/) {
-				next if ($from);
-				$time = '1 year';
-			}
+			my $time = '1 year';
 			$ip =~ s/^ +| +$//g;
 			if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
 				print STDERR "wrong ip '$ip'\n";
@@ -126,10 +106,10 @@ foreach my $ip (keys(%ips)) {
 		print "already blocked on $wiki: $ip\n";
 		next;
 	}
-	my $res = $admin->block($ip, $ips{$ip}, "open proxy wg en.wiki [[w:en:Special:Contributions/$ip]]", 1, 1, 1);
+	my $res = $admin->block($ip, $ips{$ip}, $block_reason, 1, 1, 1);
 	if ($res && $res !~ /^\d+/) {
 		print "blocked $ip on $wiki for $ips{$ip}\n";
-		mark_done($ip, "blocked|$res");
+		mark_done($ip, "blocked|$ips{$ip}|$block_reason");
 	} else {
 		print "failed to block $ip ($res)\n";
 		save_results();
