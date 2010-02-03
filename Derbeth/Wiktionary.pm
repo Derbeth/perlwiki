@@ -74,6 +74,12 @@ sub create_audio_entries_enwikt {
 	return (join("\n*", @audios), join(', ', @summary));
 }
 
+sub create_audio_entries_simplewikt {
+	my ($audios,$summary) = create_audio_entries_enwikt(@_);
+	$audios =~ s/(\*|^)(\{\{audio)/$1 $2/gi;
+	return ($audios,$summary);
+}
+
 # Function: create_audio_entries_frwikt
 # Parameters:
 #   %files - hash (file=>region) eg. 'en-us-solder.ogg' => 'us',
@@ -190,6 +196,8 @@ sub create_audio_entries {
 		($audios,$edit_summary) = create_audio_entries_plwikt($lang_code,$plural,%files);
 	} elsif ($wikt_lang eq 'fr') {
 		($audios,$edit_summary) = create_audio_entries_frwikt($lang_code,$plural,%files);
+	} elsif ($wikt_lang eq 'simple') {
+		($audios,$edit_summary) = create_audio_entries_simplewikt($lang_code,$plural,%files);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}
@@ -357,7 +365,7 @@ sub add_audio_simplewikt {
 	($pron_pl,$plural) = ('',''); # turned off
 
 	my ($audios,$audios_count,$edit_summary)
-		= create_audio_entries('en',$lang_code,$pron,$section);
+		= create_audio_entries('simple',$lang_code,$pron,$section);
 
 	if ($audios eq '') {
 		return (1,0,'');
