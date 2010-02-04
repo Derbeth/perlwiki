@@ -54,6 +54,7 @@ our $VERSION = 0.9.0;
 #                   en-us-solder.ogg, en-solder.ogg, en-au-solder.ogg
 sub create_audio_entries_enwikt {
 	my $lang_code = shift;
+	my $section_ref = shift;
 	my $plural = shift;
 	my %files = @_;
 
@@ -71,13 +72,13 @@ sub create_audio_entries_enwikt {
 		push @audios, $text;
 		push @summary, $edit_summary;
 	}
-	return (join("\n*", @audios), join(', ', @summary));
+	return (join("\n*", @audios), scalar(@audios), join(', ', @summary));
 }
 
 sub create_audio_entries_simplewikt {
-	my ($audios,$summary) = create_audio_entries_enwikt(@_);
+	my ($audios,$count,$summary) = create_audio_entries_enwikt(@_);
 	$audios =~ s/(\*|^)(\{\{audio)/$1 $2/gi;
-	return ($audios,$summary);
+	return ($audios,$count,$summary);
 }
 
 # Function: create_audio_entries_frwikt
@@ -91,12 +92,25 @@ sub create_audio_entries_simplewikt {
 #                   en-us-solder.ogg, en-solder.ogg, en-au-solder.ogg
 sub create_audio_entries_frwikt {
 	my $lang_code = shift;
+	my $section_ref = shift;
 	my $plural = shift;
 	my %files = @_;
 
 	my @audios;
 	my @summary;
+
+	my $all_audios = '';
+	while ($$section_ref =~ /audio= *([^ .}]+\.ogg)/gc) {
+		$all_audios .= " $1";
+	}
+
 	while (my ($file,$region) = each(%files)) {
+		if ($region && $region ne 'Paris') {
+			next if ($all_audios =~ /\b$region\b/i);
+		} else {
+			next if ($all_audios =~ /\.ogg/);
+		}
+
 		my $edit_summary = $file;
 		my $text = ' {{pron-rég|';
 		$text .= get_regional_frwikt($lang_code,$region,$file);
@@ -118,13 +132,15 @@ sub create_audio_entries_frwikt {
 
 		push @audios, $text;
 		push @summary, $edit_summary;
+		$all_audios .= " $file";
 	}
-	return (join("\n*", @audios), join(', ', @summary));
+	return (join("\n*", @audios), scalar(@audios), join(', ', @summary));
 }
 
 
 sub create_audio_entries_dewikt {
 	my $lang_code = shift;
+	my $section_ref = shift;
 	my $plural = shift;
 	my %files = @_;
 
@@ -146,11 +162,12 @@ sub create_audio_entries_dewikt {
 		push @audios, $text;
 		push @summary, $edit_summary;
 	}
-	return (join(' ', @audios), join(', ', @summary));
+	return (join(' ', @audios), scalar(@audios), join(', ', @summary));
 }
 
 sub create_audio_entries_plwikt {
 	my $lang_code = shift;
+	my $section_ref = shift;
 	my $plural = shift;
 	my %files = @_;
 
@@ -167,7 +184,7 @@ sub create_audio_entries_plwikt {
 		push @audios, $text;
 		push @summary, $edit_summary;
 	}
-	return (join(' ', @audios), join(', ', @summary));
+	return (join(' ', @audios), scalar(@audios), join(', ', @summary));
 }
 
 # Funcion: create_audio_entries
@@ -187,22 +204,23 @@ sub create_audio_entries {
 
 	my %files = decode_pron($pron, $section);
 
-	my ($audios,$edit_summary);
+	my @args = ($lang_code,$section,$plural,%files);
+	my @retval;
 	if ($wikt_lang eq 'de') {
-		($audios,$edit_summary) = create_audio_entries_dewikt($lang_code,$plural,%files);
+		@retval = create_audio_entries_dewikt(@args);
 	} elsif ($wikt_lang eq 'en') {
-		($audios,$edit_summary) = create_audio_entries_enwikt($lang_code,$plural,%files);
+		@retval = create_audio_entries_enwikt(@args);
 	} elsif ($wikt_lang eq 'pl') {
-		($audios,$edit_summary) = create_audio_entries_plwikt($lang_code,$plural,%files);
+		@retval = create_audio_entries_plwikt(@args);
 	} elsif ($wikt_lang eq 'fr') {
-		($audios,$edit_summary) = create_audio_entries_frwikt($lang_code,$plural,%files);
+		@retval = create_audio_entries_frwikt(@args);
 	} elsif ($wikt_lang eq 'simple') {
-		($audios,$edit_summary) = create_audio_entries_simplewikt($lang_code,$plural,%files);
+		@retval = create_audio_entries_simplewikt(@args);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}
 
-	return ($audios, scalar(keys(%files)),$edit_summary);
+	return @retval;
 }
 
 # Function: decode_pron
