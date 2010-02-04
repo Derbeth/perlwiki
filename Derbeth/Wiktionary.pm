@@ -99,16 +99,16 @@ sub create_audio_entries_frwikt {
 	my @audios;
 	my @summary;
 
-	my $all_audios = '';
+	my @all_audios;
 	while ($$section_ref =~ /audio= *([^.}|]+\.ogg)/igc) {
-		$all_audios .= " $1";
+		push @all_audios, $1;
 	}
 
 	while (my ($file,$region) = each(%files)) {
 		if ($region && $region ne 'Paris') {
-			next if ($all_audios =~ /\b$region\b/i);
+			next if (grep(/\b$region\b/i, @all_audios));
 		} else {
-			next if ($all_audios =~ /\.ogg/);
+			next if (grep(!/\b(be|ca)\b/i, @all_audios));
 		}
 
 		my $edit_summary = $file;
@@ -132,7 +132,7 @@ sub create_audio_entries_frwikt {
 
 		push @audios, $text;
 		push @summary, $edit_summary;
-		$all_audios .= " $file";
+		push @all_audios, $file;
 	}
 	return (join("\n*", @audios), scalar(@audios), join(', ', @summary));
 }

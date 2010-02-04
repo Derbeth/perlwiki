@@ -1,0 +1,5 @@
+== {{=fr=}} ==
+
+{{-pron-}}
+* {{pron-rég|Belgique||audio=fr-foo fr BE.ogg}}
+
