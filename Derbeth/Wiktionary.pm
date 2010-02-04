@@ -100,7 +100,7 @@ sub create_audio_entries_frwikt {
 	my @summary;
 
 	my $all_audios = '';
-	while ($$section_ref =~ /audio= *([^ .}]+\.ogg)/gc) {
+	while ($$section_ref =~ /audio= *([^.}|]+\.ogg)/igc) {
 		$all_audios .= " $1";
 	}
 
