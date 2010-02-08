@@ -23,7 +23,7 @@
 # THE SOFTWARE.
 
 use MediaWiki::Bot;
-use Derbeth::Web 0.4.1;
+use Derbeth::Web 0.4.0;
 use Derbeth::Wikitools;
 use Derbeth::Wiktionary;
 use Derbeth::I18n;
@@ -43,13 +43,16 @@ my $pass = $settings{'bot_password'};
 
 my $donefile = "done/block_proxies.txt";
 my $limit = 500;
+my ($from,$to) = (1,100);
 my $block_reason = "edytowanie przez proxy jest niedozwolone";
-my $recache=0;
-Derbeth::Web::enable_caching(1);
+my $proxy_list = '201.92.9.250:8080';
+Derbeth::Web::enable_caching(0);
 # ============ end settings
 
 GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit,
-	'recache|r' => \$recache) or die "wrong usage";
+	'proxy|p=s' => \$proxy_list, 'from|f=i' => \$from, 'to|t=i' => \$to) or die "wrong usage";
+
+my @proxies = split(/,/, $proxy_list);
 
 my %done;
 read_hash_loose($donefile, \%done);
@@ -66,28 +69,34 @@ $admin->set_wiki($wiki, 'w');
 $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 
 {
-	foreach my $part (1..100) {
-		my $url = "http://prx.centrump2p.com/$part";
-		my $html = Derbeth::Web::get_page($url,$recache);
-		if (!$html || $html !~ /\w/) {
-			print "cannot get $url\n";
+	my $url = "http://proksi.hash.es";
+	my $html = Derbeth::Web::get_page($url);
+	if (!$html || $html !~ /\w/) {
+		print "cannot get $url\n";
+		my $proxy = pop @proxies;
+		if ($proxy) {
+			Derbeth::Web::use_proxy("http://$proxy");
+			print "using proxy $proxy\n";
+			redo;
+		} else {
 			last;
 		}
-		while ($html =~ /<td class="i\d"><a href="ip\/([^"]+)"/gc) {
-			my $ip = $1;
-			my $time = '1 year';
-			$ip =~ s/^ +| +$//g;
-			if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
-				print STDERR "wrong ip '$ip'\n";
-			} else {
-				$ips{$ip} = $time;
-			}
+	}
+	while ($html =~ /<td>(\d+.\d+.\d+.\d+)<\/td>/gc) {
+		my $ip = $1;
+		my $time = '1 year';
+		$ip =~ s/^ +| +$//g;
+		if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
+			print STDERR "wrong ip '$ip'\n";
+		} else {
+			$ips{$ip} = $time;
 		}
 	}
 }
 
 print scalar(keys %ips), " IPs to block\n";
 
+#die;
 #foreach my $ip (sort keys(%ips)) {
 #	print "block '$ip' for '$ips{$ip}'\n";
 #}

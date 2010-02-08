@@ -39,7 +39,7 @@ use URI::Escape qw/uri_escape_utf8/;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_page/;
-our $VERSION = 0.3.1;
+our $VERSION = 0.4.1;
 
 # Variable: $CACHE_DIR
 #   name of directory holding cache
@@ -50,6 +50,7 @@ my $MAX_FILES_IN_CACHE=10000;
 # Variable: $user_agent
 #   user agent passed to server when retrieving pages
 my $user_agent = 'DerbethBot/1.0 (Kubuntu Linux) Opera rulez';
+my $proxy='';
 
 my $cache_pages=0;
 
@@ -75,9 +76,12 @@ sub _create_cache {
 sub get_page_from_web {
 	my $full_url=shift @_;
 	$full_url = encode_utf8($full_url);
-	print "getting from web: $full_url\n";
+	print "getting from web: $full_url";
+	print " using proxy $proxy" if ($proxy);
+	print "\n";
 	my $ua = LWP::UserAgent->new;
 	$ua->agent($user_agent);
+	$ua->proxy('http', $proxy);
 	my $response = $ua->get($full_url);
 	if ($response->is_success) {
 		return $response->content;
@@ -90,21 +94,26 @@ sub get_page_from_web {
 # Function: get_page
 # Parameters:
 #   $full_url - 'http://localhost/~piotr/enwikt/Main page'
+#   $recache  - if true, URL is retrieved without using cache and then written to cache
 sub get_page {
-	my $full_url=shift;
+	my ($full_url,$recache)=@_;
 	$full_url = encode_utf8($full_url);
 	#$full_url = uri_escape_utf8($full_url);
 	if ($cache_pages) {
-		return get_page_from_cache($full_url);
+		return get_page_from_cache($full_url,$recache);
 	} else {
 		return get_page_from_web($full_url);
 	}
 }
 
-
 sub enable_caching {
 	croak "expects an argument" if ($#_ == -1);
 	$cache_pages = shift @_;
+}
+
+# $proxy - either 'http://foo.bar:8080' or empty string (to disable)
+sub use_proxy {
+	$proxy = shift @_;
 }
 
 sub can_cache {
@@ -116,12 +125,12 @@ sub can_cache {
 }
 
 sub get_page_from_cache {
-	my $full_url=shift @_;
+	my ($full_url,$recache)=@_;
 	
 	if (can_cache()) {
 		my $filename=$CACHE_DIR.'/'.md5_hex($full_url);
 		
-		if( -e $filename ) {
+		if( -e $filename && !$recache) {
 			print "reading cache for $full_url from $filename\n"; #DEBUG
 			return get_page_from_file($filename);
 		} else {

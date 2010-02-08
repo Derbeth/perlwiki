@@ -23,7 +23,7 @@
 # THE SOFTWARE.
 
 use MediaWiki::Bot;
-use Derbeth::Web 0.4.1;
+use Derbeth::Web 0.4.0;
 use Derbeth::Wikitools;
 use Derbeth::Wiktionary;
 use Derbeth::I18n;
@@ -43,13 +43,18 @@ my $pass = $settings{'bot_password'};
 
 my $donefile = "done/block_proxies.txt";
 my $limit = 500;
+my ($from,$to) = (1,30);
 my $block_reason = "edytowanie przez proxy jest niedozwolone";
+my $proxy_list = '201.92.9.250:8080';
 my $recache=0;
 Derbeth::Web::enable_caching(1);
 # ============ end settings
 
 GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit,
-	'recache|r' => \$recache) or die "wrong usage";
+	'recache|r' => \$recache, 'proxy|p=s' => \$proxy_list,
+	'from|f=i' => \$from, 'to|t=i' => \$to) or die "wrong usage";
+
+my @proxies = split(/,/, $proxy_list);
 
 my %done;
 read_hash_loose($donefile, \%done);
@@ -66,14 +71,23 @@ $admin->set_wiki($wiki, 'w');
 $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 
 {
-	foreach my $part (1..100) {
-		my $url = "http://prx.centrump2p.com/$part";
+	my $countries = Derbeth::Web::get_page("http://www.proxylist.net/sort/country", $recache);
+
+	while ($countries =~ m!href="(/list/[^"]+)"!gc) {
+		my $url = "http://www.proxylist.net$1";
 		my $html = Derbeth::Web::get_page($url,$recache);
 		if (!$html || $html !~ /\w/) {
 			print "cannot get $url\n";
-			last;
+			my $proxy = pop @proxies;
+			if ($proxy) {
+				Derbeth::Web::use_proxy("http://$proxy");
+				print "using proxy $proxy\n";
+				redo;
+			} else {
+				last;
+			}
 		}
-		while ($html =~ /<td class="i\d"><a href="ip\/([^"]+)"/gc) {
+		while ($html =~ m!href="/proxy/(\d+.\d+.\d+.\d+)[:"]!gc) {
 			my $ip = $1;
 			my $time = '1 year';
 			$ip =~ s/^ +| +$//g;
@@ -88,14 +102,15 @@ $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 
 print scalar(keys %ips), " IPs to block\n";
 
+#die;
 #foreach my $ip (sort keys(%ips)) {
 #	print "block '$ip' for '$ips{$ip}'\n";
 #}
 #exit 0;
 
 my $all_processed=0;
-my $checked=0;
 my $blocked=0;
+my $checked=0;
 foreach my $ip (keys(%ips)) {
 	++$all_processed;
 	if (is_done($ip)) {

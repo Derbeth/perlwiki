@@ -23,6 +23,7 @@
 # THE SOFTWARE.
 
 use MediaWiki::Bot;
+use Derbeth::Web 0.4.1;
 use Derbeth::Wikitools;
 use Derbeth::Wiktionary;
 use Derbeth::I18n;
@@ -43,10 +44,12 @@ my $pass = $settings{'bot_password'};
 my $donefile = "done/block_proxies.txt";
 my $limit = 500;
 my $from = ''; # format: 2009-02-27
+my $recache=0;
 Derbeth::Web::enable_caching(1);
 # ============ end settings
 
-GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit, 'from|f=s' => \$from) or die "wrong usage";
+GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit, 'from|f=s' => \$from,
+	'recache|r' => \$recache) or die "wrong usage";
 
 if ($from) {
 	die "'from' is '$from', should be in form like '2009-02-27'" if ($from !~ /^\d{4}-\d{2}-\d{2}$/);
@@ -71,10 +74,10 @@ $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 {
 	my $en_wiki = MediaWiki::Bot->new();
 	$en_wiki->set_wiki('en.wikipedia.org');
-	foreach my $log ("&user=Zzuuzz","&user=ProcseeBot","&user=Spellcast","&user=Dominic","") {
+	foreach my $log ("&user=Zzuuzz","&user=ProcseeBot","&user=Spellcast","&user=Dominic","&user=Tiptoety","") {
 		my $url = "http://en.wikipedia.org/w/index.php?title=Special:log&limit=$limit&type=block&hide_patrol_log=1$log";
 		$url .= "&offset=$from" if ($from);
-		my $html = Derbeth::Web::get_page($url);
+		my $html = Derbeth::Web::get_page($url,$recache);
 		if (!$html || $html !~ /\w/) {
 			die "cannot get $url";
 		}
@@ -111,6 +114,7 @@ print scalar(keys %ips), " IPs to block\n";
 
 my $all_processed=0;
 my $checked=0;
+my $blocked=0;
 foreach my $ip (keys(%ips)) {
 	++$all_processed;
 	if (is_done($ip)) {
@@ -130,6 +134,7 @@ foreach my $ip (keys(%ips)) {
 	if ($res && $res !~ /^\d+/) {
 		print "blocked $ip on $wiki for $ips{$ip}\n";
 		mark_done($ip, "blocked|$res");
+		++$blocked;
 	} else {
 		print "failed to block $ip ($res)\n";
 		save_results();
@@ -138,6 +143,7 @@ foreach my $ip (keys(%ips)) {
 	#last;
 }
 
+print "blocked $blocked IPs\n";
 save_results();
 
 # ======= end main
