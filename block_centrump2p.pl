@@ -22,12 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-use MediaWiki::Bot;
 use Derbeth::Web 0.4.1;
-use Derbeth::Wikitools;
-use Derbeth::Wiktionary;
-use Derbeth::I18n;
-use Derbeth::Inflection;
 use Derbeth::Util;
 use Encode;
 use Getopt::Long;
@@ -36,110 +31,40 @@ use strict;
 use utf8;
 
 # ========== settings
-my $wiki = 'pl.wikinews.org';
-my %settings = load_hash('Derbeth.ini');
-my $user = $settings{'bot_login'};
-my $pass = $settings{'bot_password'};
-
-my $donefile = "done/block_proxies.txt";
-my $limit = 500;
+my $output = "to_block.txt";
+my $origin = "centrump2p.com";
 my $block_reason = "edytowanie przez proxy jest niedozwolone";
 my $recache=0;
 Derbeth::Web::enable_caching(1);
 # ============ end settings
 
-GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit,
-	'recache|r' => \$recache) or die "wrong usage";
-
-my %done;
-read_hash_loose($donefile, \%done);
-
-$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit; };
+GetOptions('recache|r' => \$recache) or die "wrong usage";
 
 # ======= main
 
-my %ips;
+open(OUT,">>$output") or die "cannot write to $output";
 
-my $admin=MediaWiki::Bot->new();
-#$admin->{debug} = 1;
-$admin->set_wiki($wiki, 'w');
-$admin->login($user, $pass) == 0 or die "cannot login to $wiki";
-
-{
-	foreach my $part (1..100) {
-		my $url = "http://prx.centrump2p.com/$part";
-		my $html = Derbeth::Web::get_page($url,$recache);
-		if (!$html || $html !~ /\w/) {
-			print "cannot get $url\n";
-			last;
-		}
-		while ($html =~ /<td class="i\d"><a href="ip\/([^"]+)"/gc) {
-			my $ip = $1;
-			my $time = '1 year';
-			$ip =~ s/^ +| +$//g;
-			if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
-				print STDERR "wrong ip '$ip'\n";
-			} else {
-				$ips{$ip} = $time;
-			}
+my $saved=0;
+foreach my $part (1..100) {
+	my $url = "http://prx.centrump2p.com/$part";
+	my $html = Derbeth::Web::get_page($url,$recache);
+	if (!$html || $html !~ /\w/) {
+		print "cannot get $url\n";
+		last;
+	}
+	while ($html =~ /<td class="i\d"><a href="ip\/([^"]+)"/gc) {
+		my $ip = $1;
+		my $time = '1 year';
+		$ip =~ s/^ +| +$//g;
+		if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
+			print STDERR "wrong ip '$ip'\n";
+		} else {
+			print OUT join("\t", $ip,$time,$block_reason,$origin), "\n";
+			++$saved;
 		}
 	}
 }
 
-print scalar(keys %ips), " IPs to block\n";
-
-#foreach my $ip (sort keys(%ips)) {
-#	print "block '$ip' for '$ips{$ip}'\n";
-#}
-#exit 0;
-
-my $all_processed=0;
-my $checked=0;
-my $blocked=0;
-foreach my $ip (keys(%ips)) {
-	++$all_processed;
-	if (is_done($ip)) {
-		print "already done: $ip\n";
-		next;
-	}
-	if (++$checked % 25 == 0) {
-		print "done $all_processed/", scalar(keys %ips), "\n";
-		save_results();
-	}
-	if ($admin->test_blocked($ip)) {
-		mark_done($ip, 'already_blocked');
-		print "already blocked on $wiki: $ip\n";
-		next;
-	}
-	my $res = $admin->block($ip, $ips{$ip}, $block_reason, 1, 1, 1);
-	if ($res && $res !~ /^\d+/) {
-		print "blocked $ip on $wiki for $ips{$ip}\n";
-		mark_done($ip, "blocked|$ips{$ip}|$block_reason");
-		++$blocked;
-	} else {
-		print "failed to block $ip ($res)\n";
-		save_results();
-		die;
-	}
-	#last;
-}
-
-print "blocked $blocked IPs\n";
-save_results();
-
-# ======= end main
-
-sub is_done {
-	my ($ip) = @_;
-	return exists $done{"$wiki-$ip"};
-}
-
-sub mark_done {
-	my ($ip, $comment) = @_;
-	$done{"$wiki-$ip"} = $comment;
-}
-
-sub save_results {
-	save_hash_sorted($donefile, \%done);
-}
+close(OUT);
+print "$saved IPs to block\n";
 

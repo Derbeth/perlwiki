@@ -131,7 +131,9 @@ sub get_page_from_cache {
 		my $filename=$CACHE_DIR.'/'.md5_hex($full_url);
 		
 		if( -e $filename && !$recache) {
-			print "reading cache for $full_url from $filename\n"; #DEBUG
+			print "reading cache for $full_url";
+			#print " from $filename\n"; #DEBUG
+			print "\n";
 			return get_page_from_file($filename);
 		} else {
 			my $text = get_page_from_web($full_url);

@@ -22,33 +22,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-use MediaWiki::Bot;
 use Derbeth::Web 0.4.1;
-use Derbeth::Wikitools;
-use Derbeth::Wiktionary;
-use Derbeth::I18n;
-use Derbeth::Inflection;
 use Derbeth::Util;
 use Encode;
 use Getopt::Long;
 
 use strict;
 use utf8;
+use Switch;
 
 # ========== settings
-my $wiki = 'pl.wikinews.org';
-my %settings = load_hash('Derbeth.ini');
-my $user = $settings{'bot_login'};
-my $pass = $settings{'bot_password'};
-
-my $donefile = "done/block_proxies.txt";
+my $output = "to_block.txt";
 my $limit = 500;
 my $from = ''; # format: 2009-02-27
 my $recache=0;
 Derbeth::Web::enable_caching(1);
 # ============ end settings
 
-GetOptions('wiki|w=s' => \$wiki, 'limi|l=i' => \$limit, 'from|f=s' => \$from,
+GetOptions('limi|l=i' => \$limit, 'from|f=s' => \$from,
 	'recache|r' => \$recache) or die "wrong usage";
 
 if ($from) {
@@ -57,108 +48,82 @@ if ($from) {
 	$from .= '000000';
 }
 
-my %done;
-read_hash_loose($donefile, \%done);
-
-$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit; };
-
 # ======= main
 
-my %ips;
+open(OUT,">>$output") or die "cannot write to $output";
 
-my $admin=MediaWiki::Bot->new();
-#$admin->{debug} = 1;
-$admin->set_wiki($wiki, 'w');
-$admin->login($user, $pass) == 0 or die "cannot login to $wiki";
-
-{
-	my $en_wiki = MediaWiki::Bot->new();
-	$en_wiki->set_wiki('en.wikipedia.org');
-	foreach my $log ("&user=Zzuuzz","&user=ProcseeBot","&user=Spellcast","&user=Dominic","&user=Tiptoety","") {
-		my $url = "http://en.wikipedia.org/w/index.php?title=Special:log&limit=$limit&type=block&hide_patrol_log=1$log";
-		$url .= "&offset=$from" if ($from);
-		my $html = Derbeth::Web::get_page($url,$recache);
-		if (!$html || $html !~ /\w/) {
-			die "cannot get $url";
+my $saved=0;
+foreach my $user ('', 'Zzuuzz', 'ProcseeBot', 'Spellcast', 'Dominic', 'Tiptoety') {
+	my $last_time = '';
+	my $url = "http://en.wikipedia.org/w/index.php?title=Special:log&limit=$limit&type=block&hide_patrol_log=1";
+	$url .= "&user=$user" if ($user);
+	$url .= "&offset=$from" if ($from);
+	my $html = Derbeth::Web::get_page($url,$recache);
+	if (!$html || $html !~ /\w/) {
+		die "cannot get $url";
+	}
+	while ($html =~ /<li class="mw-logline-block">(.*)/gc) {
+		my $line = $1;
+			if ($line =~ /^([^<]+)<a href=/) {
+				my $this_time = parse_date($1);
+				$last_time = $this_time if (!$last_time || $this_time lt $last_time);
 		}
-		while ($html =~ /<li class="mw-logline-block">(.*)/gc) {
-			my $line = $1;
-			next unless ($line =~ / blocked /);
-			$line = $';
-			next unless ($line =~ /\{\{(?:blocked ?proxy|anonblock|tor)\}\}|indefinite|5 years/i);
-			next unless($line =~ /class="mw-userlink">(\d+\.[^<]+)</);
-			my $ip = $1;
-			my $time = '2 years';
-			if ($line =~ /indefinite|5 years/i) {
-				$time = '5 years';
-			} elsif ($line =~ /\d month|week|day|hour/) {
-				next if ($from);
-				$time = '1 year';
-			}
-			$ip =~ s/^ +| +$//g;
-			if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
-				print STDERR "wrong ip '$ip'\n";
-			} else {
-				$ips{$ip} = $time;
-			}
+
+		next unless ($line =~ / (blocked|changed block settings) /);
+		$line = $';
+		next unless ($line =~ /\{\{(?:blocked ?proxy|anonblock|tor)\}\}|indefinite|5 years/i);
+		next unless($line =~ /class="mw-userlink">(\d+\.[^<]+)</);
+		my $ip = $1;
+		my $time = '2 years';
+		if ($line =~ /indefinite|5 years/i) {
+			$time = '5 years';
+		} elsif ($line =~ /\d month|week|day|hour/) {
+			next if ($from);
+			$time = '1 year';
+		}
+		$ip =~ s/^ +| +$//g;
+		if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
+			print STDERR "wrong ip '$ip'\n";
+		} else {
+			my $reason = "open proxy wg en.wiki [[w:en:Special:Contributions/$ip]]";
+			my $origin = "en.wiki";
+			$origin .= ", user $user" if ($user);
+			print OUT join("\t", $ip,$time,$reason,$origin), "\n";
+			++$saved;
 		}
 	}
+	print "user $user, last time $last_time\n";
+}
+close(OUT);
+
+print "$saved IPs to block\n";
+
+# == END
+
+sub parse_date {
+	my ($date_time) = @_;
+	$date_time =~ /(\d+):(\d+), (\d+) (\w+) (\d+)/ or die "$date_time";
+	my ($day,$month_str,$year) = ($3,$4,$5);
+	$day = "0$day" if ($day < 10);
+	my $month = month_to_str($month_str);
+	return "$year-$month-$day";
 }
 
-print scalar(keys %ips), " IPs to block\n";
-
-#foreach my $ip (sort keys(%ips)) {
-#	print "block '$ip' for '$ips{$ip}'\n";
-#}
-#exit 0;
-
-my $all_processed=0;
-my $checked=0;
-my $blocked=0;
-foreach my $ip (keys(%ips)) {
-	++$all_processed;
-	if (is_done($ip)) {
-		print "already done: $ip\n";
-		next;
+sub month_to_str {
+	switch (shift @_) {
+		case /January/i { return '01' }
+		case /February/i { return '02' }
+		case /March/i { return '03' }
+		case /April/i { return '04' }
+		case /May/i { return '05' }
+		case /June/i { return '06' }
+		case /July/i { return '07' }
+		case /August/i { return '08' }
+		case /September/i { return '09' }
+		case /October/i { return 10 }
+		case /November/i { return 11 }
+		case /December/i { return 12 }
+		else { die }
 	}
-	if (++$checked % 25 == 0) {
-		print "done $all_processed/", scalar(keys %ips), "\n";
-		save_results();
-	}
-	if ($admin->test_blocked($ip)) {
-		mark_done($ip, 'already_blocked');
-		print "already blocked on $wiki: $ip\n";
-		next;
-	}
-	my $res = $admin->block($ip, $ips{$ip}, "open proxy wg en.wiki [[w:en:Special:Contributions/$ip]]", 1, 1, 1);
-	if ($res && $res !~ /^\d+/) {
-		print "blocked $ip on $wiki for $ips{$ip}\n";
-		mark_done($ip, "blocked|$res");
-		++$blocked;
-	} else {
-		print "failed to block $ip ($res)\n";
-		save_results();
-		die;
-	}
-	#last;
-}
-
-print "blocked $blocked IPs\n";
-save_results();
-
-# ======= end main
-
-sub is_done {
-	my ($ip) = @_;
-	return exists $done{"$wiki-$ip"};
-}
-
-sub mark_done {
-	my ($ip, $comment) = @_;
-	$done{"$wiki-$ip"} = $comment;
-}
-
-sub save_results {
-	save_hash_sorted($donefile, \%done);
 }
 
