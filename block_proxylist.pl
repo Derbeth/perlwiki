@@ -45,7 +45,7 @@ my $donefile = "done/block_proxies.txt";
 my $limit = 500;
 my ($from,$to) = (1,30);
 my $block_reason = "edytowanie przez proxy jest niedozwolone";
-my $proxy_list = '201.92.9.250:8080';
+my $proxy_list = '';
 my $recache=0;
 Derbeth::Web::enable_caching(1);
 # ============ end settings
@@ -73,28 +73,34 @@ $admin->login($user, $pass) == 0 or die "cannot login to $wiki";
 {
 	my $countries = Derbeth::Web::get_page("http://www.proxylist.net/sort/country", $recache);
 
-	while ($countries =~ m!href="(/list/[^"]+)"!gc) {
-		my $url = "http://www.proxylist.net$1";
-		my $html = Derbeth::Web::get_page($url,$recache);
-		if (!$html || $html !~ /\w/) {
-			print "cannot get $url\n";
-			my $proxy = pop @proxies;
-			if ($proxy) {
-				Derbeth::Web::use_proxy("http://$proxy");
-				print "using proxy $proxy\n";
-				redo;
-			} else {
-				last;
+	while ($countries =~ m!href="(/list/([^/]+)/([^/]+)/([^/]+))"!gc) {
+		die "WTF? $1\n" if ($3 ne '0' || $4 ne '1');
+		my $country = $2;
+		PAGE:
+		foreach my $page (1..50) {
+			my $url = "http://www.proxylist.net/list/$country/0/$page";
+			my $html = Derbeth::Web::get_page($url,$recache);
+			if (!$html || $html !~ /\w/) {
+				print "cannot get $url\n";
+				my $proxy = pop @proxies;
+				if ($proxy) {
+					Derbeth::Web::use_proxy("http://$proxy");
+					print "using proxy $proxy\n";
+					redo PAGE;
+				} else {
+					last PAGE;
+				}
 			}
-		}
-		while ($html =~ m!href="/proxy/(\d+.\d+.\d+.\d+)[:"]!gc) {
-			my $ip = $1;
-			my $time = '1 year';
-			$ip =~ s/^ +| +$//g;
-			if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
-				print STDERR "wrong ip '$ip'\n";
-			} else {
-				$ips{$ip} = $time;
+			last PAGE if ($html =~ /No proxies found!<\/div>/);
+			while ($html =~ m!href="/proxy/(\d+.\d+.\d+.\d+)[:"]!gc) {
+				my $ip = $1;
+				my $time = '1 year';
+				$ip =~ s/^ +| +$//g;
+				if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
+					print STDERR "wrong ip '$ip'\n";
+				} else {
+					$ips{$ip} = $time;
+				}
 			}
 		}
 	}
