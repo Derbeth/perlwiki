@@ -75,7 +75,7 @@ while (<IN>) {
 		print "already done: $ip\n";
 		next;
 	}
-	if (++$checked % 25 == 0) {
+	if (++$checked % 20 == 0) {
 		print "done $all_processed/$how_many\n";
 		save_results();
 	}

@@ -34,10 +34,11 @@ use utf8;
 my $output = "to_block.txt";
 my $origin = "newipnow.com";
 my $block_reason = "edytowanie przez proxy jest niedozwolone";
+my $recache=0;
 Derbeth::Web::enable_caching(0);
 # ============ end settings
 
-GetOptions() or die "wrong usage";
+GetOptions('r|recache' => \$recache) or die "wrong usage";
 
 # ======= main
 

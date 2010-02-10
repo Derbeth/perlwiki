@@ -81,7 +81,8 @@ sub get_page_from_web {
 	print "\n";
 	my $ua = LWP::UserAgent->new;
 	$ua->agent($user_agent);
-	$ua->proxy('http', $proxy);
+	$ua->proxy('http', $proxy) if ($proxy);
+	$ua->timeout(90); # 1.5 minute
 	my $response = $ua->get($full_url);
 	if ($response->is_success) {
 		return $response->content;

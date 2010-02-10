@@ -35,10 +35,11 @@ my $output = "to_block.txt";
 my $origin = "proksi.hash.es";
 my $block_reason = "edytowanie przez proxy jest niedozwolone";
 my $proxy_list = '201.92.9.250:8080';
+my $recache=0;
 Derbeth::Web::enable_caching(0);
 # ============ end settings
 
-GetOptions() or die "wrong usage";
+GetOptions('r|recache' => \$recache) or die "wrong usage";
 
 my @proxies = split(/,/, $proxy_list);
 
