@@ -47,7 +47,7 @@ my $blocked=0;
 my %done;
 read_hash_loose($donefile, \%done);
 
-$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { print "blocked $blocked IPs\n"; save_results(); exit; };
+$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { print "blocked $blocked IPs\n"; save_results(); exit 10; };
 
 # ======= main
 
@@ -60,7 +60,7 @@ my $how_many = `cat $input | wc -l`;
 chomp($how_many);
 print "$how_many IPs to block\n";
 
-exit if ($dry_run);
+exit 0 if ($dry_run);
 
 my $all_processed=0;
 my $checked=0;

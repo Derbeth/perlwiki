@@ -33,13 +33,14 @@ use Switch;
 
 # ========== settings
 my $output = "to_block.txt";
+my $users_list=',Zzuuzz,ProcseeBot,Spellcast,Dominic,Tiptoety'; # first comma to make no user
 my $limit = 500;
 my $from = ''; # format: 2009-02-27
 my $recache=0;
 Derbeth::Web::enable_caching(1);
 # ============ end settings
 
-GetOptions('limi|l=i' => \$limit, 'from|f=s' => \$from,
+GetOptions('limi|l=i' => \$limit, 'from|f=s' => \$from, 'users|u=s' => \$users_list,
 	'recache|r' => \$recache) or die "wrong usage";
 
 if ($from) {
@@ -47,14 +48,17 @@ if ($from) {
 	$from =~ s/-//g;
 	$from .= '000000';
 }
+die unless ($users_list);
+my @users = split /, */, $users_list;
 
 # ======= main
 
 open(OUT,">>$output") or die "cannot write to $output";
 
 my $saved=0;
-foreach my $user ('', 'Zzuuzz', 'ProcseeBot', 'Spellcast', 'Dominic', 'Tiptoety') {
+foreach my $user (@users) {
 	my $last_time = '';
+	my $user_blocked=0;
 	my $url = "http://en.wikipedia.org/w/index.php?title=Special:log&limit=$limit&type=block&hide_patrol_log=1";
 	$url .= "&user=$user" if ($user);
 	$url .= "&offset=$from" if ($from);
@@ -90,9 +94,10 @@ foreach my $user ('', 'Zzuuzz', 'ProcseeBot', 'Spellcast', 'Dominic', 'Tiptoety'
 			$origin .= ", user $user" if ($user);
 			print OUT join("\t", $ip,$time,$reason,$origin), "\n";
 			++$saved;
+			++$user_blocked;
 		}
 	}
-	print "user $user, last time $last_time\n";
+	print "user $user, blocked $user_blocked, last time $last_time\n";
 }
 close(OUT);
 
