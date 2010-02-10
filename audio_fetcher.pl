@@ -190,7 +190,7 @@ my %categories=(
 my %audio;
 
 my %regional_fr = ('fr-Paris' => 'Paris', 'fr FR-Paris' => 'Paris',
-	'ca-Montréal' => 'ca', 'fr BE' => 'be', 'fr CA' => 'ca');
+	'ca-Montréal' => 'ca', 'fr Be' => 'be', 'fr BE' => 'be', 'fr CA' => 'ca');
 # normal language code => regexp for matching alternative code
 my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by', 'el' => 'ell', 'nb' => 'no',
 	'roa' => 'jer');
@@ -303,6 +303,12 @@ while (my($cat,$code) = each(%categories)) {
 				save_pron($code,$POSTMATCH,$page);
 				next;
 			} else {
+				next;
+			}
+		}
+		elsif ($code eq 'fr') {
+			if ($main_text =~ /^(.+?)-FR$/) {
+				save_pron($code,lcfirst($1),$page);
 				next;
 			}
 		}
