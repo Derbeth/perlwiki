@@ -307,7 +307,7 @@ while (my($cat,$code) = each(%categories)) {
 			}
 		}
 		elsif ($code eq 'fr') {
-			if ($main_text =~ /^(.+?)-FR$/) {
+			if ($main_text =~ /^([^-]+)-FR$/) {
 				save_pron($code,lcfirst($1),$page);
 				next;
 			}
