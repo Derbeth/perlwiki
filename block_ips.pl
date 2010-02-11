@@ -61,6 +61,7 @@ chomp($how_many);
 print "$how_many IPs to block\n";
 
 exit 0 if ($dry_run);
+sleep 2;
 
 my $all_processed=0;
 my $checked=0;
