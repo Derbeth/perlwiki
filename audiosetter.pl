@@ -74,6 +74,7 @@ my %pronunciation_filtered;
 my $lang_code;
 
 my $processed_words;
+my $word_count;
 my $visited_pages;
 my $edited_pages=0;
 my $added_files;
@@ -117,8 +118,6 @@ if ($filter_mode == 1) {
 	$debug_mode = 0;
 }
 
-$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); exit; };
-
 read_hash_loose($donefile, \%done);
 
 my $server = "http://$wikt_lang.wiktionary.org/w/";
@@ -140,6 +139,8 @@ if ($debug_mode) {
 }
 
 open(ERRORS,">>$errors_file");
+
+$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { print_progress(); save_results('finish'); exit; };
 
 # ========== Main loop
 
@@ -199,11 +200,11 @@ foreach my $l (@langs) {
 		@keys = split /, */, $input_list;
 		print "using input list: ", encode_utf8($input_list), "\n";
 	}
-	my $word_count=scalar(@keys);
+	$word_count=scalar(@keys);
 	foreach my $word (@keys) {
 		my $pron = $pronunciation{$word};
 		++$processed_words;
-		print STDERR "$processed_words/$word_count\n" if ($processed_words % 200 == 0);
+		print_progress() if ($processed_words % 200 == 0);
 		
 		if (is_done($word) && !$debug_mode) {
 			print encode_utf8($word),": already done\n";
@@ -369,5 +370,9 @@ sub unmark_done {
 sub is_done {
 	my $word = shift;
 	return exists($done{$lang_code.'-'.$word});
+}
+
+sub print_progress {
+	print STDERR "$processed_words/$word_count\n";
 }
 
