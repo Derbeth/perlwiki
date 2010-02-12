@@ -140,7 +140,7 @@ if ($debug_mode) {
 
 open(ERRORS,">>$errors_file");
 
-$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { print_progress(); save_results('finish'); exit; };
+$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); exit; };
 
 # ========== Main loop
 
@@ -340,8 +340,7 @@ sub save_results {
 		save_hash_sorted($filtered_audio_filename,\%pronunciation_filtered);
 		
 	} else {
-		print STDERR "added $added_files files for ", $lang_code;
-		print STDERR ' at ',$wikt_lang,"wikt\n";
+		print_progress();
 		if ($debug_mode && $finish) {close DEBUG; exit(0); }
 		
 		add_audio_count('audio_count_'.$wikt_lang.'wikt.txt', $lang_code, $added_files);
@@ -373,6 +372,11 @@ sub is_done {
 }
 
 sub print_progress {
-	print STDERR "$processed_words/$word_count\n";
+	print STDERR "$processed_words/$word_count";
+	unless($filter_mode) {
+		print STDERR " added $added_files files for ", $lang_code;
+		print STDERR ' at ',$wikt_lang,"wikt";
+	}
+	print "\n";
 }
 
