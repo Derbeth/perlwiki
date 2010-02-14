@@ -77,7 +77,7 @@ while (<IN>) {
 		next;
 	}
 	if (++$checked % 20 == 0) {
-		print "done $all_processed/$how_many\n";
+		print "done $all_processed/$how_many, blocked $blocked\n";
 		save_results();
 	}
 	if ($admin->test_blocked($ip)) {
