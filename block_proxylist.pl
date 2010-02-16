@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-use Derbeth::Web 0.4.0;
+use Derbeth::Web 0.4.1;
 use Derbeth::Util;
 use Encode;
 use Getopt::Long;
@@ -38,7 +38,8 @@ my $recache=0;
 Derbeth::Web::enable_caching(1);
 # ============ end settings
 
-GetOptions('recache|r' => \$recache, 'proxy|p=s' => \$proxy_list) or die "wrong usage";
+GetOptions('recache|r' => \$recache, 'proxy|p=s' => \$proxy_list,
+	'output|o=s' => \$output) or die "wrong usage";
 
 my @proxies = split(/,/, $proxy_list);
 

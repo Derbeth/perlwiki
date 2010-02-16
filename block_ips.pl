@@ -32,19 +32,23 @@ use utf8;
 
 # ========== settings
 my $dry_run=0;
+my $input = "to_block.txt";
+my $quiet=0;
+
 my $wiki = 'pl.wikinews.org';
 my %settings = load_hash('Derbeth.ini');
 my $user = $settings{'bot_login'};
 my $pass = $settings{'bot_password'};
 
 my $donefile = "done/block_proxies.txt";
-my $input = "to_block.txt";
 # ============ end settings
 
-GetOptions('wiki|w=s' => \$wiki, 'dry-run|d' => \$dry_run) or die "wrong usage";
+GetOptions('wiki|w=s' => \$wiki, 'dry-run|d!' => \$dry_run,
+	'input|i=s' => \$input, 'quiet|q!' => \$quiet) or die "wrong usage";
 
 my $blocked=0;
 my %done;
+my %done_now;
 read_hash_loose($donefile, \%done);
 
 $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { print "blocked $blocked IPs\n"; save_results(); exit 10; };
@@ -60,7 +64,6 @@ my $how_many = `cat $input | wc -l`;
 chomp($how_many);
 print "$how_many IPs to block\n";
 
-exit 0 if ($dry_run);
 sleep 2;
 
 my $all_processed=0;
@@ -72,10 +75,32 @@ while (<IN>) {
 	next unless($ip && $time && $block_reason && $ip =~ /^\d+\.\d+\.\d+\.\d+/);
 
 	++$all_processed;
-	if (is_done($ip)) {
-		print "already done: $ip\n";
+	if (my $how_done = is_done($ip)) {
+		unless($quiet) {
+			print "already done: $ip";
+			if (exists($done_now{$ip})) {
+				print " (now)";
+			} else {
+				my @parts = split /\|/, $how_done;
+				if ($#parts >= 3) {
+					print " ($parts[3]";
+					my $end = $#parts >= 4 ? " $parts[4])" : ")";
+					print $end;
+				}
+			}
+			print "\n";
+		}
 		next;
 	}
+
+	if ($dry_run) {
+		++$blocked;
+		mark_done($ip, 'dry_run_block');
+		$done_now{$ip} = 1;
+		print "would block $ip on $wiki for $time ($origin)\n";
+		next;
+	}
+
 	if (++$checked % 20 == 0) {
 		print "done $all_processed/$how_many, blocked $blocked\n";
 		save_results();
@@ -90,6 +115,7 @@ while (<IN>) {
 		print "blocked $ip on $wiki for $time ($origin)\n";
 		my $blocked_on = get_current_time();
 		mark_done($ip, "blocked|$time|$block_reason|$origin|$blocked_on");
+		$done_now{$ip} = 1;
 		++$blocked;
 	} else {
 		print "failed to block $ip ($res)\n";
@@ -99,7 +125,9 @@ while (<IN>) {
 	#last;
 }
 
-print "blocked $blocked IPs\n";
+print "blocked $blocked IPs";
+print " (dry run)" if ($dry_run);
+print "\n";
 save_results();
 
 # ======= end main
@@ -117,7 +145,7 @@ sub get_current_time {
 
 sub is_done {
 	my ($ip) = @_;
-	return exists $done{"$wiki-$ip"};
+	return $done{"$wiki-$ip"};
 }
 
 sub mark_done {
@@ -126,6 +154,7 @@ sub mark_done {
 }
 
 sub save_results {
+	return if ($dry_run);
 	save_hash_sorted($donefile, \%done);
 }
 

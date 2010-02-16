@@ -32,13 +32,13 @@ use utf8;
 
 # ========== settings
 my $output = "to_block.txt";
-my $origin = "proksi.hash.es";
-my $block_reason = "edytowanie przez proxy jest niedozwolone";
+my $origin = "projecthoneypot.org";
+my $block_reason = "IP na listach spamu<!--projecthoneypot.org-->";
 my $recache=0;
 Derbeth::Web::enable_caching(1);
 # ============ end settings
 
-GetOptions('r|recache' => \$recache) or die "wrong usage";
+GetOptions('r|recache' => \$recache, 'o|output=s' => \$output) or die "wrong usage";
 
 
 # ======= main
@@ -47,21 +47,21 @@ open(OUT,">>$output") or die "cannot write to $output";
 
 my $saved=0;
 
-my $url = "http://proksi.hash.es";
+my $url = "http://projecthoneypot.org/list_of_ips.php";
 my $html = Derbeth::Web::get_page($url,$recache);
 if (!$html || $html !~ /\w/) {
 	print "cannot get $url\n";
 	exit 3;
 }
 
-my @langs;
-while ($html =~ /<option value="(\w{2,3})"/gc) {
-	push @langs, $1;
+my @countries;
+while ($html =~ /<option value="(ctry=\w+)">/gc) {
+	push @countries, $1;
 }
 $html =~ /NOSUCH/gc; # reset
 process_html($html);
-foreach my $lang (sort @langs) {
-	get_and_process($lang);
+foreach my $country (sort @countries) {
+	get_and_process($country);
 }
 
 close(OUT);
@@ -70,9 +70,9 @@ print "$saved IPs to block\n";
 # END
 
 sub get_and_process {
-	my ($lang) = @_;
-	my $url = "http://proksi.hash.es/";
-	$url .= "?country=$lang" if ($lang);
+	my ($country) = @_;
+	my $url = "http://projecthoneypot.org/list_of_ips.php";
+	$url .= "?$country" if ($country);
 	my $html = Derbeth::Web::get_page($url,$recache);
 	if (!$html || $html !~ /\w/) {
 		print "cannot get $url\n";
@@ -83,16 +83,19 @@ sub get_and_process {
 
 sub process_html {
 	my ($html,$country) = @_;
+	$country =~ s/ctry=// if ($country);
 	my $this_origin = $origin;
-	$origin .= ", country $country" if ($country);
-	while ($html =~ /<td>(\d+.\d+.\d+.\d+)<\/td>/gc) {
+	$this_origin .= ", country $country" if ($country);
+	my $this_reason = $block_reason;
+	$this_reason =~ s/(-->)/, $country$1/ or die if ($country);
+	while ($html =~ m!>(\d+.\d+.\d+.\d+)</a>!gc) {
 		my $ip = $1;
-		my $time = '1 year';
+		my $time = '6 months';
 		$ip =~ s/^ +| +$//g;
 		if ($ip !~ /^\d+\.\d+\.\d+\.\d+(\/\d+)?$/) {
 			print STDERR "wrong ip '$ip'\n";
 		} else {
-			print OUT join("\t", $ip,$time,$block_reason,$this_origin), "\n";
+			print OUT join("\t", $ip,$time,$this_reason,$this_origin), "\n";
 			++$saved;
 		}
 	}
