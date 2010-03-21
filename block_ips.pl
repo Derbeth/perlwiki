@@ -77,7 +77,7 @@ while (<IN>) {
 	++$all_processed;
 	if (my $how_done = is_done($ip)) {
 		unless($quiet) {
-			print "already done: $ip";
+			print "already done: $ip from $origin";
 			if (exists($done_now{$ip})) {
 				print " (now)";
 			} else {
