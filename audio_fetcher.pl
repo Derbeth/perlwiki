@@ -31,6 +31,7 @@ use English;
 use Derbeth::Wikitools;
 use Encode;
 use Getopt::Long;
+use Carp;
 use utf8;
 
 my $clean_cache=0;
@@ -55,77 +56,86 @@ my %categories=(
 	'Albanian pronunciation' => 'sq',
 	'Arabic pronunciation' => 'ar',
 	'Armenian pronunciation'=>'hy',
+	'Basque pronunciation' => 'eu',
 	'Belarusian pronunciation'=>'be',
-	'Belarusian pronunciation of countries'=>'be',
+	'Belarusian pronunciation of names of countries'=>'be',
 	'Chechen pronunciation'=>'ce',
 	'Chinese pronunciation' => 'zh',
-	'Chinese pronunciation of countries' => 'zh',
+	'Chinese pronunciation of names of countries' => 'zh',
 	'Croatian pronunciation'=>'hr',
-	'Croatian pronunciation of countries'=>'hr',
+	'Croatian pronunciation of names of countries'=>'hr',
 	'Czech pronunciation' => 'cs',
 	'Czech prepositions' => 'cs',
-	'Czech pronunciation of cities' => 'cs',
-	'Czech pronunciation of countries' => 'cs',
 	'Czech pronunciation of names' => 'cs',
+	'Czech pronunciation of names of cities' => 'cs',
+	'Czech pronunciation of names of countries' => 'cs',
 	'Czech pronunciation of numbers' => 'cs',
 	'Czech pronunciation of plants' => 'cs',
-	'Czech pronunciation of rivers' => 'cs',
 	'Adjectives in Czech pronunciation' => 'cs',
 	'Nouns in Czech pronunciation' => 'cs',
+	'Pronunciation of names of rivers in the Czech Republic' => 'cs',
 	'Danish pronunciation' => 'da',
-	'Danish pronunciation of countries' => 'da',
+	'Danish pronunciation of names of countries' => 'da',
 	'Dutch pronunciation' => 'nl',
-	'Dutch pronunciation of countries' => 'nl',
 	'Dutch pronunciation of geographical entities' => 'nl',
+	'Dutch pronunciation of names of countries' => 'nl',
 	'Dutch pronunciation of numbers' => 'nl',
 	'Dutch pronunciation of phrases' => 'nl',
 	'Dutch name pronunciation' => 'nl',
 	'English pronunciation' => 'en',
 	'Australian English pronunciation' => 'en',
 	'British English pronunciation' => 'en',
-	'English pronunciation of countries' => 'en',
+	'Canadian English pronunciation' => 'en',
 	'English pronunciation of names' => 'en',
+	'English pronunciation of names of cities' => 'en',
+	'English pronunciation of names of countries' => 'en',
+	'English pronunciation of names of rivers' => 'en',
 	'English pronunciation of numbers' => 'en', # letter size!
-	'English pronunciation of rivers' => 'en',
 	'English pronunciation of states of the United States' => 'en',
 	'English pronunciation of terms' => 'en',
 	'Esperanto pronunciation' => 'eo',
 	'Farsi pronunciation' => 'fa',
-	'Farsi pronunciation of countries' => 'fa',
+	'Farsi pronunciation of names of cities' => 'fa',
+	'Farsi pronunciation of names of countries' => 'fa',
 	'Finnish pronunciation' => 'fi',
-	'Finnish pronunciation of countries' => 'fi',
+	'Finnish pronunciation of names of countries' => 'fi',
 	'French pronunciation' => 'fr', # letter size
-	'French pronunciation of animals' => 'fr', # pauses
 	'French pronunciation of chemical elements' => 'fr',
-	'French pronunciation of colors' => 'fr',
-	'French pronunciation of countries' => 'fr', # la, l' un
 	'French pronunciation of days' => 'fr',
+	'French pronunciation of French departments' => 'fr',
 	'French pronunciation of fruit' => 'fr',
+	'French pronunciation of names of colors' => 'fr',
+	'French pronunciation of names of countries' => 'fr', # la, l' un
 	'French pronunciation of nouns' => 'fr',
 	'French pronunciation of numbers' => 'fr', # letter size
 	'French pronunciation of planets' => 'fr',
 	'French pronunciation of verbs' => 'fr',
+	'French pronunciation of words relating to animals' => 'fr',
+	'French pronunciation of words relating to birds' => 'fr',
+	'French pronunciation of words relating to fishes' => 'fr',
+	'French pronunciation of words relating to mammals' => 'fr',
+	'Pronunciation of names of municipalities of France' => 'fr',
+	'Frisian pronunciation' => 'fy', # West Frisian
 	'Georgian pronunciation' => 'ka',
 	'German pronunciation' => 'de',
 	'Austrian pronunciations' => 'de',
 	'Bavarian pronunciation' => 'de',
-	'German pronunciation of cities' => 'de',
-	'German pronunciation of colors' => 'de',
-	'German pronunciation of countries' => 'de',
+	'German pronunciation of names of cities' => 'de',
+	'German pronunciation of names of colors' => 'de',
+	'German pronunciation of names of countries' => 'de',
 	'German pronunciation of numbers' => 'de',
 	'Greek pronunciation' => 'el',
 	'Hebrew pronunciation' => 'he',
 	'Hungarian pronunciation' => 'hu',
-	'Hungarian pronunciation of adjectives' => 'hu',
 	'Hungarian pronunciation of birds' => 'hu',
-	'Hungarian pronunciation of cities' => 'hu',
-	'Hungarian pronunciation of colors' => 'hu',
-	'Hungarian pronunciation of countries' => 'hu',
 	'Hungarian pronunciation of flowers' => 'hu',
 	'Hungarian pronunciation of fruit' => 'hu',
 	'Hungarian pronunciation of months' => 'hu',
 	'Hungarian pronunciation of musical instruments' => 'hu',
 	'Hungarian pronunciation of names' => 'hu',
+	'Hungarian pronunciation of names of cities' => 'hu',
+	'Hungarian pronunciation of names of colors' => 'hu',
+	'Hungarian pronunciation of names of countries' => 'hu',
 	'Hungarian pronunciation of nationalities' => 'hu',
 	'Hungarian pronunciation of numbers' => 'hu',
 	'Icelandic pronunciation' => 'is', # no prefix, letter size
@@ -133,51 +143,61 @@ my %categories=(
 	'Interlingua pronunciation' => 'ia',
 	'Irish pronunciation' => 'ga',
 	'Italian pronunciation' => 'it',
-	'Italian pronunciation of cities' => 'it',
-	'Italian pronunciation of countries' => 'it',
+	'Italian pronunciation of names of cities' => 'it',
+	'Italian pronunciation of names of countries' => 'it',
 	'Jèrriais pronunciation' => 'roa',
-	'Jèrriais pronunciation of colors' => 'roa',
-	'Jèrriais pronunciation of countries' => 'roa',
+	'Jèrriais pronunciation of names of colors' => 'roa',
+	'Jèrriais pronunciation of names of countries' => 'roa',
+	'Kapampangan pronunciation' => 'pam',
 	'Latin pronunciation' => 'la',
 	'Latvian pronunciation' => 'lv', # wrong naming
-	'Latvian pronunciation of countries' => 'lv',
+	'Latvian pronunciation of names of countries' => 'lv',
+	'Limburgish pronunciation' => 'li',
 	'Norwegian pronunciation' => 'nb',
 	'Norwegian pronunciation of adjectives' => 'nb',
 	'Norwegian pronunciation of adverbs' => 'nb',
 	'Norwegian pronunciation of nouns' => 'nb',
 	'Norwegian pronunciation of verbs' => 'nb',
 	'Polish pronunciation' => 'pl',
-	'Polish pronunciation of cities' => 'pl',
-	'Polish pronunciation of countries' => 'pl',
 	'Polish pronunciation of islands' => 'pl',
+	'Polish pronunciation of names of cities' => 'pl',
+	'Polish pronunciation of names of countries' => 'pl',
+	'Polish pronunciation of nationalities' => 'pl',
 	'Portuguese pronunciation' => 'pt',
-	'Portuguese pronunciation of countries' => 'pt',
+	'Portuguese pronunciation of names of countries' => 'pt',
 	'Romanian pronunciation' => 'ro',
+	'Romanian pronunciation of names of cities' => 'ro',
+	'Romanian pronunciation of names of countries' => 'ro',
+	'Romansh pronunciation' => 'roh',
 	'Russian pronunciation' => 'ru',
-	'Russian pronunciation of cities' => 'ru',
-	'Russian pronunciation of colors' => 'ru',
-	'Russian pronunciation of countries' => 'ru',
+	'Russian pronunciation of names of cities' => 'ru',
+	'Russian pronunciation of names of colors' => 'ru',
+	'Russian pronunciation of names of countries' => 'ru',
 	'Russian pronunciation of states of the United States' => 'ru',
+	'Scottish Gaelic pronunciation' => 'gd',
 	'Serbian pronunciation' => 'sr', # capitalisation problems
 	'Serbian pronunciation of adverbs' => 'sr',
-	'Serbian pronunciation of countries' => 'sr',
+	'Serbian pronunciation of names of countries' => 'sr',
 	'Serbian pronunciation of nouns' => 'sr',
 	'Serbian pronunciation of numbers' => 'sr',
+	'Serbian pronunciation of placenames' => 'sr',
 	'Serbian pronunciation of verbs' => 'sr',
 	'Slovak pronunciation' => 'sk',
-	'Slovak pronunciation of countries' => 'sk',
+	'Slovak pronunciation of names of cities' => 'sk',
+	'Slovak pronunciation of names of countries' => 'sk',
 	'Spanish pronunciation' => 'es', # wrong naming, odd regional
-	'Spanish pronunciation of countries' => 'es',
+	'Spanish pronunciation of names of countries' => 'es',
 	'Mexican Spanish pronunciation' => 'es',
 	'Swedish pronunciation' => 'sv',
 	'Swedish consonants' => 'sv',
 	'Swedish vowels' => 'sv',
-	'Swedish pronunciation of countries' => 'sv',
+	'Swedish pronunciation of names of countries' => 'sv',
 	'Swedish pronunciation of numbers' => 'sv',
 	'Tagalog pronunciation' => 'tl',
 	'Turkish pronunciation' => 'tr',
 	'Ukrainian pronunciation' => 'uk',
-	'Ukrainian pronunciation of countries' => 'uk',
+	'Ukranian pronunciation of names of cities' => 'uk',
+	'Ukrainian pronunciation of names of countries' => 'uk',
 	'Upper Sorbian pronunciation' => 'hsb',
 	'Vietnamese pronunciation' => 'vi',
 	'Welsh pronunciation' => 'cy',
@@ -203,12 +223,15 @@ my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by', 'el' => 'ell', 'nb' => 'no'
 sub save_pron {
 
 	my ($lang,$key,$file,$regional)=@_;
-	die "undefined: $lang $key" unless($lang && $key);
+	confess "undefined: $lang $key" unless(defined($lang) && defined($key));
 	if ($regional && $regional eq 'gb') { $regional = 'uk'; }
 
 	if ($lang =~ /^(ar|be|el|fa|he|ka|mk|ru|uk)$/ && $key =~ /[a-zA-Z]/) {
 		print "$lang-",encode_utf8($key)," contains latin chars; won't be added\n";
 		return;
+	}
+	if ($file =~ /-synth-/) {
+		print encode_utf8($file), " ignored because is synthesized\n";
 	}
 
 	if (!exists($audio{$lang})) {
@@ -247,7 +270,8 @@ sub save_pron {
 
 my $server='http://commons.wikimedia.org/w/';
 
-while (my($cat,$code) = each(%categories)) {
+foreach my $cat (sort(keys(%categories))) {
+	my $code = $categories{$cat};
 	my @pages=get_category_contents($server,'Category:'.$cat);
 	print 'Category: ',encode_utf8($cat),' pages: ';
 	print scalar(@pages), "\n";
@@ -306,6 +330,11 @@ while (my($cat,$code) = each(%categories)) {
 				next;
 			}
 		}
+		elsif ($code eq 'eu') {
+			save_pron($code,$main_text,$page);
+			save_pron($code,lcfirst($main_text),$page);
+			next;
+		}
 		elsif ($code eq 'fr') {
 			if ($main_text =~ /^([^-]+)-FR$/) {
 				save_pron($code,lcfirst($1),$page);
@@ -328,6 +357,9 @@ while (my($cat,$code) = each(%categories)) {
 				save_pron($code,$POSTMATCH,$page);
 				next;
 			}
+		}
+		elsif ($code eq 'tr') {
+			$main_text =~ s/^Tr tr /Tur-/;
 		}
 		elsif ($code eq 'vi') {
 			if ($main_text =~ /^Vi-hanoi-m-/) {
@@ -353,8 +385,9 @@ while (my($cat,$code) = each(%categories)) {
 		}
 
 		# === Regional parts stripping goes here
-		if ($code eq 'la') {
-			if ($key =~ /^(ecc|cls)-/) {
+		if ($code eq 'de') {
+			$key =~ s/-pronunciation$//;
+			if ($key =~ /^(at)-/) {
 				$regional = $1;
 				$key = $POSTMATCH;
 			}
@@ -362,12 +395,6 @@ while (my($cat,$code) = each(%categories)) {
 		elsif ($code eq 'en') {
 			if ($key =~ /^(us-inlandnorth|us|uk|ca|nz|gb|au|sa)-/i) {
 				$regional = lc($1);
-				$key = $POSTMATCH;
-			}
-		}
-		elsif ($code eq 'pt') {
-			if ($key =~ /^(br|pt)-/) {
-				$regional = $1 if ($1 ne 'pt');
 				$key = $POSTMATCH;
 			}
 		}
@@ -394,26 +421,27 @@ while (my($cat,$code) = each(%categories)) {
 				$key = $PREMATCH;
 			}
 		}
+		elsif ($code eq 'gd') {
+			if ($key =~ /^(Lewis)-/) {
+				$regional = $1;
+				$key = $POSTMATCH;
+			}
+		}
 		elsif ($code eq 'he') {
 			if ($key =~ /^il-/i) {
 				# all Hebrew is spoken in Israel; it's not regional, so ignore
 				$key = $POSTMATCH;
 			}
 		}
-		elsif ($code eq 'sv') {
-			$key =~ s/^en //g;
-		}
-		elsif ($code eq 'de') {
-			$key =~ s/-pronunciation$//;
-			if ($key =~ /^(at)-/) {
+		elsif ($code eq 'la') {
+			if ($key =~ /^(ecc|cls)-/) {
 				$regional = $1;
 				$key = $POSTMATCH;
 			}
 		}
-		elsif ($code eq 'tl') {
-			if ($key =~ /^ph-/i) {
-				# all Tagalog is spoken in Phillipines; it's not regional, so ignore
-				$key = $POSTMATCH;
+		elsif ($code eq 'li') {
+			if ($key =~ /^vb-/i) {
+				$key = $POSTMATCH; # remove regional
 			}
 		}
 		elsif ($code eq 'nl') {
@@ -422,6 +450,32 @@ while (my($cat,$code) = each(%categories)) {
 				$key = $PREMATCH;
 			} elsif ($key =~ / \(Netherlands\)$/) {
 				$key = $PREMATCH;
+			}
+		}
+		elsif ($code eq 'pam') {
+			if ($key =~ /^ph-/i) {
+				$key = $POSTMATCH; # remove regional
+			}
+		}
+		elsif ($code eq 'pt') {
+			if ($key =~ /^(br|pt)-/) {
+				$regional = $1 if ($1 ne 'pt');
+				$key = $POSTMATCH;
+			}
+		}
+		if ($code eq 'roh') {
+			if ($key =~ /^(sursilvan)-/) {
+				$regional = $1;
+				$key = $POSTMATCH;
+			}
+		}
+		elsif ($code eq 'sv') {
+			$key =~ s/^en //g;
+		}
+		elsif ($code eq 'tl') {
+			if ($key =~ /^ph-/i) {
+				# all Tagalog is spoken in Phillipines; it's not regional, so ignore
+				$key = $POSTMATCH;
 			}
 		}
 		# == end regional, now stripping articles

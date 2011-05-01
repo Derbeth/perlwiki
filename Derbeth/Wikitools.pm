@@ -277,7 +277,10 @@ sub _split_article_fr {
 #   $page_text - full page text
 sub extract_page_contents {
 	my $page_text=\shift @_;
-	my $begin = index($$page_text, 'start content');
+	my $begin = index($$page_text, '<!-- start content -->');
+	if ($begin == -1) {
+		$begin = index($$page_text, '<!-- bodytext -->');
+	}
 	my $end = index($$page_text, 'printfooter');
 	#print "indexes: $begin | $end\n";
 	return substr($$page_text, $begin, $end-$begin+1);
@@ -292,8 +295,10 @@ sub _find_category_next_link {
 	my $server=shift @_;
 	my $category_name=shift @_;
 	
-	if ($$page_text =~ /<a href=".+?&amp;from=([^"]+)" title="[^"]+">/) {
-		return $server.'index.php?title='.$category_name.'&from='.$1;
+	if ($$page_text =~ /<a href=".+?(&amp;(filefrom|from)=([^"]+))" title="[^"]+">/) {
+		my $url = $server.'index.php?title='.$category_name.$1;
+		$url =~ s/&amp;/&/g;
+		return $url;
 	} else {
 		return '';
 	}
