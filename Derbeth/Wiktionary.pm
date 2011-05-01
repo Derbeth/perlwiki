@@ -61,17 +61,21 @@ sub create_audio_entries_enwikt {
 	my @audios;
 	my @summary;
 	while (my ($file,$region) = each(%files)) {
+		my $regional_name = '';
 		my $text = '{{audio|'.$file.'|';
 		$text .= $plural ? $plural : 'Audio';
 		my $edit_summary = $file;
 		if ($region ne '') {
-			$text .= ' ('.get_regional_name('en',$region).')';
+			$regional_name = get_regional_name('en',$region);
+			$text .= " ($regional_name)";
 		}
 		$text .= '}}';
 
-		push @audios, $text;
+		push @audios, "$regional_name<>$text";
 		push @summary, $edit_summary;
 	}
+	@audios = sort { ($a =~ /^([^<]*)/)[0] cmp ($b=~ /^([^<]*)/)[0] } @audios;
+	@audios = map { s/^[^<]*<>//; $_ } @audios;
 	return (join("\n*", @audios), scalar(@audios), join(', ', @summary));
 }
 

@@ -147,7 +147,7 @@ sub save_hash_sorted {
 sub text_from_file {
 	my ($filename) = @_;
 	my $retval = '';
-	open(IN,$filename);
+	open(IN,$filename) or die "cannot read $filename";
 	while(<IN>) {
 		$retval .= $_;
 	}
