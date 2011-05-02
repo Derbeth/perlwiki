@@ -26,7 +26,7 @@
 #   ./audiosetter.pl --[no]filter --[no]debug --l[anguage] hr
 #   --w[ikt] en --limit 40
 
-use MediaWiki::Bot;
+use MediaWiki::Bot 3.3.1;
 use Derbeth::Wikitools 0.8.0;
 use Derbeth::Wiktionary;
 use Derbeth::I18n;
@@ -47,6 +47,7 @@ my $filter_mode=0; # only filters data from audio_xy.txt to
 my $randomize=0;   # process entries in random order
 my $clean_cache=0;
 my $clean_start=0; # removes all done files etc.
+my $stop_on_error=1;
 
 my $page_limit=40000; # bot won't change more that x number of pages
 my $save_every=15000;   # bot saves results after modifying x pages
@@ -98,7 +99,10 @@ my $filtered_audio_filename;
 	@langs = split /,/, $lang_codes;
 }
 
-srand(time) if ($randomize);
+if ($randomize) {
+	srand(time);
+	print "Randomized.\n";
+}
 
 if ($clean_cache) {
 	Derbeth::Web::clear_cache();
@@ -123,14 +127,17 @@ read_hash_loose($donefile, \%done);
 my $server = "http://$wikt_lang.wiktionary.org/w/";
 #$server = 'http://en.wiktionary.org/w/' if ($wikt_lang eq 'en');
 
-my $editor=MediaWiki::Bot->new($user);
-# $editor->{debug} = 1;
-if (0 && ($filter_mode || $debug_mode)) {
-	$editor->set_wiki('localhost/~piotr', $wikt_lang.'wikt');
-} else {
-	$editor->set_wiki("$wikt_lang.wiktionary.org",'w');
+my $editor;
+{
+	my $debug = 1;
+	my $host = "$wikt_lang.wiktionary.org";
+	$editor = MediaWiki::Bot->new({
+		assert => 'bot',
+		host => $host,
+		debug => $debug,
+		login_data => {'username' => $user, 'password' => $pass}
+	});
 }
-$editor->login($user, $pass) == 0 or die "cannot login"; # MediaWiki::Bot specific!
 
 if ($debug_mode) {
 	srand();
@@ -228,10 +235,13 @@ foreach my $l (@langs) {
 		}
 		
 		my $original_page_text = $page_text;
-		if ($page_text !~ /[a-zA-Z]/) {
+		if (!defined($page_text)) {
 			print "entry does not exist: ",encode_utf8($word),"\n";
 			mark_done($word,'no_entry');
 			next;
+		}
+		if ($page_text !~ /[a-zA-Z]/) {
+			print "warning: page has empty text: ",encode_utf8($word),"\n";
 		}
 		
 		my $initial_summary = initial_cosmetics($wikt_lang,\$page_text);
@@ -299,14 +309,18 @@ foreach my $l (@langs) {
 		} else {
 		
 			# was: encode_utf8($edit_summary)
-			my $response = $editor->edit($word, $page_text, $edit_summary, 1);
+			my $response = $editor->edit({page=>$word, text=>$page_text,
+				summary=>$edit_summary, bot=>1});
 			if ($response) {
 				print encode_utf8($word),': ',encode_utf8($edit_summary),"\n";
 				$added_files += $audios_count;
 				++$edited_pages;
 			} else {
-				print STDERR 'CANNOT edit ',encode_utf8($word),"\n";
+				print STDERR 'edit FAILED for ',encode_utf8($word);
+				print " details: $editor->{error}->{details}" if $editor->{error};
+				print "\n";
 				mark_done($word,'error');
+				last if $stop_on_error;
 				next; # something went wrong, don't mark as done
 			}
 		}

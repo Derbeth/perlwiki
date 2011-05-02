@@ -295,7 +295,7 @@ sub _find_category_next_link {
 	my $server=shift @_;
 	my $category_name=shift @_;
 	
-	if ($$page_text =~ /<a href=".+?(&amp;(filefrom|from)=([^"]+))" title="[^"]+">/) {
+	if ($$page_text =~ /<a href=".+?(&amp;(filefrom|pagefrom|from)=([^"]+))" title="[^"]+">/) {
 		my $url = $server.'index.php?title='.$category_name.$1;
 		$url =~ s/&amp;/&/g;
 		return $url;

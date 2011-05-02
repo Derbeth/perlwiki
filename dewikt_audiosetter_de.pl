@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 # MIT License
 #
@@ -22,12 +22,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-use MediaWiki::Bot;
+use MediaWiki::Bot 3.3.1;
 use Derbeth::Wikitools;
 use Derbeth::Wiktionary;
 use Derbeth::I18n;
 use Derbeth::Inflection;
 use Derbeth::Util;
+use Getopt::Long;
 use Encode;
 
 use strict;
@@ -45,6 +46,7 @@ my $wikt_lang='de';   # 'en','de','pl'; other Wiktionaries are not
 
 my $lang_code='de';
 my $language=get_language_name('de',$lang_code);
+my $randomize=0; # edit pages in random order
 
 my %settings = load_hash('settings.ini');
 my $user = $settings{bot_login};
@@ -58,6 +60,8 @@ my $errors_file='errors_dewikt_de.txt';
 Derbeth::Web::enable_caching(1);
 
 # ============ end settings
+
+GetOptions('p|limit=i' => \$page_limit, 'r|random!' => \$randomize) or die;
 
 my %done; # langcode-skip_word => 1
 my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
@@ -78,16 +82,16 @@ my $added_files=0;
 
 my $local_server = 'http://de.wiktionary.org/w/';
 
-my $editor_remote;
-if ($debug_mode && 0) {
-	$editor_remote = MediaWiki::Bot->new($user);
-	$editor_remote->set_wiki('localhost/~piotr', 'dewikt');
-	$editor_remote->login($user, $pass) == 0 or die "cannot login";
-} else {
-
-	$editor_remote=MediaWiki::Bot->new($user);
-	$editor_remote->set_wiki('de.wiktionary.org', 'w');
-	$editor_remote->login($user, $pass) == 0 or die "cannot login";
+my $editor;
+{
+	my $debug = 1;
+	my $host = "de.wiktionary.org";
+	$editor = MediaWiki::Bot->new({
+		assert => 'bot',
+		host => $host,
+		debug => $debug,
+		login_data => {'username' => $user, 'password' => $pass}
+	});
 }
 
 if ($debug_mode) {
@@ -109,6 +113,12 @@ my $word_count = scalar(@entries);
 my $processed_words = 0;
 
 print "$word_count words in category\n";
+
+if ($randomize) {
+	srand(time);
+	@entries = sort { return rand(3) -1; } @entries;
+	print "Randomized.\n";
+}
 
 foreach my $word (@entries) {
 	++$processed_words;
@@ -135,7 +145,7 @@ foreach my $word (@entries) {
 	}
 	
 	initial_cosmetics('de',\$page_text_local);
-	my($before,$section,$after) = split_article_wikt('de',$language,$page_text_local);
+	my($before,$section,$after) = split_article_wikt('de',$lang_code,$page_text_local,1);
 	
 	if ($section eq '') {
 		print encode_utf8("no $language section: $word\n");
@@ -156,7 +166,7 @@ foreach my $word (@entries) {
 	}
 	
 	my ($result,$audios_count,$edit_summary) #check-only
-		= add_audio_new(\$section,$pron,$lang_code,1,$pron_pl,$plural);
+		= add_audio_new('de',\$section,$pron,$lang_code,1,$pron_pl,$plural);
 	
 	if ($result == 1) {
 		print encode_utf8($word),": has audio\n";
@@ -170,7 +180,7 @@ foreach my $word (@entries) {
 	
 	# ===== section processing =======
 	
-	my $page_text_remote = $editor_remote->get_text($word);
+	my $page_text_remote = $editor->get_text($word);
 	my $original_page_text = $page_text_remote;
 	if ($page_text_remote !~ /\w/) {
 		print "entry does not exist: ",encode_utf8($word),"\n";
@@ -179,7 +189,7 @@ foreach my $word (@entries) {
 	}
 	
 	my $initial_summary = initial_cosmetics('de',\$page_text_remote);
-	($before,$section,$after) = split_article_wikt('de',$language,$page_text_remote);
+	($before,$section,$after) = split_article_wikt('de',$lang_code,$page_text_remote,1);
 	
 	($result,$audios_count,$edit_summary) #adding
 		= add_audio_new('de',\$section,$pron,$lang_code,0,$pron_pl,$plural);
@@ -224,8 +234,8 @@ foreach my $word (@entries) {
 	} else {
 	
 		# was: encode_utf8($edit_summary)
-		my $response = $editor_remote->edit($word, $page_text_remote,
-			$edit_summary, 1);
+		my $response = $editor->edit({page=>$word, text=>$page_text_remote,
+			summary=>$edit_summary, bot=>1});
 		if ($response) {
 			mark_done($word, 'added_audio');
 		} else {
