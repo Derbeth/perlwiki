@@ -60,6 +60,7 @@ my %categories=(
 	'Basque pronunciation' => 'eu',
 	'Belarusian pronunciation'=>'be',
 	'Belarusian pronunciation of names of countries'=>'be',
+	'Bulgarian pronunciation' => 'bg',
 	'Chechen pronunciation'=>'ce',
 	'Chinese pronunciation' => 'zh',
 	'Chinese pronunciation of names of countries' => 'zh',
