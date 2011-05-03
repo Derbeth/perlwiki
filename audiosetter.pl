@@ -201,7 +201,7 @@ foreach my $l (@langs) {
 	unless($randomize) {
 		@keys = sort(@keys);
 	} else {
-		@keys = sort { return rand(3) -1; } @keys;
+		@keys = sort { return int(rand(3)) -1; } @keys;
 	}
 	if ($input_list) {
 		@keys = split /, */, $input_list;

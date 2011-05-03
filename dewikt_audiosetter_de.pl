@@ -116,7 +116,7 @@ print "$word_count words in category\n";
 
 if ($randomize) {
 	srand(time);
-	@entries = sort { return rand(3) -1; } @entries;
+	@entries = sort { return int(rand(3)) -1; } @entries;
 	print "Randomized.\n";
 }
 
