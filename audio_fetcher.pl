@@ -198,6 +198,7 @@ my %categories=(
 	'Swedish pronunciation of numbers' => 'sv',
 	'Tagalog pronunciation' => 'tl',
 	'Turkish pronunciation' => 'tr',
+	'Twi pronunciation' => 'twi',
 	'Ukrainian pronunciation' => 'uk',
 	'Ukranian pronunciation of names of cities' => 'uk',
 	'Ukrainian pronunciation of names of countries' => 'uk',
