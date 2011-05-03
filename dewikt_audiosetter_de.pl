@@ -166,7 +166,7 @@ foreach my $word (@entries) {
 	}
 	
 	my ($result,$audios_count,$edit_summary) #check-only
-		= add_audio_new('de',\$section,$pron,$lang_code,1,$pron_pl,$plural);
+		= add_audio_new('de',\$section,$pron,$lang_code,1,$word,$pron_pl,$plural);
 	
 	if ($result == 1) {
 		print encode_utf8($word),": has audio\n";
@@ -192,7 +192,7 @@ foreach my $word (@entries) {
 	($before,$section,$after) = split_article_wikt('de',$lang_code,$page_text_remote,1);
 	
 	($result,$audios_count,$edit_summary) #adding
-		= add_audio_new('de',\$section,$pron,$lang_code,0,$pron_pl,$plural);
+		= add_audio_new('de',\$section,$pron,$lang_code,0,$word,$pron_pl,$plural);
 	
 	++$visited_pages;
 	

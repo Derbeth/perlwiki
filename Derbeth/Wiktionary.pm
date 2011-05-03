@@ -55,6 +55,7 @@ our $VERSION = 0.9.0;
 sub create_audio_entries_enwikt {
 	my $lang_code = shift;
 	my $section_ref = shift;
+	my $singular = shift;
 	my $plural = shift;
 	my %files = @_;
 
@@ -97,6 +98,7 @@ sub create_audio_entries_simplewikt {
 sub create_audio_entries_frwikt {
 	my $lang_code = shift;
 	my $section_ref = shift;
+	my $singular = shift;
 	my $plural = shift;
 	my %files = @_;
 
@@ -145,6 +147,7 @@ sub create_audio_entries_frwikt {
 sub create_audio_entries_dewikt {
 	my $lang_code = shift;
 	my $section_ref = shift;
+	my $singular = shift;
 	my $plural = shift;
 	my %files = @_;
 
@@ -155,7 +158,11 @@ sub create_audio_entries_dewikt {
 		my $edit_summary = $file;
 		if ($plural) {
 			$text .= $plural;
+		} elsif ($region ne '') {
+			$text .= $singular;
 		}
+
+
 		if ($region ne '') {
 			$text .= ' ('.get_regional_name('de',$region).')';
 		}
@@ -172,6 +179,7 @@ sub create_audio_entries_dewikt {
 sub create_audio_entries_plwikt {
 	my $lang_code = shift;
 	my $section_ref = shift;
+	my $singular = shift;
 	my $plural = shift;
 	my %files = @_;
 
@@ -196,7 +204,8 @@ sub create_audio_entries_plwikt {
 #   $pron - 'en-us-solder.ogg<us>|en-solder.ogg|en-au-solder.ogg<au>'
 #   $section - reference to section where pronuciation should be
 #              added (read-only)
-#   $plural - plural form of word (optional)
+#   $singular - singular form of the word
+#   $plural - plural form of the word (optional)
 #
 # Returns:
 #   $audios - '{{audio|en-us-solder.ogg|audio (US)}}, {{audio...}}'
@@ -204,11 +213,11 @@ sub create_audio_entries_plwikt {
 #   $edit_summary - list of added files
 #                   en-us-solder.ogg, en-solder.ogg, en-au-solder.ogg
 sub create_audio_entries {
-	my ($wikt_lang,$lang_code,$pron,$section,$plural) = @_;
+	my ($wikt_lang,$lang_code,$pron,$section,$singular,$plural) = @_;
 
 	my %files = decode_pron($pron, $section);
 
-	my @args = ($lang_code,$section,$plural,%files);
+	my @args = ($lang_code,$section,$singular,$plural,%files);
 	my @retval;
 	if ($wikt_lang eq 'de') {
 		@retval = create_audio_entries_dewikt(@args);
@@ -241,7 +250,7 @@ sub decode_pron {
 	my %files; # 'en-us-solder.ogg' => 'us', 'en-solder.ogg' => ''
 
 	foreach my $a_pron (@prons) {
-		$a_pron =~ /(.*.ogg)(<(.*)>)?/i;
+		$a_pron =~ /(.*\.ogg)(<(.*)>)?/i;
 		my $file=$1;
 		my $region = $3 ? $3 : '';
 		if ($section) {
@@ -264,14 +273,14 @@ sub decode_pron {
 #   $added_audios - how many audio files have been added
 #   $edit_summary - edit summary text
 sub add_audio_enwikt {
-	my ($section,$pron,$lang_code,$check_only,$pron_pl,$plural) = @_;
+	my ($section,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural) = @_;
 	my $language = get_language_name('en',$lang_code);
 	($pron_pl,$plural) = ('',''); # turned off
 
 	my ($audios,$audios_count,$edit_summary)
-		= create_audio_entries('en',$lang_code,$pron,$section);
+		= create_audio_entries('en',$lang_code,$pron,$section,$singular);
 	my ($audios_pl,$audios_count_pl,$edit_summary_pl)
-		= create_audio_entries('en',$lang_code,$pron_pl,$section,$plural);
+		= create_audio_entries('en',$lang_code,$pron_pl,$section,$singular,$plural);
 
 	if ($audios eq '' && $audios_pl eq '') {
 		return (1,'','');
@@ -382,12 +391,12 @@ sub add_audio_enwikt {
 }
 
 sub add_audio_simplewikt {
-	my ($section,$pron,$lang_code,$check_only,$pron_pl,$plural) = @_;
+	my ($section,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural) = @_;
 	my $language = get_language_name('simple',$lang_code);
 	($pron_pl,$plural) = ('',''); # turned off
 
 	my ($audios,$audios_count,$edit_summary)
-		= create_audio_entries('simple',$lang_code,$pron,$section);
+		= create_audio_entries('simple',$lang_code,$pron,$section,$singular);
 
 	if ($audios eq '') {
 		return (1,0,'');
@@ -438,10 +447,10 @@ sub add_audio_simplewikt {
 }
 
 sub add_audio_frwikt {
-	my ($section,$pron,$lang_code,$check_only,$pron_pl,$plural) = @_;
+	my ($section,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural) = @_;
 
 	my ($audios,$audios_count,$edit_summary)
-		= create_audio_entries('fr',$lang_code,$pron,$section);
+		= create_audio_entries('fr',$lang_code,$pron,$section,$singular);
 
 	if ($audios eq '') {
 		return (1,0,'');
@@ -495,15 +504,15 @@ sub add_audio_frwikt {
 #   $added_audios - how many audio files have been added
 #   $edit_summary - edit summary text
 sub add_audio_dewikt {
-	my ($section,$pron,$lang_code,$check_only,$pron_pl,$plural) = @_;
+	my ($section,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural) = @_;
 	my $language = get_language_name('de',$lang_code);
-	#print "$$section\n"; # DEBUG
+# 	print ">>$$section<<\n"; # DEBUG
 	$pron_pl = '' if (!defined($pron_pl));
 
 	my ($audios,$audios_count,$edit_summary)
-		= create_audio_entries('de',$lang_code,$pron,$section);
+		= create_audio_entries('de',$lang_code,$pron,$section,$singular);
 	my ($audios_pl,$audios_count_pl,$edit_summary_pl)
-		= create_audio_entries('de',$lang_code,$pron_pl,$section,$plural);
+		= create_audio_entries('de',$lang_code,$pron_pl,$section,$singular,$plural);
 
 	if ($audios eq '' && $audios_pl eq '') {
 		return (1,'','');
@@ -522,11 +531,14 @@ sub add_audio_dewikt {
 		return (2,0,$edit_summary);
 	}
 
-	my $newipa = ':[[Hilfe:IPA|IPA]]: {{Lautschrift|...}}';
-	my $newaudio = ':[[Hilfe:Hörbeispiele|Hörbeispiele]]: {{fehlend}}';
+	$$section =~ s/:\[\[Hilfe:IPA\|IPA\]\]:/:{{IPA}}/g;
+	$$section =~ s/:\[\[Hilfe:Hörbeispiele\|Hörbeispiele\]\]:/:{{Hörbeispiele}}/g;
+
+	my $newipa = ':{{IPA}} {{Lautschrift|…}}';
+	my $newaudio = ':{{Hörbeispiele}} {{fehlend}}';
 
 	if ($$section =~ /Wortart\s*\|\s*Substantiv/) {
-		$newipa .= ', {{Pl.}} {{Lautschrift|...}}';
+		$newipa .= ', {{Pl.}} {{Lautschrift|…}}';
 		$newaudio .= ', {{Pl.}} {{fehlend}}';
 	}
 
@@ -550,19 +562,19 @@ $newaudio
 			return (2,0,$edit_summary);
 		}
 	}
-	if ($$section !~ /: *\[\[Hilfe:Hörbeispiele\|Hörbeispiele\]\]:/) {
+	if ($$section !~ /: *{{Hörbeispiele}}/) {
 		$$section =~ s/{{Aussprache}}/{{Aussprache}}
 $newaudio/x;
 	}
 
 	if ($audios ne '') {
-		if ($$section =~ /Hörbeispiele\]\]: +(-|–|—|{{fehlend}})/) {
-			unless ($$section =~ s/Hörbeispiele\]\]: +(-|–|—|{{fehlend}})/Hörbeispiele]]: $audios/) {
+		if ($$section =~ /{{Hörbeispiele}} +(-|–|—|{{fehlend}})/) {
+			unless ($$section =~ s/({{Hörbeispiele}}) +(-|–|—|{{fehlend}})/$1 $audios/) {
 				$edit_summary .= '; cannot replace {{fehlend}}';
 				return (2,0,$edit_summary);
 			}
 		} else { # already some pronunciation
-			unless ($$section =~ s/Hörbeispiele\]\]: */Hörbeispiele]]: $audios /) {
+			unless ($$section =~ s/({{Hörbeispiele}}) */$1 $audios /) {
 				$edit_summary .= '; cannot append pron.';
 				return (2,0,$edit_summary);
 			}
@@ -571,7 +583,7 @@ $newaudio/x;
 	}
 
 	if ($audios_pl ne '') {
-		$$section =~ /(:\[\[Hilfe:Hörbeispiele\|Hörbeispiele\]\])([^\r\f\n]*)/;
+		$$section =~ /({{Hörbeispiele}})([^\r\f\n]*)/;
 		my $before = $`.$1;
 		my $after = $';
 		my $pron_line = $2;
@@ -591,7 +603,7 @@ $newaudio/x;
 	}
 
 	# if audio before ipa, put it after ipa
-	$$section =~ s/(:\[\[Hilfe:Hörbeispiele\|Hörbeispiele\]\].*)(\n|\r|\f)(:\[\[Hilfe:IPA\|IPA\]\].*)/$3$2$1/;
+	$$section =~ s/({{Hörbeispiele}}.*)(\n|\r|\f)(:{{IPA}}.*)/$3$2$1/;
 
 	# prevent pronunciation being commented out
 	#if ($$section =~ /<!--((.|\n|\r|\f)*?Aussprache(.|\n|\r|\f)*?)-->/$1/) {
@@ -661,7 +673,7 @@ sub _split_pron_plwikt {
 #   $added_audios - how many audio files have been added
 #   $edit_summary - edit summary text
 sub add_audio_plwikt {
-	my ($section_ref,$pron,$lang_code,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl) = @_;
+	my ($section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl) = @_;
 	my $language = get_language_name('pl',$lang_code);
 	$pron_pl = '' if (!defined($pron_pl));
 	$ipa_sing = '' if (!defined($ipa_sing));
@@ -669,9 +681,9 @@ sub add_audio_plwikt {
 	my @summary;
 
 	my ($audios,$audios_count,$edit_summary_sing)
-		= create_audio_entries('pl',$lang_code,$pron,$section_ref);
+		= create_audio_entries('pl',$lang_code,$pron,$section_ref,$singular);
 	my ($audios_pl,$audios_count_pl,$edit_summary_pl)
-		= create_audio_entries('pl',$lang_code,$pron_pl,$section_ref);
+		= create_audio_entries('pl',$lang_code,$pron_pl,$section_ref,$singular);
 
 	if ($$section_ref !~ /{{wymowa}}/) {
 		push @summary, '+ brakująca sekcja {{wymowa}}';
@@ -755,18 +767,21 @@ sub add_audio_plwikt {
 #   $added_audios - how many audio files have been added
 #   $edit_summary - edit summary text
 sub add_audio_new {
-	my ($wikt_lang,$section_ref,$pron,$lang_code,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl) = @_;
+	my ($wikt_lang,$section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl) = @_;
+	unless ($$section_ref) {
+		print encode_utf8("WARN: empty section for $singular\n");
+	}
 
 	if ($wikt_lang eq 'en') {
-		return add_audio_enwikt($section_ref,$pron,$lang_code,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl);
+		return add_audio_enwikt($section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl);
 	} elsif ($wikt_lang eq 'de') {
-		return add_audio_dewikt($section_ref,$pron,$lang_code,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl);
+		return add_audio_dewikt($section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl);
 	} elsif ($wikt_lang eq 'pl') {
-		return add_audio_plwikt($section_ref,$pron,$lang_code,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl);
+		return add_audio_plwikt($section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl);
 	} elsif ($wikt_lang eq 'simple') {
-		return add_audio_simplewikt($section_ref,$pron,$lang_code,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl);
+		return add_audio_simplewikt($section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl);
 	} elsif ($wikt_lang eq 'fr') {
-		return add_audio_frwikt($section_ref,$pron,$lang_code,$check_only,$pron_pl,$plural,$ipa_sing,$ipa_pl);
+		return add_audio_frwikt($section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}

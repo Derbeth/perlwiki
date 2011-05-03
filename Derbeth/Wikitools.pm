@@ -160,7 +160,7 @@ sub _join_sections {
 	my ($article_text,$lang_index, @sections) = @_;
 	my ($before, $lang_section, $after)=('','','');
 
-	if ($lang_index > $#sections) {
+	if ($lang_index == -1 || $lang_index > $#sections) {
 		return ($article_text, '', ''); # lang section not found
 	}
 	

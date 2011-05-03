@@ -257,7 +257,7 @@ foreach my $l (@langs) {
 		# ===== section processing =======
 		
 		my ($result,$audios_count,$edit_summary)
-			= add_audio_new($wikt_lang,\$section,$pron,$lang_code,$filter_mode);
+			= add_audio_new($wikt_lang,\$section,$pron,$lang_code,$filter_mode,$word);
 		
 		if ($result == 1) {
 			print encode_utf8($word),": has audio\n";
