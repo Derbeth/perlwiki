@@ -503,4 +503,3 @@ sub get_wikicode {
 }
 
 1;
-

@@ -29,6 +29,7 @@ use strict;
 use English;
 
 use Derbeth::Wikitools;
+use Derbeth::Commons;
 use Encode;
 use Getopt::Long;
 use Carp;
@@ -232,9 +233,15 @@ sub save_pron {
 	confess "undefined: $lang $key" unless(defined($lang) && defined($key));
 	if ($regional && $regional eq 'gb') { $regional = 'uk'; }
 
-	if ($lang =~ /^(ar|be|el|fa|he|ja|ka|ko|mk|ru|th|uk)$/ && $key =~ /[a-zA-Z]/) {
-		print "$lang-",encode_utf8($key)," contains latin chars; won't be added\n";
-		return;
+	if ($key =~ /[a-zA-Z]/) {
+		my $detected = detect_pronounced_word($lang, $file);
+		if ($detected) {
+			print encode_utf8("$lang-$key: detected word is '$detected'\n");
+			$key = $detected;
+		} elsif ($lang =~ /^(ar|be|el|fa|he|ja|ka|ko|mk|ru|th|uk)$/) {
+			print "$lang-",encode_utf8($key)," contains latin chars; won't be added\n";
+			return;
+		}
 	}
 	if ($file =~ /-synth-/) {
 		print encode_utf8($file), " ignored because is synthesized\n";
@@ -391,7 +398,12 @@ foreach my $cat (sort(keys(%categories))) {
 		}
 
 		# === Regional parts stripping goes here
-		if ($code eq 'de') {
+		if ($code eq 'bg') {
+			if ($key =~ /^bg-/i) {
+				$key = $POSTMATCH; # remove
+			}
+		}
+		elsif ($code eq 'de') {
 			$key =~ s/-pronunciation$//;
 			if ($key =~ /^(at)-/) {
 				$regional = $1;

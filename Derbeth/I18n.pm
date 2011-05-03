@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.6.1;
+our $VERSION = 0.6.2;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
@@ -351,4 +351,3 @@ sub get_regional_frwikt {
 }
 
 1;
-
