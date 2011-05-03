@@ -149,6 +149,7 @@ my %categories=(
 	'Jèrriais pronunciation of names of colors' => 'roa',
 	'Jèrriais pronunciation of names of countries' => 'roa',
 	'Kapampangan pronunciation' => 'pam',
+	'Korean pronunciation' => 'ko',
 	'Latin pronunciation' => 'la',
 	'Latvian pronunciation' => 'lv', # wrong naming
 	'Latvian pronunciation of names of countries' => 'lv',
@@ -231,7 +232,7 @@ sub save_pron {
 	confess "undefined: $lang $key" unless(defined($lang) && defined($key));
 	if ($regional && $regional eq 'gb') { $regional = 'uk'; }
 
-	if ($lang =~ /^(ar|be|el|fa|he|ka|mk|ru|th|uk)$/ && $key =~ /[a-zA-Z]/) {
+	if ($lang =~ /^(ar|be|el|fa|he|ja|ka|ko|mk|ru|th|uk)$/ && $key =~ /[a-zA-Z]/) {
 		print "$lang-",encode_utf8($key)," contains latin chars; won't be added\n";
 		return;
 	}
