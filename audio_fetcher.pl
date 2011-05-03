@@ -185,6 +185,9 @@ my %categories=(
 	'Slovak pronunciation' => 'sk',
 	'Slovak pronunciation of names of cities' => 'sk',
 	'Slovak pronunciation of names of countries' => 'sk',
+	'Slovenian pronunciation' => 'sl',
+	'Slovenian pronunciation of cities' => 'sl',
+	'Slovenian pronunciation of names of countries' => 'sl',
 	'Spanish pronunciation' => 'es', # wrong naming, odd regional
 	'Spanish pronunciation of names of countries' => 'es',
 	'Mexican Spanish pronunciation' => 'es',
@@ -470,8 +473,8 @@ foreach my $cat (sort(keys(%categories))) {
 			}
 		}
 		if ($code eq 'roh') {
-			if ($key =~ /^(sursilvan)-/) {
-				$regional = $1;
+			if ($key =~ /^(sursilvan( \(Breil\))?)-/i) {
+				$regional = 'sursilvan';
 				$key = $POSTMATCH;
 			}
 		}
