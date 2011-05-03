@@ -197,6 +197,7 @@ my %categories=(
 	'Swedish pronunciation of names of countries' => 'sv',
 	'Swedish pronunciation of numbers' => 'sv',
 	'Tagalog pronunciation' => 'tl',
+	'Thai pronunciation' => 'th',
 	'Turkish pronunciation' => 'tr',
 	'Twi pronunciation' => 'twi',
 	'Ukrainian pronunciation' => 'uk',
@@ -230,7 +231,7 @@ sub save_pron {
 	confess "undefined: $lang $key" unless(defined($lang) && defined($key));
 	if ($regional && $regional eq 'gb') { $regional = 'uk'; }
 
-	if ($lang =~ /^(ar|be|el|fa|he|ka|mk|ru|uk)$/ && $key =~ /[a-zA-Z]/) {
+	if ($lang =~ /^(ar|be|el|fa|he|ka|mk|ru|th|uk)$/ && $key =~ /[a-zA-Z]/) {
 		print "$lang-",encode_utf8($key)," contains latin chars; won't be added\n";
 		return;
 	}
