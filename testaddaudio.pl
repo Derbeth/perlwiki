@@ -7,7 +7,12 @@ use Derbeth::I18n;
 use Derbeth::Inflection;
 use Derbeth::Util;
 use Derbeth::Web;
+use Getopt::Long;
 use Encode;
+
+my $interactive=0; # run kdiff3
+
+GetOptions('i|interactive!'=> \$interactive) or die;
 
 my $TESTDATA_DIR = 'testdata';
 my $TEST_TEMP_DIR = '/tmp/testaddaudio-test';
@@ -35,8 +40,11 @@ for my $wikt_lang(@tested_wikts) {
 		my $equal = &compare_files($test_output, $test_expected);
 		if (!$equal) {
 			print "Test $i failed.\n";
-# 			system("kdiff3 $test_output $test_expected -L1 Received -L2 Expected");
-			system("diff -u $test_output $test_expected");
+			if ($interactive) {
+				system("kdiff3 $test_output $test_expected -L1 Received -L2 Expected");
+			} else {
+				system("diff -u $test_output $test_expected");
+			}
 			exit(11);
 		}
 

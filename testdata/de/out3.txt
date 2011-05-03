@@ -1,0 +1,84 @@
+== Bernstein ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Substantiv|Deutsch}}, {{m}} ===
+{{Deutsch Substantiv m stark
+|SINGULAR=Bernstein
+|PLURAL=Bernsteine
+|BILD=Amber hg.jpg
+|BILDBREITE=250px
+|BILDBEZUG=1
+|BILDBESCHREIBUNG= ''Bernstein''
+}}
+{{Silbentrennung}}
+:Bern·stein, {{Pl.}} Bern·stei·ne
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈbɛʁnʃtaɪ̯n}}, {{Pl.}} {{Lautschrift|ˈbɛʁnʃtaɪ̯nə}}
+:{{Hörbeispiele}} {{Audio|De-Bernstein.ogg}}, {{Pl.}} {{fehlend}}
+
+{{Bedeutungen}}
+:[1] fossiles [[Harz]]; findet als [[Schmuckstein]] Verwendung
+:[2] Eigenname, im Gebrauch als Nachname von Personen und Name von Orten
+
+{{Herkunft}}
+:vom [[niederdeutsch]]en ''börnen'' ([[brennen]]) 
+
+{{Oberbegriffe}}
+:[1] [[Fossil]], [[Stein]]
+
+{{Beispiele}}
+:[1] Dieser ''Bernstein'' ist einige Millionen Jahre alt.
+:[2] Leonard ''Bernstein'' dirigierte die berühmtesten Orchester der Welt.
+
+{{Charakteristische Wortkombinationen}}
+:[1] [[Insekt]]
+
+{{Abgeleitete Begriffe}} 
+:[1] [[Bernsteinanhänger]], [[Bernsteinarmband]], [[bernsteinern]], [[bernsteinfarben]], [[bernsteinfarbig]], [[Bernsteinfischerei]], [[Bernsteingelb]], [[Bernsteinkette]], [[Bernsteinperle]], [[Bernsteinschmuck]], [[Bernsteinschnecke]], [[Bernsteinspitze]], [[Bernsteinzimmer]], [[Bernsteinregal]], [[Bernsteinstraße]], [[Bernsteinsäure]], [[Bernsteinküste]]
+
+==== Übersetzungen ====
+{{Ü-links}}
+*{{sq}}: [1] {{Ü|sq|qelibar}}
+*{{ar}}: [1] [[عنبر]] (`anbar) [[:ar:عنبر|(ar)]]
+*{{eu}}: [1] {{Ü|eu|anbar}}
+*{{da}}: [1] {{Ü|da|ambra}}, {{Ü|da|rav}}
+*{{en}}: [1] {{Ü|en|amber}}
+*{{eo}}: [1] {{Ü|eo|ambro}}
+*{{fi}}: [1] {{Ü|fi|meripihka}}
+*{{fr}}: [1] {{Ü|fr|ambre}}, [[ambre jaune]], {{Ü|fr|succin}}, {{Ü|fr|karabé}}
+*{{gl}}: [1] {{Ü|gl|ámbar}}
+*{{ka}}: [1] {{Ü|ka|ქარვა}}
+*{{el}}: [1] [[ήλεκτρο]] (ílektro) [[:el:ήλεκτρο|(el)]], [[κεχριμπάρι]] (kechribári) [[:el:κεχριμπάρι|(el)]]
+*{{ga}}: [1] {{Ü|ga|ómra}}
+*{{it}}: [1] {{Ü|it|ambra}}
+*{{ca}}: [1] {{Ü|ca|ambre}}
+*{{hr}}: [1] {{Ü|hr|ambra}}
+{{Ü-Abstand}}
+*{{lt}}: [1] {{Ü|lt|gintaras}}
+*{{nl}}: [1] {{Ü|nl|barnsteen}}, [[geel|gele]] {{Ü|nl|amber}}, {{Ü|nl|karabé}}
+*{{no}}: [1] {{Ü|no|rav}} {{n}}
+*{{fa}}: [1] [[عنبر]] () [[:fa:عنب|(fa)]], [[کهربا]] () [[:fa:کهربا|(fa)]]
+*{{pl}}: [1] {{Ü|pl|bursztyn}}, {{Ü|pl|jantar}} 
+*{{pt}}: [1] {{Ü|pt|âmbar}}
+*{{ro}}: [1] {{Ü|ro|chihlimbar}}
+*{{ru}}: [1] [[янтарь]] ''m'' (jantár) [[:ru:янтарь|(ru)]]
+*{{sv}}: [1] {{Ü|sv|bärnsten}}
+*{{sk}}: [1] {{Ü|sk|jantár}}
+*{{es}}: [1] {{Ü|es|ámbar}}, {{Ü|es|cárabe}}, {{Ü|es|resina}}, {{Ü|es|azabache}}, {{Ü|es|pardillo}}
+*{{tr}}: [1] {{Ü|tr|kehribar}}
+*{{uk}}: [1] [[бурштин]] (burschtyn) [[:uk:бурштин|(uk)]], [[янтар]] (jantar) [[:uk:янтар|(uk)]]
+*{{hu}}: [1] {{Ü|hu|borostyánkö}}
+{{Ü-rechts}}
+
+{{Referenzen}}
+:[1, 2] {{Wikipedia|Bernstein}}
+:[1] {{Commons|Category:Amber|Bernstein}}
+
+[[cs:Bernstein]]
+[[en:Bernstein]]
+[[fr:Bernstein]]
+[[hu:Bernstein]]
+[[io:Bernstein]]
+[[it:Bernstein]]
+[[pl:Bernstein]]
+[[ru:Bernstein]]
+[[zh:Bernstein]]

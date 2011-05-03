@@ -41,7 +41,7 @@ our @EXPORT = qw/add_audio_new
 	final_cosmetics
 	add_inflection_plwikt
 	should_not_be_in_category_plwikt/;
-our $VERSION = 0.9.0;
+our $VERSION = 0.9.1;
 
 # Function: create_audio_entries_enwikt
 # Parameters:
@@ -603,7 +603,7 @@ $newaudio/x;
 	}
 
 	# if audio before ipa, put it after ipa
-	$$section =~ s/({{Hörbeispiele}}.*)(\n|\r|\f)(:{{IPA}}.*)/$3$2$1/;
+	$$section =~ s/(:{{Hörbeispiele}}.*)(\n|\r|\f)(:{{IPA}}.*)/$3$2$1/;
 
 	# prevent pronunciation being commented out
 	#if ($$section =~ /<!--((.|\n|\r|\f)*?Aussprache(.|\n|\r|\f)*?)-->/$1/) {
