@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.6.0;
+our $VERSION = 0.6.1;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
@@ -47,6 +47,7 @@ my %regional_names = (
 		'ca' => 'kanadyjska',
 		'cls' => 'tradycyjna', # łacina
 		'ecc' => 'kościelna',
+		'east-armenian' => 'ze Wschodniej Armenii',
 		'Lewis' => '– wyspa Lewis',
 		'mx' => 'meksykańska',
 		'nz' => 'nowozelandzka',
@@ -68,6 +69,7 @@ my %regional_names = (
 		'ca' => 'kanadisch',
 		'cls' => 'klassisches Latein',
 		'ecc' => 'Kirchenlatein',
+		'east-armenian' => 'ostarmenisch',
 		'Lewis' => 'Lewis Insel',
 		'mx' => 'mexikanisch',
 		'nz' => 'neuseeländisch',
@@ -89,6 +91,7 @@ my %regional_names = (
 		'by' => 'Bavarian',
 		'ca' => 'CAN',
 		'cls' => 'classical',
+		'east-armenian' => 'East Armenian',
 		'ecc' => 'ecclesiastical',
 		'Lewis' => 'Isle of Lewis',
 		'mx' => 'Mexico',

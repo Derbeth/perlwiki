@@ -433,6 +433,12 @@ foreach my $cat (sort(keys(%categories))) {
 				$key = $POSTMATCH;
 			}
 		}
+		elsif ($code eq 'hy') {
+			if ($key =~ /^(ea|EA|E)-/) {
+				$regional = 'east-armenian';
+				$key = $POSTMATCH;
+			}
+		}
 		elsif ($code eq 'la') {
 			if ($key =~ /^(ecc|cls)-/) {
 				$regional = $1;
