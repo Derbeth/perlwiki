@@ -13,7 +13,10 @@ if ($#ARGV != 1) {
 	die "expects 2 arguments";
 }
 
-my $detected = detect_pronounced_word($ARGV[0], $ARGV[1].'.ogg');
+my $word = decode_utf8($ARGV[1]);
+$word .= '.ogg' if ($word !~ /\.ogg$/);
+
+my $detected = detect_pronounced_word($ARGV[0], $word);
 
 if ($detected) {
 	print encode_utf8("detected word: $detected\n");

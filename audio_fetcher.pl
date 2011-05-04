@@ -156,6 +156,7 @@ my %categories=(
 	'Latvian pronunciation' => 'lv', # wrong naming
 	'Latvian pronunciation of names of countries' => 'lv',
 	'Limburgish pronunciation' => 'li',
+	'Mapudungun pronunciation' => 'arn',
 	'Norwegian pronunciation' => 'nb',
 	'Norwegian pronunciation of adjectives' => 'nb',
 	'Norwegian pronunciation of adverbs' => 'nb',
@@ -355,16 +356,18 @@ foreach my $cat (sort(keys(%categories))) {
 				next;
 			}
 		}
+		elsif ($code eq 'is') {
+			if ($main_text !~ /^Is-/i) {
+				save_pron($code,$main_text,$page);
+				save_pron($code,lcfirst($main_text),$page);
+				next;
+			}
+		}
 		elsif ($code eq 'it') {
 			if ($main_text =~ /^Italian /) {
 				save_pron($code,$POSTMATCH,$page);
 				next;
 			}
-		}
-		elsif ($code eq 'is') {
-			save_pron($code,$main_text,$page);
-			save_pron($code,lcfirst($main_text),$page);
-			next;
 		}
 		elsif ($code eq 'sq') {
 			if ($main_text =~ /^Albanian /) {

@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.6.2;
+our $VERSION = 0.6.3;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
@@ -112,6 +112,7 @@ $regional_names{'simple'} = $regional_names{'en'};
 my %language_names = (
 	'pl' => {
 		'ar'  => 'język arabski',
+		'arn' => 'język mapudungun',
 		'be'  => 'język białoruski',
 		'bg'  => 'język bułgarski',
 		'ce'  => 'język czeczeński',
@@ -170,10 +171,11 @@ my %language_names = (
 		'vi'  => 'język wietnamski',
 		'wo'  => 'język wolof',
 		'yi'  => 'jidysz',
-		'zh'  => 'język chiński' #  (uproszczony) ?
+		'zh'  => 'język chiński standardowy'
 	},
 	'de' => {
 		'ar'  => 'Arabisch',
+		'arn' => 'Mapudungun',
 		'be'  => 'Weißrussisch',
 		'bg'  => 'Bulgarisch',
 		'ce'  => 'Tschetschenisch',
@@ -236,6 +238,7 @@ my %language_names = (
 	},
 	'en' => {
 		'ar'  => 'Arabic',
+		'arn' => 'Mapudungun',
 		'be'  => 'Belarusian',
 		'bg'  => 'Bulgarian',
 		'ce'  => 'Chechen',

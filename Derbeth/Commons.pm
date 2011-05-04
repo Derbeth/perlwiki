@@ -60,7 +60,7 @@ sub detect_pronounced_word {
 
 sub _language_supported {
 	my ($lang) = @_;
-	return ($lang =~ /^(bg|he|th)$/);
+	return ($lang =~ /^(bg|he|th|zh)$/);
 }
 
 sub _detect {
@@ -89,6 +89,11 @@ sub _detect {
 	}
 	elsif ($lang eq 'th') {
 		if ($wikicode =~ /Pronunciation of word " *([^ a-z()"]+) *\(/) {
+			$detected = $1;
+		}
+	}
+	elsif ($lang eq 'zh') {
+		if ($wikicode =~ /Pronunciation of "[^"]+" \(([^a-z()]+)\) in Chinese/) {
 			$detected = $1;
 		}
 	}
