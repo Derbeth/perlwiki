@@ -312,7 +312,7 @@ foreach my $cat (sort(keys(%categories))) {
 				$regional = $1;
 			}
 
-			save_pron($code, $word, $page, $regional);
+			save_pron($code, $word, $file, $regional);
 		}
 	}
 }
