@@ -529,7 +529,7 @@ foreach my $cat (sort(keys(%categories))) {
 		}
 		# == end regional, now stripping articles
 
-		if ($code eq 'it') {
+		if ($code eq 'it' && $key !~ /^(un po')$/) {
 			$key =~ s/^(un|l)'//;
 			$key =~ s/^(un|una|uno|il|la|lo|i|le|gli) //;
 		}
