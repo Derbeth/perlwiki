@@ -34,7 +34,9 @@ use Derbeth::I18n 0.6.2;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/detect_pronounced_word/;
-our $VERSION = 0.0.1;
+our $VERSION = 0.1.0;
+
+Derbeth::Web::enable_caching(1);
 
 # For a pronunciation file for a non-Latin-script language, tries to guess
 # the real word from the file description page.
@@ -44,15 +46,15 @@ our $VERSION = 0.0.1;
 #   $file - name of the file like 'th-farang.ogg'
 #
 # Returns:
-#   detected real word or empty string if the real word cannot be detected
+#   array of detected real words or empty array if the real word cannot be detected
 sub detect_pronounced_word {
 	my ($lang,$file) = @_;
-	return '' unless (_language_supported($lang));
+	return () unless (_language_supported($lang));
 
 	my $wikicode = get_wikicode('http://commons.wikimedia.org/w/', "File:$file");
 	unless ($wikicode && $wikicode =~ /\w/) {
 		print encode_utf8("cannot detect word: no description for File:$file\n");
-		return '';
+		return ();
 	}
 
 	return _detect($lang, $wikicode);
@@ -60,45 +62,53 @@ sub detect_pronounced_word {
 
 sub _language_supported {
 	my ($lang) = @_;
-	return ($lang =~ /^(bg|he|th|zh)$/);
+	return ($lang =~ /^(bg|he|ja|th|zh)$/);
 }
 
 sub _detect {
 	my ($lang, $wikicode) = @_;
-	my $detected='';
+	my @detected;
 
 	if ($lang eq 'mk') {
 		if ($wikicode =~ /Macedonian pronunciation of ''([^' a-z()"]+)''/) {
-			$detected = $1;
+			push @detected, $1;
 		}
 	}
 	elsif ($lang eq 'bg') {
 		if ($wikicode =~ /Pronunciation of the word ([^ (a-z()"]+) \(/) {
-			$detected = $1;
+			push @detected, $1;
 		}
 	}
 	elsif ($lang eq 'he') {
 		if ($wikicode =~ /Pronunciation of the Hebrew word "([^a-z"]+)"/) {
-			$detected = $1;
+			push @detected, $1;
 		}
 	}
 	elsif ($lang eq 'ko') {
 		if ($wikicode =~ /Pronunciation of [^(]+\(([^ a-z()"]+)\)/) {
-			$detected = $1;
+			push @detected, $1;
+		}
+	}
+	elsif ($lang eq 'ja') {
+		if ($wikicode =~ /Pronunciation of the Japanese(?: word)? {{lang\|ja\|「([^」a-z]+)」}}/) {
+			push @detected, $1;
+		}
+		if ($wikicode =~ /Pronunciation of the Japanese word[^(]+\({{lang\|ja\|([^,()a-z]+),/) {
+			push @detected, $1;
 		}
 	}
 	elsif ($lang eq 'th') {
 		if ($wikicode =~ /Pronunciation of word " *([^ a-z()"]+) *\(/) {
-			$detected = $1;
+			push @detected, $1;
 		}
 	}
 	elsif ($lang eq 'zh') {
 		if ($wikicode =~ /Pronunciation of "[^"]+" \(([^a-z()]+)\) in Chinese/) {
-			$detected = $1;
+			push @detected, $1;
 		}
 	}
 
-	return $detected;
+	return @detected;
 }
 
 1;

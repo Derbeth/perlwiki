@@ -147,6 +147,11 @@ my %categories=(
 	'Italian pronunciation' => 'it',
 	'Italian pronunciation of names of cities' => 'it',
 	'Italian pronunciation of names of countries' => 'it',
+	'Japanese pronunciation' => 'ja',
+	'Japanese pronunciation of names of countries' => 'ja',
+	'Pronunciation of names of places in Japan' => 'ja',
+	'Pronunciation of Japanese numbers' => 'ja',
+	'Pronunciation of Japanese words' => 'ja',
 	'Jèrriais pronunciation' => 'roa',
 	'Jèrriais pronunciation of names of colors' => 'roa',
 	'Jèrriais pronunciation of names of countries' => 'roa',
@@ -184,7 +189,6 @@ my %categories=(
 	'Serbian pronunciation of names of countries' => 'sr',
 	'Serbian pronunciation of nouns' => 'sr',
 	'Serbian pronunciation of numbers' => 'sr',
-	'Serbian pronunciation of placenames' => 'sr',
 	'Serbian pronunciation of verbs' => 'sr',
 	'Slovak pronunciation' => 'sk',
 	'Slovak pronunciation of names of cities' => 'sk',
@@ -230,16 +234,18 @@ my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by', 'el' => 'ell', 'nb' => 'no'
 #   $file - 'en-us-cat.ogg'
 #   $regional - 'us' (optional)
 sub save_pron {
-
 	my ($lang,$key,$file,$regional)=@_;
 	confess "undefined: $lang $key" unless(defined($lang) && defined($key));
 	if ($regional && $regional eq 'gb') { $regional = 'uk'; }
 
+	my @keys = ($key);
+
 	if ($key =~ /[a-zA-Z]/) {
-		my $detected = detect_pronounced_word($lang, $file);
-		if ($detected) {
-			print encode_utf8("$lang-$key: detected word is '$detected'\n");
-			$key = $detected;
+		my @detected = detect_pronounced_word($lang, $file);
+		if ($#detected != -1) {
+			print "$lang-$key: detected words are '", encode_utf8(join(' ', @detected)), "'\n";
+			@keys = @detected;
+			$key = $detected[0];
 		} elsif ($lang =~ /^(ar|be|el|fa|he|ja|ka|ko|mk|ru|th|uk)$/) {
 			print "$lang-",encode_utf8($key)," contains latin chars; won't be added\n";
 			return;
@@ -248,6 +254,16 @@ sub save_pron {
 	if ($file =~ /-synth-/) {
 		print encode_utf8($file), " ignored because is synthesized\n";
 	}
+
+	foreach my $k (@keys) {
+		_save_pron_validated($lang, $k, $file, $regional);
+	}
+}
+
+# saved already validated file
+# Parameters are the same as in save_pron().
+sub _save_pron_validated {
+	my ($lang,$key,$file,$regional)=@_;
 
 	if (!exists($audio{$lang})) {
 		$audio{$lang} = {};
@@ -364,6 +380,7 @@ foreach my $cat (sort(keys(%categories))) {
 			}
 		}
 		elsif ($code eq 'it') {
+			$main_text =~ s/ \.\.\.//;
 			if ($main_text =~ /^Italian /) {
 				save_pron($code,$POSTMATCH,$page);
 				next;
@@ -377,6 +394,10 @@ foreach my $cat (sort(keys(%categories))) {
 		}
 		elsif ($code eq 'tr') {
 			$main_text =~ s/^Tr tr /Tur-/;
+			if ($main_text !~ /^(tur|tr)-/i) {
+				save_pron($code,lcfirst($main_text),$page);
+				next;
+			}
 		}
 		elsif ($code eq 'vi') {
 			if ($main_text =~ /^Vi-hanoi-m-/) {

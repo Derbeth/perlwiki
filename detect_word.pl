@@ -16,10 +16,11 @@ if ($#ARGV != 1) {
 my $word = decode_utf8($ARGV[1]);
 $word .= '.ogg' if ($word !~ /\.ogg$/);
 
-my $detected = detect_pronounced_word($ARGV[0], $word);
+my @detected = detect_pronounced_word($ARGV[0], $word);
 
-if ($detected) {
-	print encode_utf8("detected word: $detected\n");
+if ($#detected != -1) {
+	$, = ' ';
+	print scalar(@detected), ' detected words: ', encode_utf8("@detected"), "\n";
 } else {
 	print "word not detected\n";
 }
