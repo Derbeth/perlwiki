@@ -46,6 +46,9 @@ my %regional_fr = ('fr-Paris' => 'Paris', 'FR Paris' => 'Paris', 'fr FR-Paris' =
 my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by', 'el' => 'ell', 'nb' => 'no',
 	'roa' => 'jer');
 
+# marks words with lower priority
+my $LOWPR = '&';
+
 # For a pronunciation file for a non-Latin-script language, tries to guess
 # the real word from the file description page.
 #
@@ -131,6 +134,9 @@ sub _detect {
 #   ($file, $word1, $word2) - name of the file (like 'en-uk-ear.ogg') and
 #                             at least one guess of the word (like
 #                             'ear<uk>' or 'ear' when regional cannot be identified)
+#                             'ear&' or 'ear<uk>&' means that the word should have
+#                             lower priority than the same word without '&'
+#                             (for example because it contains the article)
 sub word_pronounced_in_file {
 	my ($page, $code, $cat) = @_;
 	$cat = '' unless(defined($cat));
@@ -142,6 +148,7 @@ sub word_pronounced_in_file {
 	my $skip_key_extraction=0;
 	my $word;
 	my $regional='';
+	my $art_rem = 0; # true if article has been removed
 
 	# === Non-standard naming goes here
 	if ($cat =~ /^Latvian pronunciation/) {
@@ -268,8 +275,8 @@ sub word_pronounced_in_file {
 			$regional = 'be';
 		}
 
-		$word =~ s/^(une|un|les|le|la)[ -]//gi;
-		$word =~ s/^l'//gi;
+		$art_rem = 1 if $word =~ s/^(une|un|les|le|la)[ -]//gi;
+		$art_rem = 1 if $word =~ s/^l'//gi;
 
 		if ($word =~ /-(fr-ouest|fr-Paris|FR Paris|fr FR-Paris|ca-Montréal|fr BE|fr CA|fr)$/i) {
 			if (exists($regional_fr{$1})) {
@@ -344,16 +351,19 @@ sub word_pronounced_in_file {
 	# == end regional, now stripping articles
 
 	if ($code eq 'it' && $word !~ /^(un po')$/) {
-		$word =~ s/^(un|l)'//;
-		$word =~ s/^(un|una|uno|il|la|lo|i|le|gli) //;
+		$art_rem = 1 if $word =~ s/^(un|l)'//;
+		$art_rem = 1 if $word =~ s/^(un|una|uno|il|la|lo|i|le|gli) // ;
 	}
 	elsif ($code eq 'fr') {
-		$word =~ s/ \((:?un|une|l[’']|la|le|du|des|les)\)$//;
+		$art_rem = 1 if $word =~ s/ \((:?un|une|l[’']|la|le|du|des|les)\)$//;
+	}
+	elsif ($code eq 'sv') {
+		$art_rem = 1 if $word =~ s/^(?:ett) //;
 	}
 
 	# == saving
 
-	my @result = ($file, _with_regional($word, $regional));
+	my @result = ($file, _with_regional($word, $regional, $art_rem ? $LOWPR : ''));
 
 	# === Letter size problems go here
 	if ($cat eq 'English pronunciation of numbers'
@@ -367,7 +377,7 @@ sub word_pronounced_in_file {
 	}
 	if ($code eq 'en') {
 		if ($word =~ /^(a|an|the|to) (.+)$/) {
-			push @result, _with_regional($2, $regional);
+			push @result, _with_regional($2, $regional, $LOWPR);
 		}
 	}
 
@@ -375,9 +385,11 @@ sub word_pronounced_in_file {
 }
 
 # returns either $word<$regional> or $word if regional is empty
+# priority is added at the end
 sub _with_regional {
-	my ($word, $regional) = @_;
-	return $regional ? "$word<$regional>" : $word;
+	my ($word, $regional, $priority) = @_;
+	$priority = '' unless(defined($priority));
+	return $regional ? "$word<$regional>$priority" : "$word$priority";
 }
 
 1;

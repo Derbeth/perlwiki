@@ -202,6 +202,7 @@ my %categories=(
 	'Swedish pronunciation' => 'sv',
 	'Swedish consonants' => 'sv',
 	'Swedish vowels' => 'sv',
+	'Swedish pronunciation of names of cities' => 'sv',
 	'Swedish pronunciation of names of countries' => 'sv',
 	'Swedish pronunciation of numbers' => 'sv',
 	'Tagalog pronunciation' => 'tl',
@@ -222,13 +223,17 @@ my %categories=(
 # 'de' => 'Katze' => 'de-Katze.ogg'
 my %audio;
 
+# each element contains data for one file with low priority
+my @lp_audio;
+
 # Parameters:
 #   $lang - 'en', 'de', 'tur'
 #   $key - 'cat', 'Warsaw', 'scharf'
 #   $file - 'en-us-cat.ogg'
 #   $regional - 'us' (optional)
+#   $low_priority - if true, word should never replace word with the same key and regional
 sub save_pron {
-	my ($lang,$key,$file,$regional)=@_;
+	my ($lang,$key,$file,$regional,$low_priority)=@_;
 	confess "undefined: $lang $key" unless(defined($lang) && defined($key));
 	if ($regional && $regional eq 'gb') { $regional = 'uk'; }
 
@@ -250,6 +255,18 @@ sub save_pron {
 	}
 
 	foreach my $k (@keys) {
+		my @params = ($lang, $k, $file, $regional);
+		if ($low_priority) {
+			push @lp_audio, join('&', @params);
+		} else {
+			_save_pron_validated(@params);
+		}
+	}
+}
+
+sub apply_low_priority {
+	foreach my $row (@lp_audio) {
+		my ($lang, $k, $file, $regional) = split(/&/, $row);
 		_save_pron_validated($lang, $k, $file, $regional);
 	}
 }
@@ -307,15 +324,19 @@ foreach my $cat (sort(keys(%categories))) {
 		my ($file, @words) = word_pronounced_in_file($page, $code);
 		foreach my $word (@words) {
 			my $regional='';
+			my $low_priority=0;
 			if ($word =~ /<([^>]+)>$/) {
 				$word = $`;
 				$regional = $1;
 			}
+			$low_priority = 1 if $word =~ s/&$//;
 
-			save_pron($code, $word, $file, $regional);
+			save_pron($code, $word, $file, $regional, $low_priority);
 		}
 	}
 }
+
+apply_low_priority();
 
 foreach my $lang_code (sort(keys(%audio))) {
 	my $audio_hash = $audio{$lang_code};
