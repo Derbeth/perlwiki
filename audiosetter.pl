@@ -56,6 +56,7 @@ my $wikt_lang='en';   # 'en','de','pl'; other Wiktionaries are not
                       # supported
 my $pause=1;          # number of seconds to wait before fetching each page
 my $only_words='';    # comma-separated list of words - only they will be processed
+my $all_langs=0;      # add in all languages
 
 my @langs;
 
@@ -93,13 +94,18 @@ my $filtered_audio_filename;
 	my $lang_codes; # 'en,fr,es'
 	
 	GetOptions('f|filter!' => \$filter_mode, 'd|debug!' => \$debug_mode,
-		'l|lang=s' => \$lang_codes, 'w|wikt=s' => \$wikt_lang,
+		'l|lang=s' => \$lang_codes, 'w|wikt=s' => \$wikt_lang, 'all|a' => \$all_langs,
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
 		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize,
 		'input|i=s'=> \$input_list, 'word=s' => \$only_words) or die;
 	
-	die "provide -w and -l correctly!" unless($wikt_lang && $lang_codes);
-	@langs = split /,/, $lang_codes;
+	die "provide -w and -l correctly!" unless($wikt_lang && ($lang_codes || $all_langs));
+	die "cannot specify both -a and -l" if ($lang_codes && $all_langs);
+	if ($all_langs) {
+		@langs = all_languages();
+	} else {
+		@langs = split /,/, $lang_codes;
+	}
 }
 
 if ($randomize) {
@@ -412,3 +418,14 @@ sub print_progress {
 	print "\n";
 }
 
+sub all_languages {
+	opendir(DIR, 'audio') or die "cannot open audio/ dir";
+	my @files = readdir(DIR);
+	closedir(DIR);
+	my @langs;
+	foreach (@files) {
+		/audio_([^.]+)\./ or next;
+		push @langs, $1;
+	}
+	return sort @langs;
+}
