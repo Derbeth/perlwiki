@@ -1,0 +1,75 @@
+==French==
+
+===Etymology===
+From the {{etyl|la|fr}} {{term|verus|vērus|true, real|lang=la}}.
+
+===Pronunciation===
+* {{audio|Fr-vrai.ogg|audio}}
+* {{IPA|/vʁɛ/|lang=fr}}, {{SAMPA|/vRE/}}
+* {{audio|Jer-Vrai.ogg|Audio}}
+
+===Adjective===
+{{fr-adj}}
+
+# [[true]]
+#: ''C'est '''vrai'''?''
+#:: '''Really'''?
+# [[real]]{{jump|fr|real|a|s}}
+
+====Synonyms====
+* {{jump|s|fr|real|a}} [[réel]], [[authentique]]
+
+====Antonyms====
+* {{jump|a|fr|real|s}} [[faux]]
+
+===Noun===
+{{fr-noun|m}}
+
+# [[truth]]
+
+===Adverb===
+{{fr-adv}}
+
+# [[true]]; [[truly]]
+#: {{usex|Raconter '''vrai'''|translation=to retell truly, without errors|lang=fr}}
+
+====Related terms====
+* [[vérité]]
+* [[vraiment]]
+* [[vraisemblable]]
+
+===Anagrams===
+* [[ravi#French|ravi]], [[riva#French|riva]], [[vair#French|vair]], [[vira#French|vira]]
+
+----
+
+==Jèrriais==
+
+===Noun===
+{{infl|roa-jer|noun|g=m}}
+
+# [[seaweed]], [[vraic]]
+
+[[Category:roa-jer:Plants]]
+
+[[de:vrai]]
+[[et:vrai]]
+[[el:vrai]]
+[[es:vrai]]
+[[fr:vrai]]
+[[ko:vrai]]
+[[io:vrai]]
+[[id:vrai]]
+[[ku:vrai]]
+[[lt:vrai]]
+[[li:vrai]]
+[[hu:vrai]]
+[[nl:vrai]]
+[[ja:vrai]]
+[[no:vrai]]
+[[pl:vrai]]
+[[fi:vrai]]
+[[sv:vrai]]
+[[tr:vrai]]
+[[vi:vrai]]
+[[zh:vrai]]

@@ -221,15 +221,15 @@ sub split_article_enwikt {
 sub _split_article_en {
 	my ($lang, $article_text) = @_;
 	
-	my @sections = split /(==[-a-zA-Z ]+==[^=])/, $article_text;
+	my @sections = split /(==[-'a-zA-Zāâäáèëéíīõüú ]+==[^=])/, $article_text;
 	
-# 	print "sections: $#sections\n";
+# 	print "sections: ", scalar(@sections), "\n";
 	
 	my $lang_index=0;
-# 	print "lang: '$lang'\n";
+# 	print encode_utf8("lang: '$lang'\n");
 	
 	foreach my $section (@sections) {
-# 		print "$section\n&&&&&&&&&&&&\n";
+# 		print encode_utf8("$section\n&&&&&&&&&&&&\n");
 		if ($section =~ /==\s*$lang\s*==/) {
 			last;
 		}
@@ -493,7 +493,7 @@ sub get_linking_to {
 sub get_wikicode {
 	my ($server,$article) = @_;
 	my $page=$server.'index.php?title='.$article.'&action=raw';	
-	my $text = decode_utf8(Derbeth::Web::get_page_from_web($page));
+	my $text = decode_utf8(Derbeth::Web::get_page($page));
 	if (index($text,'<meta name="generator" content="MediaWiki') != -1) {
 		# bad request
 		return '';

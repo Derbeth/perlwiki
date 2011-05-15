@@ -54,6 +54,8 @@ my $save_every=15000;   # bot saves results after modifying x pages
 
 my $wikt_lang='en';   # 'en','de','pl'; other Wiktionaries are not
                       # supported
+my $pause=1;          # number of seconds to wait before fetching each page
+my $only_words='';    # comma-separated list of words - only they will be processed
 
 my @langs;
 
@@ -71,6 +73,7 @@ my $errors_file='errors_audio.txt';
 my %done; # langcode-skip_word => 1
 my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
 my %pronunciation_filtered;
+my %forced_words; # only-word => 1
 
 my $lang_code;
 
@@ -93,7 +96,7 @@ my $filtered_audio_filename;
 		'l|lang=s' => \$lang_codes, 'w|wikt=s' => \$wikt_lang,
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
 		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize,
-		'input|i=s'=> \$input_list) or die;
+		'input|i=s'=> \$input_list, 'word=s' => \$only_words) or die;
 	
 	die "provide -w and -l correctly!" unless($wikt_lang && $lang_codes);
 	@langs = split /,/, $lang_codes;
@@ -122,6 +125,18 @@ if ($filter_mode == 1) {
 	$debug_mode = 0;
 }
 
+if ($only_words) {
+	$only_words = decode_utf8($only_words);
+	foreach my $w (split (/,/, $only_words)) {
+		$forced_words{$w} = 1;
+	}
+	print 'Will only edit words: ', encode_utf8(join(' ', keys %forced_words)), "\n";
+}
+
+if ($only_words && $debug_mode) {
+	Derbeth::Web::enable_caching(1);
+}
+
 read_hash_loose($donefile, \%done);
 
 my $server = "http://$wikt_lang.wiktionary.org/w/";
@@ -143,6 +158,7 @@ if ($debug_mode) {
 	srand();
 	open(DEBUG,">$debug_file");
 	open(ORIG,">$debug_orig_file");
+	print "debug mode, will write to $debug_orig_file and $debug_file\n";
 }
 
 open(ERRORS,">>$errors_file");
@@ -168,7 +184,7 @@ foreach my $l (@langs) {
 	} else {
 		print STDERR 'adding audio for ';
 	}
-	print STDERR get_language_name('en',$lang_code), " on ${wikt_lang}wikt\n";
+	print STDERR encode_utf8(get_language_name('en',$lang_code)), " on ${wikt_lang}wikt\n";
 	
 	my $audio_filename='audio_'.$lang_code.'.txt';
 	$filtered_audio_filename=$wikt_lang.'wikt_'.$audio_filename;
@@ -209,6 +225,8 @@ foreach my $l (@langs) {
 	}
 	$word_count=scalar(@keys);
 	foreach my $word (@keys) {
+		next if ($only_words && ! exists $forced_words{$word});
+
 		my $pron = $pronunciation{$word};
 		++$processed_words;
 		print_progress() if ($processed_words % 200 == 0);
@@ -224,7 +242,7 @@ foreach my $l (@langs) {
 		}
 		
 		if (!$debug_mode && !$filter_mode) {
-			sleep 2; # was: 1
+			sleep $pause;
 		}
 		
 		my $page_text;

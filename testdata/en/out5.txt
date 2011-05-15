@@ -1,0 +1,245 @@
+{{wikipedia}}
+{{also|Appendix:Variations of "us"}}
+==English==
+
+===Etymology 1===
+From {{etyl|enm}} {{term|us|lang=enm}}, from {{etyl|ang}} {{term|us|ūs|pos=dative personal pronoun|us|lang=ang}}, from {{proto|Germanic|uns|us|lang=en}}, from {{proto|Indo-European|ne-||nō-||n-ge-||n-sme-|us|lang=en}}. Cognate with {{etyl|fry|-}} {{term|us|lang=fry}}, {{term|us|ús|us|lang=fry}}, {{etyl|nds|-}} {{term|us||us|lang=nds}}, {{etyl|nl|-}} {{term|ons||us|lang=nl}}, {{etyl|de|-}} {{term|uns||us|lang=de}}, {{etyl|da|-}} {{term|os||us|lang=da}}, {{etyl|la|-}} {{term|nos|nōs|we, us|lang=la}}.
+
+====Pronunciation====
+* {{qualifier|stressed}} {{enPR|ŭs}}, {{IPA|/ʌs/}}, {{SAMPA|/Vs/}}
+* {{qualifier|unstressed}} {{IPA|/əs/}}, {{SAMPA|/@s/}}
+* {{audio|en-us-us.ogg|Audio (US)}}
+*: {{rhymes|ʌs}}
+
+====Pronoun====
+{{en-pron}}
+
+# {{personal}} [[me]] and at least one other person; the objective case of '''[[we]]'''.
+# {{colloquial}} [[me]]
+#: ''Give '''us''' a look at your paper.''
+#: ''Give '''us''' your fuckin' wallet!''
+
+=====Quotations=====
+* '''1611''' — [[w:King James Version of the Bible|King James Version of the Bible]], ''[[s:Bible (King James)/Luke|Luke]] 1:1''
+*: Forasmuch as many have taken in hand to set forth in order a declaration of those things which are most surely believed among '''us'''...
+
+=====Translations=====
+{{trans-top|objective case of "we"}}
+* [[American Sign Language]]: [[1^o-f@IpsiChest-FingerBack RoundHoriz 1^o-f@ContraChest-FingerBack]]
+* Arabic: {{t-|ar|نا|alt=ـنا|tr=-naa}}
+*: Egyptian Arabic: {{tø|arz|نا|alt=ـنا|tr=-naa|sc=Arab|xs=Egyptian Arabic}}
+* Armenian: {{l|hy|մեզ|tr=mez}}
+** Old Armenian: {{l|xcl|մեզ|tr=mez}}
+* [[Bislama]]: [[yumi]], [[yumitupela]] (''dual inclusive''); [[yumitripela]] (''trial inclusive''); [[yumipela]] (''plural inclusive''); [[mitupela]] (''dual exclusive''); [[mitripela]] (''trial exclusive''); [[mipela]] (''plural exclusive'')
+* [[Chamicuro]]: {{tø|ccc|a'ti}}
+* Chinese:
+*: Mandarin: {{t-|cmn|我們|sc=Hani}}, {{t-|cmn|我们|tr=wǒmen|sc=Hani}}
+* Croatian: {{t+|hr|nas}}
+* Dutch: {{t+|nl|ons}}
+* Esperanto: {{t+|eo|nin|xs=Esperanto}}
+* [[Ewe]]: [[míawo]]
+* Finnish: {{t+|fi|meidät}},  {{t+|fi|meitä}}
+* French: {{t+|fr|nous}}, à nous
+* German: {{t+|de|uns}}
+* Greek: {{t|el|μας|tr=mas}}
+* [[Hopi]]: {{tø|hop|itamuy}}
+* [[Ido]]: [[ni]]
+* [[Interlingua]]: {{t|ia|nos}}
+{{trans-mid}}
+* Italian: {{t+|it|noi}}, a noi, {{t+|it|ci}}
+* Japanese: wata (私達) ''[[or]]'' tachi (私達)
+* Kazakh: {{t|kk|бізді|tr=bizdi|sc=Cyrl|xs=Kazakh}}
+* Kurdish: {{ku-Arab|[[ئێمه‌]]}}
+* Latin: {{qualifier|acc}} {{t+|la|nos}}, {{qualifier|dative}} {{t+|la|nobis}}, {{qualifier|ablative}} {{t+|la|nobis}}
+* Malay: {{t+|ms|kita|xs=Malay}}
+* [[Ngarrindjeri]]: {{tø|nay|ngatjagha}}
+* [[Norn]]: [[vus]]
+* Norwegian: {{t+|no|oss}}
+* [[Old English]]: [[unc]] (dual), [[us#Old English|ūs/ūsiċ]] (plural)
+* Polish: {{t-|pl|nas}}, {{t+|pl|nam}}, {{t-|pl|nami}}
+* Portuguese: {{t+|pt|nos}}
+* Romanian: [[ne]] (''unstressed dative and accusative''), [[nouă]] (''stressed dative''), ([[pe]]) [[noi]] (''stressed accusative'')
+* Slovene: [[midva]] (‘us two’), [[midve]] (‘us two women’), [[mi]] (three or more), [[me]] (three or more women)
+* Spanish: {{t+|es|nos}}, {{t+|es|nosotros}}, {{t-|es|nosotras}}
+* Swedish: {{t+|sv|oss}}
+* Ukrainian: {{t+|uk|нас|tr=nas|xs=Ukrainian}}
+* [[Volapük]]: {{t|vo|obis}}
+* Welsh: {{t-|cy|ni|xs=Welsh}}
+* [[West Frisian]]: {{t+|fy|ús|xs=West Frisian}}
+{{trans-bottom}}
+
+<!--Add COLLOQUIAL translations here, where these exist-->
+{{trans-top|colloquial: me}}
+* German: {{t+|de|uns}}
+{{trans-mid}}
+{{trans-bottom}}
+
+=====See also=====
+* [[we]]
+* [[our]]
+* [[ours]]
+* [[ume]]
+
+====Determiner====
+{{en-det}}
+
+# The speakers/writers, or the speaker/writer and at least one other person.
+#: ''It's not good enough for '''us''' teachers.''
+
+=====See also=====
+* [[we]]
+
+===Etymology 2===
+Derived from the similarity between the letter [[u]] and the Greek letter [[µ]].
+
+====Symbol====
+'''us'''
+
+# {{alternative spelling of|µs}}
+
+====Statistics====
+* {{rank|must|these|two|89|us|before|see|over}}
+
+===Anagrams===
+* [[SU#English|SU]], [[Su#English|Su]]
+
+[[Category:200 English basic words]]
+[[Category:English first person pronouns]]
+[[Category:English personal pronouns]]
+[[Category:English plural pronouns]]
+[[Category:English pronouns]]
+[[Category:English two-letter words]]
+[[Category:Symbols for SI units]]
+
+----
+
+==Catalan==
+
+===Pronoun===
+{{ca-ppron|type=procl+encl_con|encl=vos}}
+
+# [[you]] (plural, direct or indirect object)
+# {{contraction of|vos|lang=ca}}
+
+====Declension====
+{{ca-decl-ppron}}
+
+----
+
+==French==
+
+===Etymology===
+{{etyl|fro|fr}} {{term|us|lang=fro}} < {{etyl|la|fr}} {{term|usus|lang=la}}
+
+===Noun===
+{{infl|fr|noun|g=m|g2=p}}
+
+# {{plurale tantum|lang=fr}} [[customs]]; [[traditions]]
+
+====Usage notes====
+only used in Modern French as ''us et coutumes'' (traditions and customs)
+
+===Anagrams===
+* [[su#French|su]]
+
+----
+
+==Latin==
+
+===Pronunciation===
+* {{audio|la-ecc-us.ogg|Audio}}
+
+===Verb===
+{{la-verb-form|us esse}}
+
+# {{conjugation of|absto|abstō|perf|pass|inf|lang=la}}
+
+----
+
+==Old English==
+
+===Etymology===
+From {{proto|Germanic|lang=ang}} from {{proto|Indo-European|n̥s||nes|lang=ang}}. Cognates include Old Frisian {{term|us|ūs|lang=ofs}} (West Frisian {{term|us|ús|lang=fy}}), Old Saxon {{term|us|ūs|lang=osx}} (Dutch {{term|ons|lang=nl}}), Old High German {{term|uns|lang=goh}} (German {{term|uns|lang=de}}), Old Norse {{term|oss|lang=non}} (Swedish {{term|oss|lang=sv}}), Gothic {{term|𐌿𐌽𐍃|tr=uns|lang=got|sc=Goth}}.  The Indo-European root is also the source of Latin {{term|nos|lang=la}}.
+
+===Pronunciation===
+* {{IPA|/uːs/|lang=ang}}
+
+===Pronoun===
+{{infl|ang|pronoun|head=ūs|personal pronoun}}
+
+# [[us#English|us]]: accusative or dative plural form of [[ic#Old English|iċ]]
+
+----
+
+==Old French==
+
+===Etymology===
+{{etyl|la|fro}} {{term|usus|lang=la}}
+
+===Noun===
+{{fro-noun|m|us|us|us}}
+
+# [[tradition]] or [[custom]]
+
+----
+
+==Tz'utujil==
+
+===Noun===
+{{infl|tzj|noun}}
+
+# [[fly]] (insect)
+
+----
+
+==Volapük==
+
+===Adverb===
+{{infl|vo|adverb}}
+
+# [[there]]
+
+----
+
+==West Frisian==
+
+===Pronoun===
+{{infl|fy|pronoun}}
+
+# {{alternative form of|[[ús]]|lang=fy}}
+
+[[ast:us]]
+[[de:us]]
+[[et:us]]
+[[el:us]]
+[[es:us]]
+[[eo:us]]
+[[fa:us]]
+[[fr:us]]
+[[ko:us]]
+[[hr:us]]
+[[io:us]]
+[[it:us]]
+[[kk:us]]
+[[ku:us]]
+[[la:us]]
+[[lt:us]]
+[[hu:us]]
+[[ml:us]]
+[[my:us]]
+[[nl:us]]
+[[ja:us]]
+[[no:us]]
+[[pl:us]]
+[[pt:us]]
+[[ru:us]]
+[[simple:us]]
+[[fi:us]]
+[[sv:us]]
+[[ta:us]]
+[[te:us]]
+[[tr:us]]
+[[uk:us]]
+[[vi:us]]
+[[vo:us]]
+[[zh:us]]

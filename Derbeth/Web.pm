@@ -122,7 +122,9 @@ sub can_cache {
 	my $dir;
 	opendir($dir,$CACHE_DIR) or return 0;
 	my @files = readdir $dir or return 0;
-	return( $#files < $MAX_FILES_IN_CACHE );
+	my $space_left = ( $#files < $MAX_FILES_IN_CACHE );
+	print "cache full\n" unless $space_left;
+	return $space_left;
 }
 
 sub get_page_from_cache {
@@ -160,7 +162,7 @@ sub get_page_from_file {
 sub save_page_to_file {
    my $text = \shift @_;
    my $file = shift @_;
-   
+
    open(OUT,'>',$file) or die "cannot write to file $file";
    print OUT $$text;
 }
