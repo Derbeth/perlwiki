@@ -174,6 +174,7 @@ $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); exit; };
 # ========== Main loop
 
 foreach my $l (@langs) {
+	next if ($wikt_lang eq 'de' && $l eq 'de'); # there is a separate script
 	$lang_code = $l;
 	
 	$processed_words=0;
