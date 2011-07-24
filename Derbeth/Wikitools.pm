@@ -45,7 +45,7 @@ our @EXPORT = qw/split_before_sections
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.8.0;
+our $VERSION = 0.9.0;
 
 # Variable: $use_perlwikipedia
 our $use_perlwikipedia=0;
