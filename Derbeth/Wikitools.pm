@@ -322,15 +322,15 @@ sub _find_category_next_link {
 # See also:
 #   
 sub get_category_contents {
-	my ($server,$category,$maxparts,$allow_namespaces) = @_;
+	my ($server,$category,$maxparts,$allow_namespaces,$from) = @_;
 	
 	$allow_namespaces = {'main'=>1, 'image'=>1, 'file'=>1} unless (defined($allow_namespaces));
 	$allow_namespaces->{'main'} = 1 unless (exists($allow_namespaces->{main}));
 
 	if ($use_perlwikipedia) {
-		return get_category_contents_perlwikipedia($server,$category,$maxparts,$allow_namespaces);
+		return get_category_contents_perlwikipedia($server,$category,$maxparts,$allow_namespaces,$from);
 	} else {
-		return get_category_contents_internal($server,$category,$maxparts,$allow_namespaces);
+		return get_category_contents_internal($server,$category,$maxparts,$allow_namespaces,$from);
 	}
 }
 
@@ -373,11 +373,12 @@ sub get_category_contents_perlwikipedia {
 }
 
 sub get_category_contents_internal {
-	my ($server,$category,$maxparts,$allow_namespaces) = @_;
+	my ($server,$category,$maxparts,$allow_namespaces,$from) = @_;
 	my @retval;
 	
 	$category = uri_escape_utf8($category);
 	my $page=$server.'index.php?title='.$category;
+	$page .= "&$from" if $from;
 # 	$page .= '&action=purge';
 	my $part=1;
 	

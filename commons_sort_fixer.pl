@@ -1,16 +1,21 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 use strict;
 use utf8;
 use Encode;
 use Derbeth::Util;
+use Derbeth::Web;
 use Derbeth::Wikitools;
 use MediaWiki::Bot 3.3.1;
 use POSIX 'islower';
 
 my $server='http://commons.wikimedia.org/w/';
-my $category="Category:Romansh pronunciation";
-my @pages=get_category_contents($server,$category);
+my $category="Category:German pronunciation";
+my $from='';
+$from='filefrom=D';
+Derbeth::Web::enable_caching(1);
+
+my @pages=get_category_contents($server,$category,undef,undef,$from);
 
 print "$category: ", scalar(@pages), " pages\n";
 
@@ -27,12 +32,14 @@ my $editor = MediaWiki::Bot->new({
 });
 
 foreach my $page (@pages) {
-	if ($page =~ /^File:(?:Roh-sursilvan \(Breil\)|Roh-sursilvan|Roh)-(.+)\.ogg$/i) {
+	if ($page =~ /^(?:File|Image):(?:De-(.+))\.ogg$/i) {
 		my $sort=$1;
 		my $text=$editor->get_text($page);
-		if ($text =~ s/\[\[$category\]\]/\[\[$category|$sort\]\]/) {
+
+		if ($text =~ s/\[\[(Category:German pronunciation)\]\]/\[\[$1|$sort\]\]/) {
 			print encode_utf8("sorted $page as '$sort'\n");
-			$editor->edit($page, $text, 'category sorting', 1);
+			$editor->edit({page=>$page, text=>$text, summary=>'category sorting',
+				bot=>1});
 			sleep 3;
 		} else {
 			print encode_utf8("probably sorted: $page\n");
