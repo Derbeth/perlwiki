@@ -172,6 +172,7 @@ sub word_pronounced_in_file {
 		if ($main_text =~ /^CPIDL German - /) {
 			return ($file, lcfirst($POSTMATCH));
 		}
+		$main_text =~ s/ fcm$//;
 	}
 	elsif ($code eq 'en') {
 		if ($main_text =~ /^Ca-en-/i) {

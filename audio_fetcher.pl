@@ -126,6 +126,7 @@ my %categories=(
 	'German pronunciation of names of colors' => 'de',
 	'German pronunciation of names of countries' => 'de',
 	'German pronunciation of numbers' => 'de',
+	'German pronunciation of planets' => 'de',
 	'Greek pronunciation' => 'el',
 	'Hebrew pronunciation' => 'he',
 	'Hungarian pronunciation' => 'hu',
