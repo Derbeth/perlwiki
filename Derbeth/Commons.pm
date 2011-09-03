@@ -272,7 +272,7 @@ sub word_pronounced_in_file {
 		$word =~ s/^fr-//i;
 		if ($word =~ s/^Paris-{1,2}(.)/$1/i) {
 			$regional = 'Paris';
-		} elsif ($word =~ s/^(BE-BW--|BE--)//) {
+		} elsif ($word =~ s/^(BE-BW|BE)-+//) {
 			$regional = 'be';
 		}
 

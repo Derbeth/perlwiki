@@ -118,6 +118,7 @@ my %categories=(
 	'French pronunciation of words relating to mammals' => 'fr',
 	'Pronunciation of names of municipalities of France' => 'fr',
 	'Frisian pronunciation' => 'fy', # West Frisian
+	'Galician pronunciation' => 'gl',
 	'Georgian pronunciation' => 'ka',
 	'German pronunciation' => 'de',
 	'Austrian pronunciations' => 'de',
@@ -322,15 +323,15 @@ foreach my $cat (sort(keys(%categories))) {
 	foreach my $page (@pages) {
 		$page =~ s/&#039;/'/g;
 
-		my ($file, @words) = word_pronounced_in_file($page, $code);
+		my ($file, @words) = word_pronounced_in_file($page, $code, $cat);
 		foreach my $word (@words) {
 			my $regional='';
 			my $low_priority=0;
+			$low_priority = 1 if $word =~ s/&$//;
 			if ($word =~ /<([^>]+)>$/) {
 				$word = $`;
 				$regional = $1;
 			}
-			$low_priority = 1 if $word =~ s/&$//;
 
 			save_pron($code, $word, $file, $regional, $low_priority);
 		}
