@@ -270,9 +270,9 @@ sub word_pronounced_in_file {
 	}
 	elsif ($code eq 'fr') {
 		$word =~ s/^fr-//i;
-		if ($word =~ s/^Paris-{1,2}(.)/$1/i) {
+		if ($word =~ s/^-?Paris-{1,3}(.)/$1/i) {
 			$regional = 'Paris';
-		} elsif ($word =~ s/^(BE-BW|BE)-+//) {
+		} elsif ($word =~ s/^(Belgique-BW|BE-BW|BE)-+//) {
 			$regional = 'be';
 		}
 
