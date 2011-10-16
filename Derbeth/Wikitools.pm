@@ -281,6 +281,9 @@ sub extract_page_contents {
 	if ($begin == -1) {
 		$begin = index($$page_text, '<!-- bodytext -->');
 	}
+	if ($begin == -1) {
+		$begin = index($$page_text, '<!-- bodycontent -->');
+	}
 	my $end = index($$page_text, 'printfooter');
 	#print "indexes: $begin | $end\n";
 	return substr($$page_text, $begin, $end-$begin+1);

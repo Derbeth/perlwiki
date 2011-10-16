@@ -208,6 +208,7 @@ my %categories=(
 	'Swedish pronunciation of names of countries' => 'sv',
 	'Swedish pronunciation of numbers' => 'sv',
 	'Tagalog pronunciation' => 'tl',
+	'Tamil pronunciation' => 'ta',
 	'Thai pronunciation' => 'th',
 	'Turkish pronunciation' => 'tr',
 	'Twi pronunciation' => 'twi',
