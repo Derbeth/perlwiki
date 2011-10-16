@@ -305,7 +305,7 @@ sub word_pronounced_in_file {
 		}
 	}
 	elsif ($code eq 'la') {
-		if ($word =~ /^(ecc|cls)-/) {
+		if ($word =~ /^(ecc|cls|rom)-/) {
 			$regional = $1;
 			$word = $POSTMATCH;
 		}
