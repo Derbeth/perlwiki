@@ -87,7 +87,7 @@ sub get_page_from_web {
 	if ($response->is_success) {
 		return $response->content;
 	} else {
-		print "error getting $full_url: ",$response->content,"\n";
+		print encode_utf8("error getting $full_url: "),$response->content,"\n";
 		return '';
 	}
 }
@@ -98,8 +98,8 @@ sub get_page_from_web {
 #   $recache  - if true, URL is retrieved without using cache and then written to cache
 sub get_page {
 	my ($full_url,$recache)=@_;
-	$full_url = encode_utf8($full_url);
-	#$full_url = uri_escape_utf8($full_url);
+# 	$full_url = encode_utf8($full_url);
+# 	$full_url = uri_escape_utf8($full_url);
 	if ($cache_pages) {
 		return get_page_from_cache($full_url,$recache);
 	} else {
@@ -131,7 +131,7 @@ sub get_page_from_cache {
 	my ($full_url,$recache)=@_;
 	
 	if (can_cache()) {
-		my $filename=$CACHE_DIR.'/'.md5_hex($full_url);
+		my $filename=$CACHE_DIR.'/'.md5_hex(encode_utf8($full_url));
 		
 		if( -e $filename && !$recache) {
 			print "reading cache for $full_url";
