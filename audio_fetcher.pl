@@ -180,6 +180,7 @@ my %categories=(
 	'Romanian pronunciation of names of cities' => 'ro',
 	'Romanian pronunciation of names of countries' => 'ro',
 	'Romansh pronunciation' => 'roh',
+	'Sursilvan pronunciation' => 'roh',
 	'Russian pronunciation' => 'ru',
 	'Russian pronunciation of names of cities' => 'ru',
 	'Russian pronunciation of names of colors' => 'ru',
@@ -242,14 +243,15 @@ sub save_pron {
 
 	my @keys = ($key);
 
-	if ($key =~ /[a-zA-Z]/) {
+	if ($key =~ /[a-zA-Z]+/) {
+		my $latin = $&;
 		my @detected = detect_pronounced_word($lang, $file);
 		if ($#detected != -1) {
-			print "$lang-$key: detected words are '", encode_utf8(join(' ', @detected)), "'\n";
+			print "$lang-", encode_utf8($key), ": detected words are '", encode_utf8(join(' ', @detected)), "'\n";
 			@keys = @detected;
 			$key = $detected[0];
 		} elsif ($lang =~ /^(ar|be|el|fa|he|ja|ka|ko|mk|ru|th|uk)$/) {
-			print "$lang-",encode_utf8($key)," contains latin chars; won't be added\n";
+			print "$lang-",encode_utf8($key)," contains latin chars ($latin); won't be added\n";
 			return;
 		}
 	}
