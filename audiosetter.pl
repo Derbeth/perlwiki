@@ -116,6 +116,7 @@ if ($randomize) {
 if ($clean_cache) {
 	Derbeth::Web::clear_cache();
 }
+system("mkdir done") unless(-e 'done');
 if ($clean_start) {
 	`rm -f audio/${wikt_lang}wikt_audio*`;
 	`rm -f done/done_filter_${wikt_lang}.txt done/done_audio_${wikt_lang}.txt`;

@@ -11,7 +11,7 @@ my $wikt_lang='en';
 
 GetOptions(
 	'f|lang=s' => \$wikt_lang,
-);
+) or die;
 
 my $sum=0;
 my %count;

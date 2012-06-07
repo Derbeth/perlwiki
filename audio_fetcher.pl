@@ -343,6 +343,8 @@ foreach my $cat (sort(keys(%categories))) {
 
 apply_low_priority();
 
+system("mkdir audio") unless (-e 'audio');
+
 foreach my $lang_code (sort(keys(%audio))) {
 	my $audio_hash = $audio{$lang_code};
 	open(OUT, '>audio/audio_'.$lang_code.'.txt') or die "cannot write $lang_code";

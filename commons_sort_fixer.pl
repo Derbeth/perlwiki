@@ -36,7 +36,8 @@ foreach my $page (@pages) {
 		my $sort=$1;
 		my $text=$editor->get_text($page);
 
-		if ($text =~ s/\[\[(Category:German pronunciation)\]\]/\[\[$1|$sort\]\]/) {
+		if ($text !~ /DEFAULTSORT/
+		&& $text =~ s/\[\[(Category:German pronunciation)\]\]/\[\[$1|$sort\]\]/) {
 			print encode_utf8("sorted $page as '$sort'\n");
 			$editor->edit({page=>$page, text=>$text, summary=>'category sorting',
 				bot=>1});

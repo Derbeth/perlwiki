@@ -68,6 +68,7 @@ my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
 
 $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit; };
 
+system("mkdir done") unless(-e 'done');
 read_hash_loose($donefile, \%done);
 
 if ($debug_mode) {

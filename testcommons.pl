@@ -8,6 +8,7 @@ use Encode;
 my $input='testdata/commons.ini';
 open(IN, $input) or die "cannot read $input";
 
+my $tests=0;
 my $line=0;
 while(<IN>) {
 	++$line;
@@ -29,4 +30,7 @@ while(<IN>) {
 			die encode_utf8("$input:$line: expected '$expected[$i]' received '$words[$i]'");
 		}
 	}
+	++$tests;
 }
+
+print "\nAll $tests tests succeeded\n";
