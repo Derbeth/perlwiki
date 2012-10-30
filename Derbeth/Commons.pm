@@ -31,7 +31,7 @@ use Carp;
 use Encode;
 use Derbeth::Wikitools;
 use Derbeth::Util;
-use Derbeth::I18n 0.6.2;
+use Derbeth::I18n 0.6.4;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/detect_pronounced_word
@@ -246,6 +246,11 @@ sub word_pronounced_in_file {
 			$word = $POSTMATCH; # remove
 		}
 	}
+	elsif ($code eq 'da') {
+		if ($word =~ /^cph-/i) {
+			$word = $POSTMATCH; # remove
+		}
+	}
 	elsif ($code eq 'de') {
 		$word =~ s/-pronunciation$//;
 		if ($word =~ /^(at)-/) {
@@ -254,7 +259,7 @@ sub word_pronounced_in_file {
 		}
 	}
 	elsif ($code eq 'en') {
-		if ($word =~ /^(us-inlandnorth|us|uk|ca|nz|gb|au|sa)-/i) {
+		if ($word =~ /^(us-ncalif|us-inlandnorth|us|uk|ca|nz|gb|au|sa)-/i) {
 			$regional = lc($1);
 			$word = $POSTMATCH;
 		}
@@ -263,9 +268,17 @@ sub word_pronounced_in_file {
 		if ($word =~ /-bo-La Paz$/) {
 			$regional = 'bo';
 			$word = $PREMATCH;
-		} elsif ($word =~ /^(mx)-/) {
+		} elsif ($word =~ /-Ar-Rosario$/) {
+			$regional = 'ar';
+			$word = $PREMATCH;
+		} elsif ($word =~ /^(chile|mx)-/) {
 			$regional = lc($1);
 			$word = $POSTMATCH;
+		}
+	}
+	elsif ($code eq 'fa') {
+		if ($word =~ /^f-/i) {
+			$word = $POSTMATCH; # remove
 		}
 	}
 	elsif ($code eq 'fr') {

@@ -32,12 +32,13 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.6.3;
+our $VERSION = 0.6.4;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
 my %regional_names = (
 	'pl' => {
+		'ar' => 'argentyńska',
 		'at' => 'austriacka',
 		'au' => 'australijska',
 		'be' => 'belgijska',
@@ -45,6 +46,7 @@ my %regional_names = (
 		'br' => 'brazylijska',
 		'by' => 'bawarska',
 		'ca' => 'kanadyjska',
+		'chile' => 'chilijska',
 		'cls' => 'tradycyjna', # łacina
 		'ecc' => 'kościelna',
 		'east-armenian' => 'ze Wschodniej Armenii',
@@ -59,8 +61,10 @@ my %regional_names = (
 		'uk' => 'brytyjska',
 		'us' => 'amerykańska',
 		'us-inlandnorth' => 'amerykańska Inland North',
+		'us-ncalif' => 'amerykańska z Północnej Kalifornii',
 	},
 	'de' => {
+		'ar' => 'argentinisch',
 		'at' => 'österreichisch',
 		'au' => 'australisch',
 		'be' => 'belgisch',
@@ -68,6 +72,7 @@ my %regional_names = (
 		'br' => 'brasilianisch',
 		'by' => 'bairisch',
 		'ca' => 'kanadisch',
+		'chili' => 'chilenisch',
 		'cls' => 'klassisches Latein',
 		'ecc' => 'Kirchenlatein',
 		'east-armenian' => 'ostarmenisch',
@@ -83,8 +88,10 @@ my %regional_names = (
 		'uk' => 'britisch',
 		'us' => 'US-amerikanisch',
 		'us-inlandnorth' => 'amerikanisch Inland North',
+		'us-ncalif' => 'amerikanisch Nordkalifornien',
 	},
 	'en' => {
+		'ar' => 'Argentina',
 		'at' => 'Austria',
 		'au' => 'AUS',
 		'be' => 'Belgium',
@@ -92,6 +99,7 @@ my %regional_names = (
 		'br' => 'BR',
 		'by' => 'Bavarian',
 		'ca' => 'CAN',
+		'chile' => 'Chile',
 		'cls' => 'classical',
 		'east-armenian' => 'East Armenian',
 		'ecc' => 'ecclesiastical',
@@ -106,6 +114,7 @@ my %regional_names = (
 		'uk' => 'UK',
 		'us' => 'US',
 		'us-inlandnorth' => 'US Inland North',
+		'us-ncalif' => 'Northern California, US',
 	}
 );
 $regional_names{'simple'} = $regional_names{'en'};
