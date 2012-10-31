@@ -14,13 +14,17 @@ my $interactive=0; # run kdiff3
 
 GetOptions('i|interactive!'=> \$interactive) or die;
 
+my @VALID_ARGS = qw{added_audios audio audio_pl ipa ipa_pl lang_code  plural result word};
 my $TESTDATA_DIR = 'testdata';
 my $TEST_TEMP_DIR = '/tmp/testaddaudio-test';
 
-my @tested_wikts = ('de', 'en', 'pl', 'simple', 'fr');
+my @tested_wikts = qw/de en pl simple fr/;
 
 `rm -rf $TEST_TEMP_DIR/`;
 `mkdir $TEST_TEMP_DIR`;
+
+my %valid_args;
+foreach (@VALID_ARGS) { $valid_args{$_} = 1; }
 
 for my $wikt_lang(@tested_wikts) {
 	my $i=0;
@@ -36,6 +40,7 @@ for my $wikt_lang(@tested_wikts) {
 		
 		my %args;
 		read_hash_loose($args_file, \%args);
+		validate_args($args_file, %args);
 		do_test($test_input, $wikt_lang, $test_input, $test_output, %args);
 		my $equal = &compare_files($test_output, $test_expected);
 		if (!$equal) {
@@ -96,3 +101,11 @@ sub do_test {
 	
 }
 
+sub validate_args {
+	my ($args_file, %args) = @_;
+	foreach my $k (sort keys %args) {
+		unless(exists $valid_args{$k}) {
+			die "$args_file: illegal argument '$k'. Valid arguments are: @VALID_ARGS";
+		}
+	}
+}

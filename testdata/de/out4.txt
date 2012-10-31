@@ -1,0 +1,71 @@
+== een ({{Sprache|Niederländisch}}) ==
+=== {{Wortart|Artikel|Niederländisch}} ===
+
+{{Worttrennung}}
+:een
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ən}}
+:{{Hörbeispiele}} {{Audio|Nl-een.ogg}} {{Audio|Nl-een (Belgium).ogg|een (belgisch)}}
+
+{{Bedeutungen}}
+:[1] [[ein]]
+
+{{Gegenwörter}}
+:[1] [[geen]]
+
+{{Beispiele}}
+:[1] Dat is ''een'' huis.
+::Das ist ''ein'' Haus.
+
+==== Übersetzungen ====
+{{Ü-links}}
+*{{de}}: [1] [[ein]]
+{{Ü-Abstand}}
+*{{en}}: [1] {{Ü|en|}}
+{{Ü-rechts}}
+
+{{Referenzen}}
+:[1] {{Ref-VanDale|een}}
+:[1] {{Ref-Pons|nl|een}}
+:[1] {{Ref-uitmuntend|een}}
+
+{{Ähnlichkeiten}}
+
+[[ar:een]]
+[[cs:een]]
+[[cy:een]]
+[[da:een]]
+[[en:een]]
+[[es:een]]
+[[et:een]]
+[[eu:een]]
+[[fi:een]]
+[[fj:een]]
+[[fr:een]]
+[[fy:een]]
+[[gl:een]]
+[[hu:een]]
+[[hy:een]]
+[[id:een]]
+[[io:een]]
+[[it:een]]
+[[ko:een]]
+[[ku:een]]
+[[la:een]]
+[[li:een]]
+[[lt:een]]
+[[mg:een]]
+[[my:een]]
+[[nah:een]]
+[[nds:een]]
+[[nl:een]]
+[[no:een]]
+[[pl:een]]
+[[pt:een]]
+[[ru:een]]
+[[sv:een]]
+[[tr:een]]
+[[uk:een]]
+[[vi:een]]
+[[zh:een]]

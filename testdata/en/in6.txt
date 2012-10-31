@@ -1,0 +1,11 @@
+==Dutch==
+
+===Etymology===
+From {{etyl|dum|nl}} {{term|een|lang=dum}}, from {{etyl|odt|nl}} {{term|en|ēn|lang=odt}}, {{term|ein|lang=odt}}, from {{etyl|gem-pro|nl}} {{recons|ainaz|lang=gem-pro}}, from {{etyl|ine-pro|nl}} {{recons|óynos|lang=ine-pro}}.
+
+===Pronunciation===
+* {{IPA|/ən/|lang=nl}}
+
+===Numeral===
+{{cardinalbox|nl|0|1|2|nul|twee|ord=eerst}}
+{{head|nl|numeral}}

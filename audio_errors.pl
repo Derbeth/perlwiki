@@ -46,11 +46,15 @@ foreach my $lang (sort(keys(%langs))) {
 			print STDERR "no audio ", encode_utf8($word), "($lang)\n";
 			next;
 		}
-		my %files = decode_pron($pron);
+		my @decoded = decode_pron($pron);
+		my @files;
+		for (my $i=0; $i<=$#decoded; $i += 2) {
+			push @files, $decoded[$i]; # only file names
+		}
 
 		print encode_utf8("|-\n| [[$word]] || ");
 		my @formatted;
-		foreach my $file (keys(%files)) {
+		foreach my $file (@files) {
 			push @formatted, encode_utf8("[[commons:File:$file|$file]]");
 		}
 		print join(', ', @formatted), "\n";

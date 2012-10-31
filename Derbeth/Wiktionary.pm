@@ -41,7 +41,7 @@ our @EXPORT = qw/add_audio_new
 	final_cosmetics
 	add_inflection_plwikt
 	should_not_be_in_category_plwikt/;
-our $VERSION = 0.9.1;
+our $VERSION = 0.10.0;
 
 # Function: create_audio_entries_enwikt
 # Parameters:
@@ -53,17 +53,17 @@ our $VERSION = 0.9.1;
 #   $edit_summary - list of added files
 #                   en-us-solder.ogg, en-solder.ogg, en-au-solder.ogg
 sub create_audio_entries_enwikt {
-	my $lang_code = shift;
-	my $section_ref = shift;
-	my $singular = shift;
-	my $plural = shift;
-	my %files = @_;
+	my ($lang_code,$pron,$section_ref,$singular,$plural) = @_;
 
 	my @audios;
 	my @summary;
-	while (my ($file,$region) = each(%files)) {
+	my @decoded_pron = decode_pron($pron, $section_ref);
+	while (@decoded_pron) {
+		my $file = shift @decoded_pron;
+		my $region = shift @decoded_pron;
+
 		my $regional_name = '';
-		my $text = '{{audio|'.$file.'|';
+		my $text = '* {{audio|'.$file.'|';
 		$text .= $plural ? $plural : 'Audio';
 		my $edit_summary = $file;
 		if ($region ne '') {
@@ -72,35 +72,26 @@ sub create_audio_entries_enwikt {
 		}
 		$text .= '}}';
 
-		push @audios, "$regional_name<>$text";
+		push @audios, $text;
 		push @summary, $edit_summary;
 	}
-	@audios = sort { ($a =~ /^([^<]*)/)[0] cmp ($b=~ /^([^<]*)/)[0] } @audios;
-	@audios = map { s/^[^<]*<>//; $_ } @audios;
-	return (join("\n*", @audios), scalar(@audios), join(', ', @summary));
+	return (join("\n", @audios), scalar(@audios), join(', ', @summary));
 }
 
 sub create_audio_entries_simplewikt {
-	my ($audios,$count,$summary) = create_audio_entries_enwikt(@_);
-	$audios =~ s/(\*|^)(\{\{audio)/$1 $2/gi;
-	return ($audios,$count,$summary);
+	return create_audio_entries_enwikt(@_);
 }
 
 # Function: create_audio_entries_frwikt
 # Parameters:
-#   %files - hash (file=>region) eg. 'en-us-solder.ogg' => 'us',
-#            'en-solder.ogg' => ''
+#   $pron - 'en-us-solder.ogg<us>|en-solder.ogg|en-au-solder.ogg<au>'
 #
 # Returns:
 #   $audios - '* {{pron-reg|en-us-solder.ogg|audio (US)}}\n* {{pron-reg...}}'
 #   $edit_summary - list of added files
 #                   en-us-solder.ogg, en-solder.ogg, en-au-solder.ogg
 sub create_audio_entries_frwikt {
-	my $lang_code = shift;
-	my $section_ref = shift;
-	my $singular = shift;
-	my $plural = shift;
-	my %files = @_;
+	my ($lang_code,$pron,$section_ref,$singular,$plural) = @_;
 
 	my @audios;
 	my @summary;
@@ -110,7 +101,11 @@ sub create_audio_entries_frwikt {
 		push @all_audios, $1;
 	}
 
-	while (my ($file,$region) = each(%files)) {
+	my @decoded_pron = decode_pron($pron, $section_ref);
+	while (@decoded_pron) {
+		my $file = shift @decoded_pron;
+		my $region = shift @decoded_pron;
+
 		if ($region && $region ne 'Paris') {
 			next if (grep(/\b$region\b/i, @all_audios));
 		} else {
@@ -145,15 +140,15 @@ sub create_audio_entries_frwikt {
 
 
 sub create_audio_entries_dewikt {
-	my $lang_code = shift;
-	my $section_ref = shift;
-	my $singular = shift;
-	my $plural = shift;
-	my %files = @_;
+	my ($lang_code,$pron,$section_ref,$singular,$plural) = @_;
 
 	my @audios;
 	my @summary;
-	while (my ($file,$region) = each(%files)) {
+	my @decoded_pron = decode_pron($pron, $section_ref);
+	while (@decoded_pron) {
+		my $file = shift @decoded_pron;
+		my $region = shift @decoded_pron;
+
 		my $text = '{{Audio|'.$file.'|';
 		my $edit_summary = $file;
 		if ($plural) {
@@ -177,15 +172,15 @@ sub create_audio_entries_dewikt {
 }
 
 sub create_audio_entries_plwikt {
-	my $lang_code = shift;
-	my $section_ref = shift;
-	my $singular = shift;
-	my $plural = shift;
-	my %files = @_;
+	my ($lang_code,$pron,$section_ref,$singular,$plural) = @_;
 
 	my @audios;
 	my @summary;
-	while (my ($file,$region) = each(%files)) {
+	my @decoded_pron = decode_pron($pron, $section_ref);
+	while (@decoded_pron) {
+		my $file = shift @decoded_pron;
+		my $region = shift @decoded_pron;
+
 		my $text = '{{audio|'.$file;
 		my $edit_summary = $file;
 		if ($region ne '') {
@@ -215,9 +210,7 @@ sub create_audio_entries_plwikt {
 sub create_audio_entries {
 	my ($wikt_lang,$lang_code,$pron,$section,$singular,$plural) = @_;
 
-	my %files = decode_pron($pron, $section);
-
-	my @args = ($lang_code,$section,$singular,$plural,%files);
+	my @args = ($lang_code,$pron,$section,$singular,$plural);
 	my @retval;
 	if ($wikt_lang eq 'de') {
 		@retval = create_audio_entries_dewikt(@args);
@@ -237,33 +230,36 @@ sub create_audio_entries {
 }
 
 # Function: decode_pron
-#   returns pronunciation files without regional part, removing audios already present in the article
+#   returns pronunciation files without regional part, sorting and removing audios already present in the article
 # Parameters:
 #   $pron - 'en-us-solder.ogg<us>|en-solder.ogg|en-au-solder.ogg<au>'
 #
 # Returns:
-#   hash ('en-us-solder.ogg' => 'uk', 'solder' => '', 'en-au-solder.ogg' => 'au')
+#   array ('en-us-solder.ogg', 'uk', 'solder', '', 'en-au-solder.ogg', 'au')
 sub decode_pron {
 	my ($pron, $section) = @_;
 
 	my @prons = split /\|/, $pron;
-	my %files; # 'en-us-solder.ogg' => 'us', 'en-solder.ogg' => ''
+	@prons = sort { (($a =~ /<([^>]+)>/)[0] || '') cmp (($b=~ /<([^>]+)>/)[0] || '') } @prons;
 
+	my @result;
 	foreach my $a_pron (@prons) {
 		$a_pron =~ /(.*\.ogg)(<(.*)>)?/i;
 		my $file=$1;
 		my $region = $3 ? $3 : '';
+
 		if ($section) {
 			my $file_escaped = $file;
 			$file_escaped =~ s/([()[\]\^\$*+.])/\\$1/g;
 			my $file_no_spaces = $file_escaped;
 			$file_no_spaces =~ s/ /_/g;
-			#print STDERR "$file_escaped|$file_no_spaces\n";
+			#print stderr "$file_escaped|$file_no_spaces\n";
 			next if ($$section =~ /$file_escaped/i || $$section =~ /$file_no_spaces/i);
 		}
-		$files{$file} = $region;
+		push @result, $file, $region;
 	}
-	return %files;
+
+	return @result;
 }
 
 # Function: add_audio_enwikt
@@ -325,14 +321,14 @@ sub add_audio_enwikt {
 		$edit_summary .= '; added missing pron. section';
 
 		if ($$section =~ /===\s*Etymology\s*={3,}(.|\n|\r|\f)*?==/) {
-			unless ($$section =~ s/(=== *Etymology *={3,}(.|\n|\r|\f)*?)(==)/$1===Pronunciation===\n* $audio_marker\n\n$3/) {
+			unless ($$section =~ s/(=== *Etymology *={3,}(.|\n|\r|\f)*?)(==)/$1===Pronunciation===\n$audio_marker\n\n$3/) {
 				$edit_summary .= '; cannot add pron. after etymology';
 				return (2,0,$edit_summary)
 			}
 		} else { # no etymology at all
-			if ($$section =~ s/(==\s*$language\s*==(.|\n|\r|\f)*?)(==)/$1===Pronunciation===\n* $audio_marker\n\n$3/) {
+			if ($$section =~ s/(==\s*$language\s*==(.|\n|\r|\f)*?)(==)/$1===Pronunciation===\n$audio_marker\n\n$3/) {
 				# ok, add before first heading after language
-			} elsif ($$section =~ s/(==\s*$language\s*==)/$1\n\n===Pronunciation===\n* $audio_marker/) {
+			} elsif ($$section =~ s/(==\s*$language\s*==)/$1\n\n===Pronunciation===\n$audio_marker/) {
 				# ok, no heading, so just add after language
 			} else {
 				$edit_summary .= '; cannot add pron. after section begin';
@@ -340,19 +336,19 @@ sub add_audio_enwikt {
 			}
 		}
 	} else {
-		unless ($$section =~ s/(===\s*Pronunciation\s*={3,})/$1\n* $audio_marker/) {
+		unless ($$section =~ s/(===\s*Pronunciation\s*={3,})/$1\n$audio_marker/) {
 			$edit_summary .= '; cannot add audio after pron. section';
 			return (2,0,$edit_summary);
 		}
 	}
 
 	$$section =~ s/\r\n/\n/g;
-	while ($$section =~ /(\* *$audio_marker\n)(\*[^\n]+\n)/) {
+	while ($$section =~ /($audio_marker\n)(\*[^\n]+\n)/) {
 		my $next_line = $2;
 		if ($next_line =~ /homophones|rhymes|hyphenation/i) {
 			last;
 		} else {
-			$$section =~ s/(\* *$audio_marker\n)(\*[^\n]+\n)/$2$1/;
+			$$section =~ s/($audio_marker\n)(\*[^\n]+\n)/$2$1/;
 		}
 	}
 	unless ($$section =~ s/$audio_marker/$audios/) {
@@ -427,11 +423,11 @@ sub add_audio_simplewikt {
 		return (2,0,$edit_summary);
 	}
 
-	$$section =~ s/(=== *Pronunciation *===)/$1\n*$MARK/;
+	$$section =~ s/(=== *Pronunciation *===)/$1\n$MARK/;
 
 	$$section =~ s/\r\n/\n/g;
-	while ($$section =~ /(\* *$MARK\n)(\*[^\n]+\n)/) {
-		$$section =~ s/(\* *$MARK\n)(\*[^\n]+\n)/$2$1/;
+	while ($$section =~ /($MARK\n)(\*[^\n]+\n)/) {
+		$$section =~ s/($MARK\n)(\*[^\n]+\n)/$2$1/;
 	}
 
 	unless ($$section =~ s/$MARK/$audios/) {
