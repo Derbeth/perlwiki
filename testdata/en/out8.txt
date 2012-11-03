@@ -1,0 +1,277 @@
+==English==
+
+===Etymology===
+From {{etyl|enm}} {{term|weke|lang=enm}}, from {{etyl|ang}} {{term|wice|lang=ang}}, {{term|wucu||week|lang=ang}}, from {{proto|Germanic|wikōn|turn, succession, change, week|lang=en}}, from {{proto|Indo-European|weig-||weik-|to bend, wind, turn, yield|lang=en}}. Related to {{proto|Germanic|wīkanan|to bend, yield, cease|lang=en}}.{{attention|nl|The following should be duplicated beneath==Dutch==I assume.}} The Dutch noun derives from a related verb {{recons|waikwaz||to yield}}, via the current Dutch form {{term|wijken|lang=nl||to cede, give way}}.
+
+Related words are Old High German {{term|wohha|lang=goh}} (Modern German {{term|Woche|lang=de}}), Old Frisian {{term|wike|lang=ofs}}, Middle Dutch {{term|weke||week|lang=dum}}, Old Saxon {{term|wika|lang=osx}}, Old Norse {{term|vika|lang=non}}, Gothic {{term|𐍅𐌹𐌺𐍉|sc=Goth|tr=wikô||turn for temple service|lang=got}}, Old English {{term|wican|wīcan|lang=ang||to yield, give way}}.
+
+===Pronunciation===
+* {{enPR|wēk}}, {{IPA|/wiːk/}}, {{X-SAMPA|/wi:k/}}
+* {{audio|en-us-week.ogg|Audio (US)}}
+* {{audio|En-uk-a week.ogg|Audio (UK)}}
+* {{rhymes|iːk}}
+* {{homophones|weak|lang=en}}
+
+===Noun===
+{{wikipedia}}
+{{en-noun}}
+
+# Any [[period]] of [[seven]] consecutive [[day]]s.
+# A period of seven days beginning with [[Sunday]] or [[Monday]].
+# A subdivision of the [[month]] into longer periods of work days punctuated by shorter [[weekend]] periods of days for markets, rest, or religious observation such as a [[sabbath]].{{rfex}}
+# Seven days after ({{n-g|sometimes}} before) a specified date.
+#: I'll see you Thursday '''week'''.
+
+====Derived terms====
+{{rel-top3|Terms derived from ''week''}}
+* [[bush week]]
+* [[for weeks on end]]
+{{rel-mid3}}
+* [[hell week]]
+* [[Holy Week]]
+{{rel-mid3}}
+* [[weekend]]
+* [[weekly]]
+{{rel-bottom}}
+
+====Translations====
+{{trans-top|period of seven days}}
+* Albanian: {{t-|sq|javë|f|xs=Albanian}}
+* American Sign Language: {{tø|ase|1@BasePalm-PalmDown-OpenB@CenterChesthigh-PalmUp 1@Finger-PalmDown-OpenB@CenterChesthigh-PalmUp}}
+* Anglo-Norman: {{tø|xno|semeine|f}}
+* Arabic: {{t|ar|أسبوع|m|tr=’usbuu3|alt=أسْبُوع|sc=Arab}} {{Arab|[[اسبوعان|أسْبُوعَان]]}} (’usbu3aan) ''dual'', {{Arab|[[اسابيع|أسَابِيع]]}} (’asabii3) {{p}}
+*: [[Egyptian Arabic]]: {{tø|arz|اسبوع|m|tr=esbo3|sc=Arab}}
+* Armenian: {{t+|hy|շաբաթ|tr=šabat'}}
+* Aromanian: {{t|rup|siptãmãnã|f}}
+* Asturian: {{t|ast|selmana|f}}
+* Azeri: {{t+|az|həftə|xs=Azeri}}
+* Basque: {{t+|eu|aste|xs=Basque}}
+* Belarusian: {{t-|be|тыдзень|m|tr=týdzen’|xs=Belarusian}}
+* Breton: {{t|br|sizhun|f}}
+* Bulgarian: {{t+|bg|седмица|f|tr=sedmítsa}}
+* Catalan: {{t|ca|setmana|f}}
+* Chichewa: {{tø|ny|mulungu}}
+* Chinese:
+*: Cantonese: {{t|yue|星期|tr=singkei}}
+*: Mandarin: {{t-|cmn|星期|tr=xīngqī|sc=Hani}}, {{t-|cmn|周|tr=zhōu|sc=Hani}}, {{t-|cmn|禮拜|sc=Hani}}, {{t-|cmn|礼拜|tr=lǐbài|sc=Hani}}
+* Crimean Tatar: {{t|crh|afta}}
+* Czech: {{t+|cs|týden|m}}
+* Dalmatian: {{t|dlm|jedma|f}}
+* Danish: {{t+|da|uge}}
+* Dutch: {{t+|nl|week|f}}
+* Esperanto: {{t+|eo|semajno|xs=Esperanto}}
+* Estonian: {{t+|et|nädal}}
+* Faroese: {{t-|fo|vika|f|xs=Faroese}}
+* Fijian: {{t|fj|macava}}
+* Finnish: {{t+|fi|viikko}}
+* French: {{t+|fr|semaine|f}}
+*: [[Old French]]: {{tø|fro|semaine|f}}
+* Friulian: {{l|fur|setemane}}
+* Galician: {{t|gl|semana|f}}
+* Georgian: {{t-|ka|კვირა|tr=kvira|sc=Geor|xs=Georgian}}
+* German: {{t+|de|Woche|f}}
+* Gilbertese: {{tø|gil|wiki}}
+* Gothic: {{tø|got|𐍅𐌹𐌺𐍉|f|tr=wiko|sc=Goth}}
+* Greek: {{t|el|εβδομάδα|f|tr=evdomáda|sc=Grek}}, {{t|el|επταήμερο|n|tr=eptaímero|sc=Grek}}
+* Guaraní: [[arapokõindy]]
+* Guernésiais: {{tø|roa-grn|s'môine|f}}
+* Gujarati: {{t|gu|અઠવાડીયું|n|tr=aThavaDiyun|sc=Gujr|xs=Gujarati}}
+* Haitian Creole: {{tø|ht|semèn}}
+* Hawaiian: {{tø|haw|pule}}
+* Hebrew: {{t|he|שבוע|m|tr=shavúa|sc=Hebr}}
+* Hindi: {{t|hi|हफ़्ता|m|tr=haftā|sc=Deva}}, {{t|hi|सप्ताह|m|tr=saptāh|sc=Deva}}
+* Hungarian: {{t+|hu|hét}}
+* Icelandic: {{t+|is|vika|f}}
+* Ido: {{t|io|semano}}
+* Inari Sami: [[okko]]
+* Indonesian: {{t-|id|minggu|xs=Indonesian}}
+* Interlingua: {{t|ia|septimana}}
+* Irish: {{t+|ga|seachtain|f|xs=Irish}}
+* Italian: {{t+|it|settimana|f}}
+* Japanese: {{t+|ja|週|tr=しゅう, shū}}, {{t|ja|週間|tr=しゅうかん, shūkan}}
+* Kashubian: {{t|csb|tidzéń|m}}
+* Khmer: {{t|km|អាទិត្យ|tr=ādteut|sc=Khmr}}
+* Korean: {{t+|ko|주|tr=ju|sc=Hang}} ({{t-|ko|週|sc=Hani}})
+* Kurdish:
+*: Sorani: {{t+|ku|حه‌فته‌|sc=ku-Arab}}
+* Latin: {{t+|la|hebdomas|f}}, {{t-|la|septimana|f|alt=septimāna}}
+* Latgalian: {{t|ltg|nedeļa|f|xs=Latgalian}}
+* Latvian: {{t-|lv|nedēļa|f|xs=Latvian}}
+* Limburgish: {{t|li|waek}}
+* Lithuanian: {{t+|lt|savaitė|f|xs=Lithuanian}}
+* Livonian: [[nädīļ]]
+{{trans-mid}}
+* Lower Sorbian: [[tyźeń]] {{m}}
+* Luganda: {{tø|lg|sabbiiti}}
+* Luxembourgish: {{t|lb|Woch|f}}
+* Macedonian: {{t-|mk|седмица|f|tr=sédmica}}, {{t+|mk|недела|f|tr=nédela}}
+* Malay: {{t|ms|minggu}}
+* Malayalam: {{t|ml|ആഴ്ച|tr=aazhcha}}
+* Maltese: {{t-|mt|ġimgħa|xs=Maltese}}
+* Manx: {{t|gv|shiaghtin}}
+* Maori: {{t-|mi|wiki|xs=Maori}}
+* Marathi: {{t|mr|आठवडा|tr=ātthvadā}}
+* Navajo: {{tø|nv|damį́įgo}}, {{tø|nv|damóo}}
+* Northern Sami: [[vahkku]]
+* Norwegian:
+** Bokmål: {{t|nb|uke|c}}
+** Nynorsk: {{t|nn|veke|f}}
+* Novial: {{t|nov|semane}}
+* Occitan: {{t|oc|setmana|f}}
+* Ojibwe: {{t|oj|anami'e-giizhik}}
+* Ossetian: {{tø|os|къуыри|tr=khuyrí|sc=Cyrl|xs=Ossetian}}
+* Papiamentu: {{tø|pap|siman}}
+* Persian: {{t|fa|هفته|m|tr=hafte|sc=fa-Arab}}
+* Polish: {{t+|pl|tydzień|m}}
+* Portuguese: {{t+|pt|semana|f}}
+* Quechua: {{t|qu|simana}}
+* Romanian: {{t+|ro|săptămână|f}}
+* Romansch: {{t|rm|emna|f}}
+* Russian: {{t+|ru|неделя|f|tr=nedélja}}
+* Samoan: {{t|sm|vaiaso}}
+* Sardinian: {{t|sc|chída|f}}
+* Scots: {{tø|sco|seachdain}}
+* Scottish Gaelic: {{t-|gd|seachdain|f|xs=Scottish Gaelic}}
+* Serbo-Croatian:
+*: Cyrillic: {{t|sh|седмица|f}}, {{t|sh|недеља|f}}, {{t|sh|тједан|m}}
+*: Roman: {{t|sh|sedmica|f}}, {{t|sh|nedelja|f}}, {{t|sh|tjedan|m}}
+* Sinhalese: {{t|si|සතිය|tr=satiya|sc=Sinh}}
+* Skolt Sami: [[neä´ttel]]
+* Slovak: {{t|sk|týždeň|m}}
+* Slovene: {{t+|sl|teden|m}}
+* Spanish: {{t+|es|semana|f}}
+* Swahili: {{t+|sw|wiki|xs=Swahili}}
+* Swedish: {{t+|sv|vecka|c}}
+* Tagalog: {{t|tl|linggo}}, {{t|tl|semana}}
+* Tahitian: {{tø|ty|hepetoma}}
+* Taos: [[tumį́ku]]
+* Tarantino: {{tø|roa-tar|sumáne|f}}
+* Tatar: {{t+|tt|атна|sc=Cyrl|xs=Tatar}}
+* Telugu: {{t|te|వారము|tr=vaaramu}}
+* Thai: {{t|th|สัตวาร|tr=sàt waan|sc=Thai}}, {{t|th|สัปดาห์|tr=sàp daa|sc=Thai}}, {{t|th|อาทิตย์|tr=aa thīt|sc=Thai}}
+* Tswana: {{t|tn|beke}}
+* Turkish: {{t+|tr|hafta}}
+* Udi: {{tø|udi|шаматӏ}}
+* Ukrainian: {{t|uk|тиждень|m|tr=týžden’|sc=Cyrl}}
+* Urdu: {{t|ur|ہفتہ|m|tr=haftā|sc=ur-Arab}}, {{t|ur|سپتاہ|m|tr=saptāh|sc=ur-Arab}}
+* Uyghur: {{t|ug|ھەپتە|sc=ug-Arab}}
+* Venda: {{tø|ve|vhege}}
+* Vietnamese: {{t+|vi|tuần|xs=Vietnamese}}
+* Volapük: {{t+|vo|vig|xs=Volapük}}
+* Welsh: {{t+|cy|wythnos|xs=Welsh}}
+* West Frisian: {{t+|fy|wike|c|xs=West Frisian}}
+* Wolof: {{t|wo|ayubés}}, {{t|wo|besboai}}
+* !Xóõ: [[bìikì]]
+* Xhosa: {{t|xh|veki}}
+* Yao: {{tø|yao|ci-juma}}
+* Yiddish: {{t|yi|וואך|tr=voəkh|alt=וואָך|sc=Hebr}}
+* Zulu: {{t|zu|iviki}}
+{{trans-bottom}}
+
+===See also===
+* {{list|en|days of the week}}
+* [[fortnight]]
+* [[month]]
+* [[nundinal cycle]]
+* [[year]]
+
+===External links===
+* {{pedialite|ISO 8601}}
+
+===Statistics===
+* {{rank|German|seven|notice|week|778|week|stone|tree|cost}}
+
+[[Category:1000 English basic words]]
+[[Category:en:Time]]
+
+----
+
+==Afrikaans==
+
+===Noun===
+{{af-noun|weke}}
+
+# {{l|en|week}}
+
+[[Category:af:Time]]
+
+----
+
+==Dutch==
+
+===Pronunciation===
+* {{IPA|/ʋeːk/|/weːk/|lang=nl}}
+
+===Etymology===
+From {{etyl|odt|nl}} {{recons|wika|lang=odt}}, from {{proto|Germanic|wikōn|lang=nl}}.
+
+====Noun====
+{{nl-noun|c|weken|weekje}}
+
+# {{l|en|week}}
+
+=====Derived terms=====
+* [[weekblad]] {{n}}
+* [[wekelijks]]
+* [[feestweek]]
+
+[[Category:nl:Time]]
+
+[[af:week]]
+[[ar:week]]
+[[az:week]]
+[[zh-min-nan:week]]
+[[be:week]]
+[[ca:week]]
+[[cs:week]]
+[[cy:week]]
+[[da:week]]
+[[de:week]]
+[[et:week]]
+[[el:week]]
+[[es:week]]
+[[eo:week]]
+[[eu:week]]
+[[fa:week]]
+[[fr:week]]
+[[gl:week]]
+[[ko:week]]
+[[hy:week]]
+[[hr:week]]
+[[io:week]]
+[[id:week]]
+[[is:week]]
+[[it:week]]
+[[kn:week]]
+[[kk:week]]
+[[ku:week]]
+[[lo:week]]
+[[lt:week]]
+[[li:week]]
+[[hu:week]]
+[[mg:week]]
+[[ml:week]]
+[[my:week]]
+[[fj:week]]
+[[nl:week]]
+[[ja:week]]
+[[no:week]]
+[[oc:week]]
+[[km:week]]
+[[pl:week]]
+[[pt:week]]
+[[ro:week]]
+[[ru:week]]
+[[sq:week]]
+[[simple:week]]
+[[fi:week]]
+[[sv:week]]
+[[ta:week]]
+[[te:week]]
+[[th:week]]
+[[tg:week]]
+[[tr:week]]
+[[uk:week]]
+[[vi:week]]
+[[vo:week]]
+[[zh:week]]

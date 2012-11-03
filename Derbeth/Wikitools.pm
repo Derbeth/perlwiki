@@ -221,7 +221,7 @@ sub split_article_enwikt {
 sub _split_article_en {
 	my ($lang, $article_text) = @_;
 	
-	my @sections = split /(==[-'a-zA-Zāâäáèëéíīõüú ]+==[^=])/, $article_text;
+	my @sections = split /^(==[-'a-zA-Zāâäáèëéíīõüú ]+==[^=])/m, $article_text;
 	
 # 	print "sections: ", scalar(@sections), "\n";
 	
@@ -230,7 +230,7 @@ sub _split_article_en {
 	
 	foreach my $section (@sections) {
 # 		print encode_utf8("$section\n&&&&&&&&&&&&\n");
-		if ($section =~ /==\s*$lang\s*==/) {
+		if ($section =~ /^==\s*$lang\s*==/) {
 			last;
 		}
 		++$lang_index;

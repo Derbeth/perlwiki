@@ -41,8 +41,8 @@ for my $wikt_lang(@tested_wikts) {
 		my %args;
 		read_hash_loose($args_file, \%args);
 		validate_args($args_file, %args);
-		do_test($test_input, $wikt_lang, $test_input, $test_output, %args);
-		my $equal = &compare_files($test_output, $test_expected);
+		my $equal = do_test($test_input, $wikt_lang, $test_input, $test_output, %args)
+		&& compare_files($test_output, $test_expected);
 		if (!$equal) {
 			print "Test $i failed.\n";
 			if ($interactive) {
@@ -82,7 +82,10 @@ sub do_test {
 	my $lang_code = 'en';
 	$lang_code = $args{'lang_code'} if (exists $args{'lang_code'});
 	my $word = $args{'word'};
-	die "missing 'word' parameter for $file" unless($word);
+	unless($word) {
+		print "missing 'word' parameter for $file\n";
+		return 0;
+	}
 
 	my $initial_summary = initial_cosmetics($wikt_lang,\$text);
 	my ($before, $section, $after) = split_article_wikt($wikt_lang,$lang_code,$text,1);
@@ -93,12 +96,14 @@ sub do_test {
 	close(OUT);
 
 	if (exists($args{'result'}) && $args{'result'} != $result) {
-		die "$file: expected result $args{result} but got $result ($edit_summary)";
+		print "$file: expected result $args{result} but got $result ($edit_summary)\n";
+		return 0;
 	}
 	if (exists($args{'added_audios'}) && $args{'added_audios'} != $added_audios) {
-		die "$file: expected added $args{added_audios} but got $added_audios ($edit_summary)";
+		print "$file: expected added $args{added_audios} but got $added_audios ($edit_summary)\n";
+		return 0;
 	}
-	
+	return 1;
 }
 
 sub validate_args {
