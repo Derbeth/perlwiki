@@ -223,7 +223,6 @@ sub word_pronounced_in_file {
 			return ($file, $POSTMATCH);
 		}
 	}
-
 	# === end non-standard naming
 
 	unless ($skip_key_extraction) {
@@ -361,6 +360,9 @@ sub word_pronounced_in_file {
 			# all Tagalog is spoken in Phillipines; it's not regional, so ignore
 			$word = $POSTMATCH;
 		}
+	}
+	elsif ($code eq 'wym') {
+		$word =~ s/ \(ortografia Józefa Gary\)$//;
 	}
 	# == end regional, now stripping articles
 

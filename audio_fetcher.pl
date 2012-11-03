@@ -57,6 +57,7 @@ my %categories=(
 	'Albanian pronunciation' => 'sq',
 	'Arabic pronunciation' => 'ar',
 	'Armenian pronunciation'=>'hy',
+	'Bashkir pronunciation' => 'ba',
 	'Basque pronunciation' => 'eu',
 	'Belarusian pronunciation'=>'be',
 	'Belarusian pronunciation of names of countries'=>'be',
@@ -226,6 +227,7 @@ my %categories=(
 	'Ukrainian pronunciation of names of countries' => 'uk',
 	'Upper Sorbian pronunciation' => 'hsb',
 	'Vietnamese pronunciation' => 'vi',
+	'Vilamovian pronunciation (Józef Gara spelling)' => 'wym',
 	'Welsh pronunciation' => 'cy',
 	'Wolof pronunciation' => 'wo',
 );

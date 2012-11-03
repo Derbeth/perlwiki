@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.6.4;
+our $VERSION = 0.6.5;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
@@ -125,6 +125,7 @@ my %language_names = (
 	'pl' => {
 		'ar'  => 'język arabski',
 		'arn' => 'język mapudungun',
+		'ba'  => 'język baszkirski',
 		'be'  => 'język białoruski',
 		'bg'  => 'język bułgarski',
 		'ce'  => 'język czeczeński',
@@ -185,12 +186,14 @@ my %language_names = (
 		'uk'  => 'język ukraiński',
 		'vi'  => 'język wietnamski',
 		'wo'  => 'język wolof',
+		'wym' => 'język wilamowski',
 		'yi'  => 'jidysz',
 		'zh'  => 'język chiński standardowy'
 	},
 	'de' => {
 		'ar'  => 'Arabisch',
 		'arn' => 'Mapudungun',
+		'ba'  => 'Baschkirisch',
 		'be'  => 'Weißrussisch',
 		'bg'  => 'Bulgarisch',
 		'ce'  => 'Tschetschenisch',
@@ -251,12 +254,14 @@ my %language_names = (
 		'uk'  => 'Ukrainisch',
 		'vi'  => 'Vietnamesisch',
 		'wo'  => 'Wolof',
+		'wym' => 'Wilmesaurisch', # cat does not exist yet
 		'yi'  => 'Jiddisch',		
 		'zh'  => 'Chinesisch'
 	},
 	'en' => {
 		'ar'  => 'Arabic',
 		'arn' => 'Mapudungun',
+		'ba'  => 'Bashkir',
 		'be'  => 'Belarusian',
 		'bg'  => 'Bulgarian',
 		'ce'  => 'Chechen',
@@ -317,6 +322,7 @@ my %language_names = (
 		'uk'  => 'Ukrainian',
 		'vi'  => 'Vietnamese',
 		'wo'  => 'Wolof',
+		'wym' => 'Vilamovian',
 		'yi'  => 'Yiddish',
 		'zh'  => 'Mandarin'
 	}
