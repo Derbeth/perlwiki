@@ -157,6 +157,7 @@ my %categories=(
 	'Italian pronunciation' => 'it',
 	'Italian pronunciation of names of cities' => 'it',
 	'Italian pronunciation of names of countries' => 'it',
+	'Italian pronunciation of planets' => 'it',
 	'Japanese pronunciation' => 'ja',
 	'Japanese pronunciation of names of countries' => 'ja',
 	'Pronunciation of names of places in Japan' => 'ja',
