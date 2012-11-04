@@ -1,0 +1,21 @@
+[[de:δύο]] [[el:δύο]] [[en:δύο]] [[fr:δύο]] [[ga:δύο]] [[ko:δύο]] [[hy:δύο]] [[io:δύο]] [[is:δύο]] [[it:δύο]] [[lt:δύο]] [[li:δύο]] [[hu:δύο]] [[mg:δύο]] [[fj:δύο]] [[nl:δύο]] [[ja:δύο]] [[no:δύο]] [[pt:δύο]] [[ru:δύο]] [[sv:δύο]] [[tr:δύο]] [[uk:δύο]]
+{{podobne|δυο}}
+== δύο ({{język nowogrecki|δυο}}) ==
+{{wymowa}} {{IPA3|ˈði.o}} {{audio|Ell-δύο.ogg}}
+{{znaczenia}}
+''liczebnik główny''
+: (1.1) [[dwaj]], [[dwie]], [[dwa]]
+''rzeczownik, rodzaj nijaki''
+: (2.1) [[dwójka]]
+{{odmiana}} {{nieodm}}
+{{przykłady}}
+: (1.1)
+{{składnia}}
+{{kolokacje}}
+{{synonimy}}
+{{antonimy}}
+{{pokrewne}} [[δεύτερος]]
+{{frazeologia}} ''[[και οι δύο]]'' → [[obydwaj]], [[obydwaj|obydwie]], ''[[και τα δύο]]'' → [[obydwaj|obydwa]]
+{{etymologia}} {{etym|gr|δύο}}
+{{uwagi}} ''również'' [[δυο]]
+{{źródła}}

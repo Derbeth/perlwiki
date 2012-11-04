@@ -1,0 +1,97 @@
+[[az:rose]] [[id:rose]] [[zh-min-nan:rose]] [[cs:rose]] [[de:rose]] [[et:rose]] [[el:rose]] [[en:rose]] [[es:rose]] [[eo:rose]] [[fa:rose]] [[fr:rose]] [[gl:rose]] [[ko:rose]] [[hy:rose]] [[io:rose]] [[it:rose]] [[kk:rose]] [[ku:rose]] [[lo:rose]] [[lt:rose]] [[li:rose]] [[hu:rose]] [[mg:rose]] [[my:rose]] [[nl:rose]] [[ja:rose]] [[no:rose]] [[oc:rose]] [[ps:rose]] [[pt:rose]] [[ru:rose]] [[simple:rose]] [[sr:rose]] [[fi:rose]] [[sv:rose]] [[ta:rose]] [[te:rose]] [[vi:rose]] [[tr:rose]] [[ur:rose]] [[zh:rose]]
+{{podobne|Rose|rosee|Rosé|rosée}}
+__TOC__
+== rose ({{język angielski}}) ==
+[[Plik:Rose Osaka.JPG|thumb|rose (1.1)]]
+{{kolor|#FF66CC|czcionka=black|rose colour (2.1)}}
+{{wymowa}} {{IPA3|rəʊz}} {{audioUK|En-uk-rose.ogg}} {{lm}} {{audioUS|En-us-roses.ogg}}
+{{znaczenia}}
+''rzeczownik''
+: (1.1) {{bot}} [[róża]] ([[krzew]] [[i]] [[kwiat]])
+: (1.2) [[kolor]] [[różowy]]
+''przymiotnik''
+: (2.1) [[różowy]]
+{{forma czasownika|en}}
+: (3.1) {{past simple|rise}}
+{{odmiana}}
+: (1.1) {{lp}} rose; {{lm}} roses
+{{przykłady}}
+: (1.1)
+{{składnia}}
+{{kolokacje}}
+{{synonimy}}
+: (2.1) [[pink]], [[rosy]]
+{{antonimy}}
+{{pokrewne}}
+{{frazeologia}}
+{{etymologia}}
+{{uwagi}}
+{{źródła}}
+
+== rose ({{język francuski}}) ==
+[[Plik:Rosa sp.83.jpg|thumb|une rose (1.1)]]
+{{wymowa}}
+{{znaczenia}}
+''rzeczownik, rodzaj żeński''
+: (1.1) {{bot}} [[róża]]
+{{odmiana}}
+: (1.1) {{lp}} rose; {{lm}} roses
+{{przykłady}}
+: (1.1)
+{{składnia}}
+{{kolokacje}}
+{{synonimy}}
+{{antonimy}}
+{{pokrewne}}
+{{frazeologia}}
+{{etymologia}}
+: (1.1) {{etym|łac|rosa}}<ref>{{Larousse}}</ref>
+{{uwagi}}
+{{źródła}}
+<references/>
+
+== rose ({{język norweski (bokmål)}}) ==
+{{wymowa}}
+{{znaczenia}}
+''rzeczownik, rodzaj męski lub żeński''
+: (1.1) {{bot}} [[róża]]
+''czasownik''
+: (2.1) [[chwalić]]
+{{odmiana}}
+: (1.1) en rose, rosen, roser, rosene ''lub'' ei rose, rosa, roser, rosene
+: (2.1) å rose, roser, roste, rost
+{{przykłady}}
+: (1.1) ''[[han|Han]] [[gi|ga]] [[en]] [[bukett]] [[rød]]e '''roser''' [[til]] [[sin]] [[svigermor]].'' → [[dać|Dał]] [[teściowa|teściowej]] [[bukiet]] [[czerwony]]ch '''[[róża|róż]]'''.
+: (2.1) ''[[lærer|Læreren]] '''roste''' [[ham]] [[for]] [[hans]] [[ærlighet]].'' → [[nauczyciel|Nauczyciel]] '''[[pochwalić|pochwalił]]''' [[on|go]] [[za]] [[uczciwość]].
+{{składnia}}
+{{kolokacje}}
+{{synonimy}}
+{{antonimy}}
+{{pokrewne}}
+: (2.1) {{rzecz}} [[ros]]
+{{frazeologia}}
+{{etymologia}}
+{{uwagi}}
+{{źródła}}
+
+== rose ({{język starofrancuski}}) ==
+[[Plik:Rosa sp.83.jpg|thumb|une rose (1.1)]]
+{{wymowa}}
+{{znaczenia}}
+''rzeczownik, rodzaj żeński''
+: (1.1) {{bot}} [[róża]]<ref>{{Einhorn1974}}</ref>
+{{odmiana}}
+: (1.1) {{lp}} rose; {{lm}} roses
+{{przykłady}}
+: (1.1)
+{{składnia}}
+{{kolokacje}}
+{{synonimy}}
+{{antonimy}}
+{{pokrewne}}
+{{frazeologia}}
+{{etymologia}}
+: (1.1) {{etym|łac|rosa}}
+{{uwagi}}
+{{źródła}}
+<references/>

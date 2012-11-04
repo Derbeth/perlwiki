@@ -96,11 +96,11 @@ sub do_test {
 	close(OUT);
 
 	if (exists($args{'result'}) && $args{'result'} != $result) {
-		print "$file: expected result $args{result} but got $result ($edit_summary)\n";
+		print encode_utf8("$file: expected result $args{result} but got $result ($edit_summary)\n");
 		return 0;
 	}
 	if (exists($args{'added_audios'}) && $args{'added_audios'} != $added_audios) {
-		print "$file: expected added $args{added_audios} but got $added_audios ($edit_summary)\n";
+		print encode_utf8("$file: expected added $args{added_audios} but got $added_audios ($edit_summary)\n");
 		return 0;
 	}
 	return 1;

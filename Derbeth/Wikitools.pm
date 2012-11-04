@@ -139,7 +139,7 @@ sub _split_article_pl {
 		
 		my $lang_escaped = escape_regex($lang);
 		#print encode_utf8("lang escaped: $lang_escaped\n");
-		if ($section =~ /==.*?\( *{{ *$lang_escaped *}} *\).*?==/i) {
+		if ($section =~ /==.*?\( *{{ *$lang_escaped *(\|[^}]+)?}} *\).*?==/i) {
 			last;
 		}
 		++$lang_index;
