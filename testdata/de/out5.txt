@@ -1,0 +1,15 @@
+== இலக்கணம் ({{Sprache|Tamil}}) ==
+=== {{Wortart|Adjektiv|Tamil}} ===
+
+{{Umschrift}}
+:''Latein:'' [[ilakkanam|ilakkaṇam]]
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|…}}
+:{{Hörbeispiele}} {{Audio|Ta-இலக்கணம்.ogg}}
+
+{{Bedeutungen}}
+:[1] Grammatik
+
+{{Beispiele}}
+:[1]

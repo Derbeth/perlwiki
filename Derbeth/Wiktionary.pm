@@ -538,7 +538,7 @@ sub add_audio_dewikt {
 	my $newipa = ':{{IPA}} {{Lautschrift|…}}';
 	my $newaudio = ':{{Hörbeispiele}} {{fehlend}}';
 
-	if ($$section =~ /Wortart\s*\|\s*Substantiv/) {
+	if ($edit_summary_pl ne '' && $$section =~ /Wortart\s*\|\s*Substantiv/) {
 		$newipa .= ', {{Pl.}} {{Lautschrift|…}}';
 		$newaudio .= ', {{Pl.}} {{fehlend}}';
 	}

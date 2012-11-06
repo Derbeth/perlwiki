@@ -39,7 +39,7 @@ our @EXPORT = qw/read_hash_loose
 	add_audio_count
 	escape_regex
 	appendfile/;
-our $VERSION = 0.4.0;
+our $VERSION = 0.4.1;
 
 # Function: read_hash_loose
 #   reads hash from file.
@@ -60,6 +60,7 @@ sub read_hash_loose {
 	open(IN,$filename) or return 0;
 	while(<IN>) {
 		next unless(/\S/);
+		next if (/^#/);
 		chomp;
 		$_ = decode_utf8($_);
 		my ($key,$val) = split /=/, $_;
