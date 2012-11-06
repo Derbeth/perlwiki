@@ -325,6 +325,11 @@ sub add_audio_enwikt {
 				$edit_summary .= '; cannot add pron. after etymology';
 				return (2,0,$edit_summary)
 			}
+		} elsif ($$section =~ /===\s*Alternative forms\s*={3,}(.|\n|\r|\f)*?==/) {
+			unless ($$section =~ s/(=== *Alternative forms *={3,}(.|\n|\r|\f)*?)(==)/$1===Pronunciation===\n$audio_marker\n\n$3/) {
+				$edit_summary .= '; cannot add pron. after alternative forms';
+				return (2,0,$edit_summary)
+			}
 		} else { # no etymology at all
 			if ($$section =~ s/(==\s*$language\s*==(.|\n|\r|\f)*?)(==)/$1===Pronunciation===\n$audio_marker\n\n$3/) {
 				# ok, add before first heading after language
