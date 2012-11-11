@@ -124,7 +124,6 @@ my %categories=(
 	'French pronunciation of words relating to birds' => 'fr',
 	'French pronunciation of words relating to fishes' => 'fr',
 	'French pronunciation of words relating to mammals' => 'fr',
-	'Pronunciation of names of municipalities of France' => 'fr',
 	'Frisian pronunciation' => 'fy', # West Frisian
 	'Galician pronunciation' => 'gl',
 	'Georgian pronunciation' => 'ka',
