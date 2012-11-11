@@ -39,14 +39,14 @@ use URI::Escape qw/uri_escape_utf8/;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_page/;
-our $VERSION = 0.4.1;
+our $VERSION = 0.4.2;
 
 # Variable: $CACHE_DIR
 #   name of directory holding cache
 my $CACHE_DIR = 'page-cache';
 # Variable: $MAX_FILES_IN_CACHE
 #   maximal number of cached pages
-my $MAX_FILES_IN_CACHE=10000;
+my $MAX_FILES_IN_CACHE=15000;
 # Variable: $user_agent
 #   user agent passed to server when retrieving pages
 my $user_agent = 'DerbethBot/1.0 (Kubuntu Linux) Opera rulez';
