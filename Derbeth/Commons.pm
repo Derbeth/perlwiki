@@ -397,8 +397,10 @@ sub word_pronounced_in_file {
 		}
 	}
 	# === Handling 'second pronunciation variant'
-	if ($word =~ /-+[123]$/) {
+	if ($word =~ /[- ]+[123]$/) {
 		push @result, _with_regional($`, $regional, $LOWPR);
+	} elsif ($word =~ /(\D)[123]$/) {
+		push @result, _with_regional($`.$1, $regional, $LOWPR);
 	}
 
 	return @result;
