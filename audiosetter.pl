@@ -159,6 +159,7 @@ my $editor;
 		debug => $debug,
 		login_data => {'username' => $user, 'password' => $pass}
 	});
+	die unless $editor;
 }
 
 if ($debug_mode) {
@@ -262,6 +263,9 @@ foreach my $l (@langs) {
 		
 		my $original_page_text = $page_text;
 		if (!defined($page_text)) {
+			if ($editor->{error} && $editor->{error}->{code}) {
+				last; # network error
+			}
 			print "entry does not exist: ",encode_utf8($word),"\n";
 			mark_done($word,'no_entry');
 			next;

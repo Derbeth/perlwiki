@@ -93,6 +93,7 @@ my $editor;
 		debug => $debug,
 		login_data => {'username' => $user, 'password' => $pass}
 	});
+	die unless $editor;
 }
 
 if ($debug_mode) {
