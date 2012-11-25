@@ -417,6 +417,9 @@ sub get_category_contents_internal {
 			while ($page_text =~ /<a href="[^"]+" class="image" title="([^"]+)">/gc) {
 				push @retval, decode_utf8('Image:'.$1);
 			}
+			while ($page_text =~ /<a href="[^"]+" title="(File:[^">]+)">/gc) {
+				push @retval, decode_utf8($1);
+			}
 		}
 		
 		++$part;

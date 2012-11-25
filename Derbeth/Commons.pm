@@ -397,11 +397,11 @@ sub word_pronounced_in_file {
 		}
 	}
 	# === Handling 'second pronunciation variant'
-	if ($code eq 'zh') {
+	if ($code =~ /^(ce|is|ta|zh)$/) {
 		# don't even try
 	} elsif ($word =~ /[- ]+[123]$/) {
 		push @result, _with_regional($`, $regional, $LOWPR);
-	} elsif ($word =~ /(\D)[123]$/) {
+	} elsif ($word =~ /([^0-9A-Z])[123]$/) {
 		push @result, _with_regional($`.$1, $regional, $LOWPR);
 	}
 
