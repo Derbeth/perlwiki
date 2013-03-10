@@ -1,17 +1,17 @@
 # MIT License
 #
 # Copyright (c) 2007 Derbeth
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -39,20 +39,22 @@ use URI::Escape qw/uri_escape_utf8/;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_page/;
-our $VERSION = 0.4.2;
+our $VERSION = 0.5.0;
+use vars qw($user_agent $cache_pages $MAX_FILES_IN_CACHE $DEBUG);
 
 # Variable: $CACHE_DIR
 #   name of directory holding cache
 my $CACHE_DIR = 'page-cache';
 # Variable: $MAX_FILES_IN_CACHE
 #   maximal number of cached pages
-my $MAX_FILES_IN_CACHE=15000;
+$MAX_FILES_IN_CACHE=15000;
+$DEBUG=0;
 # Variable: $user_agent
 #   user agent passed to server when retrieving pages
-my $user_agent = 'DerbethBot/1.0 (Kubuntu Linux) Opera rulez';
+$user_agent = 'DerbethBot for Wiktionary';
 my $proxy='';
 
-my $cache_pages=0;
+$cache_pages=0;
 
 _create_cache();
 
@@ -129,10 +131,10 @@ sub can_cache {
 
 sub get_page_from_cache {
 	my ($full_url,$recache)=@_;
-	
+
 	if (can_cache()) {
 		my $filename=$CACHE_DIR.'/'.md5_hex(encode_utf8($full_url));
-		
+
 		if( -e $filename && !$recache) {
 			print "reading cache for ", encode_utf8($full_url);
 			#print " from $filename\n"; #DEBUG
@@ -156,7 +158,7 @@ sub get_page_from_file {
    open(IN,$file) or die "cannot open file $file";
    while(my $c=<IN>) { $text .= $c; }
    #if ($text eq '') { print STDERR "warning: no content\n"; }
-   return $text;
+   return decode_utf8($text);
 }
 
 sub save_page_to_file {
@@ -165,6 +167,26 @@ sub save_page_to_file {
 
    open(OUT,'>',$file) or die "cannot write to file $file";
    print OUT $$text;
+}
+
+sub purge_page {
+	my ($url) = @_;
+	my $page = get_page_from_web($url.'&action=purge');
+	my $ua = LWP::UserAgent->new;
+	my @forms = HTML::Form->parse($page, $Settings::LINK_PREFIX);
+	@forms = grep $_->attr("class") && $_->attr("class") eq "visualClear", @forms;
+	my $form = shift @forms;
+	unless($form) {
+		print "No purge form ", scalar(localtime()), "\n" if $DEBUG;
+		return;
+	}
+#     $form->dump();
+	my $request = $form->click();
+#     print "REQUEST:\n", $request->as_string();
+	my $response = $ua->request($request);
+	if( $response->is_error ) {
+		print "Error purging: ", $response->status_line(), ' ', scalar(localtime()), "\n";
+	}
 }
 
 1;
