@@ -39,7 +39,7 @@ use URI::Escape qw/uri_escape_utf8/;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_page/;
-our $VERSION = 0.5.0;
+our $VERSION = 0.5.1;
 use vars qw($user_agent $cache_pages $MAX_FILES_IN_CACHE $DEBUG);
 
 # Variable: $CACHE_DIR
@@ -142,8 +142,11 @@ sub get_page_from_cache {
 			return get_page_from_file($filename);
 		} else {
 			my $text = get_page_from_web($full_url);
-			#print "writing to cache\n"; #DEBUG
-			save_page_to_file($text, $filename);
+			# do not cache if fetching failed
+			if ($text) {
+# 				print "writing to cache\n"; #DEBUG
+				save_page_to_file($text, $filename);
+			}
 			return $text;
       	}
 	} else {
