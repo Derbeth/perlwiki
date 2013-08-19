@@ -28,6 +28,7 @@ use utf8;
 
 use Carp;
 use Encode;
+use Derbeth::Cache;
 use Derbeth::Web;
 use Derbeth::Util;
 use Derbeth::I18n 0.5.2;
@@ -331,15 +332,14 @@ sub get_category_contents {
 	$allow_namespaces->{'main'} = 1 unless (exists($allow_namespaces->{main}));
 
 	if ($use_perlwikipedia) {
-		return get_category_contents_perlwikipedia($server,$category,$maxparts,$allow_namespaces,$from);
+		return get_category_contents_perlwikipedia(_create_editor($server),$category,$maxparts,$allow_namespaces,$from);
 	} else {
 		return get_category_contents_internal($server,$category,$maxparts,$allow_namespaces,$from);
 	}
 }
 
-sub get_category_contents_perlwikipedia {
-	my ($full_server,$category,$maxparts,$allow_namespaces) = @_;
-	my @retval;
+sub _create_editor {
+	my ($full_server) = @_;
 
 	$full_server =~ s!^http://!!;
 	$full_server =~ m!^(.*)/([^/]+)/$! or die "invalid server spec";
@@ -349,14 +349,31 @@ sub get_category_contents_perlwikipedia {
 	my $user = $settings{bot_login};
 	my $pass = $settings{bot_password};
 
-	my $editor=MediaWiki::Bot->new($user);
+	my $editor=MediaWiki::Bot->new({
+		login_data => {username => $user, password => $pass},
+		host => $server,
+		path => $prefix,
+	});
 # 	$editor->{debug} = 1;
-	$editor->set_wiki($server,$prefix);
 # 	$editor->login($user, $pass);
+	return $editor;
+}
 
-	my @pages = $editor->get_pages_in_category($category);
+sub get_category_contents_perlwikipedia {
+	my ($editor,$category,$maxparts,$allow_namespaces) = @_;
+	my @retval;
+
+	my $key = $editor->{host} . '|' . $category;
+	my @pages;
+	my $cached_pages = cache_read_values($key);
+	if (defined $cached_pages) {
+		@pages = @$cached_pages;
+	} else {
+		@pages = $editor->get_pages_in_category($category);
+		cache_write_values($key, \@pages);
+	}
 	foreach my $page (@pages) {
-		print scalar(@pages);
+# 		print scalar(@pages);
 		if ($allow_namespaces->{'all'}) {
 			push @retval, $page;
 		} else {
