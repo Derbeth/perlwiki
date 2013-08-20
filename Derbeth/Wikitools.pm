@@ -332,13 +332,13 @@ sub get_category_contents {
 	$allow_namespaces->{'main'} = 1 unless (exists($allow_namespaces->{main}));
 
 	if ($use_perlwikipedia) {
-		return get_category_contents_perlwikipedia(_create_editor($server),$category,$maxparts,$allow_namespaces,$from);
+		return get_category_contents_perlwikipedia(create_editor($server),$category,$maxparts,$allow_namespaces,$from);
 	} else {
 		return get_category_contents_internal($server,$category,$maxparts,$allow_namespaces,$from);
 	}
 }
 
-sub _create_editor {
+sub create_editor {
 	my ($full_server) = @_;
 
 	$full_server =~ s!^http://!!;
@@ -369,7 +369,7 @@ sub get_category_contents_perlwikipedia {
 	if (defined $cached_pages) {
 		@pages = @$cached_pages;
 	} else {
-		@pages = $editor->get_pages_in_category($category);
+		@pages = $editor->get_pages_in_category($category, { max => 0 });
 		cache_write_values($key, \@pages);
 	}
 	foreach my $page (@pages) {

@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.6.5;
+our $VERSION = 0.6.6;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
@@ -162,9 +162,11 @@ my %language_names = (
 		'la'  => 'język łaciński',
 		'li'  => 'język limburski',
 		'lv'  => 'język łotewski',
+		'mg'  => 'język malgaski',
 		'mk'  => 'język macedoński',
 		'nb'  => 'język norweski (bokmål)',
 		'nl'  => 'język holenderski',
+		'nv'  => 'język nawaho',
 		'pam' => 'język pampango',
 		'pl'  => 'język polski',
 		'pol' => 'język staropolski',
@@ -188,6 +190,7 @@ my %language_names = (
 		'wo'  => 'język wolof',
 		'wym' => 'język wilamowski',
 		'yi'  => 'jidysz',
+		'yue' => 'język kantoński',
 		'zh'  => 'język chiński standardowy'
 	},
 	'de' => {
@@ -230,9 +233,11 @@ my %language_names = (
 		'la'  => 'Lateinisch',
 		'li'  => 'Limburgisch',
 		'lv'  => 'Lettisch',
+		'mg'  => 'Malagasy',
 		'mk'  => 'Mazedonisch',
 		'nb'  => 'Norwegisch',
 		'nl'  => 'Niederländisch',
+		'nv'  => 'Navajo',
 		'pam' => 'Kapampangan',
 		'pl'  => 'Polnisch',
 		'pol' => 'Altpolnisch',
@@ -255,7 +260,8 @@ my %language_names = (
 		'vi'  => 'Vietnamesisch',
 		'wo'  => 'Wolof',
 		'wym' => 'Wilmesaurisch', # cat does not exist yet
-		'yi'  => 'Jiddisch',		
+		'yi'  => 'Jiddisch',
+		'yue' => 'Kantonesisch',
 		'zh'  => 'Chinesisch'
 	},
 	'en' => {
@@ -298,9 +304,11 @@ my %language_names = (
 		'la'  => 'Latin',
 		'li'  => 'Limburgish',
 		'lv'  => 'Latvian',
+		'mg'  => 'Malagasy',
 		'mk'  => 'Macedonian',
 		'nb'  => 'Norwegian',
 		'nl'  => 'Dutch',
+		'nv'  => 'Navajo',
 		'pam' => 'Kapampangan',
 		'pl'  => 'Polish',
 		'pol' => 'Old Polish',
@@ -324,6 +332,7 @@ my %language_names = (
 		'wo'  => 'Wolof',
 		'wym' => 'Vilamovian',
 		'yi'  => 'Yiddish',
+		'yue' => 'Cantonese',
 		'zh'  => 'Mandarin'
 	}
 );

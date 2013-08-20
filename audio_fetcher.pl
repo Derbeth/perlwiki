@@ -41,7 +41,6 @@ my $clean_start=0; # removes all done files etc.
 GetOptions(
 	'c|cleanstart!' => \$clean_start,
 	'cleancache!' => \$clean_cache,
-	'p|perlwikipedia' => \$Derbeth::Wikitools::use_perlwikipedia,
 ) or die;
 
 if ($clean_start) {
@@ -62,6 +61,7 @@ my %categories=(
 	'Belarusian pronunciation'=>'be',
 	'Belarusian pronunciation of names of countries'=>'be',
 	'Bulgarian pronunciation' => 'bg',
+	'Cantonese pronunciation' => 'yue',
 	'Chechen pronunciation'=>'ce',
 	'Chinese pronunciation' => 'zh',
 	'Chinese pronunciation of names of countries' => 'zh',
@@ -72,8 +72,11 @@ my %categories=(
 	'Czech pronunciation of names' => 'cs',
 	'Czech pronunciation of names of cities' => 'cs',
 	'Czech pronunciation of names of countries' => 'cs',
+	'Czech pronunciation of names of people' => 'cs',
+	'Czech pronunciation of nationalities' => 'cs',
 	'Czech pronunciation of numbers' => 'cs',
-	'Czech pronunciation of plants' => 'cs',
+	'Czech pronunciation of planets' => 'cs',
+	'Czech pronunciation of proverbs' => 'cs',
 	'Adjectives in Czech pronunciation' => 'cs',
 	'Nouns in Czech pronunciation' => 'cs',
 	'Pronunciation of names of rivers in the Czech Republic' => 'cs',
@@ -84,7 +87,6 @@ my %categories=(
 	'Dutch pronunciation of names of countries' => 'nl',
 	'Dutch pronunciation of numbers' => 'nl',
 	'Dutch pronunciation of phrases' => 'nl',
-	'Dutch name pronunciation' => 'nl',
 	'English pronunciation' => 'en',
 	'Australian English pronunciation' => 'en',
 	'British English pronunciation' => 'en',
@@ -171,7 +173,9 @@ my %categories=(
 	'Latvian pronunciation' => 'lv', # wrong naming
 	'Latvian pronunciation of names of countries' => 'lv',
 	'Limburgish pronunciation' => 'li',
+	'Malagasy pronunciation' => 'mg',
 	'Mapudungun pronunciation' => 'arn',
+	'Navajo pronunciation' => 'nv',
 	'Norwegian pronunciation' => 'nb',
 	'Norwegian pronunciation of adjectives' => 'nb',
 	'Norwegian pronunciation of adverbs' => 'nb',
@@ -205,12 +209,14 @@ my %categories=(
 	'Slovak pronunciation' => 'sk',
 	'Slovak pronunciation of names of cities' => 'sk',
 	'Slovak pronunciation of names of countries' => 'sk',
-	'Slovenian pronunciation' => 'sl',
+	'Slovene pronunciation' => 'sl',
 	'Slovenian pronunciation of cities' => 'sl',
 	'Slovenian pronunciation of names of countries' => 'sl',
 	'Spanish pronunciation' => 'es', # wrong naming, odd regional
 	'Spanish pronunciation of names of countries' => 'es',
+	'Andean Spanish pronunciation' => 'es',
 	'Mexican Spanish pronunciation' => 'es',
+	'Peruvian Coast Spanish pronunciation' => 'es',
 	'Swedish pronunciation' => 'sv',
 	'Swedish consonants' => 'sv',
 	'Swedish vowels' => 'sv',
@@ -326,10 +332,11 @@ sub _save_pron_validated {
 }
 
 my $server='http://commons.wikimedia.org/w/';
+my $editor = Derbeth::Wikitools::create_editor($server);
 
 foreach my $cat (sort(keys(%categories))) {
 	my $code = $categories{$cat};
-	my @pages=get_category_contents($server,'Category:'.$cat);
+	my @pages=Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,'Category:'.$cat,undef,{all=>1});
 	print 'Category: ',encode_utf8($cat),' pages: ';
 	print scalar(@pages), "\n";
 
