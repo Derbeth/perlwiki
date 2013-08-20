@@ -108,7 +108,7 @@ open(ERRORS,">>$errors_file");
 my $server='http://de.wiktionary.org/w/';
 my $category='Kategorie:Deutsch';
 
-my @entries = get_category_contents($server,$category);
+my @entries = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,$category,undef,{all=>1});
 # my @entries = ('Abteilung');
 
 my $word_count = scalar(@entries);
