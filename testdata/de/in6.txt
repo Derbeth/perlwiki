@@ -1,0 +1,160 @@
+== Affe ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Substantiv|Deutsch}}, {{m}} ===
+
+{{Deutsch Substantiv Übersicht
+|Bild=Lightmatter chimp.jpg|210px|1|Ein ''Affe,'' genauer: Ein [[Schimpanse]]
+|Nominativ Singular=der Affe
+|Nominativ Plural=die Affen
+|Genitiv Singular=des Affen
+|Genitiv Plural=der Affen
+|Dativ Singular=dem Affen
+|Dativ Plural=den Affen
+|Akkusativ Singular=den Affen
+|Akkusativ Plural=die Affen
+}}
+
+{{Worttrennung}}
+:Af·fe, {{Pl.}} Af·fen
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈafə}}, {{Pl.}} {{Lautschrift|ˈafn̩}}
+:{{Hörbeispiele}} {{Audio|De-{{PAGENAME}}.ogg}}, {{Pl.}} {{Audio|De-Affen.ogg|Affen}}
+:{{Reime}} {{Reim|afə|Deutsch}}
+
+{{Bedeutungen}}
+:[1] ''[[Zoologie]], standardsprachlich:'' [[Säugetier]] aus der Unterordnung Anthropoidea in der Ordnung der Primaten
+:[2] ''abwertend:'' [[eitel|eitler]], [[affektiert]]er Mensch
+:[3] ''abwertend:'' [[roh]]er, [[primitiv]]er, [[ungeschlacht]]er Mann
+:[4] ''[[Jägersprache]]:'' ein junges [[Murmeltier]]
+:[5] ''[[Militärjargon]]:'' [[Felltornister]]
+:[6] ein durch Alkohol verursachter Rauschzustand
+
+{{Herkunft}}
+:[[mittelhochdeutsch]] ''affe,'' von [[althochdeutsch]] ''affo''; verwandt mit [[Sanskrit]]: ... ''(kapi)'' und vielleicht mit [[gaffen]]
+:[5, 6] bildlich vom „Affen auf der Schulter“ abgeleitet; vgl. auch [[tschechisch]] ''opít se'' sich betrinken mit tschechisch ''opice'' Affe
+
+{{Synonyme}}
+:[2] [[Fatzke]], [[Lackaffe]]
+:[3] [[Primitivling]], [[Primat]], [[Prolet]]
+:[6] [[Rausch]], [[Suff]]
+
+{{Weibliche Wortformen}}
+:[1] [[Äffin]]
+
+{{Verkleinerungsformen}}
+:[1] [[Äffchen]]
+
+{{Oberbegriffe}}
+:[1] [[Primat]]
+:[4] [[Murmeltier]]
+:[5] [[Behälter]]
+
+{{Unterbegriffe}}
+:[1] [[Altweltaffe]], [[Breitnasenaffe]], [[Neuweltaffe]], [[Schmalnasenaffe]]
+:[1] [[Brüllaffe]], [[Eigentlicher Affe]], [[Halbaffe]], [[Menschenaffe]], [[Nachtaffe]], [[Tieraffe]]
+:[1] [[Gorilla]], [[Klammeraffe]], [[Meerkatze]], [[Orang-Utan]], [[Pavian]], [[Schimpanse]]
+
+{{Beispiele}}
+:[1] ''Affen'' sind in der Regel Pflanzenfresser.
+:[2] Ich versteh' nicht, was du an dem ''Affen'' findest.
+:[3] Er hat sich wie ein ''Affe'' aufgeführt, man kann kaum glauben, dass der gebildet sein soll.
+:[4] Da sah ich eine Katze mit vier ''Affen'' im Bau verschwinden.
+:[5] Die Soldaten trugen einen ''Affen'' mit sich.
+:[5] „Das ungewohnte Marschieren mit dem schweren ''Affen'' kam uns Marinern recht sauer an.“<ref>Joachim Ringelnatz: ''Als Mariner im Krieg.'' Diogenes, Zürich 1994, Seite 189f. ISBN 3-257-06047-5. (Der Text erschien unter dem Namen Gustav Hester im Jahr 1928.)</ref>
+:[6] Sie hatte einen mächtigen ''Affen.''
+:[6] Er trug einen gewaltigen ''Affen'' davon.
+
+{{Redewendungen}}
+:[[den Affen machen]] - den [[Clown]] spielen
+:[[jemandem einen Affen machen]] - jemanden necken
+:[[sich zum Affen machen]] - sich [[blamieren]]
+:[[mich laust der Affe]]! - ''ich bin verwundert''
+:[[auf dem Affen sein]] - [[Fixer]]-[[Jargon]]: unter [[Heroin]]-Entzugserscheinungen leiden (Gegenteil: „[[fett]]“ sein)
+:[[seinem Affen Zucker geben]] - eitel sein
+:[[an jemandem einen Affen gefressen haben]] - in jemanden vernarrt sein
+:[[sich einen Affen kaufen]] - sich betrinken
+:[[wie ein Affe auf dem Schleifstein sitzen]]
+
+{{Charakteristische Wortkombinationen}}
+:[1] [[Urwald]]
+:[2] [[eingebildet]]
+
+{{Wortbildungen}}
+:[*] [[äffen]], [[Affenadler]], [[affenähnlich]], [[affenartig]], [[Affenbeere]], [[Affenbrotbaum]], [[affengeil]], [[Affenliebe]], [[Affenmensch]], [[Affenpinscher]], [[Affenschande]], [[Affenschaukel]], [[Affentempo]], [[Affentheater]], [[Affenzahn]], [[Afferei]], [[äffisch]], [[Maulaffe]], [[nachäffen]]
+:[2] [[affig]], [[Spiegelaffe]]
+
+==== Übersetzungen ====
+{{Ü-links}}
+*{{sq}}: [1] {{Ü|sq|majmun}} {{m}}
+*{{ar}}: [1] {{Üxx|ar|qird|قرد}}
+*{{ay}}: [1] {{Ü|ay|k'usillo}} {{m}}
+*{{bar}}: [1] {{Ü|bar|Aff}}
+*{{ban}}: [1] {{Ü|ban|bojog}}
+*{{bg}}: [1] {{Ü|bg|маймуна}}
+*{{zh}}: [1] {{Üxx|zh|yuán|猿}}, {{Üxx|zh|hóuzi|猴子}}
+*{{da}}: [1] {{Ü|da|abe}}
+*{{en}}: [1] {{Ü|en|monkey}}, [1, 3] {{Ü|en|ape}} (Menschenaffe); [3] {{Ü|en|apeman}}, {{Ü|en|chimp}} (Schimpanse)
+*{{eo}}: [1] {{Ü|eo|simio}}
+*{{et}}: [1] {{Ü|et|ahv}}
+*{{fi}}: [1] {{Ü|fi|apina}}
+*{{fr}}: [1] {{Ü|fr|singe}} {{m}}
+*{{fur}}: [1] {{Ü|fur|šimie}} {{f}}
+*{{ka}}: [1] {{Üxx|ka|maimuni|მაიმუნი}}
+*{{el}}: [1] {{Üxx|el|píthēkos|πίθηκος}}
+*{{hi}}: [1] {{Üxx|hi||बंदर}}
+*{{id}}: [1] {{Ü|id|monyet}}
+*{{zu}}: [1] {{Ü|zu|inkawu}}
+*{{it}}: [1] {{Ü|it|scimmia}} {{f}}
+*{{ja}}: [1] {{Üxx|ja|さる, saru|猿}}
+*{{ca}}: [1] {{Ü|ca|mico}}
+*{{sw}}: [1] {{Ü|sw|tumbili}}
+*{{co}}: [1] {{Ü|co|scimia}} {{f}}, {{Ü|co|scimiu}} {{m}}
+{{Ü-Abstand}}
+*{{la}}: [1] {{Ü|la|simia}} {{f}}
+*{{mt}}: [1] {{Ü|mt|xadin}} {{m}}
+*{{mi}}: [1] {{Ü|mi|makimaki}}
+*{{nds}}: [1–3] {{Ü|nds|Aap}}, [2] {{Ü|nds|Maiaap}}
+*{{nl}}: [1] {{Ü|nl|aap}}
+*{{dsb}}: [1] {{Ü|dsb|nałpa}} {{f}}
+*{{no}}: [1] {{Ü|no|ape}}
+*{{hsb}}: [1] {{Ü|hsb|wopica}} {{f}}
+*{{pl}}: [1–3] {{Ü|pl|małpa}} {{f}}
+*{{pt}}: [1] {{Ü|pt|macaco}} {{m}}
+*{{qu}}: [1] {{Ü|qu|chipi}}, {{Ü|qu|kusillu}}, {{Ü|qu|machi}}
+*{{rm}}: [1] {{Ü|rm|schimgia}}
+*{{ru}}: [1] {{Üxx|ru|obesjána|обезьяна}}
+*{{sv}}: [1, 3] {{Ü|sv|apa}}
+*{{sr}}: [1] {{Üxx|sr|[[majmun]]|мајмун}}
+*{{es}}: [1] {{Ü|es|mono}} {{m}}
+*{{th}}: [1] {{Üxx|th|ling|ลิง}}
+*{{cs}} [1, 3, 6] {{Ü|cs|opice}}
+*{{tr}} [1] {{Ü|tr|maymun}}
+*{{hu}} [1] {{Ü|hu|majom}}
+*{{vec}}: [1] {{Ü|vec|simia}} {{f}}
+*{{vi}}: [1] {{Ü|vi|con khỉ}}
+*{{cy}}: [1] {{Ü|cy|simach}} {{m}}, {{Ü|cy|epa}} {{m}}, {{Ü|cy|mwnci}} {{m}}
+{{Ü-rechts}}<!-- für weitere Sprachkürzel siehe den Link unterhalb des Editierfensters -->
+
+{{Dialektausdrücke (Deutsch)|
+*Berlinerisch:
+*Elsässisch:
+*Kölsch: de ''Aap''
+|
+*Thüringisch-Obersächsisch:
+**Osterländisch: dor ''Aff''
+*Hessisch: Aff
+}}
+
+{{Referenzen}}
+:[1] {{Wikipedia|Affen}}
+:[1, 4–5] {{Wikipedia|Affe (Begriffsklärung)}}
+:[1 3] {{Ref-Grimm|affe}}
+:[1–3, 5–6] {{Ref-DWDS|Affe}}
+:[1] {{Ref-Canoo|Affe}}
+:[1–3] {{Ref-UniLeipzig|Affe}}
+:[1–3] {{Ref-FreeDictionary|Affe}}
+:[1] [[Verzeichnis:Tiere]]
+
+{{Quellen}}
+
+{{2x----}}

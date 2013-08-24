@@ -57,7 +57,7 @@ sub create_audio_entries_enwikt {
 
 	my @audios;
 	my @summary;
-	my @decoded_pron = decode_pron($pron, $section_ref);
+	my @decoded_pron = decode_pron($pron, $section_ref, $singular);
 	while (@decoded_pron) {
 		my $file = shift @decoded_pron;
 		my $region = shift @decoded_pron;
@@ -101,7 +101,7 @@ sub create_audio_entries_frwikt {
 		push @all_audios, $1;
 	}
 
-	my @decoded_pron = decode_pron($pron, $section_ref);
+	my @decoded_pron = decode_pron($pron, $section_ref, $singular);
 	while (@decoded_pron) {
 		my $file = shift @decoded_pron;
 		my $region = shift @decoded_pron;
@@ -144,7 +144,7 @@ sub create_audio_entries_dewikt {
 
 	my @audios;
 	my @summary;
-	my @decoded_pron = decode_pron($pron, $section_ref);
+	my @decoded_pron = decode_pron($pron, $section_ref, $singular);
 	while (@decoded_pron) {
 		my $file = shift @decoded_pron;
 		my $region = shift @decoded_pron;
@@ -176,7 +176,7 @@ sub create_audio_entries_plwikt {
 
 	my @audios;
 	my @summary;
-	my @decoded_pron = decode_pron($pron, $section_ref);
+	my @decoded_pron = decode_pron($pron, $section_ref, $singular);
 	while (@decoded_pron) {
 		my $file = shift @decoded_pron;
 		my $region = shift @decoded_pron;
@@ -233,14 +233,22 @@ sub create_audio_entries {
 #   returns pronunciation files without regional part, sorting and removing audios already present in the article
 # Parameters:
 #   $pron - 'en-us-solder.ogg<us>|en-solder.ogg|en-au-solder.ogg<au>'
+#   $section - a ref to a scalar holding article section text
+#   $page_name - name of the edited page
 #
 # Returns:
 #   array ('en-us-solder.ogg', 'uk', 'solder', '', 'en-au-solder.ogg', 'au')
 sub decode_pron {
-	my ($pron, $section) = @_;
+	my ($pron, $section, $page_name) = @_;
 
 	my @prons = split /\|/, $pron;
 	@prons = sort { (($a =~ /<([^>]+)>/)[0] || '') cmp (($b=~ /<([^>]+)>/)[0] || '') } @prons;
+
+	my $section_unescaped;
+	if ($section) {
+		$section_unescaped = $$section;
+		$section_unescaped =~ s/\{\{PAGENAME\}\}/$page_name/;
+	}
 
 	my @result;
 	foreach my $a_pron (@prons) {
@@ -248,13 +256,13 @@ sub decode_pron {
 		my $file=$1;
 		my $region = $3 ? $3 : '';
 
-		if ($section) {
+		if ($section_unescaped) {
 			my $file_escaped = $file;
 			$file_escaped =~ s/([()[\]\^\$*+.])/\\$1/g;
 			my $file_no_spaces = $file_escaped;
 			$file_no_spaces =~ s/ /_/g;
 			#print stderr "$file_escaped|$file_no_spaces\n";
-			next if ($$section =~ /$file_escaped/i || $$section =~ /$file_no_spaces/i);
+			next if ($section_unescaped =~ /$file_escaped/i || $section_unescaped =~ /$file_no_spaces/i);
 		}
 		push @result, $file, $region;
 	}
@@ -516,10 +524,10 @@ sub add_audio_dewikt {
 		= create_audio_entries('de',$lang_code,$pron_pl,$section,$singular,$plural);
 
 	if ($audios eq '' && $audios_pl eq '') {
-		return (1,'','');
+		return (1,0,'');
 	}
 	if ($check_only) {
-		return (0,'','');
+		return (0,0,'');
 	}
 
 	$audios_count += $audios_count_pl;
