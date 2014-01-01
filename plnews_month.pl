@@ -12,7 +12,7 @@ use Derbeth::Util;
 
 my $dry_run=0;
 my $show_help=0;
-my $is_bot=0;
+my $is_bot=1;
 my $nonbot_sleep=15;
 GetOptions(
 	'dry-run|d' => \$dry_run,
