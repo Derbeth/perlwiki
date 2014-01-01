@@ -10,7 +10,7 @@ use Getopt::Long;
 my $wikt_lang='en';
 
 GetOptions(
-	'f|lang=s' => \$wikt_lang,
+	'w|wikt=s' => \$wikt_lang,
 ) or die;
 
 my $sum=0;

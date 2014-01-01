@@ -8,7 +8,7 @@ use Derbeth::Wiktionary;
 use Getopt::Long;
 use Encode;
 
-my $wikt_lang='de';
+my $wikt_lang='en';
 
 GetOptions(
 	'w|wikt=s' => \$wikt_lang,
@@ -16,6 +16,7 @@ GetOptions(
 
 my %done;
 my %langs;
+my $errors_count;
 
 read_hash_loose("done/done_audio_${wikt_lang}.txt", \%done) or die;
 while (my ($entry,$result) = each(%done)) {
@@ -25,9 +26,11 @@ while (my ($entry,$result) = each(%done)) {
 			$langs{$lang} = [];
 		}
 		push @{$langs{$lang}}, $word;
+		++$errors_count;
 	}
 }
 
+print "$errors_count errors\n";
 foreach my $lang (sort(keys(%langs))) {
 	print "== ", encode_utf8(get_language_name($wikt_lang, $lang)), "==\n";
 	print "{| class=\"wikitable\"\n";

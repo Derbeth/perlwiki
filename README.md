@@ -79,6 +79,10 @@ Short description:
 
     Prints a MediaWiki table with a summary of work done.
 
+*   ./count_audio.pl -w en > /tmp/en.txt && ./audio_errors.pl -w en >> /tmp/en.txt
+
+    Saves a summary of added files and skipped files to /tmp/en.txt.
+
 You can kill audiosetter.pl at any time using Ctrl+C. It will save progress in done/ directory and resume without repeating anything when started for the next time.
 
 ### Running for chosen languages

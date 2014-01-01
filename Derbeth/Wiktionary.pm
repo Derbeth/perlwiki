@@ -536,7 +536,7 @@ sub add_audio_dewikt {
 	$edit_summary .= ' Plural: ' . $edit_summary_pl if ($edit_summary_pl ne '');
 
 	if ($$section =~ /\{\{kSg\.\}\}/) {
-		$edit_summary .= 'met {{kSg.}}, won\'t add audio automatically';
+		$edit_summary .= '; found {{kSg.}}, won\'t add audio automatically';
 		return (2,0,$edit_summary);
 	}
 
