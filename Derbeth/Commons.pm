@@ -43,7 +43,7 @@ Derbeth::Web::enable_caching(1);
 my %regional_fr = ('fr-Paris' => 'Paris', 'FR Paris' => 'Paris', 'fr FR-Paris' => 'Paris',
 	'ca-Montréal' => 'ca', 'fr Be' => 'be', 'fr BE' => 'be', 'fr CA' => 'ca');
 # normal language code => regexp for matching alternative code
-my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by', 'el' => 'ell', 'nb' => 'no',
+my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by|bar', 'el' => 'ell', 'nb' => 'no',
 	'roa' => 'jer');
 
 # marks words with lower priority
