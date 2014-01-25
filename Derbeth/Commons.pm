@@ -145,7 +145,7 @@ sub word_pronounced_in_file {
 	my $file = $1.'.'.$2;
 	my $main_text = $1;
 
-	if ($main_text =~ / \(\d\)$| \(alternative pronunciation\)$|[^-]-\d$| \(etymology /) {
+	if ($main_text =~ / \(\d\)$| \(alternative pronunciation\)$|[^-]-\d$| \(etymology | \((adj|noun|verb)\)$/) {
 		print "skipping alternative variant ", encode_utf8($page), "\n";
 		return ();
 	}
@@ -341,6 +341,11 @@ sub word_pronounced_in_file {
 			$word = $PREMATCH;
 		} elsif ($word =~ / \(Netherlands\)$/) {
 			$word = $PREMATCH;
+		}
+	}
+	elsif ($code eq 'nb') {
+		if ($word =~ /^nor-/i) {
+			$word = $POSTMATCH; # remove regional, because this means Standard East Norwegian, so Bokmal
 		}
 	}
 	elsif ($code eq 'pam') {
