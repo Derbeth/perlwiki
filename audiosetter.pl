@@ -326,7 +326,7 @@ foreach my $l (@langs) {
 		
 		$page_text = $before.$section.$after;
 		
-		my $final_cosm_summary = final_cosmetics($wikt_lang, \$page_text);
+		my $final_cosm_summary = final_cosmetics($wikt_lang, \$page_text, $word);
 		$edit_summary .= '; '.$initial_summary if ($initial_summary);
 		$edit_summary .= '; '.$final_cosm_summary if ($final_cosm_summary);
 		

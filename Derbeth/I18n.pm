@@ -32,11 +32,13 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.6.6;
+our $VERSION = 0.7.0;
+our %regional_names;
+our %regional_params_dewikt;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
-my %regional_names = (
+%regional_names = (
 	'pl' => {
 		'ar' => 'argentyńska',
 		'at' => 'austriacka',
@@ -119,6 +121,31 @@ my %regional_names = (
 );
 $regional_names{'simple'} = $regional_names{'en'};
 
+# internal regional code => code used by [[wikt:de:Vorlage:Audio]]
+%regional_params_dewikt = (
+	'ar' => 'ar',
+	'at' => 'at',
+	'be' => 'be',
+	'bo' => 'bo',
+	'br' => 'br',
+	'by' => 'by',
+	'ca' => 'ca',
+	'chile' => 'chile',
+	'cls' => 'cls',
+	'ecc' => 'ecc',
+	'east-armenian' => 'east-armenian',
+	'Lewis' => 'Lewis',
+	'mx' => 'mx',
+	'Paris' => 'Paris',
+	'ph' => 'ph',
+	'rom' => 'rom',
+	'sa' => 'sa',
+	'sursilvan' => 'sursilvan',
+	'uk' => 'uk',
+	'us' => 'us',
+	'us-inlandnorth' => 'us-inlandnorth',
+	'us-ncalif' => 'us-ncalif',
+);
 
 # for titles of language sections
 my %language_names = (

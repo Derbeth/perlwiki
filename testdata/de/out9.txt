@@ -1,0 +1,22 @@
+== März ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Substantiv|Deutsch}}, {{m}} ===
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular=der März
+|Nominativ Plural=die Märze
+|Genitiv Singular=des März(es)
+|Genitiv Plural=der Märze
+|Dativ Singular=dem März(en)
+|Dativ Plural=den Märzen
+|Akkusativ Singular=den März
+|Akkusativ Plural=die Märze
+}}
+
+{{Silbentrennung}}
+:März, {{Pl.}} Mär·ze
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|mɛʁts}}, {{Pl.}} {{Lautschrift|ˈmɛʁtsə}}
+:{{Hörbeispiele}} {{Audio|de-März.ogg}}, {{Pl.}} {{Audio|}}
+
+{{Bedeutungen}}
+:[1] der dritte Monat im Jahr

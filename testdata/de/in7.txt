@@ -1,0 +1,15 @@
+== cat ({{Sprache|Englisch}}) ==
+=== {{Wortart|Substantiv|Englisch}} ===
+
+{{Englisch Substantiv Übersicht
+|Singular=the cat
+|Plural=the cats
+|Bild 1=Cat03.jpg|225px|1|a ''cat''
+}}
+
+{{Worttrennung}}
+:cat, {{Pl.}} cats
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|kæt}}, {{Pl.}} {{Lautschrift|kæʦ}}
+:{{Hörbeispiele}} {{Audio|En-uk-a cat.ogg|cat (britisch)}} {{Audio|En-us-cat.ogg|cat (US-amerikanisch)}}, {{Pl.}} {{Audio|}}

@@ -225,7 +225,7 @@ foreach my $word (@entries) {
 	
 	$page_text_remote = $before.$section.$after;
 	
-	my $final_summary = final_cosmetics($wikt_lang, \$page_text_remote);
+	my $final_summary = final_cosmetics($wikt_lang, \$page_text_remote, $word);
 	$edit_summary .= '; '.$initial_summary if ($initial_summary);
 	$edit_summary .= '; '.$final_summary if ($final_summary);
 	

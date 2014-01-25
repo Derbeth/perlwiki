@@ -6,7 +6,7 @@
 
 {{Aussprache}}
 :{{IPA}} {{Lautschrift|...}}
-:{{Hörbeispiele}} {{Audio|De-at-Afghanen.ogg|Afghanen (österreichisch)}}
+:{{Hörbeispiele}} {{Audio|De-at-Afghanen.ogg|spr=at}}
 
 {{Grundformverweis|Afghane}}
 

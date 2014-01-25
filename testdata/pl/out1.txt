@@ -51,7 +51,7 @@ __TOC__
 <references/>
 
 == rose ({{język norweski (bokmål)}}) ==
-{{wymowa}} {{audio|No-rose.ogg}}
+{{wymowa}} {{audio|No-rose.oga}}
 {{znaczenia}}
 ''rzeczownik, rodzaj męski lub żeński''
 : (1.1) {{bot}} [[róża]]

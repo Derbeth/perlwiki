@@ -41,10 +41,11 @@ for my $wikt_lang(@tested_wikts) {
 		my %args;
 		read_hash_loose($args_file, \%args);
 		validate_args($args_file, %args);
-		my $equal = do_test($test_input, $wikt_lang, $test_input, $test_output, %args)
-		&& compare_files($test_output, $test_expected);
-		if (!$equal) {
+		my ($success,$summary) = do_test($test_input, $wikt_lang, $test_input, $test_output, %args);
+		my $identical = $success ? compare_files($test_output, $test_expected) : 0;
+		if (!$identical) {
 			print "Test $i failed.\n";
+			print "Edit summary: $summary\n";
 			if ($interactive) {
 				system("kdiff3 $test_output $test_expected -L1 Received -L2 Expected");
 			} else {
@@ -84,26 +85,26 @@ sub do_test {
 	my $word = $args{'word'};
 	unless($word) {
 		print "missing 'word' parameter for $file\n";
-		return 0;
+		return (0, '');
 	}
 
 	my $initial_summary = initial_cosmetics($wikt_lang,\$text);
 	my ($before, $section, $after) = split_article_wikt($wikt_lang,$lang_code,$text,1);
 	my ($result,$added_audios,$edit_summary) = add_audio_new($wikt_lang,\$section,$args{'audio'},$lang_code,0,$word,$args{'audio_pl'},$args{'plural'},$args{'ipa'},$args{'ipa_pl'});
 	$text = $before.$section.$after;
-	final_cosmetics($wikt_lang, \$text);
+	final_cosmetics($wikt_lang, \$text, $word);
 	print OUT encode_utf8($text);
 	close(OUT);
 
 	if (exists($args{'result'}) && $args{'result'} != $result) {
-		print encode_utf8("$file: expected result $args{result} but got $result ($edit_summary)\n");
-		return 0;
+		print encode_utf8("$file: expected result $args{result} but got $result\n");
+		return (0, $edit_summary);
 	}
 	if (exists($args{'added_audios'}) && $args{'added_audios'} != $added_audios) {
-		print encode_utf8("$file: expected added $args{added_audios} but got $added_audios ($edit_summary)\n");
-		return 0;
+		print encode_utf8("$file: expected added $args{added_audios} but got $added_audios\n");
+		return (0, $edit_summary);
 	}
-	return 1;
+	return (1, $edit_summary);
 }
 
 sub validate_args {

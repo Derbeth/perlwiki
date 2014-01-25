@@ -1,0 +1,12 @@
+== een ({{Sprache|Niederländisch}}) ==
+=== {{Wortart|Artikel|Niederländisch}} ===
+
+{{Worttrennung}}
+:een
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ən}}
+:{{Hörbeispiele}} {{Audio|}}
+
+{{Bedeutungen}}
+:[1] [[ein]]

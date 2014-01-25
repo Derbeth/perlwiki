@@ -27,7 +27,7 @@ use utf8;
 use strict;
 use English;
 
-use Derbeth::I18n 0.6.0;
+use Derbeth::I18n 0.7.0;
 use Derbeth::Wikitools;
 use Encode;
 use Carp;
@@ -41,7 +41,7 @@ our @EXPORT = qw/add_audio_new
 	final_cosmetics
 	add_inflection_plwikt
 	should_not_be_in_category_plwikt/;
-our $VERSION = 0.10.0;
+our $VERSION = 0.11.0;
 
 # Function: create_audio_entries_enwikt
 # Parameters:
@@ -97,7 +97,7 @@ sub create_audio_entries_frwikt {
 	my @summary;
 
 	my @all_audios;
-	while ($$section_ref =~ /audio= *([^.}|]+\.ogg)/igc) {
+	while ($$section_ref =~ /audio= *([^.}|]+\.(?:oga|ogg))/igc) {
 		push @all_audios, $1;
 	}
 
@@ -116,14 +116,14 @@ sub create_audio_entries_frwikt {
 		my $text = ' {{pron-rég|';
 		$text .= get_regional_frwikt($lang_code,$region,$file);
 		$text .= '|'; # no IPA
-		if ($file =~ /fr-((l'|(un|une|le|la|des|les) )[^-.(]+)\.ogg/i) {
+		if ($file =~ /fr-((l'|(un|une|le|la|des|les) )[^-.(]+)\.(?:oga|ogg)/i) {
 			$text .= "|titre=$1";
 			$edit_summary .= " as '$1'";
-		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((un|une|le|la|des|les|du)\)\.ogg/i) {
+		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((un|une|le|la|des|les|du)\)\.(?:oga|ogg)/i) {
 			my $new_word = "$2 $1";
 			$text .= "|titre=$new_word";
 			$edit_summary .= " as '$new_word'";
-		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((l’)\)\.ogg/i) {
+		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((l’)\)\.(?:oga|ogg)/i) {
 			my $new_word = "l'$1";
 			$text .= "|titre=$new_word";
 			$edit_summary .= " as '$new_word'";
@@ -151,17 +151,24 @@ sub create_audio_entries_dewikt {
 
 		my $text = '{{Audio|'.$file.'|';
 		my $edit_summary = $file;
+		my $visual_label='';
+
 		if ($plural) {
-			$text .= $plural;
+			$visual_label = $plural;
 		} elsif ($region ne '') {
-			$text .= $singular;
+			$visual_label = $singular;
 		}
 
 
 		if ($region ne '') {
-			$text .= ' ('.get_regional_name('de',$region).')';
+			if (!$plural && exists $Derbeth::I18n::regional_params_dewikt{$region}) {
+				$visual_label = 'spr=' . $Derbeth::I18n::regional_params_dewikt{$region};
+			} else {
+				$visual_label .= ' ('.get_regional_name('de',$region).')';
+			}
 		}
-		$text .= '}}';
+
+		$text .= $visual_label.'}}';
 		$text =~ s/\| /|/g;
 		$text =~ s/\|}}/}}/g;
 
@@ -252,7 +259,7 @@ sub decode_pron {
 
 	my @result;
 	foreach my $a_pron (@prons) {
-		$a_pron =~ /(.*\.ogg)(<(.*)>)?/i;
+		$a_pron =~ /(.*\.(?:oga|ogg))(<(.*)>)?/i;
 		my $file=$1;
 		my $region = $3 ? $3 : '';
 
@@ -577,8 +584,8 @@ $newaudio/x;
 	}
 
 	if ($audios ne '') {
-		if ($$section =~ /{{Hörbeispiele}} +(-|–|—|{{fehlend}})/) {
-			unless ($$section =~ s/({{Hörbeispiele}}) +(-|–|—|{{fehlend}})/$1 $audios/) {
+		if ($$section =~ /{{Hörbeispiele}} +(-|–|—|{{fehlend}}|{{[aA]udio\|}})/) {
+			unless ($$section =~ s/({{Hörbeispiele}}) +(-|–|—|{{fehlend}}|{{[aA]udio\|}})/$1 $audios/) {
 				$edit_summary .= '; cannot replace {{fehlend}}';
 				return (2,0,$edit_summary);
 			}
@@ -960,11 +967,26 @@ sub initial_cosmetics {
 }
 
 sub final_cosmetics_dewikt {
-	my $page_text_ref = shift;
+	my ($page_text_ref, $word) = @_;
 	my @summary;
 
 	if ($$page_text_ref =~ s/(:\[\[Hilfe:Hörbeispiele\|Hörbeispiele\]\].*)(\n|\r|\f)(:\[\[Hilfe:IPA\|IPA\]\].*)/$3$2$1/g) {
 		push @summary, 'korr. Reihenfolge von IPA und Hörbeispielen';
+	}
+	
+	if ($word) {
+		my $fixed_templ_param = 0;
+		while (my ($code,$text) = each(%{$Derbeth::I18n::regional_names{'de'}})) {
+			my $template_param = $Derbeth::I18n::regional_params_dewikt{$code};
+			next unless $template_param;
+			$template_param = 'spr='.$template_param;
+			if ($$page_text_ref =~ s/(\{\{[aA]udio\|[^|]+\|)($word|\{\{PAGENAME\}\}) \($text\)(\}\})/$1$template_param$3/) {
+				$fixed_templ_param = 1;
+			}
+		}
+		if ($fixed_templ_param) {
+			push @summary, '\'spr\' Parameter von {{Audio}} wurde benutzt';
+		}
 	}
 
 	return join(', ', @summary);
@@ -983,7 +1005,7 @@ sub final_cosmetics_frwikt {
 }
 
 sub final_cosmetics_plwikt {
-	my $page_text_ref = shift;
+	my ($page_text_ref, $word) = @_;
 	my @summary;
 
 	if ($$page_text_ref =~ s/----(\n|\r|\f)//g) {
@@ -1029,20 +1051,21 @@ sub final_cosmetics_plwikt {
 # Parameters:
 #   $wikt_lang - 'de', 'en', 'pl' or 'simple'
 #   $page_text_ref - ref to page text
+#   $word - the pronounced word (page name)
 # Returns: edit summary (may be empty)
 sub final_cosmetics {
-	my ($wikt_lang, $page_text_ref) = @_;
+	my ($wikt_lang, $page_text_ref, $word) = @_;
 
 	if ($wikt_lang eq 'de') {
-		return final_cosmetics_dewikt($page_text_ref);
+		return final_cosmetics_dewikt($page_text_ref, $word);
 	} elsif ($wikt_lang eq 'en') {
-		return final_cosmetics_enwikt($page_text_ref);
+		return final_cosmetics_enwikt($page_text_ref, $word);
 	} elsif ($wikt_lang eq 'pl') {
-		return final_cosmetics_plwikt($page_text_ref);
+		return final_cosmetics_plwikt($page_text_ref, $word);
 	} elsif ($wikt_lang eq 'simple') {
-		return final_cosmetics_simplewikt($page_text_ref);
+		return final_cosmetics_simplewikt($page_text_ref, $word);
 	} elsif ($wikt_lang eq 'fr') {
-		return final_cosmetics_frwikt($page_text_ref);
+		return final_cosmetics_frwikt($page_text_ref, $word);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}
