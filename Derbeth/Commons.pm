@@ -144,9 +144,12 @@ sub word_pronounced_in_file {
 	return () if ($page !~ /(?:File|Image):(.+)\.(ogg|OGG|oga|OGA)/);
 	my $file = $1.'.'.$2;
 	my $main_text = $1;
-	
+
 	if ($main_text =~ / \(\d\)$| \(alternative pronunciation\)$|[^-]-\d$| \(etymology /) {
 		print "skipping alternative variant ", encode_utf8($page), "\n";
+		return ();
+	}
+	if ($main_text =~ /Voice of America/) {
 		return ();
 	}
 
