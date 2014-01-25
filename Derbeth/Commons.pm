@@ -141,9 +141,14 @@ sub word_pronounced_in_file {
 	my ($page, $code, $cat) = @_;
 	$cat = '' unless(defined($cat));
 
-	return () if ($page !~ /(?:File|Image):(.+)\.(ogg|OGG)/);
+	return () if ($page !~ /(?:File|Image):(.+)\.(ogg|OGG|oga|OGA)/);
 	my $file = $1.'.'.$2;
 	my $main_text = $1;
+	
+	if ($main_text =~ / \(\d\)$| \(alternative pronunciation\)$|[^-]-\d$| \(etymology /) {
+		print "skipping alternative variant ", encode_utf8($page), "\n";
+		return ();
+	}
 
 	my $skip_key_extraction=0;
 	my $word;
@@ -362,7 +367,7 @@ sub word_pronounced_in_file {
 		}
 	}
 	elsif ($code eq 'wym') {
-		$word =~ s/ \(ortografia Józefa Gary\)$//;
+		$word =~ s/ \(wersja Józefa Gary\)$//;
 	}
 	# == end regional, now stripping articles
 
@@ -378,8 +383,13 @@ sub word_pronounced_in_file {
 	}
 
 	# == saving
+	
+	my $priority = '';
+	if ($art_rem || $page =~ /\.oga$/i) {
+		$priority = $LOWPR;
+	}
 
-	my @result = ($file, _with_regional($word, $regional, $art_rem ? $LOWPR : ''));
+	my @result = ($file, _with_regional($word, $regional, $priority));
 
 	# === Letter size problems go here
 	if ($cat eq 'English pronunciation of numbers'
