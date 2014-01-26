@@ -145,7 +145,7 @@ sub word_pronounced_in_file {
 	my $file = $1.'.'.$2;
 	my $main_text = $1;
 
-	if ($main_text =~ / \(\d\)$| \(alternative pronunciation\)$|[^-]-\d$| \(etymology | \((adj|noun|verb)\)$/) {
+	if ($main_text =~ / \(alternative pronunciation\)$| \(etymology | \((adj|noun|verb)\)$/) {
 		print "skipping alternative variant ", encode_utf8($page), "\n";
 		return ();
 	}
@@ -420,8 +420,8 @@ sub word_pronounced_in_file {
 	# === Handling 'second pronunciation variant'
 	if ($code =~ /^(ce|is|ta|zh)$/) {
 		# don't even try
-	} elsif ($word =~ /[- ]+[123]$/) {
-		push @result, _with_regional($`, $regional, $LOWPR);
+	} elsif ($word =~ / \(\d\)$|[- ]+[1-6]$/) {
+		@result = ($file, _with_regional($`, $regional, $LOWPR));
 	} elsif ($word =~ /([^0-9A-Z])[123]$/) {
 		push @result, _with_regional($`.$1, $regional, $LOWPR);
 	}
