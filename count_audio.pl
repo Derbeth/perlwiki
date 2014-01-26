@@ -16,7 +16,7 @@ GetOptions(
 my $sum=0;
 my %count;
 
-open(IN,"audio_count_${wikt_lang}wikt.txt") or die;
+open(IN,"done/audio_count_${wikt_lang}wikt.txt") or die;
 
 while(<IN>) {
 	if (/^(\w+)=(\d+)/) {
