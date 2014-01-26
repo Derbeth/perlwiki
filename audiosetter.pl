@@ -67,7 +67,7 @@ my $pass = $settings{bot_password};   # for wiki
 #`rm -f $donefile`;
 my $debug_orig_file='in.txt';
 my $debug_file='out.txt';
-my $errors_file='errors_audio.txt';
+my $errors_file='done/errors_audio.txt';
 
 # ============ Global variables
 
@@ -116,11 +116,11 @@ if ($randomize) {
 if ($clean_cache) {
 	Derbeth::Web::clear_cache();
 }
-system("mkdir done") unless(-e 'done');
+mkdir 'done' unless(-e 'done');
 if ($clean_start) {
 	`rm -f audio/${wikt_lang}wikt_audio*`;
 	`rm -f done/done_filter_${wikt_lang}.txt done/done_audio_${wikt_lang}.txt`;
-	`rm -f audio_count_${wikt_lang}wikt.txt`;
+	`rm -f done/audio_count_${wikt_lang}wikt.txt`;
 	`rm -f $errors_file`;
 }
 
@@ -176,7 +176,10 @@ $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); exit; };
 # ========== Main loop
 
 foreach my $l (@langs) {
-	next if ($wikt_lang eq 'de' && $l eq 'de'); # there is a separate script
+	if ($wikt_lang eq 'de' && $l eq 'de') {
+		print "Skipping de, run ./dewikt_audiosetter_de.pl\n";
+		next;
+	}
 	$lang_code = $l;
 	
 	$processed_words=0;
@@ -374,7 +377,8 @@ foreach my $l (@langs) {
 
 sub save_results {
 	my $finish = shift;
-	
+
+	close ERRORS;
 	if ($filter_mode) {
 		print STDERR 'saved ', scalar(keys(%pronunciation_filtered));
 		print STDERR ' words out of ', scalar(keys(%pronunciation));
@@ -387,7 +391,7 @@ sub save_results {
 		print_progress();
 		if ($debug_mode && $finish) {close DEBUG; exit(0); }
 		
-		add_audio_count('audio_count_'.$wikt_lang.'wikt.txt', $lang_code, $added_files);
+		add_audio_count('done/audio_count_'.$wikt_lang.'wikt.txt', $lang_code, $added_files);
 		$added_files = 0;
 	}
 	

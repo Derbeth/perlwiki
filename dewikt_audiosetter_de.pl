@@ -56,7 +56,7 @@ my $donefile = "done/done_dewikt_de.txt";
 #`rm -f $donefile`;
 my $debug_orig_file='in.txt';
 my $debug_file='out.txt';
-my $errors_file='errors_dewikt_de.txt';
+my $errors_file='done/errors_dewikt_de.txt';
 Derbeth::Web::enable_caching(1);
 
 # ============ end settings
@@ -66,9 +66,9 @@ GetOptions('p|limit=i' => \$page_limit, 'r|random!' => \$randomize) or die;
 my %done; # langcode-skip_word => 1
 my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
 
+mkdir 'done' unless(-e 'done');
 $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit; };
 
-system("mkdir done") unless(-e 'done');
 read_hash_loose($donefile, \%done);
 
 if ($debug_mode) {
@@ -257,9 +257,10 @@ save_results();
 
 sub save_results {
 	print "added $added_files files\n";
+	close ERRORS;
 	if ($debug_mode) { close DEBUG; exit(0); }
 	
-	add_audio_count('audio_count_dewikt.txt', 'de', $added_files);
+	add_audio_count('done/audio_count_dewikt.txt', 'de', $added_files);
 	
 	save_hash_sorted($donefile, \%done);
 	$added_files = 0;
