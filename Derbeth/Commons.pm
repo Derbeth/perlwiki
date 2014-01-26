@@ -157,6 +157,7 @@ sub word_pronounced_in_file {
 	my $word;
 	my $regional='';
 	my $art_rem = 0; # true if article has been removed
+	my $force_low_pr = 0;
 
 	# === Non-standard naming goes here
 	if ($cat =~ /^Latvian pronunciation/) {
@@ -240,7 +241,7 @@ sub word_pronounced_in_file {
 		} else {
 			$lang_code=$code;
 		}
-		if ($main_text !~ /^$lang_code[ -]/i) { # case-insensitive
+		if ($main_text !~ /^$lang_code(- | |-)/i) { # case-insensitive
 			print 'not a pronunciation file: ',encode_utf8($page),"\n";
 			return ();
 		}
@@ -294,6 +295,8 @@ sub word_pronounced_in_file {
 			$regional = 'Paris';
 		} elsif ($word =~ s/^(Belgique-BW|BE-BW|BE)-+//) {
 			$regional = 'be';
+		} elsif ($word =~ s/ \(Avignon\)$//) {
+			$force_low_pr = 1; # ignore this regional
 		}
 
 		$art_rem = 1 if $word =~ s/^(une|un|les|le|la)[ -]//gi;
@@ -393,7 +396,7 @@ sub word_pronounced_in_file {
 	# == saving
 	
 	my $priority = '';
-	if ($art_rem || $page =~ /\.oga$/i) {
+	if ($art_rem || $force_low_pr || $page =~ /\.oga$/i) {
 		$priority = $LOWPR;
 	}
 
