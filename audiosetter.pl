@@ -30,6 +30,7 @@ use MediaWiki::Bot 3.3.1;
 use Derbeth::Wikitools 0.8.0;
 use Derbeth::Wiktionary;
 use Derbeth::I18n;
+use Derbeth::Inflection;
 use Derbeth::Util;
 use Encode;
 use Getopt::Long;
