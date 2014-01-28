@@ -1,0 +1,8 @@
+== anatra ({{Sprache|Italienisch}}) ==
+=== {{Wortart|Substantiv|Italienisch}}, {{f}} ===
+
+{{Italienisch Substantiv Übersicht
+|Singular=l’anatra
+|Plural=le anatre
+|Bild=Flying mallard duck - female.jpg|300px|1|un'anatra
+}}

@@ -1,0 +1,7 @@
+== scarpa ({{Sprache|Italienisch}}) ==
+=== {{Wortart|Substantiv|Italienisch}}, {{f}} ===
+
+{{Italienisch Substantiv Übersicht
+|Singular=la scarpa
+|Plural=le scarpe
+}}

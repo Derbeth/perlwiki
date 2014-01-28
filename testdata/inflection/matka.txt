@@ -1,0 +1,19 @@
+== matka ({{Sprache|Polnisch}}) ==
+=== {{Wortart|Substantiv|Polnisch}}, {{f}} ===
+
+{{Polnisch Substantiv Übersicht
+|Nominativ Singular=matka
+|Nominativ Plural=matki
+|Genitiv Singular=matki
+|Genitiv Plural=matek
+|Dativ Singular=matce
+|Dativ Plural=matkom
+|Akkusativ Singular=matkę
+|Akkusativ Plural=matki
+|Instrumental Singular=matką
+|Instrumental Plural=matkami
+|Lokativ Singular=matce
+|Lokativ Plural=matkach
+|Vokativ Singular=matko
+|Vokativ Plural=matki
+}}

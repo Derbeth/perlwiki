@@ -50,11 +50,18 @@ sub _uniq_values {
 	return @results;
 }
 
-sub extract_de_plural_dewikt {
-	my ($section_ref) = @_;
+sub _extract_plural_with_cases_dewikt {
+	my ($section_ref, $article_regex) = @_;
 	my @singular_forms = $$section_ref =~ /Nominativ Singular[^=]*=(.+)/g;
 	my @plural_forms = $$section_ref =~ /Nominativ Plural[^=]*=(.+)/g;
-	_filter_plural(\@singular_forms, \@plural_forms, '(der|die|das) ');
+	_filter_plural(\@singular_forms, \@plural_forms, $article_regex);
+}
+
+sub _extract_simple_plural_dewikt {
+	my ($section_ref, $article_regex) = @_;
+	my @singular_forms = $$section_ref =~ /\| *Singular[^=]*=(.+)/g;
+	my @plural_forms = $$section_ref =~ /\| *Plural[^=]*=(.+)/g;
+	_filter_plural(\@singular_forms, \@plural_forms, $article_regex);
 }
 
 sub _filter_plural {
@@ -70,13 +77,6 @@ sub _filter_plural {
 	($singular_arr, $plural_arr);
 }
 
-sub _extract_general_plural_dewikt {
-	my ($section_ref, $article_regex) = @_;
-	my @singular_forms = $$section_ref =~ /\| *Singular[^=]*=(.+)/g;
-	my @plural_forms = $$section_ref =~ /\| *Plural[^=]*=(.+)/g;
-	_filter_plural(\@singular_forms, \@plural_forms, $article_regex);
-}
-
 # Extracts plural from an entry.
 # $lang - language code in which the section is (like 'en' for entry on an English word)
 #
@@ -86,11 +86,15 @@ sub extract_plural {
 	my ($wikt_lang, $lang, $word, $section_ref) = @_;
 	if ($wikt_lang eq 'de') {
 		if ($lang eq 'de') {
-			return extract_de_plural_dewikt($section_ref);
+			return _extract_plural_with_cases_dewikt($section_ref, '(der|die|das) ');
 		} elsif ($lang eq 'en') {
-			return _extract_general_plural_dewikt($section_ref, 'the ');
-		} elsif ($lang eq 'nl') {
-			return _extract_general_plural_dewikt($section_ref, '(het|de) ');
+			return _extract_simple_plural_dewikt($section_ref, 'the ');
+		} elsif ($lang eq 'it') {
+			return _extract_simple_plural_dewikt($section_ref, '(la |le |lo |gli |l\'|l’)');
+		}  elsif ($lang eq 'nl') {
+			return _extract_simple_plural_dewikt($section_ref, '(het|de) ');
+		} elsif ($lang eq 'pl') {
+			return _extract_plural_with_cases_dewikt($section_ref);
 		}
 	}
 	return ([$word], []);
