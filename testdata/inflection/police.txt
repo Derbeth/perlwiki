@@ -1,0 +1,8 @@
+== police ({{Sprache|Englisch}}) ==
+=== {{Wortart|Substantiv|Englisch}} ===
+
+{{Englisch Substantiv Übersicht
+|Singular=police
+|Plural=—
+|Bild=Police man update.png|200px|1|police man
+}}

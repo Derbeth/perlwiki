@@ -1,0 +1,7 @@
+== tea ({{Sprache|Englisch}}) ==
+=== {{Wortart|Substantiv|Englisch}} ===
+
+{{Englisch Substantiv Übersicht
+|Singular=tea
+|Plural=
+}}

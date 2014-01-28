@@ -27,131 +27,96 @@ use strict;
 use utf8;
 
 use Encode;
+use Carp;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/
-	extract_de_inflection_dewikt
-	extract_en_inflection_dewikt/;
+	extract_plural
+	match_pronunciation_files
+	find_pronunciation_files/;
 our $VERSION = 0.2.0;
 
 my $NOINFLECTION='1234';
 
-# TODO retain order
 sub _uniq_values {
-	my %results;
+	my %met;
+	my @results;
 	foreach my $val (@_) {
-		$results{$val} = 1;
-	}
-	return keys %results;
-}
-
-# returns singular form plus a list of plural forms
-# singular can be empty string if word has no singular
-sub extract_de_inflection_dewikt {
-	my ($section_ref) = @_;
-	my @singular_forms = $$section_ref =~ /Nominativ Singular[^=]*=(.*)/g;
-	my @plural_forms = $$section_ref =~ /Nominativ Plural[^=]*=(.*)/g;
-	map { s/^ +| +$//g } @singular_forms;
-	map { s/^ +| +$//g } @plural_forms;
-	map { s/^(der|die|das) // } @singular_forms;
-	map { s/^(der|die|das) // } @plural_forms;
-	print "sing", @singular_forms, "\n";
-	@singular_forms = _uniq_values(@singular_forms);
-	@plural_forms = _uniq_values(@plural_forms);
-	my $singular = @singular_forms ? $singular_forms[0] : '';
-	($singular, @plural_forms);
-}
-
-# Returns:
-#   plural form or empty string if not found
-#   note that "-" means "no plural"
-sub _extract_en_inflection {
-	my ($word,$section_ref) = @_;
-	my $section_copy = $$section_ref;
-	
-	$section_copy =~ s/<\/?center>//g;
-	$section_copy =~ s/—|\{\{fehlend\}\}/-/g;
-	
-	if ($section_copy =~ /\{\{Englisch Substantiv Übersicht/) {
-		if ($section_copy =~ /\|Plural=\s*([^}\n\r\f]+)/) {
-			my $plural = $1;
-			$plural =~ s/^the //;
-			return $plural;
+		unless (exists $met{$val}) {
+			push @results, $val;
+			$met{$val} = 1;
 		}
-		return '';
 	}
-	
-	$section_copy =~ s/\|(BBreite|(Bild|BBezug|BBeschreibung)\d)=[^\|\}]*//g;
-	#print encode_utf8($section_copy);
-	
-	if ($section_copy =~ /\{\{Englisch Substantiv\s*\}\}|\{\{Englisch Substantiv\|s\s*\}\}/) {
-		return "${word}s";
-	} elsif ($section_copy =~ /\{\{Englisch Substantiv\|([^|}\n\r\f]+)\s*\}\}/) {
-		my $pl = $1;
-		$pl =~ s/^ +| +$//g;
-		if ($pl eq '-') {
-			return '-';
-		} else {
-			return "${word}$1";
-		}
-	} else {
-		return '';
-	}
+	return @results;
 }
 
-sub _extract_ipa {
+sub extract_de_plural_dewikt {
 	my ($section_ref) = @_;
-	my ($ipa_sing, $ipa_pl)=('','');
-	
-	if ($$section_ref =~ /:\[\[Hilfe:IPA\|IPA]]:\s+{{Lautschrift\|([^}]+)}}/) {
-		$ipa_sing = $1;
-	}
-	if($$section_ref =~ /:\[\[Hilfe:IPA\|IPA]]:.*{{Pl.}}\s+{{Lautschrift\|([^}]+)}}/) {
-		$ipa_pl = $1;
-	}
-	
-	if ($ipa_sing =~ /\.\.\./ || $ipa_sing =~ /fehlend/) {
-		$ipa_sing = '';
-	}
-	if ($ipa_pl =~ /\.\.\./ || $ipa_pl =~ /fehlend/) {
-		$ipa_pl = '';
-	}
-	
-	return ($ipa_sing,$ipa_pl);
+	my @singular_forms = $$section_ref =~ /Nominativ Singular[^=]*=(.+)/g;
+	my @plural_forms = $$section_ref =~ /Nominativ Plural[^=]*=(.+)/g;
+	_filter_plural(\@singular_forms, \@plural_forms, '(der|die|das) ');
 }
 
-# Function: extract_en_inflection_dewikt
-# Parameters:
-#   $word - article title
-#   $section_ref - reference to section text
+sub _filter_plural {
+	my ($singular_arr, $plural_arr, $article_regex) = @_;
+	foreach my $arr_ref ($singular_arr, $plural_arr) {
+		map { s/^ +| +$//g } @{$arr_ref};
+		if ($article_regex) {
+			map { s/^$article_regex// } @{$arr_ref};
+		}
+		@{$arr_ref} = grep { !/^[—-]$|^$/ } @{$arr_ref};
+		@{$arr_ref} = _uniq_values(@{$arr_ref});
+	}
+	($singular_arr, $plural_arr);
+}
+
+sub _extract_general_plural_dewikt {
+	my ($section_ref, $article_regex) = @_;
+	my @singular_forms = $$section_ref =~ /\| *Singular[^=]*=(.+)/g;
+	my @plural_forms = $$section_ref =~ /\| *Plural[^=]*=(.+)/g;
+	_filter_plural(\@singular_forms, \@plural_forms, $article_regex);
+}
+
+# Extracts plural from an entry.
+# $lang - language code in which the section is (like 'en' for entry on an English word)
 #
-# Returns:
-#   $inflection - row for Polish Wiktionary:
-#     {{lm}} cats
-#   $singular - singular form ('Bus')
-#   $plural - plural form ('Busse')
-#   $ipa_sing - singular IPA
-#   $ipa_pl - plural IPA
-sub extract_en_inflection_dewikt {
-	my ($word,$section_ref)=@_;
-	
-	my ($ipa_sing,$ipa_pl) = _extract_ipa($section_ref);
-	my $plural = _extract_en_inflection($word,$section_ref);
-	
-	my $inflection = '';
-	if ($plural =~ /\(|\?/) {
-			$plural = '';
-		}
-	if ($plural) {
-		$inflection = "{{lp}} $word; ";
-		if ($plural eq '-') {
-			$inflection .= "{{blm}}";
-			$plural = '';
-		} else {
-			$inflection .= "{{lm}} $plural";
+# returns list of singular forms and a list of plural forms
+# each of the list can be empty if there is no such form
+sub extract_plural {
+	my ($wikt_lang, $lang, $word, $section_ref) = @_;
+	if ($wikt_lang eq 'de') {
+		if ($lang eq 'de') {
+			return extract_de_plural_dewikt($section_ref);
+		} elsif ($lang eq 'en') {
+			return _extract_general_plural_dewikt($section_ref, 'the ');
+		} elsif ($lang eq 'nl') {
+			return _extract_general_plural_dewikt($section_ref, '(het|de) ');
 		}
 	}
-	return ($inflection,$word,$plural,$ipa_sing,$ipa_pl);
+	return ([$word], []);
+}
+
+sub match_pronunciation_files {
+	my ($sing_forms_ref, $pl_forms_ref, $pron_hash_ref) = @_;
+	my $pron_pl='';
+	foreach my $plural (@{$pl_forms_ref}) {
+		if (exists $$pron_hash_ref{$plural}) {
+			$pron_pl = $$pron_hash_ref{$plural};
+			last;
+		}
+	}
+	my $pron_sing = '';
+	if (@{$sing_forms_ref}) {
+		$pron_sing = $$pron_hash_ref{$$sing_forms_ref[0]} || '';
+	}
+	($pron_sing, $pron_pl);
+}
+
+sub find_pronunciation_files {
+	my ($wikt_lang, $lang, $word, $section_ref, $pron_hash_ref) = @_;
+	my ($sing_forms_ref, $pl_forms_ref) = extract_plural($wikt_lang, $lang, $word, $section_ref);
+	my ($pron_sing, $pron_pl) = match_pronunciation_files($sing_forms_ref, $pl_forms_ref, $pron_hash_ref);
+	($pron_sing, $pron_pl, $$sing_forms_ref[0], $$pl_forms_ref[0]);
 }
 
 1;

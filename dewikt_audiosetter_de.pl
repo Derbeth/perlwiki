@@ -136,8 +136,7 @@ foreach my $word (@entries) {
 		mark_done($word,'no_pronunciation');
 		next;
 	}
-	my $pron=$pronunciation{$word};
-	
+
 	my $page_text_local = get_wikicode($local_server,$word);
 	if ($page_text_local !~ /\w/) {
 		print "entry does not exist: ",encode_utf8($word),"\n";
@@ -157,19 +156,12 @@ foreach my $word (@entries) {
 	}
 	
 	# ===== check =======
-	
-	my ($null,$singular,$plural) = extract_de_inflection_dewikt(\$section);
-	my $pron_pl='';
-	if ($plural && exists($pronunciation{$plural})) {
-		$pron_pl = $pronunciation{$plural};
-	}
-	if (!$singular && $plural) {
-		$pron = '';
-	}
-	
+
+	my ($pron, $pron_pl, $sing, $plural) = find_pronunciation_files('de', 'de', $word, \$section, \%pronunciation);
+
 	my ($result,$audios_count,$edit_summary) #check-only
 		= add_audio_new('de',\$section,$pron,$lang_code,1,$word,$pron_pl,$plural);
-	
+
 	if ($result == 1) {
 		print encode_utf8($word),": has audio\n";
 		mark_done($word, 'has_audio');

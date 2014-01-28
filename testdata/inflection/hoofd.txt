@@ -1,0 +1,7 @@
+== hoofd ({{Sprache|Niederländisch}}) ==
+=== {{Wortart|Substantiv|Niederländisch}}, {{n}} ===
+
+{{Niederländisch Substantiv Übersicht
+|Singular=het hoofd
+|Plural=de hoofden
+}}

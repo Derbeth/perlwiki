@@ -239,7 +239,6 @@ foreach my $l (@langs) {
 	foreach my $word (@keys) {
 		next if ($only_words && ! exists $forced_words{$word});
 
-		my $pron = $pronunciation{$word};
 		++$processed_words;
 		print_progress() if ($processed_words % 200 == 0);
 		
@@ -247,23 +246,23 @@ foreach my $l (@langs) {
 			print encode_utf8($word),": already done\n";
 			next;
 		}
-	
+
 		if ($filter_mode && exists($pronunciation_filtered{$word})) {
 			print encode_utf8($word),": already filtered\n";
 			next;
 		}
-		
+
 		if (!$debug_mode && !$filter_mode) {
 			sleep $pause;
 		}
-		
+
 		my $page_text;
 		if ($filter_mode || $debug_mode) {
 			$page_text = get_wikicode($server,$word);
 		} else {
 			$page_text = $editor->get_text($word);
 		}
-		
+
 		my $original_page_text = $page_text;
 		if (!defined($page_text)) {
 			if ($editor->{error} && $editor->{error}->{code}) {
@@ -289,8 +288,9 @@ foreach my $l (@langs) {
 		
 		# ===== section processing =======
 		
+		my ($pron,$pron_pl,$sing,$plural) = find_pronunciation_files($wikt_lang,$lang_code,$word,\$section,\%pronunciation);
 		my ($result,$audios_count,$edit_summary)
-			= add_audio_new($wikt_lang,\$section,$pron,$lang_code,$filter_mode,$word);
+			= add_audio_new($wikt_lang,\$section,$pron,$lang_code,$filter_mode,$word,$pron_pl,$plural);
 		
 		if ($result == 1) {
 			print encode_utf8($word),": has audio\n";
