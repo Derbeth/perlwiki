@@ -1,0 +1,17 @@
+== Alpen ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Substantiv|Deutsch}} ===
+
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular=—
+|Nominativ Plural=die Alpen
+|Genitiv Singular=—
+|Genitiv Plural=der Alpen
+|Dativ Singular=—
+|Dativ Plural=den Alpen
+|Akkusativ Singular=—
+|Akkusativ Plural=die Alpen
+|Bild=Satellitenaufnahme der Alpen.jpg|250px|1|Satelitenaufnahme der ''Alpen''
+}}
+
+{{Worttrennung}}
+:{{kSg.}}, {{Pl.}} Al·pen

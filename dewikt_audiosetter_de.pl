@@ -160,10 +160,10 @@ foreach my $word (@entries) {
 	
 	my ($null,$singular,$plural) = extract_de_inflection_dewikt(\$section);
 	my $pron_pl='';
-	if ($plural ne '' && exists($pronunciation{$plural})) {
+	if ($plural && exists($pronunciation{$plural})) {
 		$pron_pl = $pronunciation{$plural};
 	}
-	if ($singular eq '' && $plural ne '') {
+	if (!$singular && $plural) {
 		$pron = '';
 	}
 	

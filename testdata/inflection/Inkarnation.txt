@@ -1,0 +1,13 @@
+== Inkarnation ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Substantiv|Deutsch}}, {{f}} ===
+
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular= die Inkarnation
+|Nominativ Plural=die Inkarnationen
+|Genitiv Singular=der Inkarnation
+|Genitiv Plural=der Inkarnationen
+|Dativ Singular=der Inkarnation
+|Dativ Plural=den Inkarnationen
+|Akkusativ Singular=die Inkarnation
+|Akkusativ Plural=die Inkarnationen
+}}

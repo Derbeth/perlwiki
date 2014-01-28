@@ -1,0 +1,14 @@
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular 1=der Opossum
+|Nominativ Singular 2=das Opossum
+|Nominativ Plural=die Opossums
+|Genitiv Singular 1=des Opossums
+|Genitiv Singular 2=des Opossums
+|Genitiv Plural=der Opossums
+|Dativ Singular 1=dem Opossum
+|Dativ Singular 2=dem Opossum
+|Dativ Plural=den Opossums
+|Akkusativ Singular 1=den Opossum
+|Akkusativ Singular 2=das Opossum
+|Akkusativ Plural=die Opossums
+}}

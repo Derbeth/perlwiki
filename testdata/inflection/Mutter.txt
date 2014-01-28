@@ -1,0 +1,14 @@
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular=die Mutter
+|Nominativ Plural 1=die Mütter
+|Nominativ Plural 2=die Muttern
+|Genitiv Singular=der Mutter
+|Genitiv Plural 1=der Mütter
+|Genitiv Plural 2=der Muttern
+|Dativ Singular=der Mutter
+|Dativ Plural 1=den Müttern
+|Dativ Plural 2=den Muttern
+|Akkusativ Singular=die Mutter
+|Akkusativ Plural 1=die Mütter
+|Akkusativ Plural 2=die Muttern
+}}

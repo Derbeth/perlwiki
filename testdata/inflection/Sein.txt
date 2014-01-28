@@ -1,0 +1,13 @@
+== Sein ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Substantiv|Deutsch}}, {{n}} ===
+
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular=das Sein
+|Nominativ Plural=—
+|Genitiv Singular=des Seins
+|Genitiv Plural=—
+|Dativ Singular=dem Sein
+|Dativ Plural=—
+|Akkusativ Singular=das Sein
+|Akkusativ Plural=—
+}}
