@@ -103,13 +103,9 @@ Use ./audiosetter.pl with option like `-l de,fi,ru` instead of `-a`.
 Development
 -----------
 
-*   testcommons.pl
+*   test/
 
-    Test harness for audio_fetcher.pl
-
-*   testaddaudio.pl
-
-    Test harness for audiosetter.pl
+    Test harness.
 
 
 Source code, bug reports
