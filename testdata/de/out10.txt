@@ -1,0 +1,22 @@
+{{Siehe auch|House}}
+== house ({{Sprache|Englisch}}) ==
+=== {{Wortart|Substantiv|Englisch}} ===
+
+{{erweitern|Referenzen für 6 und 7|Englisch}}
+
+{{Englisch Substantiv Übersicht
+|Singular=the house
+|Plural=the houses
+|Bild 1=HT village house 2.jpg|200px|1|Typical village ''house'' from 1747. Høje Taastrup, Denmark.
+|Bild 2=Viennese zodiac.jpeg|200px|9|the twelve houses
+}}
+
+{{Worttrennung}}
+:house, {{Pl.}} hou·ses
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|haʊs}}, {{Pl.}} {{Lautschrift|haʊzɪz}}
+:{{Hörbeispiele}} {{Audio|En-house.ogg}}, {{Pl.}} {{Audio|En-houses.ogg|houses}}
+
+{{Bedeutungen}}
+:[1] Wohnort des Menschen; Gebäude, das errichtet wurde, um in ihm zu wohnen

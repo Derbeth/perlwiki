@@ -159,10 +159,14 @@ sub create_audio_entries_dewikt {
 			$visual_label = $singular;
 		}
 
-
 		if ($region ne '') {
-			if (!$plural && exists $Derbeth::I18n::regional_params_dewikt{$region}) {
-				$visual_label = 'spr=' . $Derbeth::I18n::regional_params_dewikt{$region};
+			if (exists $Derbeth::I18n::regional_params_dewikt{$region}) {
+				if ($plural) {
+					$visual_label .= '|';
+				} else {
+					$visual_label = '';
+				}
+				$visual_label .= 'spr=' . $Derbeth::I18n::regional_params_dewikt{$region};
 			} else {
 				$visual_label .= ' ('.get_regional_name('de',$region).')';
 			}
@@ -551,11 +555,11 @@ sub add_audio_dewikt {
 	$$section =~ s/:\[\[Hilfe:Hörbeispiele\|Hörbeispiele\]\]:/:{{Hörbeispiele}}/g;
 
 	my $newipa = ':{{IPA}} {{Lautschrift|…}}';
-	my $newaudio = ':{{Hörbeispiele}} {{fehlend}}';
+	my $newaudio = ':{{Hörbeispiele}} {{Audio|}}';
 
 	if ($edit_summary_pl ne '' && $$section =~ /Wortart\s*\|\s*Substantiv/) {
 		$newipa .= ', {{Pl.}} {{Lautschrift|…}}';
-		$newaudio .= ', {{Pl.}} {{fehlend}}';
+		$newaudio .= ', {{Pl.}} {{Audio|}}';
 	}
 
 	if ($$section !~ /{{Aussprache}}/) {
@@ -584,8 +588,8 @@ $newaudio/x;
 	}
 
 	if ($audios ne '') {
-		if ($$section =~ /{{Hörbeispiele}} +(-|–|—|{{fehlend}}|{{[aA]udio\|}})/) {
-			unless ($$section =~ s/({{Hörbeispiele}}) +(-|–|—|{{fehlend}}|{{[aA]udio\|}})/$1 $audios/) {
+		if ($$section =~ /{{Hörbeispiele}} +(-|–|—|{{[fF]ehlend}}|{{[aA]udio\|}})/) {
+			unless ($$section =~ s/({{Hörbeispiele}}) +(-|–|—|{{[fF]ehlend}}|{{[aA]udio\|}})/$1 $audios/) {
 				$edit_summary .= '; cannot replace {{fehlend}}';
 				return (2,0,$edit_summary);
 			}
@@ -606,11 +610,11 @@ $newaudio/x;
 
 		# no plural {{Pl.}} ?
 		if ($pron_line !~ /{{Pl.}}/) {
-			$pron_line .= ' {{Pl.}} {{fehlend}}';
+			$pron_line .= ' {{Pl.}} {{Audio|}}';
 		}
 
-		if ($pron_line =~ /{{Pl.}} +{{fehlend}}/) {
-			$pron_line =~ s/{{Pl.}} +{{fehlend}}/{{Pl.}} $audios_pl/;
+		if ($pron_line =~ /{{Pl.}} +{{([fF]ehlend|[aA]udio\|)}}/) {
+			$pron_line =~ s/{{Pl.}} +{{([fF]ehlend|[aA]udio\|)}}/{{Pl.}} $audios_pl/;
 		} else {
 			$pron_line =~ s/{{Pl.}}/{{Pl.}} $audios_pl/;
 		}
