@@ -172,7 +172,7 @@ if ($debug_mode) {
 
 open(ERRORS,">>$errors_file");
 
-$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); exit; };
+$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); exit 1; };
 
 # ========== Main loop
 

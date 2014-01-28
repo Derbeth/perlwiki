@@ -67,7 +67,7 @@ my %done; # langcode-skip_word => 1
 my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
 
 mkdir 'done' unless(-e 'done');
-$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit; };
+$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit 1; };
 
 read_hash_loose($donefile, \%done);
 
