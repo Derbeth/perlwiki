@@ -351,8 +351,8 @@ foreach my $l (@langs) {
 				++$edited_pages;
 			} else {
 				print STDERR 'edit FAILED for ',encode_utf8($word);
-				print " details: $editor->{error}->{details}" if $editor->{error};
-				print "\n";
+				print STDERR " details: $editor->{error}->{details}" if $editor->{error};
+				print STDERR "\n";
 				mark_done($word,'error');
 				last if $stop_on_error;
 				next; # something went wrong, don't mark as done

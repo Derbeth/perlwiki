@@ -81,8 +81,6 @@ read_hash_strict($audio_filename, \%pronunciation);
 my $visited_pages=0;
 my $added_files=0;
 
-my $local_server = 'http://de.wiktionary.org/w/';
-
 my $editor;
 {
 	my $debug = 1;
@@ -123,11 +121,8 @@ if ($randomize) {
 }
 
 foreach my $word (@entries) {
-	++$processed_words;
-	print_progress() if ($processed_words % 200 == 0);
-		
 	if (is_done($word) && !$debug_mode) {
-		print encode_utf8($word),": already done\n";
+		print encode_utf8($word),": already done\n" if ($processed_words > 0);
 		next;
 	}
 
@@ -137,63 +132,43 @@ foreach my $word (@entries) {
 		next;
 	}
 
-	my $page_text_local = get_wikicode($local_server,$word);
-	if ($page_text_local !~ /\w/) {
-		print "entry does not exist: ",encode_utf8($word),"\n";
-		print ERROR "entry does not exist: ",encode_utf8($word),"\n";
-		mark_done($word,'entry_does_not_exist');
-		next;
-	}
-	
-	initial_cosmetics('de',\$page_text_local);
-	my($before,$section,$after) = split_article_wikt('de',$lang_code,$page_text_local,1);
-	
-	if ($section eq '') {
-		print encode_utf8("no $language section: $word\n");
-		print ERROR encode_utf8("no $language section: $word\n");
-		mark_done($word, 'no_section');
-		next;
-	}
-	
-	# ===== check =======
-
-	my ($pron, $pron_pl, $sing, $plural) = find_pronunciation_files('de', 'de', $word, \$section, \%pronunciation);
-
-	my ($result,$audios_count,$edit_summary) #check-only
-		= add_audio_new('de',\$section,$pron,$lang_code,1,$word,$pron_pl,$plural);
-
-	if ($result == 1) {
-		print encode_utf8($word),": has audio\n";
-		mark_done($word, 'has_audio');
-		next;
-	}
-
+	++$processed_words;
+	print_progress() if ($processed_words % 200 == 0);
+		
 	if (!$debug_mode) {
 		sleep 2;
 	}
 	
 	# ===== section processing =======
 	
-	my $page_text_remote = $editor->get_text($word);
-	my $original_page_text = $page_text_remote;
-	if ($page_text_remote !~ /\w/) {
+	my $page_text = $editor->get_text($word);
+	my $original_page_text = $page_text;
+	if ($page_text !~ /\w/) {
 		print "entry does not exist: ",encode_utf8($word),"\n";
 		mark_done($word,'entry_not_existing');
 		next;
 	}
-	
-	my $initial_summary = initial_cosmetics('de',\$page_text_remote);
-	($before,$section,$after) = split_article_wikt('de',$lang_code,$page_text_remote,1);
-	
-	($result,$audios_count,$edit_summary) #adding
-		= add_audio_new('de',\$section,$pron,$lang_code,0,$word,$pron_pl,$plural);
-	
-	++$visited_pages;
-	
-	if ($debug_mode) {
-		print ORIG encode_utf8($page_text_remote),"\n";
+
+	my $initial_summary = initial_cosmetics('de',\$page_text);
+	my ($before,$section,$after) = split_article_wikt('de',$lang_code,$page_text,1);
+
+	if ($section eq '') {
+		print encode_utf8("no $language section: $word\n");
+		print ERRORS encode_utf8("no $language section: $word\n");
+		mark_done($word, 'no_section');
+		next;
 	}
-	
+
+	my ($pron, $pron_pl, $sing, $plural) = find_pronunciation_files('de', 'de', $word, \$section, \%pronunciation);
+	my ($result,$audios_count,$edit_summary)
+		= add_audio_new('de',\$section,$pron,$lang_code,0,$word,$pron_pl,$plural);
+
+	++$visited_pages;
+
+	if ($debug_mode) {
+		print ORIG encode_utf8($original_page_text),"\n";
+	}
+
 	if ($result == 1) {
 		print encode_utf8($word),": already has audio\n";
 		mark_done($word, 'has_audio');
@@ -202,7 +177,7 @@ foreach my $word (@entries) {
 	if ($result == 2) {
 		mark_done($word,'error');
 		if ($debug_mode) {
-			print DEBUG encode_utf8($page_text_local),"\n";
+			print DEBUG encode_utf8($page_text),"\n";
 		}
 		print encode_utf8($word),': CANNOT add audio; ';
 		print encode_utf8($edit_summary), "\n";
@@ -210,34 +185,34 @@ foreach my $word (@entries) {
 		print ERRORS encode_utf8($edit_summary), "\n";
 		next;
 	}
-	
-	$added_files += $audios_count;
-	
+
 	# === end section processing
-	
-	$page_text_remote = $before.$section.$after;
-	
-	my $final_summary = final_cosmetics($wikt_lang, \$page_text_remote, $word);
+
+	$page_text = $before.$section.$after;
+
+	my $final_summary = final_cosmetics($wikt_lang, \$page_text, $word);
 	$edit_summary .= '; '.$initial_summary if ($initial_summary);
 	$edit_summary .= '; '.$final_summary if ($final_summary);
-	
+
 	print encode_utf8($word),': ',encode_utf8($edit_summary),"\n";
-	
+
 	if ($debug_mode) {
-		print DEBUG encode_utf8($page_text_remote),"\n";
+		print DEBUG encode_utf8($page_text),"\n";
 	} else {
-	
-		my $response = $editor->edit({page=>$word, text=>$page_text_remote,
+
+		my $response = $editor->edit({page=>$word, text=>$page_text,
 			summary=>$edit_summary, bot=>1});
 		if ($response) {
 			mark_done($word, 'added_audio');
+			$added_files += $audios_count;
 		} else {
 			print STDERR 'edit FAILED for ',encode_utf8($word);
-			print " details: $editor->{error}->{details}" if $editor->{error};
-			print "\n";
+			print STDERR " details: $editor->{error}->{details}" if $editor->{error};
+			print STDERR "\n";
+			mark_done($word,'error');
 		}
 	}
-	
+
 } continue {
 	if ($visited_pages >= $page_limit) {
 		print "interrupted\n";
