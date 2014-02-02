@@ -1,0 +1,7 @@
+== soldo ({{Sprache|Italienisch}}) ==
+=== {{Wortart|Substantiv|Italienisch}}, {{m}} ===
+
+{{Italienisch Substantiv Übersicht
+|Singular=il soldo
+|Plural=i soldi
+}}

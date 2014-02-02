@@ -24,6 +24,7 @@ sub test_extract_plural {
 	$checked += check_pl('de', 'en', 'ignore-word', 'tea.txt', ['tea'], []);
 	$checked += check_pl('de', 'it', 'ignore-word', 'anatra.txt', ['anatra'], ['anatre']);
 	$checked += check_pl('de', 'it', 'ignore-word', 'scarpa.txt', ['scarpa'], ['scarpe']);
+	$checked += check_pl('de', 'it', 'ignore-word', 'soldo.txt', ['soldo'], ['soldi']);
 	$checked += check_pl('de', 'nl', 'ignore-word', 'hoofd.txt', ['hoofd'], ['hoofden']);
 	$checked += check_pl('de', 'pl', 'ignore-word', 'matka.txt', ['matka'], ['matki']);
 	$checked += check_pl('de', 'xx', 'use-this-word', 'hoofd.txt', ['use-this-word'], []);

@@ -90,7 +90,7 @@ sub extract_plural {
 		} elsif ($lang eq 'en') {
 			return _extract_simple_plural_dewikt($section_ref, 'the ');
 		} elsif ($lang eq 'it') {
-			return _extract_simple_plural_dewikt($section_ref, '(la |le |lo |gli |l\'|l’)');
+			return _extract_simple_plural_dewikt($section_ref, '(la |le |lo |gli |il |i |l\'|l’)');
 		}  elsif ($lang eq 'nl') {
 			return _extract_simple_plural_dewikt($section_ref, '(het|de) ');
 		} elsif ($lang eq 'pl') {
