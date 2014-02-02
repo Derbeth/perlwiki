@@ -39,7 +39,7 @@ use utf8;
 my $debug_mode=0;  # does not write anything to wiki, writes to
 				   # $debug_file instead
 
-my $page_limit=80000; # bot won't change more that x number of pages
+my $edited_pages_limit=80000; # bot won't change more that x number of pages
 
 my $wikt_lang='de';   # 'en','de','pl'; other Wiktionaries are not
                       # supported
@@ -61,7 +61,7 @@ Derbeth::Web::enable_caching(1);
 
 # ============ end settings
 
-GetOptions('p|limit=i' => \$page_limit, 'r|random!' => \$randomize) or die;
+GetOptions('p|limit=i' => \$edited_pages_limit, 'r|random!' => \$randomize) or die;
 
 my %done; # langcode-skip_word => 1
 my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
@@ -79,6 +79,7 @@ my $audio_filename='audio/audio_de.txt';
 read_hash_strict($audio_filename, \%pronunciation);
 
 my $visited_pages=0;
+my $edited_pages=0;
 my $added_files=0;
 
 my $editor;
@@ -121,8 +122,9 @@ if ($randomize) {
 }
 
 foreach my $word (@entries) {
+	++$processed_words;
 	if (is_done($word) && !$debug_mode) {
-		print encode_utf8($word),": already done\n" if ($processed_words > 0);
+		print encode_utf8($word),": already done\n" if ($visited_pages > 0);
 		next;
 	}
 
@@ -132,8 +134,8 @@ foreach my $word (@entries) {
 		next;
 	}
 
-	++$processed_words;
-	print_progress() if ($processed_words % 200 == 0);
+	++$visited_pages;
+	print_progress() if ($visited_pages % 200 == 1);
 		
 	if (!$debug_mode) {
 		sleep 2;
@@ -162,8 +164,6 @@ foreach my $word (@entries) {
 	my ($pron, $pron_pl, $sing, $plural) = find_pronunciation_files('de', 'de', $word, \$section, \%pronunciation);
 	my ($result,$audios_count,$edit_summary)
 		= add_audio_new('de',\$section,$pron,$lang_code,0,$word,$pron_pl,$plural);
-
-	++$visited_pages;
 
 	if ($debug_mode) {
 		print ORIG encode_utf8($original_page_text),"\n";
@@ -196,6 +196,7 @@ foreach my $word (@entries) {
 
 	print encode_utf8($word),': ',encode_utf8($edit_summary),"\n";
 
+	++$edited_pages;
 	if ($debug_mode) {
 		print DEBUG encode_utf8($page_text),"\n";
 	} else {
@@ -214,7 +215,7 @@ foreach my $word (@entries) {
 	}
 
 } continue {
-	if ($visited_pages >= $page_limit) {
+	if ($edited_pages >= $edited_pages_limit) {
 		print "interrupted\n";
 		last;
 	}
