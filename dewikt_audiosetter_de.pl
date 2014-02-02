@@ -124,7 +124,7 @@ if ($randomize) {
 
 foreach my $word (@entries) {
 	++$processed_words;
-	print STDERR "$processed_words/$word_count\n" if ($processed_words % 200 == 0);
+	print_progress() if ($processed_words % 200 == 0);
 		
 	if (is_done($word) && !$debug_mode) {
 		print encode_utf8($word),": already done\n";
@@ -200,7 +200,7 @@ foreach my $word (@entries) {
 		next;
 	}
 	if ($result == 2) {
-		unmark_done($word);
+		mark_done($word,'error');
 		if ($debug_mode) {
 			print DEBUG encode_utf8($page_text_local),"\n";
 		}
@@ -227,13 +227,14 @@ foreach my $word (@entries) {
 		print DEBUG encode_utf8($page_text_remote),"\n";
 	} else {
 	
-		# was: encode_utf8($edit_summary)
 		my $response = $editor->edit({page=>$word, text=>$page_text_remote,
 			summary=>$edit_summary, bot=>1});
 		if ($response) {
 			mark_done($word, 'added_audio');
 		} else {
-			print STDERR 'CANNOT edit ',encode_utf8($word),"\n";
+			print STDERR 'edit FAILED for ',encode_utf8($word);
+			print " details: $editor->{error}->{details}" if $editor->{error};
+			print "\n";
 		}
 	}
 	
@@ -279,3 +280,6 @@ sub is_done {
 	return exists($done{$word});
 }
 
+sub print_progress {
+	print STDERR "$processed_words/$word_count added $added_files files\n";
+}

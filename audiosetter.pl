@@ -426,7 +426,7 @@ sub print_progress {
 		print STDERR " added $added_files files for ", $lang_code;
 		print STDERR ' at ',$wikt_lang,"wikt";
 	}
-	print "\n";
+	print STDERR "\n";
 }
 
 sub all_languages {
