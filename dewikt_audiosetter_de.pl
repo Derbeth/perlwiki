@@ -141,14 +141,18 @@ foreach my $word (@entries) {
 		sleep 2;
 	}
 	
-	# ===== section processing =======
-	
 	my $page_text = $editor->get_text($word);
 	my $original_page_text = $page_text;
-	if ($page_text !~ /\w/) {
+	if (!defined($page_text)) {
+		if ($editor->{error} && $editor->{error}->{code}) {
+			last; # network error
+		}
 		print "entry does not exist: ",encode_utf8($word),"\n";
-		mark_done($word,'entry_not_existing');
+		mark_done($word,'no_entry');
 		next;
+	}
+	if ($page_text !~ /[a-zA-Z]/) {
+		print "warning: page has empty text: ",encode_utf8($word),"\n";
 	}
 
 	my $initial_summary = initial_cosmetics('de',\$page_text);
@@ -160,6 +164,8 @@ foreach my $word (@entries) {
 		mark_done($word, 'no_section');
 		next;
 	}
+
+	# ===== section processing =======
 
 	my ($pron, $pron_pl, $sing, $plural) = find_pronunciation_files('de', 'de', $word, \$section, \%pronunciation);
 	my ($result,$audios_count,$edit_summary)
