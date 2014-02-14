@@ -161,6 +161,7 @@ my $editor;
 		login_data => {'username' => $user, 'password' => $pass}
 	});
 	die unless $editor;
+	die if ($editor->{error} && $editor->{error}->{code});
 }
 
 if ($debug_mode) {
