@@ -173,7 +173,7 @@ if ($debug_mode) {
 
 open(ERRORS,">>$errors_file");
 
-$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); exit 1; };
+$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); close ERRORS; exit 1; };
 
 # ========== Main loop
 
@@ -376,11 +376,11 @@ foreach my $l (@langs) {
 	
 	save_results('finish');
 } # foreach language
+close ERRORS;
 
 sub save_results {
 	my $finish = shift;
 
-	close ERRORS;
 	if ($filter_mode) {
 		print STDERR 'saved ', scalar(keys(%pronunciation_filtered));
 		print STDERR ' words out of ', scalar(keys(%pronunciation));
