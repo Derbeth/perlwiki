@@ -36,7 +36,10 @@ die "suspicious days number: $days" unless ($days >= 28 && $days <= 31);
 my %settings = load_hash('settings.ini');
 my $editor = MediaWiki::Bot->new({
 	host => 'pl.wikinews.org',
-	login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}}
+	protocol => 'https',
+	login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
+	operator => $settings{bot_operator},
+	assert => 'bot',
 });
 die unless $editor;
 
@@ -86,15 +89,15 @@ sub create_page_if_needed {
 	if ($dry_run) {
 		print encode_utf8("Would create page '$page_name', summary '$edit_summary'\n>>>>\n$page_text\n<<<<\n");
 	} else {
-		$editor->edit({
+		my $result = $editor->edit({
 			page => $page_name,
 			text => $page_text,
 			summary => $edit_summary,
 			minor => 1,
 			bot => $is_bot,
 		});
-		if ($editor->{error}) {
-			print encode_utf8("Cannot edit page '$page_name': $editor->{error}->{details}\n");
+		if (!defined($result)) {
+			print encode_utf8("Cannot edit page '$page_name': $editor->{error}->{details} ($editor->{error}->{code})\n");
 			die;
 		}
 		print encode_utf8("Created page '$page_name'\n");
