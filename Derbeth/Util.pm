@@ -26,6 +26,7 @@ require Exporter;
 use strict;
 
 use Encode;
+use Carp;
 use File::Temp qw/tempfile/;
 use File::Copy;
 
@@ -39,7 +40,7 @@ our @EXPORT = qw/read_hash_loose
 	add_audio_count
 	escape_regex
 	appendfile/;
-our $VERSION = 0.4.1;
+our $VERSION = 0.5.0;
 
 # Function: read_hash_loose
 #   reads hash from file.
@@ -57,7 +58,7 @@ our $VERSION = 0.4.1;
 sub read_hash_loose {
 	my ($filename, $hash_ref) = @_;
 	
-	open(IN,$filename) or return 0;
+	open(IN,$filename) or return undef;
 	while(<IN>) {
 		next unless(/\S/);
 		next if (/^#/);
@@ -108,7 +109,7 @@ sub load_hash {
 	my ($filename) = @_;
 	my %retval;
 	
-	read_hash_loose($filename, \%retval);
+	read_hash_loose($filename, \%retval) or croak "Cannot read $filename: $!";
 	return %retval;
 }
 

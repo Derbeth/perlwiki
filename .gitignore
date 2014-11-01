@@ -1,9 +1,9 @@
-archive
-audio
-doc
-done
-out
-page-cache
+archive/
+audio/
+doc/
+done/
+out/
+page-cache/
 
 .mediawiki*
 .perlwikipedia*
@@ -17,7 +17,7 @@ nottrans_*.txt*
 *.pl~
 *.swp
 Derbeth.ini
-settings.ini*
+settings*.ini*
 .gitignore~
 api
 mech
