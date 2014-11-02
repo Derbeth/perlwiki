@@ -255,6 +255,9 @@ my %audio;
 # each element contains data for one file with low priority
 my @lp_audio;
 
+my $NO_REGIONAL = '!';
+my %many_vers;
+
 # Parameters:
 #   $lang - 'en', 'de', 'tur'
 #   $key - 'cat', 'Warsaw', 'scharf'
@@ -291,6 +294,7 @@ sub save_pron {
 		} else {
 			_save_pron_validated(@params);
 		}
+		_save_other_vers(@params);
 	}
 }
 
@@ -337,6 +341,17 @@ sub _save_pron_validated {
 		$audio{$lang}{$key} = $entry;
 	} else {
 		$audio{$lang}{$key} .= '|'.$entry;
+	}
+}
+
+sub _save_other_vers {
+	my ($lang, $key, $file, $regional) = @_;
+	$regional ||= $NO_REGIONAL;
+	$many_vers{$lang} ||= {};
+	$many_vers{$lang}{$key} ||= {};
+	$many_vers{$lang}{$key}{$regional} ||= [];
+	unless (grep { $_ eq $file} @{$many_vers{$lang}{$key}{$regional}}) {
+		push @{$many_vers{$lang}{$key}{$regional}}, $file;
 	}
 }
 
@@ -389,3 +404,18 @@ foreach my $lang_code (sort(keys(%audio))) {
 	close(OUT);
 }
 
+my $many_vers_saved = 0;
+open(OUT, '>audio/many_vers.txt') or die "cannot write many_vers: $!";
+foreach my $lang_code (sort keys %many_vers) {
+	foreach my $key (sort keys %{$many_vers{$lang_code}}) {
+		foreach my $regional (sort keys %{$many_vers{$lang_code}{$key}}) {
+			my @files = @{$many_vers{$lang_code}{$key}{$regional}};
+			if (scalar(@files) > 1) {
+				print OUT encode_utf8("$lang_code|$key|$regional"), '=', encode_utf8(join('|', sort @files)), "\n";
+				++$many_vers_saved;
+			}
+		}
+	}
+}
+close(OUT);
+print "Saved $many_vers_saved words with many versions\n";
