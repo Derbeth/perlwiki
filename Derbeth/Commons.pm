@@ -145,7 +145,7 @@ sub word_pronounced_in_file {
 	my $file = $1.'.'.$2;
 	my $main_text = $1;
 
-	if ($main_text =~ / \(alternative pronunciation\)$| \(etymology | \((adj|noun|verb)\)$/) {
+	if ($main_text =~ / \(etymology | \((adj|noun|verb)\)$/) {
 		print "skipping alternative variant ", encode_utf8($page), "\n";
 		return ();
 	}
@@ -157,7 +157,13 @@ sub word_pronounced_in_file {
 	my $word;
 	my $regional='';
 	my $art_rem = 0; # true if article has been removed
+	my $priority = '';
 	my $force_low_pr = 0;
+
+	if ($code ne 'nv') {
+		$main_text =~ s/\x{301}// and $priority = $LOWPR; # remove accent
+	}
+	$main_text =~ s/ \(alternative pronunciation\)$// and $priority = $LOWPR;
 
 	# === Non-standard naming goes here
 	if ($cat =~ /^Latvian pronunciation/) {
@@ -395,7 +401,6 @@ sub word_pronounced_in_file {
 
 	# == saving
 	
-	my $priority = '';
 	if ($art_rem || $force_low_pr || $page =~ /\.oga$/i) {
 		$priority = $LOWPR;
 	}
