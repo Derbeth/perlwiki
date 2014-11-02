@@ -30,7 +30,8 @@ $max_files_in_cache=15000;
 $debug=0;
 # Variable: $user_agent
 #   user agent passed to server when retrieving pages
-$user_agent = 'DerbethBot for Wiktionary';
+#   see also https://meta.wikimedia.org/wiki/User-Agent_policy
+$user_agent = "DerbethWebToolkit/$VERSION (https://github.com/Derbeth/perlwiki)";
 my $proxy='';
 
 $cache_pages=0;
