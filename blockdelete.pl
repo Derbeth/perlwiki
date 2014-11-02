@@ -30,7 +30,7 @@ sub match_suspicious_text {
 	my ($page_text) = @_;
 	return $& if $page_text =~ /\{\{(ek|delete) *\| *spam/i;
 
-	$page_text =~ /\bcar games\b/;
+	$page_text =~ /\b(car games|fuck|online games)\b/;
 	return $&;
 }
 
