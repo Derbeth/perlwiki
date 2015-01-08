@@ -99,7 +99,11 @@ my %categories=(
 	'English pronunciation of numbers' => 'en', # letter size!
 	'English pronunciation of states of the United States' => 'en',
 	'English pronunciation of terms' => 'en',
+	'New Zealand English pronunciation' => 'en',
+	'U.S. English pronunciation' => 'en',
 	'Esperanto pronunciation' => 'eo',
+	'Esperanto pronunciation of names of cities' => 'eo',
+	'Esperanto pronunciation of names of countries' => 'eo',
 	'Ewe pronunciation' => 'ee',
 	'Farsi pronunciation' => 'fa',
 	'Farsi pronunciation of names of cities' => 'fa',
@@ -130,6 +134,7 @@ my %categories=(
 	'French pronunciation of words relating to birds' => 'fr',
 	'French pronunciation of words relating to fishes' => 'fr',
 	'French pronunciation of words relating to mammals' => 'fr',
+	'Quebec French pronunciation' => 'fr',
 	'Frisian pronunciation' => 'fy', # West Frisian
 	'Galician pronunciation' => 'gl',
 	'Georgian pronunciation' => 'ka',
@@ -242,8 +247,19 @@ my %categories=(
 	'Ukrainian pronunciation of names of countries' => 'uk',
 	'Upper Sorbian pronunciation' => 'hsb',
 	'Vietnamese pronunciation' => 'vi',
-	'Vilamovian pronunciation (Józef Gara\'s version)' => 'wym',
+	'Wymysorys pronunciation (Józef Gara\'s version)' => 'wym',
 	'Welsh pronunciation' => 'cy',
+	'Welsh pronunciation of adjectives' => 'cy',
+	'Welsh pronunciation of names of colors' => 'cy',
+	'Welsh pronunciation of days' => 'cy',
+	'Welsh pronunciation of given names' => 'cy',
+	'Welsh pronunciation of names of countries' => 'cy',
+	'Welsh pronunciation of names of languages' => 'cy',
+	'Welsh pronunciation of months' => 'cy',
+	'Welsh pronunciation of nouns' => 'cy',
+	'Welsh pronunciation of numbers' => 'cy',
+	'Welsh pronunciation of verbs' => 'cy',
+	'Welsh pronunciation of words relating to animals' => 'cy',
 	'Wolof pronunciation' => 'wo',
 );
 #%categories=('Welsh pronunciation' => 'cy','Albanian pronunciation' => 'sq');
@@ -265,7 +281,7 @@ my %many_vers;
 #   $regional - 'us' (optional)
 #   $low_priority - if true, word should never replace word with the same key and regional
 sub save_pron {
-	my ($lang,$key,$file,$regional,$low_priority)=@_;
+	my ($editor,$lang,$key,$file,$regional,$low_priority)=@_;
 	confess "undefined: $lang $key" unless(defined($lang) && defined($key));
 	if ($regional && $regional eq 'gb') { $regional = 'uk'; }
 
@@ -273,7 +289,7 @@ sub save_pron {
 
 	if ($key =~ /[a-zA-Z]+/) {
 		my $latin = $&;
-		my @detected = detect_pronounced_word($lang, $file);
+		my @detected = detect_pronounced_word($lang, $file, $editor);
 		if ($#detected != -1) {
 			print "$lang-", encode_utf8($key), ": detected words are '", encode_utf8(join(' ', @detected)), "'\n";
 			@keys = @detected;
@@ -377,7 +393,7 @@ foreach my $cat (sort(keys(%categories))) {
 				$regional = $1;
 			}
 
-			save_pron($code, $word, $file, $regional, $low_priority);
+			save_pron($editor, $code, $word, $file, $regional, $low_priority);
 		}
 	}
 }

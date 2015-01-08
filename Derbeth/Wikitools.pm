@@ -515,7 +515,7 @@ sub get_linking_to {
 #   page wikicode
 sub get_wikicode {
 	my ($server,$article) = @_;
-	my $page=$server.'index.php?title='.$article.'&action=raw';	
+	my $page=$server.'index.php?title='.uri_escape_utf8($article).'&action=raw';
 	my $text = decode_utf8(Derbeth::Web::get_page($page));
 	if (index($text,'<meta name="generator" content="MediaWiki') != -1) {
 		# bad request
@@ -523,6 +523,22 @@ sub get_wikicode {
 	} else {
 		return $text;
 	}
+}
+
+sub get_wikicode_perlwikipedia {
+	my ($editor, $article) = @_;
+
+	my $key = $editor->{host} . '|' . $article;
+	my $text = cache_read($key);
+	if (defined $text) {
+		return $text;
+	}
+
+	$text = $editor->get_text($article);
+	if (defined $text) {
+		cache_write($key, $text);
+	}
+	return $text;
 }
 
 1;

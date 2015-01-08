@@ -72,7 +72,9 @@ sub get_page_from_web {
 	if ($response->is_success) {
 		return decode_utf8($response->content);
 	} else {
-		print encode_utf8("error getting $full_url: "),$response->content,"\n";
+		print encode_utf8("error getting $full_url: "),$response->content;
+		print $response->as_string if $debug;
+		print "\n";
 		return '';
 	}
 }

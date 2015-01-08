@@ -36,7 +36,7 @@ use Derbeth::I18n 0.6.4;
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/detect_pronounced_word
 	word_pronounced_in_file/;
-our $VERSION = 0.2.0;
+our $VERSION = 0.3.0;
 
 Derbeth::Web::enable_caching(1);
 
@@ -59,10 +59,10 @@ my $LOWPR = '&';
 # Returns:
 #   array of detected real words or empty array if the real word cannot be detected
 sub detect_pronounced_word {
-	my ($lang,$file) = @_;
+	my ($lang,$file,$editor) = @_;
 	return () unless (_language_supported($lang));
 
-	my $wikicode = get_wikicode('http://commons.wikimedia.org/w/', "File:$file");
+	my $wikicode = Derbeth::Wikitools::get_wikicode_perlwikipedia($editor, "File:$file");
 	unless ($wikicode && $wikicode =~ /\w/) {
 		print encode_utf8("cannot detect word: no description for File:$file\n");
 		return ();
@@ -308,11 +308,14 @@ sub word_pronounced_in_file {
 		$art_rem = 1 if $word =~ s/^(une|un|les|le|la)[ -]//gi;
 		$art_rem = 1 if $word =~ s/^l'//gi;
 
-		if ($word =~ /-(fr-ouest|fr-Paris|FR Paris|fr FR-Paris|ca-Montréal|fr BE|fr CA|fr)$/i) {
+		if ($word =~ /-(fr-ouest|fr-Paris|FR Paris|fr FR-Paris|fr-CA-Quebec-(Lac-Saint-Jean)|ca-Montréal|fr BE|fr CA|fr)$/i) {
 			if (exists($regional_fr{$1})) {
 				$regional = $regional_fr{$1};
 			}
 			$word = $PREMATCH;
+		}
+		if ($cat eq 'Quebec French pronunciation') {
+			$regional = 'ca';
 		}
 	}
 	elsif ($code eq 'gd') {
@@ -341,6 +344,11 @@ sub word_pronounced_in_file {
 	}
 	elsif ($code eq 'li') {
 		if ($word =~ /^vb-/i) {
+			$word = $POSTMATCH; # remove regional
+		}
+	}
+	elsif ($code eq 'lv') {
+		if ($word =~ /^riga-/i) {
 			$word = $POSTMATCH; # remove regional
 		}
 	}
