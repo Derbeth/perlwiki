@@ -62,8 +62,6 @@ my $all_langs=0;      # add in all languages
 my @langs;
 
 my %settings = load_hash('settings.ini');
-my $user = $settings{bot_login}; # for wiki
-my $pass = $settings{bot_password};   # for wiki
 
 #`rm -f $donefile`;
 my $debug_orig_file='in.txt';
@@ -155,10 +153,11 @@ my $editor;
 	my $debug = 1;
 	my $host = "$wikt_lang.wiktionary.org";
 	$editor = MediaWiki::Bot->new({
-		assert => 'bot',
 		host => $host,
 		debug => $debug,
-		login_data => {'username' => $user, 'password' => $pass}
+		login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
+		operator => $settings{bot_operator},
+		assert => 'bot',
 	});
 	die unless $editor;
 	die if ($editor->{error} && $editor->{error}->{code});

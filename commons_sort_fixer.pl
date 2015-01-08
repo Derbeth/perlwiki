@@ -20,15 +20,14 @@ my @pages=get_category_contents($server,$category,undef,undef,$from);
 print "$category: ", scalar(@pages), " pages\n";
 
 my %settings = load_hash('settings.ini');
-my $user = $settings{bot_login};
-my $pass = $settings{bot_password};
 my $debug = 0;
 # $debug = 1;
 my $editor = MediaWiki::Bot->new({
 	assert => 'bot',
 	host => 'commons.wikimedia.org',
 	debug => $debug,
-	login_data => {'username' => $user, 'password' => $pass}
+	login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
+	operator => $settings{bot_operator},
 });
 
 foreach my $page (@pages) {

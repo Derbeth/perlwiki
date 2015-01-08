@@ -18,7 +18,8 @@ use HTML::Form;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_page/;
-our $VERSION = 0.6.0;
+our $VERSION = 0.6.1;
+our $OPERATOR = 'Derbeth';
 use vars qw($user_agent $cache_pages $max_files_in_cache $debug $cache_dir);
 
 # Variable: $cache_dir
@@ -31,7 +32,7 @@ $debug=0;
 # Variable: $user_agent
 #   user agent passed to server when retrieving pages
 #   see also https://meta.wikimedia.org/wiki/User-Agent_policy
-$user_agent = "DerbethWebToolkit/$VERSION (https://github.com/Derbeth/perlwiki)";
+$user_agent = "DerbethWebToolkit/$VERSION (https://github.com/Derbeth/perlwiki; [[User:$OPERATOR]])";
 my $proxy='';
 
 $cache_pages=0;

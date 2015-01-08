@@ -46,7 +46,7 @@ our @EXPORT = qw/split_before_sections
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.9.0;
+our $VERSION = 0.9.1;
 
 # Variable: $use_perlwikipedia
 our $use_perlwikipedia=0;
@@ -346,13 +346,12 @@ sub create_editor {
 	my ($server, $prefix) = ($1,$2);
 
 	my %settings = load_hash('settings.ini');
-	my $user = $settings{bot_login};
-	my $pass = $settings{bot_password};
 
 	my $editor=MediaWiki::Bot->new({
-		login_data => {username => $user, password => $pass},
 		host => $server,
 		path => $prefix,
+		login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
+		operator => $settings{bot_operator},
 	});
 # 	$editor->{debug} = 1;
 # 	$editor->login($user, $pass);

@@ -49,8 +49,6 @@ my $language=get_language_name('de',$lang_code);
 my $randomize=0; # edit pages in random order
 
 my %settings = load_hash('settings.ini');
-my $user = $settings{bot_login};
-my $pass = $settings{bot_password};
 
 my $donefile = "done/done_dewikt_de.txt";
 #`rm -f $donefile`;
@@ -87,10 +85,11 @@ my $editor;
 	my $debug = 1;
 	my $host = "de.wiktionary.org";
 	$editor = MediaWiki::Bot->new({
-		assert => 'bot',
 		host => $host,
 		debug => $debug,
-		login_data => {'username' => $user, 'password' => $pass}
+		login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
+		operator => $settings{bot_operator},
+		assert => 'bot',
 	});
 	die unless $editor;
 	die if ($editor->{error} && $editor->{error}->{code});
