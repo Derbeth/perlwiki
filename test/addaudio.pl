@@ -45,7 +45,7 @@ for my $wikt_lang(@tested_wikts) {
 		my $identical = $success ? compare_files($test_output, $test_expected) : 0;
 		if (!$identical) {
 			print "Test $i failed.\n";
-			print "Edit summary: $summary\n";
+			print encode_utf8("Edit summary: $summary\n");
 			if ($interactive) {
 				system("kdiff3 $test_output $test_expected -L1 Received -L2 Expected");
 			} else {

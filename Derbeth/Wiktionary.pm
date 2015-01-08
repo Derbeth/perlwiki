@@ -30,6 +30,7 @@ use English;
 use Derbeth::I18n 0.7.0;
 use Derbeth::Wikitools;
 use Encode;
+use URI::Escape;
 use Carp;
 
 our @ISA = qw/Exporter/;
@@ -41,7 +42,7 @@ our @EXPORT = qw/add_audio_new
 	final_cosmetics
 	add_inflection_plwikt
 	should_not_be_in_category_plwikt/;
-our $VERSION = 0.11.0;
+our $VERSION = 0.11.1;
 
 # Function: create_audio_entries_enwikt
 # Parameters:
@@ -865,6 +866,10 @@ sub initial_cosmetics_dewikt {
 	$$page_text_ref =~ s/ +(:\[\[Hilfe:(IPA|Hörbeispiele))/$1/g;
 	if ($comment_removed) {
 		push @summary, 'ein Kommentar um Aussprache wurde entfernt';
+	}
+
+	if ($$page_text_ref =~ s/(\{\{Audio[^}]+%[^}]+\}\})/Encode::decode('utf8', (uri_unescape($1)))/eg) {
+		push @summary, '- "%" in Dateien'
 	}
 
 	if ($$page_text_ref =~ s/(\n|\r|\f) *(\[\[Hilfe:(IPA|Hörbeispiele))/$1:$2/g) {

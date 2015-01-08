@@ -1,0 +1,26 @@
+== Befürchtung ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Substantiv|Deutsch}}, {{f}} ===
+
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular=die Befürchtung
+|Nominativ Plural=die Befürchtungen
+|Genitiv Singular=der Befürchtung
+|Genitiv Plural=der Befürchtungen
+|Dativ Singular=der Befürchtung
+|Dativ Plural=den Befürchtungen
+|Akkusativ Singular=die Befürchtung
+|Akkusativ Plural=die Befürchtungen
+}}
+
+{{Worttrennung}}
+:Be·fürch·tung, {{Pl.}} Be·fürch·tun·gen
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|bəˈfʏʁçtʊŋ}}, {{Pl.}} {{Lautschrift|bəˈfʏʁçtʊŋən}}, {{Lautschrift|bəˈfʏʁçtʊŋn̩}}
+:{{Hörbeispiele}} {{Audio|De-Bef%C3%BCrchtung.ogg}}, {{Pl.}} {{fehlend}}
+
+{{Bedeutungen}}
+:[1] furchtvolle, schreckliche oder schlimme Erwartung bzw. Annahme
+
+{{Referenzen}}
+:[1] [http://wortschatz.uni-leipzig.de/cgi-bin/wort_www.exe?site=1&Wort=Bef%FCrchtung Uni-Leipzig]
