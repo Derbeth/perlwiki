@@ -27,14 +27,14 @@ use utf8;
 use strict;
 use English;
 
-use Derbeth::I18n 0.7.0;
+use Derbeth::I18n 0.8.0;
 use Derbeth::Wikitools;
 use Encode;
 use URI::Escape;
 use Carp;
 
 our @ISA = qw/Exporter/;
-our @EXPORT = qw/add_audio_new
+our @EXPORT = qw/add_audio
 	add_audio_plwikt
 	add_audio_dewikt
 	decode_pron
@@ -42,7 +42,7 @@ our @EXPORT = qw/add_audio_new
 	final_cosmetics
 	add_inflection_plwikt
 	should_not_be_in_category_plwikt/;
-our $VERSION = 0.11.1;
+our $VERSION = 0.12.0;
 
 # Function: create_audio_entries_enwikt
 # Parameters:
@@ -787,7 +787,7 @@ sub add_audio_plwikt {
 #             2 when cannot add audio
 #   $added_audios - how many audio files have been added
 #   $edit_summary - edit summary text
-sub add_audio_new {
+sub add_audio {
 	my ($wikt_lang,$section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl) = @_;
 	unless ($$section_ref) {
 		print encode_utf8("WARN: empty section for $singular\n");
@@ -943,6 +943,7 @@ sub initial_cosmetics_plwikt {
 #   edit summary
 sub initial_cosmetics {
 	my ($wikt_lang, $page_text_ref) = @_;
+	my @args = ($page_text_ref);
 
 	# remove all underscores from audio
 	my $repeat=1;
@@ -961,41 +962,41 @@ sub initial_cosmetics {
 	}
 
 	if ($wikt_lang eq 'de') {
-		return initial_cosmetics_dewikt($page_text_ref);
+		return initial_cosmetics_dewikt(@args);
 	} elsif ($wikt_lang eq 'en') {
-		return initial_cosmetics_enwikt($page_text_ref);
+		return initial_cosmetics_enwikt(@args);
 	} elsif ($wikt_lang eq 'pl') {
-		return initial_cosmetics_plwikt($page_text_ref);
+		return initial_cosmetics_plwikt(@args);
 	} elsif ($wikt_lang eq 'simple') {
-		return initial_cosmetics_simplewikt($page_text_ref);
+		return initial_cosmetics_simplewikt(@args);
 	} elsif ($wikt_lang eq 'fr') {
-		return initial_cosmetics_frwikt($page_text_ref);
+		return initial_cosmetics_frwikt(@args);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}
 }
 
 sub final_cosmetics_dewikt {
-	my ($page_text_ref, $word) = @_;
+	my ($page_text_ref, $word, $plural) = @_;
 	my @summary;
 
 	if ($$page_text_ref =~ s/(:\[\[Hilfe:Hörbeispiele\|Hörbeispiele\]\].*)(\n|\r|\f)(:\[\[Hilfe:IPA\|IPA\]\].*)/$3$2$1/g) {
 		push @summary, 'korr. Reihenfolge von IPA und Hörbeispielen';
 	}
-	
-	if ($word) {
-		my $fixed_templ_param = 0;
-		while (my ($code,$text) = each(%{$Derbeth::I18n::regional_names{'de'}})) {
-			my $template_param = $Derbeth::I18n::regional_params_dewikt{$code};
-			next unless $template_param;
-			$template_param = 'spr='.$template_param;
-			if ($$page_text_ref =~ s/(\{\{[aA]udio\|[^|]+\|)($word|\{\{PAGENAME\}\}) \($text\)(\}\})/$1$template_param$3/) {
-				$fixed_templ_param = 1;
+
+	my $fixed_old_regional = 0;
+	while (my ($old_regional,$regional_param) = each %Derbeth::I18n::text_to_regional_param_dewikt) {
+		if ($$page_text_ref =~ s/(\{\{[aA]udio[^}]+)\| *($word|\{\{PAGENAME\}\}) \($old_regional\) *\}\}/$1|spr=$regional_param}}/) {
+			$fixed_old_regional = 1;
+		}
+		if ($plural) {
+			if ($$page_text_ref =~ s/(\{\{[aA]udio[^}]+)\| *$plural \($old_regional\) *\}\}/$1|$plural|spr=$regional_param}}/) {
+				$fixed_old_regional = 1;
 			}
 		}
-		if ($fixed_templ_param) {
-			push @summary, '\'spr\' Parameter von {{Audio}} wurde benutzt';
-		}
+	}
+	if ($fixed_old_regional) {
+		push @summary, 'spr= für {{Audio}}';
 	}
 
 	return join(', ', @summary);
@@ -1063,18 +1064,19 @@ sub final_cosmetics_plwikt {
 #   $word - the pronounced word (page name)
 # Returns: edit summary (may be empty)
 sub final_cosmetics {
-	my ($wikt_lang, $page_text_ref, $word) = @_;
+	my ($wikt_lang, $page_text_ref, $word, $plural) = @_;
+	my @args = ($page_text_ref, $word, $plural);
 
 	if ($wikt_lang eq 'de') {
-		return final_cosmetics_dewikt($page_text_ref, $word);
+		return final_cosmetics_dewikt(@args);
 	} elsif ($wikt_lang eq 'en') {
-		return final_cosmetics_enwikt($page_text_ref, $word);
+		return final_cosmetics_enwikt(@args);
 	} elsif ($wikt_lang eq 'pl') {
-		return final_cosmetics_plwikt($page_text_ref, $word);
+		return final_cosmetics_plwikt(@args);
 	} elsif ($wikt_lang eq 'simple') {
-		return final_cosmetics_simplewikt($page_text_ref, $word);
+		return final_cosmetics_simplewikt(@args);
 	} elsif ($wikt_lang eq 'fr') {
-		return final_cosmetics_frwikt($page_text_ref, $word);
+		return final_cosmetics_frwikt(@args);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}

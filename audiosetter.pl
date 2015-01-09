@@ -291,7 +291,7 @@ foreach my $l (@langs) {
 		
 		my ($pron,$pron_pl,$sing,$plural) = find_pronunciation_files($wikt_lang,$lang_code,$word,\$section,\%pronunciation);
 		my ($result,$audios_count,$edit_summary)
-			= add_audio_new($wikt_lang,\$section,$pron,$lang_code,$filter_mode,$word,$pron_pl,$plural);
+			= add_audio($wikt_lang,\$section,$pron,$lang_code,$filter_mode,$word,$pron_pl,$plural);
 		
 		if ($result == 1) {
 			print encode_utf8($word),": has audio\n";
@@ -330,7 +330,7 @@ foreach my $l (@langs) {
 		
 		$page_text = $before.$section.$after;
 		
-		my $final_cosm_summary = final_cosmetics($wikt_lang, \$page_text, $word);
+		my $final_cosm_summary = final_cosmetics($wikt_lang, \$page_text, $word, $plural);
 		$edit_summary .= '; '.$initial_summary if ($initial_summary);
 		$edit_summary .= '; '.$final_cosm_summary if ($final_cosm_summary);
 		

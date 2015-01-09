@@ -169,7 +169,7 @@ foreach my $word (@entries) {
 
 	my ($pron, $pron_pl, $sing, $plural) = find_pronunciation_files('de', 'de', $word, \$section, \%pronunciation);
 	my ($result,$audios_count,$edit_summary)
-		= add_audio_new('de',\$section,$pron,$lang_code,0,$word,$pron_pl,$plural);
+		= add_audio('de',\$section,$pron,$lang_code,0,$word,$pron_pl,$plural);
 
 	if ($debug_mode) {
 		print ORIG encode_utf8($original_page_text),"\n";
@@ -196,7 +196,7 @@ foreach my $word (@entries) {
 
 	$page_text = $before.$section.$after;
 
-	my $final_summary = final_cosmetics($wikt_lang, \$page_text, $word);
+	my $final_summary = final_cosmetics($wikt_lang, \$page_text, $word, $plural);
 	$edit_summary .= '; '.$initial_summary if ($initial_summary);
 	$edit_summary .= '; '.$final_summary if ($final_summary);
 

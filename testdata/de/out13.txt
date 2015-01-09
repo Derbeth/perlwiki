@@ -1,0 +1,17 @@
+== mass ({{Sprache|Englisch}}) ==
+=== {{Wortart|Substantiv|Englisch}} ===
+
+{{Englisch Substantiv Übersicht
+|Singular=the mass
+|Plural=the masses
+}}
+
+{{Worttrennung}}
+:mass, {{Pl.}} mas·ses
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|…}}, {{Pl.}} {{Lautschrift|…}}
+:{{Hörbeispiele}} {{Audio|En-uk-mass.ogg|spr=uk}} {{audio|En-us-mass.ogg|spr=us}}, {{Pl.}} {{Audio|En-uk-masses.ogg|masses|spr=uk}} {{Audio|En-us-masses.ogg|masses|spr=us}}
+
+{{Bedeutungen}}
+:[1] ''[[Physik]]:'' Masse

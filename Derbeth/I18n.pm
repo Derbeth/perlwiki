@@ -32,9 +32,10 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.7.0;
+our $VERSION = 0.8.0;
 our %regional_names;
 our %regional_params_dewikt;
+our %text_to_regional_param_dewikt;
 
 # pl: uk => wymowa brytyjska
 # en: uk => (British pronunciation)
@@ -146,6 +147,15 @@ $regional_names{'simple'} = $regional_names{'en'};
 	'us-inlandnorth' => 'us-inlandnorth',
 	'us-ncalif' => 'us-ncalif',
 );
+
+# regional name => code used by [[wikt:de:Vorlage:Audio]]
+while (my ($code,$text) = each(%{$regional_names{'de'}})) {
+	my $template_param = $regional_params_dewikt{$code};
+	next unless $template_param;
+	$text_to_regional_param_dewikt{$text} = $template_param;
+}
+# manually add old mappings
+$text_to_regional_param_dewikt{'amerikanisch'} = 'us';
 
 # for titles of language sections
 my %language_names = (
