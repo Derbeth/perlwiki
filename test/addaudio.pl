@@ -92,9 +92,11 @@ sub do_test {
 	my ($before, $section, $after) = split_article_wikt($wikt_lang,$lang_code,$text,1);
 	my ($result,$added_audios,$edit_summary) = add_audio_new($wikt_lang,\$section,$args{'audio'},$lang_code,0,$word,$args{'audio_pl'},$args{'plural'},$args{'ipa'},$args{'ipa_pl'});
 	$text = $before.$section.$after;
-	final_cosmetics($wikt_lang, \$text, $word);
+	my $final_summary = final_cosmetics($wikt_lang, \$text, $word);
 	print OUT encode_utf8($text);
 	close(OUT);
+	$edit_summary .= '; '.$initial_summary if ($initial_summary);
+	$edit_summary .= '; '.$final_summary if ($final_summary);
 
 	if (exists($args{'result'}) && $args{'result'} != $result) {
 		print encode_utf8("$file: expected result $args{result} but got $result\n");
