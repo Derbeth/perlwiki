@@ -552,6 +552,11 @@ sub add_audio_dewikt {
 		return (2,0,$edit_summary);
 	}
 
+	my @speech_parts = ($$section =~ /= *\{\{(Wortart.*)/gi);
+	if (scalar(@speech_parts) > 1) {
+		return (2,0,$edit_summary.'; more than one speech part ('.@speech_parts.')');
+	}
+
 	$$section =~ s/:\[\[Hilfe:IPA\|IPA\]\]:/:{{IPA}}/g;
 	$$section =~ s/:\[\[Hilfe:Hörbeispiele\|Hörbeispiele\]\]:/:{{Hörbeispiele}}/g;
 

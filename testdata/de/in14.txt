@@ -1,0 +1,49 @@
+== Franken ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Substantiv|Deutsch}}, {{n}}, {{Wortart|Toponym|Deutsch}} ===
+
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular=<small>(das)</small> Franken
+|Nominativ Plural=—
+|Genitiv Singular=<small>(des Franken/<br />des Frankens)</small><br /> Frankens
+|Genitiv Plural=—
+|Dativ Singular=<small>(dem)</small> Franken
+|Dativ Plural=—
+|Akkusativ Singular=<small>(das)</small> Franken
+|Akkusativ Plural=—
+|Bild=Franken Region Uebersicht.png|350px|1|Die heutige Region ''Franken''
+}}
+
+{{Artikel Toponym}}
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈfʀaŋkən}}, {{Lautschrift|ˈfʀaŋkŋ̍}}, ''fränkisch:'' {{Lautschrift|ˈfrɑŋkŋ̍}}
+:{{Hörbeispiele}} {{Audio|De-Fränkisch-Franken.OGG|Franken (fränkisch)}}
+:{{Reime}} {{Reim|aŋkn̩|Deutsch}}
+
+{{Bedeutungen}}
+:[1] eine Region im Süden Deutschlands, die den Norden [[Bayern]]s, das nordöstliche [[Baden-Württemberg]] und [[Thüringen|Südthüringen]] umfasst und damit dem östlichen Teil des historischen Herzogtums Franken (siehe [3]) entspricht
+
+
+{{----}}
+
+=== {{Wortart|Substantiv|Deutsch}}, {{m}}, {{Wortart|Eigenname|Deutsch}} ===
+
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular=der Franken
+|Nominativ Plural=die Franken
+|Genitiv Singular=des Frankens
+|Genitiv Plural=der Franken
+|Dativ Singular=dem Franken
+|Dativ Plural=den Franken
+|Akkusativ Singular=den Franken
+|Akkusativ Plural=die Franken
+|Bild=Einfranken.jpg|250px|1|Vorder- und Rückseite der Münze im Wert von einem ''Franken''
+}}
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈfʀaŋkən}}, {{Lautschrift|ˈfʀaŋkn̩}}
+:{{Hörbeispiele}} {{Audio|}}
+:{{Reime}} {{Reim|aŋkn̩|Deutsch}}
+
+{{Bedeutungen}}
+:[1] ''Währung:'' in der [[Schweiz]]
