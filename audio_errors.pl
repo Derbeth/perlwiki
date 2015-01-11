@@ -22,11 +22,21 @@ read_hash_loose("done/done_audio_${wikt_lang}.txt", \%done) or die;
 while (my ($entry,$result) = each(%done)) {
 	my ($lang,$word) = split /-/, $entry;
 	if ($result eq 'error') {
-		unless(exists $langs{$lang}) {
-			$langs{$lang} = [];
-		}
+		$langs{$lang} ||= [];
 		push @{$langs{$lang}}, $word;
 		++$errors_count;
+	}
+}
+
+if ($wikt_lang eq 'de') {
+	my %de_done;
+	read_hash_loose("done/done_dewikt_de.txt", \%de_done);
+	while (my ($entry,$result) = each %de_done) {
+		if ($result eq 'error') {
+			$langs{de} ||= [];
+			push @{$langs{de}}, $entry;
+			++$errors_count;
+		}
 	}
 }
 
