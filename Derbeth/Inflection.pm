@@ -102,18 +102,17 @@ sub extract_plural {
 
 sub match_pronunciation_files {
 	my ($sing_forms_ref, $pl_forms_ref, $pron_hash_ref) = @_;
-	my $pron_pl='';
+	my @pron_pl;
 	foreach my $plural (@{$pl_forms_ref}) {
 		if (exists $$pron_hash_ref{$plural}) {
-			$pron_pl = $$pron_hash_ref{$plural};
-			last;
+			push @pron_pl, $$pron_hash_ref{$plural};
 		}
 	}
 	my $pron_sing = '';
 	if (@{$sing_forms_ref}) {
 		$pron_sing = $$pron_hash_ref{$$sing_forms_ref[0]} || '';
 	}
-	($pron_sing, $pron_pl);
+	($pron_sing, @pron_pl ? join('|', @pron_pl) : '');
 }
 
 sub find_pronunciation_files {

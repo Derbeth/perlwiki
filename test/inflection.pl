@@ -45,7 +45,7 @@ sub test_match_pronunciation_files {
 	# has sing and plural, audio for sing and plural
 	$checked += check_match(['house.ogg', 'houses.ogg'], ['house'], ['houses'], {'house'=>'house.ogg', 'houses'=>'houses.ogg'});
 	# has sing and many plurals, audio for all
-	$checked += check_match(['house.ogg', 'houses.ogg'], ['house'], ['houses', 'housen'],
+	$checked += check_match(['house.ogg', 'houses.ogg|housen.ogg'], ['house'], ['houses', 'housen'],
 		{'house'=>'house.ogg', 'houses'=>'houses.ogg', 'housen'=>'housen.ogg'});
 	# has sing and many plurals, audio for sing and only for second plural
 	$checked += check_match(['house.ogg', 'housen.ogg'], ['house'], ['houses', 'housen'],
