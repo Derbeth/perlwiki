@@ -542,19 +542,16 @@ sub add_audio_dewikt {
 		return (0,0,'');
 	}
 
-	$audios_count += $audios_count_pl;
-
 	$edit_summary = '+ Audio '.$edit_summary;
-	$edit_summary .= ' Plural: ' . $edit_summary_pl if ($edit_summary_pl ne '');
+	$edit_summary_pl = $edit_summary_pl ? " Plural: $edit_summary_pl" : '';
 
 	if ($$section =~ /\{\{kSg\.\}\}/) {
-		$edit_summary .= '; found {{kSg.}}, won\'t add audio automatically';
-		return (2,0,$edit_summary);
+		return (2,0,$edit_summary.$edit_summary_pl.'; found {{kSg.}}, won\'t add audio automatically');
 	}
 
 	my @speech_parts = ($$section =~ /= *\{\{(Wortart.*)/gi);
 	if (scalar(@speech_parts) > 1) {
-		return (2,0,$edit_summary.'; more than one speech part ('.@speech_parts.')');
+		return (2,0,$edit_summary.$edit_summary_pl.'; more than one speech part ('.@speech_parts.')');
 	}
 
 	$$section =~ s/:\[\[Hilfe:IPA\|IPA\]\]:/:{{IPA}}/g;
@@ -573,8 +570,7 @@ sub add_audio_dewikt {
 
 		if ($$section !~ /{{Bedeutung/) {
 			unless ($$section =~ s/(==== *Übersetzungen)/{{Bedeutungen}}\n\n$1/) {
-				$edit_summary .= '; no {{Bedeutungen}} and cannot add it';
-				return (2,0,$edit_summary);
+				return (2,0,$edit_summary.$edit_summary_pl.'; no {{Bedeutungen}} and cannot add it');
 			}
 			$edit_summary .= '; + {{Bedeutungen}} (leer)';
 		}
@@ -584,8 +580,7 @@ $newipa
 $newaudio
 
 {{Bedeutungen}}/xi) {
-			$edit_summary .= '; cannot add {{Aussprache}}';
-			return (2,0,$edit_summary);
+			return (2,0,$edit_summary.$edit_summary_pl.'; cannot add {{Aussprache}}');
 		}
 	}
 	if ($$section !~ /: *{{Hörbeispiele}}/) {
@@ -596,13 +591,11 @@ $newaudio/x;
 	if ($audios ne '') {
 		if ($$section =~ /{{Hörbeispiele}} +(-|–|—|{{[fF]ehlend}}|{{[aA]udio\|}})/) {
 			unless ($$section =~ s/({{Hörbeispiele}}) +(-|–|—|{{[fF]ehlend}}|{{[aA]udio\|}})/$1 $audios/) {
-				$edit_summary .= '; cannot replace {{fehlend}}';
-				return (2,0,$edit_summary);
+				return (2,0,$edit_summary.$edit_summary_pl.'; cannot replace {{fehlend}}');
 			}
 		} else { # already some pronunciation
 			unless ($$section =~ s/({{Hörbeispiele}}) */$1 $audios /) {
-				$edit_summary .= '; cannot append pron.';
-				return (2,0,$edit_summary);
+				return (2,0,$edit_summary.$edit_summary_pl.'; cannot append pron.');
 			}
 			$$section =~ s/  / /g;
 		}
@@ -614,18 +607,28 @@ $newaudio/x;
 		my $after = $';
 		my $pron_line = $2;
 
-		# no plural {{Pl.}} ?
-		if ($pron_line !~ /{{Pl.}}/) {
-			$pron_line .= ' {{Pl.}} {{Audio|}}';
-		}
-
-		if ($pron_line =~ /{{Pl.}} +{{([fF]ehlend|[aA]udio\|)}}/) {
-			$pron_line =~ s/{{Pl.}} +{{([fF]ehlend|[aA]udio\|)}}/{{Pl.}} $audios_pl/;
+		if ($pron_line =~ /{{Pl\.\d}}/) {
+			if ($audios eq '') {
+				return (2,0,$edit_summary.$edit_summary_pl.'; cannot handle multiple plural');
+			} else {
+				$edit_summary .= "; passend, aber nicht automatisch hinzugefügt:$edit_summary_pl";
+			}
 		} else {
-			$pron_line =~ s/{{Pl.}}/{{Pl.}} $audios_pl/;
-		}
+			# no plural {{Pl.}} ?
+			if ($pron_line !~ /{{Pl\.}}/) {
+				$pron_line .= ' {{Pl.}} {{Audio|}}';
+			}
 
-		$$section = $before.$pron_line.$after;
+			if ($pron_line =~ /{{Pl\.}} +{{([fF]ehlend|[aA]udio\|)}}/) {
+				$pron_line =~ s/{{Pl\.}} +{{([fF]ehlend|[aA]udio\|)}}/{{Pl.}} $audios_pl/;
+			} else {
+				$pron_line =~ s/{{Pl\.}}/{{Pl.}} $audios_pl/;
+			}
+
+			$$section = $before.$pron_line.$after;
+			$audios_count += $audios_count_pl;
+			$edit_summary .= $edit_summary_pl;
+		}
 	}
 
 	# if audio before ipa, put it after ipa

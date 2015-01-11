@@ -1,0 +1,29 @@
+== Couch ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Substantiv|Deutsch}}, {{f}} ===
+
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular=die Couch
+|Nominativ Plural 1=die Couchs
+|Nominativ Plural 2=die Couchen
+|Genitiv Singular=der Couch
+|Genitiv Plural 1=der Couchs
+|Genitiv Plural 2=der Couchen
+|Dativ Singular=der Couch
+|Dativ Plural 1=den Couchs
+|Dativ Plural 2=den Couchen
+|Akkusativ Singular=die Couch
+|Akkusativ Plural 1=die Couchs
+|Akkusativ Plural 2=die Couchen
+|Bild=Modern chaise longue.png|210px|1|Couch
+}}
+
+{{Worttrennung}}
+:Couch, {{Pl.1}} Couchs, {{Pl.2}} Cou·chen
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|kaʊ̯ʧ}}, {{Pl.1}} {{Lautschrift|ˈkaʊ̯ʧs}}, {{Pl.2}} {{Lautschrift|ˈkaʊ̯ʧn̩}}
+:{{Hörbeispiele}} {{Audio|}}, {{Pl.1}} {{Audio|}}, {{Pl.2}} {{Audio|}}
+:{{Reime}} {{Reim|aʊ̯ʧ|Deutsch}}
+
+{{Bedeutungen}}
+:[1] „breiteres Liegesofa“
