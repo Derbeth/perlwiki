@@ -107,7 +107,7 @@ open(ERRORS,">>$errors_file");
 my $server='http://de.wiktionary.org/w/';
 my $category='Kategorie:Deutsch';
 
-my @entries = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,$category,undef,{all=>1});
+my @entries = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,$category,undef,{main=>1});
 # my @entries = ('Abteilung');
 
 my $word_count = scalar(@entries);
@@ -231,7 +231,7 @@ save_results();
 
 
 sub save_results {
-	print "added $added_files files\n";
+	print_progress();
 	close ERRORS;
 	if ($debug_mode) { close DEBUG; exit(0); }
 	
