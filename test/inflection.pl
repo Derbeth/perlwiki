@@ -19,9 +19,11 @@ sub test_extract_plural {
 	$checked += check_pl('de', 'de', 'ignore-word', 'Mutter.txt', ['Mutter'], ['Mütter', 'Muttern']);
 	$checked += check_pl('de', 'de', 'ignore-word', 'Opossum.txt', ['Opossum'], ['Opossums']);
 	$checked += check_pl('de', 'de', 'ignore-word', 'Sein.txt', ['Sein'], []);
+	$checked += check_pl('de', 'de', 'machen', 'machen.txt', ['machen'], []); # a verb
 	$checked += check_pl('de', 'en', 'ignore-word', 'house.txt', ['house'], ['houses']);
 	$checked += check_pl('de', 'en', 'ignore-word', 'police.txt', ['police'], []);
 	$checked += check_pl('de', 'en', 'ignore-word', 'tea.txt', ['tea'], []);
+	$checked += check_pl('de', 'en', 'investigate', 'investigate.txt', ['investigate'], []);
 	$checked += check_pl('de', 'it', 'ignore-word', 'anatra.txt', ['anatra'], ['anatre']);
 	$checked += check_pl('de', 'it', 'ignore-word', 'scarpa.txt', ['scarpa'], ['scarpe']);
 	$checked += check_pl('de', 'it', 'ignore-word', 'soldo.txt', ['soldo'], ['soldi']);

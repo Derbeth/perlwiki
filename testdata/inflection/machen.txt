@@ -1,0 +1,15 @@
+== machen ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Verb|Deutsch}} ===
+
+{{Deutsch Verb Übersicht
+| Gegenwart_ich=mache
+|Gegenwart_du=machst
+|Gegenwart_er, sie, es=macht
+|1.Vergangenheit_ich=machte
+|Partizip II=gemacht
+|Konjunktiv II_ich=machte
+|Imperativ Singular=mach(e)
+|Imperativ Plural=macht
+|Hilfsverb=haben
+|Weitere_Konjugationen=machen (Konjugation)
+}}

@@ -1,0 +1,10 @@
+== investigate ({{Sprache|Englisch}}) ==
+=== {{Wortart|Verb|Englisch}} ===
+
+{{Englisch Verb Übersicht
+|present_I=investigate
+|present_he, she, it=investigates
+|past_simple_I=investigated
+|present participle=investigating
+|past participle=investigated
+}}

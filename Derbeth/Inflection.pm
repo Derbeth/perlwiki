@@ -51,21 +51,25 @@ sub _uniq_values {
 }
 
 sub _extract_plural_with_cases_dewikt {
-	my ($section_ref, $article_regex) = @_;
+	my ($word, $section_ref, $article_regex) = @_;
 	my @singular_forms = $$section_ref =~ /Nominativ Singular[^=]*=(.+)/g;
 	my @plural_forms = $$section_ref =~ /Nominativ Plural[^=]*=(.+)/g;
-	_filter_plural(\@singular_forms, \@plural_forms, $article_regex);
+	_filter_forms($word, \@singular_forms, \@plural_forms, $article_regex);
 }
 
 sub _extract_simple_plural_dewikt {
-	my ($section_ref, $article_regex) = @_;
+	my ($word, $section_ref, $article_regex) = @_;
 	my @singular_forms = $$section_ref =~ /\| *Singular[^=]*=(.+)/g;
 	my @plural_forms = $$section_ref =~ /\| *Plural[^=]*=(.+)/g;
-	_filter_plural(\@singular_forms, \@plural_forms, $article_regex);
+	_filter_forms($word, \@singular_forms, \@plural_forms, $article_regex);
 }
 
-sub _filter_plural {
-	my ($singular_arr, $plural_arr, $article_regex) = @_;
+sub _filter_forms {
+	my ($word, $singular_arr, $plural_arr, $article_regex) = @_;
+	unless (@{$singular_arr} || @{$plural_arr}) {
+		return ([$word], []);
+	}
+
 	foreach my $arr_ref ($singular_arr, $plural_arr) {
 		map { s/^ +| +$//g } @{$arr_ref};
 		if ($article_regex) {
@@ -86,15 +90,15 @@ sub extract_plural {
 	my ($wikt_lang, $lang, $word, $section_ref) = @_;
 	if ($wikt_lang eq 'de') {
 		if ($lang eq 'de') {
-			return _extract_plural_with_cases_dewikt($section_ref, '(der|die|das) ');
+			return _extract_plural_with_cases_dewikt($word, $section_ref, '(der|die|das) ');
 		} elsif ($lang eq 'en') {
-			return _extract_simple_plural_dewikt($section_ref, 'the ');
+			return _extract_simple_plural_dewikt($word, $section_ref, 'the ');
 		} elsif ($lang eq 'it') {
-			return _extract_simple_plural_dewikt($section_ref, '(la |le |lo |gli |il |i |l\'|l’)');
+			return _extract_simple_plural_dewikt($word, $section_ref, '(la |le |lo |gli |il |i |l\'|l’)');
 		}  elsif ($lang eq 'nl') {
-			return _extract_simple_plural_dewikt($section_ref, '(het|de) ');
+			return _extract_simple_plural_dewikt($word, $section_ref, '(het|de) ');
 		} elsif ($lang eq 'pl') {
-			return _extract_plural_with_cases_dewikt($section_ref);
+			return _extract_plural_with_cases_dewikt($word, $section_ref);
 		}
 	}
 	return ([$word], []);
