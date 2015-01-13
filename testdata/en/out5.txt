@@ -163,6 +163,7 @@ From {{proto|Germanic|lang=ang}} from {{proto|Indo-European|n̥s||nes|lang=ang}}
 
 ===Pronunciation===
 * {{IPA|/uːs/|lang=ang}}
+{{rfap|lang=oen}}
 
 ===Pronoun===
 {{infl|ang|pronoun|head=ūs|personal pronoun}}

@@ -387,7 +387,7 @@ sub add_audio_enwikt {
 	}
 
 	if ($$section =~ /{{rfap/) {
-		if($$section =~ s/{{rfap}}\r?\n//) {
+		if($$section =~ s/{{rfap(\|lang=$lang_code)?}}\r?\n//) {
 			$edit_summary .= '; removed {{rfap}}';
 		} else {
 			$edit_summary .= '; cannot remove {{rfap}}';
