@@ -1,0 +1,11 @@
+=== {{Wortart|Substantiv|Deutsch}}, {{mf}}, {{Wortart|Nachname|Deutsch}} ===
+{{Deutsch Substantiv Übersicht
+|Nominativ Singular=<small>(der/die)</small> Ablaß
+|Nominativ Plural=<small>(die)</small> Ablaß<br><small>(die)</small> Ablaßens
+|Genitiv Singular=<small>(des/der)</small> Ablaß’
+|Genitiv Plural=<small>(der)</small> Ablaß<br><small>(der)</small> Ablaßens
+|Dativ Singular=<small>(dem/der)</small> Ablaß
+|Dativ Plural=<small>(den)</small> Ablaß<br><small>(den)</small> Ablaßens
+|Akkusativ Singular=<small>(den/die)</small> Ablaß
+|Akkusativ Plural=<small>(die)</small> Ablaß<br><small>(die)</small> Ablaßens
+}}

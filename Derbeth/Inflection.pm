@@ -103,27 +103,46 @@ sub extract_plural {
 
 sub match_pronunciation_files {
 	my ($sing_forms_ref, $pl_forms_ref, $pron_hash_ref) = @_;
-	my @pron_pl;
-	foreach my $plural (@{$pl_forms_ref}) {
-		if (exists $$pron_hash_ref{$plural}) {
-			push @pron_pl, $$pron_hash_ref{$plural};
+	my @pron_sing_arr = _having_pronunciation($sing_forms_ref, $pron_hash_ref);
+	my @pron_pl_arr = _having_pronunciation($pl_forms_ref, $pron_hash_ref);
+
+	my ($audio, $audio_pl, $pron_sing, $pron_pl);
+	if (@pron_sing_arr) {
+		($pron_sing, $audio) = ($pron_sing_arr[0]{form}, $pron_sing_arr[0]{pron});
+	} else {
+		($pron_sing, $audio) = ($sing_forms_ref->[0], '');
+	}
+	if (@pron_pl_arr) {
+		($pron_pl, $audio_pl) = ($pron_pl_arr[0]{form}, join('|', map { $_->{pron} } @pron_pl_arr));
+	} else {
+		($pron_pl, $audio_pl) = (undef, '');
+	}
+
+	return ($audio, $audio_pl, $pron_sing, $pron_pl);
+}
+
+sub _having_pronunciation {
+	my ($forms_ref, $pron_hash_ref) = @_;
+	my @result;
+	foreach my $form (@{$forms_ref}) {
+		if (exists $$pron_hash_ref{$form}) {
+			push @result, {form => $form, pron => $$pron_hash_ref{$form}};
 		}
 	}
-	my $pron_sing = '';
-	if (@{$sing_forms_ref}) {
-		$pron_sing = $$pron_hash_ref{$$sing_forms_ref[0]} || '';
-	}
-	($pron_sing, @pron_pl ? join('|', @pron_pl) : '');
+	return @result;
 }
 
 sub find_pronunciation_files {
 	my ($wikt_lang, $lang, $word, $section_ref, $pron_hash_ref) = @_;
 	my ($sing_forms_ref, $pl_forms_ref) = extract_plural($wikt_lang, $lang, $word, $section_ref);
-	unless (@{$sing_forms_ref} || @{$pl_forms_ref}) {
+
+	if (!@{$sing_forms_ref} && !@{$pl_forms_ref}) {
 		$sing_forms_ref = [$word];
+	} elsif (@{$sing_forms_ref} && !grep { $_ eq $word } @{$sing_forms_ref}) {
+		push @{$sing_forms_ref}, $word;
 	}
-	my ($pron_sing, $pron_pl) = match_pronunciation_files($sing_forms_ref, $pl_forms_ref, $pron_hash_ref);
-	($pron_sing, $pron_pl, $$sing_forms_ref[0], $$pl_forms_ref[0]);
+
+	return match_pronunciation_files($sing_forms_ref, $pl_forms_ref, $pron_hash_ref);
 }
 
 1;

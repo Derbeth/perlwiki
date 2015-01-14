@@ -39,23 +39,23 @@ sub test_match_pronunciation_files {
 	my $checked = 0;
 
 	# has sing, no audios
-	$checked += check_match(['', ''], ['house'], [], {});
+	$checked += check_match(['', '', 'house', undef], ['house'], [], {});
 	# has sing, audio for sing
-	$checked += check_match(['house.ogg', ''], ['house'], [], {'house'=>'house.ogg'});
+	$checked += check_match(['house.ogg', '', 'house', undef], ['house'], [], {'house'=>'house.ogg'});
 	# has sing and plural, but audio only for sing
-	$checked += check_match(['house.ogg', ''], ['house'], ['houses'], {'house'=>'house.ogg'});
+	$checked += check_match(['house.ogg', '', 'house', undef], ['house'], ['houses'], {'house'=>'house.ogg'});
 	# has sing and plural, audio for sing and plural
-	$checked += check_match(['house.ogg', 'houses.ogg'], ['house'], ['houses'], {'house'=>'house.ogg', 'houses'=>'houses.ogg'});
+	$checked += check_match(['house.ogg', 'houses.ogg', 'house', 'houses'], ['house'], ['houses'], {'house'=>'house.ogg', 'houses'=>'houses.ogg'});
 	# has sing and many plurals, audio for all
-	$checked += check_match(['house.ogg', 'houses.ogg|housen.ogg'], ['house'], ['houses', 'housen'],
+	$checked += check_match(['house.ogg', 'houses.ogg|housen.ogg', 'house', 'houses'], ['house'], ['houses', 'housen'],
 		{'house'=>'house.ogg', 'houses'=>'houses.ogg', 'housen'=>'housen.ogg'});
 	# has sing and many plurals, audio for sing and only for second plural
-	$checked += check_match(['house.ogg', 'housen.ogg'], ['house'], ['houses', 'housen'],
+	$checked += check_match(['house.ogg', 'housen.ogg', 'house', 'housen'], ['house'], ['houses', 'housen'],
 		{'house'=>'house.ogg', 'housen'=>'housen.ogg'});
 	# has no sing, has audio for plural
-	$checked += check_match(['', 'houses.ogg'], [], ['houses'], {'houses'=>'houses.ogg'});
+	$checked += check_match(['', 'houses.ogg', undef, 'houses'], [], ['houses'], {'houses'=>'houses.ogg'});
 	# has no sing, does not have audio for plural
-	$checked += check_match(['', ''], [], ['houses'], {});
+	$checked += check_match(['', '', undef, undef], [], ['houses'], {});
 
 	print "test_match_pronunciation_files: $checked checks succeeded\n";
 }
@@ -65,10 +65,14 @@ sub test_find_pronunciation_files {
 
 	$checked += check_find('de', 'de', 'ignore-word', 'Inkarnation.txt', {'Inkarnation'=>'Inkarnation.ogg', 'Inkarnationen'=>'Inkarnationen.ogg'},
 		['Inkarnation.ogg', 'Inkarnationen.ogg', 'Inkarnation', 'Inkarnationen']);
+	$checked += check_find('de', 'de', 'Ablaß', 'Ablass.txt', {'Ablaß'=>'Ablaß.ogg', 'Ablaßens'=>'Ablaßens.ogg'},
+		['Ablaß.ogg', '', 'Ablaß', undef]); # text contains wrongly formatted, unreadable forms
 	$checked += check_find('de', 'de', 'machen', 'machen.txt', {'machen'=>'De-machen.ogg'},
 		['De-machen.ogg', '', 'machen', undef]);
 	$checked += check_find('de', 'en', 'investigate', 'investigate.txt', {'investigate' => 'En-investigate.ogg'},
 		['En-investigate.ogg', '', 'investigate', undef]);
+	$checked += check_find('de', 'en', 'only-plural', 'only-plural.txt', {'only-plural' => 'only-plural.ogg'},
+		['', 'only-plural.ogg', undef, 'only-plural']);
 	$checked += check_find('xx', 'xx', 'use-this', 'hoofd.txt', {'use-this' => 'use-this.ogg'},
 		['use-this.ogg', '', 'use-this', undef]);
 
