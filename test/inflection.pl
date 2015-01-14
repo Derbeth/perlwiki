@@ -14,23 +14,23 @@ test_find_pronunciation_files();
 sub test_extract_plural {
 	my $checked = 0;
 
-	$checked += check_pl('de', 'de', 'ignore-word', 'Alpen.txt', [], ['Alpen']);
-	$checked += check_pl('de', 'de', 'ignore-word', 'Inkarnation.txt', ['Inkarnation'], ['Inkarnationen']);
-	$checked += check_pl('de', 'de', 'ignore-word', 'Mutter.txt', ['Mutter'], ['Mütter', 'Muttern']);
-	$checked += check_pl('de', 'de', 'ignore-word', 'Opossum.txt', ['Opossum'], ['Opossums']);
-	$checked += check_pl('de', 'de', 'ignore-word', 'Sein.txt', ['Sein'], []);
-	$checked += check_pl('de', 'de', 'machen', 'machen.txt', ['machen'], []); # a verb
-	$checked += check_pl('de', 'en', 'ignore-word', 'house.txt', ['house'], ['houses']);
-	$checked += check_pl('de', 'en', 'ignore-word', 'police.txt', ['police'], []);
-	$checked += check_pl('de', 'en', 'ignore-word', 'tea.txt', ['tea'], []);
-	$checked += check_pl('de', 'en', 'investigate', 'investigate.txt', ['investigate'], []);
-	$checked += check_pl('de', 'it', 'ignore-word', 'anatra.txt', ['anatra'], ['anatre']);
-	$checked += check_pl('de', 'it', 'ignore-word', 'scarpa.txt', ['scarpa'], ['scarpe']);
-	$checked += check_pl('de', 'it', 'ignore-word', 'soldo.txt', ['soldo'], ['soldi']);
-	$checked += check_pl('de', 'nl', 'ignore-word', 'hoofd.txt', ['hoofd'], ['hoofden']);
-	$checked += check_pl('de', 'pl', 'ignore-word', 'matka.txt', ['matka'], ['matki']);
-	$checked += check_pl('de', 'xx', 'use-this-word', 'hoofd.txt', ['use-this-word'], []);
-	$checked += check_pl('xx', 'xx', 'use-this-word', 'hoofd.txt', ['use-this-word'], []);
+	$checked += check_extract('de', 'de', 'ignore-word', 'Alpen.txt', [], ['Alpen']);
+	$checked += check_extract('de', 'de', 'ignore-word', 'Inkarnation.txt', ['Inkarnation'], ['Inkarnationen']);
+	$checked += check_extract('de', 'de', 'ignore-word', 'Mutter.txt', ['Mutter'], ['Mütter', 'Muttern']);
+	$checked += check_extract('de', 'de', 'ignore-word', 'Opossum.txt', ['Opossum'], ['Opossums']);
+	$checked += check_extract('de', 'de', 'ignore-word', 'Sein.txt', ['Sein'], []);
+	$checked += check_extract('de', 'de', 'machen', 'machen.txt', ['machen'], []); # a verb
+	$checked += check_extract('de', 'en', 'ignore-word', 'house.txt', ['house'], ['houses']);
+	$checked += check_extract('de', 'en', 'ignore-word', 'police.txt', ['police'], []);
+	$checked += check_extract('de', 'en', 'ignore-word', 'tea.txt', ['tea'], []);
+	$checked += check_extract('de', 'en', 'investigate', 'investigate.txt', ['investigate'], []);
+	$checked += check_extract('de', 'it', 'ignore-word', 'anatra.txt', ['anatra'], ['anatre']);
+	$checked += check_extract('de', 'it', 'ignore-word', 'scarpa.txt', ['scarpa'], ['scarpe']);
+	$checked += check_extract('de', 'it', 'ignore-word', 'soldo.txt', ['soldo'], ['soldi']);
+	$checked += check_extract('de', 'nl', 'ignore-word', 'hoofd.txt', ['hoofd'], ['hoofden']);
+	$checked += check_extract('de', 'pl', 'ignore-word', 'matka.txt', ['matka'], ['matki']);
+	$checked += check_extract('de', 'xx', 'use-this-word', 'hoofd.txt', ['use-this-word'], []);
+	$checked += check_extract('xx', 'xx', 'use-this-word', 'hoofd.txt', ['use-this-word'], []);
 
 	print "test_extract_plural: $checked checks succeeded\n";
 }
@@ -61,13 +61,15 @@ sub test_match_pronunciation_files {
 }
 
 sub test_find_pronunciation_files {
-	my $input = read_file("testdata/inflection/Inkarnation.txt", binmode => ':utf8');
-	my @actual = find_pronunciation_files('de', 'de', 'ignore-word', \$input, {'Inkarnation'=>'Inkarnation.ogg', 'Inkarnationen'=>'Inkarnationen.ogg'});
-	assert_deep_equals ['Inkarnation.ogg', 'Inkarnationen.ogg', 'Inkarnation', 'Inkarnationen'], \@actual;
-	print "test_find_pronunciation_files: succeeded\n";
+	my $checked = 0;
+
+	$checked += check_find('de', 'de', 'ignore-word', 'Inkarnation.txt', {'Inkarnation'=>'Inkarnation.ogg', 'Inkarnationen'=>'Inkarnationen.ogg'},
+		['Inkarnation.ogg', 'Inkarnationen.ogg', 'Inkarnation', 'Inkarnationen']);
+
+	print "test_find_pronunciation_files: $checked checks succeeded\n";
 }
 
-sub check_pl {
+sub check_extract {
 	my ($wikt_lang, $lang, $word, $file, @expected) = @_;
 	my $input = read_file("testdata/inflection/$file", binmode => ':utf8');
 	my @actual = extract_plural($wikt_lang, $lang, $word, \$input);
@@ -79,5 +81,13 @@ sub check_match {
 	my ($expected_ref, $sing_ref, $plural_ref, $pron_ref) = @_;
 	my @actual = match_pronunciation_files($sing_ref, $plural_ref, $pron_ref);
 	assert_deep_equals $expected_ref, \@actual;
+	1;
+}
+
+sub check_find {
+	my ($wikt_lang, $lang, $word, $file, $audios, $expected) = @_;
+	my $input = read_file("testdata/inflection/$file", binmode => ':utf8');
+	my @actual = find_pronunciation_files($wikt_lang, $lang, $word, \$input, $audios);
+	assert_deep_equals $expected, \@actual;
 	1;
 }
