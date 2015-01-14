@@ -19,18 +19,18 @@ sub test_extract_plural {
 	$checked += check_extract('de', 'de', 'ignore-word', 'Mutter.txt', ['Mutter'], ['Mütter', 'Muttern']);
 	$checked += check_extract('de', 'de', 'ignore-word', 'Opossum.txt', ['Opossum'], ['Opossums']);
 	$checked += check_extract('de', 'de', 'ignore-word', 'Sein.txt', ['Sein'], []);
-	$checked += check_extract('de', 'de', 'machen', 'machen.txt', ['machen'], []); # a verb
+	$checked += check_extract('de', 'de', 'machen', 'machen.txt', [], []); # a verb
 	$checked += check_extract('de', 'en', 'ignore-word', 'house.txt', ['house'], ['houses']);
 	$checked += check_extract('de', 'en', 'ignore-word', 'police.txt', ['police'], []);
 	$checked += check_extract('de', 'en', 'ignore-word', 'tea.txt', ['tea'], []);
-	$checked += check_extract('de', 'en', 'investigate', 'investigate.txt', ['investigate'], []);
+	$checked += check_extract('de', 'en', 'investigate', 'investigate.txt', [], []);
 	$checked += check_extract('de', 'it', 'ignore-word', 'anatra.txt', ['anatra'], ['anatre']);
 	$checked += check_extract('de', 'it', 'ignore-word', 'scarpa.txt', ['scarpa'], ['scarpe']);
 	$checked += check_extract('de', 'it', 'ignore-word', 'soldo.txt', ['soldo'], ['soldi']);
 	$checked += check_extract('de', 'nl', 'ignore-word', 'hoofd.txt', ['hoofd'], ['hoofden']);
 	$checked += check_extract('de', 'pl', 'ignore-word', 'matka.txt', ['matka'], ['matki']);
-	$checked += check_extract('de', 'xx', 'use-this-word', 'hoofd.txt', ['use-this-word'], []);
-	$checked += check_extract('xx', 'xx', 'use-this-word', 'hoofd.txt', ['use-this-word'], []);
+	$checked += check_extract('de', 'xx', 'ignore-word', 'hoofd.txt', [], []);
+	$checked += check_extract('xx', 'xx', 'ignore-word', 'hoofd.txt', [], []);
 
 	print "test_extract_plural: $checked checks succeeded\n";
 }
@@ -65,6 +65,12 @@ sub test_find_pronunciation_files {
 
 	$checked += check_find('de', 'de', 'ignore-word', 'Inkarnation.txt', {'Inkarnation'=>'Inkarnation.ogg', 'Inkarnationen'=>'Inkarnationen.ogg'},
 		['Inkarnation.ogg', 'Inkarnationen.ogg', 'Inkarnation', 'Inkarnationen']);
+	$checked += check_find('de', 'de', 'machen', 'machen.txt', {'machen'=>'De-machen.ogg'},
+		['De-machen.ogg', '', 'machen', undef]);
+	$checked += check_find('de', 'en', 'investigate', 'investigate.txt', {'investigate' => 'En-investigate.ogg'},
+		['En-investigate.ogg', '', 'investigate', undef]);
+	$checked += check_find('xx', 'xx', 'use-this', 'hoofd.txt', {'use-this' => 'use-this.ogg'},
+		['use-this.ogg', '', 'use-this', undef]);
 
 	print "test_find_pronunciation_files: $checked checks succeeded\n";
 }

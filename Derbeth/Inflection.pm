@@ -51,24 +51,21 @@ sub _uniq_values {
 }
 
 sub _extract_plural_with_cases_dewikt {
-	my ($word, $section_ref, $article_regex) = @_;
+	my ($section_ref, $article_regex) = @_;
 	my @singular_forms = $$section_ref =~ /Nominativ Singular[^=]*=(.+)/g;
 	my @plural_forms = $$section_ref =~ /Nominativ Plural[^=]*=(.+)/g;
-	_filter_forms($word, \@singular_forms, \@plural_forms, $article_regex);
+	_filter_forms(\@singular_forms, \@plural_forms, $article_regex);
 }
 
 sub _extract_simple_plural_dewikt {
-	my ($word, $section_ref, $article_regex) = @_;
+	my ($section_ref, $article_regex) = @_;
 	my @singular_forms = $$section_ref =~ /\| *Singular[^=]*=(.+)/g;
 	my @plural_forms = $$section_ref =~ /\| *Plural[^=]*=(.+)/g;
-	_filter_forms($word, \@singular_forms, \@plural_forms, $article_regex);
+	_filter_forms(\@singular_forms, \@plural_forms, $article_regex);
 }
 
 sub _filter_forms {
-	my ($word, $singular_arr, $plural_arr, $article_regex) = @_;
-	unless (@{$singular_arr} || @{$plural_arr}) {
-		return ([$word], []);
-	}
+	my ($singular_arr, $plural_arr, $article_regex) = @_;
 
 	foreach my $arr_ref ($singular_arr, $plural_arr) {
 		map { s/^ +| +$//g } @{$arr_ref};
@@ -90,18 +87,18 @@ sub extract_plural {
 	my ($wikt_lang, $lang, $word, $section_ref) = @_;
 	if ($wikt_lang eq 'de') {
 		if ($lang eq 'de') {
-			return _extract_plural_with_cases_dewikt($word, $section_ref, '(der|die|das) ');
+			return _extract_plural_with_cases_dewikt($section_ref, '(der|die|das) ');
 		} elsif ($lang eq 'en') {
-			return _extract_simple_plural_dewikt($word, $section_ref, 'the ');
+			return _extract_simple_plural_dewikt($section_ref, 'the ');
 		} elsif ($lang eq 'it') {
-			return _extract_simple_plural_dewikt($word, $section_ref, '(la |le |lo |gli |il |i |l\'|l’)');
+			return _extract_simple_plural_dewikt($section_ref, '(la |le |lo |gli |il |i |l\'|l’)');
 		}  elsif ($lang eq 'nl') {
-			return _extract_simple_plural_dewikt($word, $section_ref, '(het|de) ');
+			return _extract_simple_plural_dewikt($section_ref, '(het|de) ');
 		} elsif ($lang eq 'pl') {
-			return _extract_plural_with_cases_dewikt($word, $section_ref);
+			return _extract_plural_with_cases_dewikt($section_ref);
 		}
 	}
-	return ([$word], []);
+	return ([], []);
 }
 
 sub match_pronunciation_files {
@@ -122,6 +119,9 @@ sub match_pronunciation_files {
 sub find_pronunciation_files {
 	my ($wikt_lang, $lang, $word, $section_ref, $pron_hash_ref) = @_;
 	my ($sing_forms_ref, $pl_forms_ref) = extract_plural($wikt_lang, $lang, $word, $section_ref);
+	unless (@{$sing_forms_ref} || @{$pl_forms_ref}) {
+		$sing_forms_ref = [$word];
+	}
 	my ($pron_sing, $pron_pl) = match_pronunciation_files($sing_forms_ref, $pl_forms_ref, $pron_hash_ref);
 	($pron_sing, $pron_pl, $$sing_forms_ref[0], $$pl_forms_ref[0]);
 }
