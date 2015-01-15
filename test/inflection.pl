@@ -42,6 +42,8 @@ sub test_match_pronunciation_files {
 	$checked += check_match(['', '', 'house', undef], ['house'], [], {});
 	# has sing, audio for sing
 	$checked += check_match(['house.ogg', '', 'house', undef], ['house'], [], {'house'=>'house.ogg'});
+	# has sing and plural, no audios
+	$checked += check_match(['', '', 'house', undef], ['house', 'houses'], [], {});
 	# has sing and plural, but audio only for sing
 	$checked += check_match(['house.ogg', '', 'house', undef], ['house'], ['houses'], {'house'=>'house.ogg'});
 	# has sing and plural, audio for sing and plural
