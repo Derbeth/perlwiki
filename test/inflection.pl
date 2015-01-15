@@ -45,7 +45,7 @@ sub test_match_pronunciation_files {
 	# has sing and plural, no audios
 	$checked += check_match(['', '', 'house', undef], ['house', 'houses'], [], {});
 	# has sing and plural, but audio only for sing
-	$checked += check_match(['house.ogg', '', 'house', undef], ['house'], ['houses'], {'house'=>'house.ogg'});
+	$checked += check_match(['house.ogg', '', 'house', 'houses'], ['house'], ['houses'], {'house'=>'house.ogg'});
 	# has sing and plural, audio for sing and plural
 	$checked += check_match(['house.ogg', 'houses.ogg', 'house', 'houses'], ['house'], ['houses'], {'house'=>'house.ogg', 'houses'=>'houses.ogg'});
 	# has sing and many plurals, audio for all
@@ -57,7 +57,7 @@ sub test_match_pronunciation_files {
 	# has no sing, has audio for plural
 	$checked += check_match(['', 'houses.ogg', undef, 'houses'], [], ['houses'], {'houses'=>'houses.ogg'});
 	# has no sing, does not have audio for plural
-	$checked += check_match(['', '', undef, undef], [], ['houses'], {});
+	$checked += check_match(['', '', undef, 'houses'], [], ['houses'], {});
 
 	print "test_match_pronunciation_files: $checked checks succeeded\n";
 }
@@ -67,6 +67,8 @@ sub test_find_pronunciation_files {
 
 	$checked += check_find('de', 'de', 'ignore-word', 'Inkarnation.txt', {'Inkarnation'=>'Inkarnation.ogg', 'Inkarnationen'=>'Inkarnationen.ogg'},
 		['Inkarnation.ogg', 'Inkarnationen.ogg', 'Inkarnation', 'Inkarnationen']);
+	$checked += check_find('de', 'de', 'Sein', 'Sein.txt', {'no-matching'=>'irrelevant.ogg'},
+		['', '', 'Sein', undef]);
 	$checked += check_find('de', 'de', 'Ablaß', 'Ablass.txt', {'Ablaß'=>'Ablaß.ogg', 'Ablaßens'=>'Ablaßens.ogg'},
 		['Ablaß.ogg', '', 'Ablaß', undef]); # text contains wrongly formatted, unreadable forms
 	$checked += check_find('de', 'de', 'Arme', 'Arme.txt', {'Arme' => 'Arme.ogg'},
@@ -77,6 +79,8 @@ sub test_find_pronunciation_files {
 		['En-investigate.ogg', '', 'investigate', undef]);
 	$checked += check_find('de', 'en', 'only-plural', 'only-plural.txt', {'only-plural' => 'only-plural.ogg'},
 		['', 'only-plural.ogg', undef, 'only-plural']);
+	$checked += check_find('de', 'en', 'only-plural', 'only-plural.txt', {'singular' => 'singular.ogg'},
+		['', '', undef, 'only-plural']);
 	$checked += check_find('xx', 'xx', 'use-this', 'hoofd.txt', {'use-this' => 'use-this.ogg'},
 		['use-this.ogg', '', 'use-this', undef]);
 

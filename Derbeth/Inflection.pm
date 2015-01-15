@@ -110,12 +110,12 @@ sub match_pronunciation_files {
 	if (@pron_sing_arr) {
 		($pron_sing, $audio) = ($pron_sing_arr[0]{form}, $pron_sing_arr[0]{pron});
 	} else {
-		($pron_sing, $audio) = ($sing_forms_ref->[0], '');
+		($pron_sing, $audio) = (_first_sane($sing_forms_ref), '');
 	}
 	if (@pron_pl_arr) {
 		($pron_pl, $audio_pl) = ($pron_pl_arr[0]{form}, join('|', map { $_->{pron} } @pron_pl_arr));
 	} else {
-		($pron_pl, $audio_pl) = (undef, '');
+		($pron_pl, $audio_pl) = (_first_sane($pl_forms_ref), '');
 	}
 
 	return ($audio, $audio_pl, $pron_sing, $pron_pl);
@@ -130,6 +130,14 @@ sub _having_pronunciation {
 		}
 	}
 	return @result;
+}
+
+sub _first_sane {
+	my ($forms_arr) = @_;
+	foreach my $form (@{$forms_arr}) {
+		return $form if $form !~ /[<>()]/;
+	}
+	return undef;
 }
 
 sub find_pronunciation_files {
