@@ -52,15 +52,15 @@ sub _uniq_values {
 
 sub _extract_plural_with_cases_dewikt {
 	my ($section_ref, $article_regex) = @_;
-	my @singular_forms = $$section_ref =~ /Nominativ Singular[^=]*=(.+)/g;
-	my @plural_forms = $$section_ref =~ /Nominativ Plural[^=]*=(.+)/g;
+	my @singular_forms = $$section_ref =~ /Nominativ Singular[^=\n]*=(.+)/g;
+	my @plural_forms = $$section_ref =~ /Nominativ Plural[^=\n]*=(.+)/g;
 	_filter_forms(\@singular_forms, \@plural_forms, $article_regex);
 }
 
 sub _extract_simple_plural_dewikt {
 	my ($section_ref, $article_regex) = @_;
-	my @singular_forms = $$section_ref =~ /\| *Singular[^=]*=(.+)/g;
-	my @plural_forms = $$section_ref =~ /\| *Plural[^=]*=(.+)/g;
+	my @singular_forms = $$section_ref =~ /\| *Singular[^=\n]*=(.+)/g;
+	my @plural_forms = $$section_ref =~ /\| *Plural[^=\n]*=(.+)/g;
 	_filter_forms(\@singular_forms, \@plural_forms, $article_regex);
 }
 

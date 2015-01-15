@@ -1,0 +1,50 @@
+== Arme ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Deklinierte Form|Deutsch}} ===
+
+{{Worttrennung}}
+:Ar·me
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈaʁmə}}
+:{{Hörbeispiele}} {{Audio|De-Arme.ogg|Arme}}, {{Audio|De-at-Arme.ogg|Arme (österreichisch)}}
+:{{Reime}} {{Reim|aʁmə|Deutsch}}
+
+{{Grammatische Merkmale}}
+* {{Dativ-e}} Dativ Singular des Substantivs '''[[Arm]]'''
+* Nominativ Plural des Substantivs '''[[Arm]]'''
+* Genitiv Plural des Substantivs '''[[Arm]]'''
+* Akkusativ Plural des Substantivs '''[[Arm]]'''
+
+{{Grundformverweis Dekl|Arm}}
+
+=== {{Wortart|Deklinierte Form|Deutsch}} ===
+
+{{Worttrennung}}
+:Ar·me
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈaʁmə}}
+:{{Hörbeispiele}} {{Audio|De-Arme.ogg|Arme}}, {{Audio|De-at-Arme.ogg|Arme (österreichisch)}}
+:{{Reime}} {{Reim|aʁmə|Deutsch}}
+
+{{Grammatische Merkmale}}
+* Nominativ Singular der schwachen Deklination des Substantivs '''[[Armer]]'''
+* Nominativ Plural der starken Deklination des Substantivs '''[[Armer]]'''
+* Akkusativ Plural der starken Deklination des Substantivs '''[[Armer]]'''
+
+{{Grundformverweis Dekl|Armer}}
+
+{{Ähnlichkeiten}}
+:[[arma]], [[Armee]], [[Ärmel]], [[army]], [[erme]], [[orme]], ''Anagramme:'' [[mare]], [[rame]]
+
+[[ar:Arme]]
+[[en:Arme]]
+[[fi:Arme]]
+[[id:Arme]]
+[[io:Arme]]
+[[ja:Arme]]
+[[mg:Arme]]
+[[nds:Arme]]
+[[pl:Arme]]
+[[sv:Arme]]
+[[zh:Arme]]

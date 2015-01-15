@@ -69,6 +69,8 @@ sub test_find_pronunciation_files {
 		['Inkarnation.ogg', 'Inkarnationen.ogg', 'Inkarnation', 'Inkarnationen']);
 	$checked += check_find('de', 'de', 'Ablaß', 'Ablass.txt', {'Ablaß'=>'Ablaß.ogg', 'Ablaßens'=>'Ablaßens.ogg'},
 		['Ablaß.ogg', '', 'Ablaß', undef]); # text contains wrongly formatted, unreadable forms
+	$checked += check_find('de', 'de', 'Arme', 'Arme.txt', {'Arme' => 'Arme.ogg'},
+		['Arme.ogg', '', 'Arme', undef]);
 	$checked += check_find('de', 'de', 'machen', 'machen.txt', {'machen'=>'De-machen.ogg'},
 		['De-machen.ogg', '', 'machen', undef]);
 	$checked += check_find('de', 'en', 'investigate', 'investigate.txt', {'investigate' => 'En-investigate.ogg'},
