@@ -33,6 +33,7 @@ sub test_extract_plural {
 	$checked += check_extract('de', 'it', 'ignore-word', 'scarpa.txt', ['scarpa'], ['scarpe']);
 	$checked += check_extract('de', 'it', 'ignore-word', 'soldo.txt', ['soldo'], ['soldi']);
 	$checked += check_extract('de', 'nl', 'ignore-word', 'hoofd.txt', ['hoofd'], ['hoofden']);
+	$checked += check_extract('de', 'nl', 'ignore-word', 'nl-long.txt', ['long'], ['longen']);
 	$checked += check_extract('de', 'nl', 'bevallen', 'bevallen.txt', [], []); # verb
 	$checked += check_extract('de', 'pl', 'ignore-word', 'matka.txt', ['matka'], ['matki']);
 	$checked += check_extract('de', 'sk', 'ignore-word', 'genius.txt', ['génius'], ['géniovia']);

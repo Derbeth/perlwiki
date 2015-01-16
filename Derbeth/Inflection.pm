@@ -34,9 +34,7 @@ our @EXPORT = qw/
 	extract_plural
 	match_pronunciation_files
 	find_pronunciation_files/;
-our $VERSION = 0.2.0;
-
-my $NOINFLECTION='1234';
+our $VERSION = 0.2.1;
 
 sub _uniq_values {
 	my %met;
@@ -52,15 +50,15 @@ sub _uniq_values {
 
 sub _extract_plural_with_cases_dewikt {
 	my ($section_ref, $article_regex) = @_;
-	my @singular_forms = $$section_ref =~ /Nominativ Singular[^=\n]*=(.+)/g;
-	my @plural_forms = $$section_ref =~ /Nominativ Plural[^=\n]*=(.+)/g;
+	my @singular_forms = $$section_ref =~ /Nominativ Singular[^=\n]*=([^|}\n]+)/g;
+	my @plural_forms = $$section_ref =~ /Nominativ Plural[^=\n]*=([^|}\n]+)/g;
 	_filter_forms(\@singular_forms, \@plural_forms, $article_regex);
 }
 
 sub _extract_simple_plural_dewikt {
 	my ($section_ref, $article_regex) = @_;
-	my @singular_forms = $$section_ref =~ /\| *Singular[ \d]*=(.+)/g;
-	my @plural_forms = $$section_ref =~ /\| *Plural[ \d]*=(.+)/g;
+	my @singular_forms = $$section_ref =~ /^\|? *Singular[ \d]*=([^|}\n]+)/gm;
+	my @plural_forms = $$section_ref =~ /^\|? *Plural[ \d]*=([^|}\n]+)/gm;
 	_filter_forms(\@singular_forms, \@plural_forms, $article_regex);
 }
 
