@@ -1,0 +1,18 @@
+{{Niederländisch Verb Übersicht
+|1. Person Singular=beval
+|2. Person Singular=bevalt
+|3. Person Singular=bevalt
+|1. Person Präteritum=beviel
+|2. Person Präteritum=beviel
+|3. Person Präteritum=beviel
+|Plural Präsens=bevallen
+|Plural Präteritum=bevielen
+|Partizip Präsens=bevallend
+|Partizip Perfekt=(zijn) bevallen
+|Konjunktiv Singular=bevalle
+|Imperativ Singular=beval
+|eig=1
+|s=o
+|k=7
+|syn=erg
+}}

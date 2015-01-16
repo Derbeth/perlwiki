@@ -59,8 +59,8 @@ sub _extract_plural_with_cases_dewikt {
 
 sub _extract_simple_plural_dewikt {
 	my ($section_ref, $article_regex) = @_;
-	my @singular_forms = $$section_ref =~ /\| *Singular[^=\n]*=(.+)/g;
-	my @plural_forms = $$section_ref =~ /\| *Plural[^=\n]*=(.+)/g;
+	my @singular_forms = $$section_ref =~ /\| *Singular[ \d]*=(.+)/g;
+	my @plural_forms = $$section_ref =~ /\| *Plural[ \d]*=(.+)/g;
 	_filter_forms(\@singular_forms, \@plural_forms, $article_regex);
 }
 

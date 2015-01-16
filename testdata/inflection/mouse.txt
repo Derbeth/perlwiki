@@ -1,0 +1,7 @@
+{{Englisch Substantiv Übersicht
+|Singular=the mouse
+|Plural 1=the mice
+|Plural 2=the mouses
+|Bild 1=House mouse.jpg|thumb|1|a house ''mouse''
+|Bild 2=3-Tastenmaus Microsoft.jpg|thumb|2|a computer ''mouse''
+}}

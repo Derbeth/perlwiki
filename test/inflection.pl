@@ -21,6 +21,7 @@ sub test_extract_plural {
 	$checked += check_extract('de', 'de', 'ignore-word', 'Sein.txt', ['Sein'], []);
 	$checked += check_extract('de', 'de', 'machen', 'machen.txt', [], []); # a verb
 	$checked += check_extract('de', 'en', 'ignore-word', 'house.txt', ['house'], ['houses']);
+	$checked += check_extract('de', 'en', 'ignore-word', 'mouse.txt', ['mouse'], ['mice', 'mouses']);
 	$checked += check_extract('de', 'en', 'ignore-word', 'police.txt', ['police'], []);
 	$checked += check_extract('de', 'en', 'ignore-word', 'tea.txt', ['tea'], []);
 	$checked += check_extract('de', 'en', 'investigate', 'investigate.txt', [], []);
@@ -32,6 +33,7 @@ sub test_extract_plural {
 	$checked += check_extract('de', 'it', 'ignore-word', 'scarpa.txt', ['scarpa'], ['scarpe']);
 	$checked += check_extract('de', 'it', 'ignore-word', 'soldo.txt', ['soldo'], ['soldi']);
 	$checked += check_extract('de', 'nl', 'ignore-word', 'hoofd.txt', ['hoofd'], ['hoofden']);
+	$checked += check_extract('de', 'nl', 'bevallen', 'bevallen.txt', [], []); # verb
 	$checked += check_extract('de', 'pl', 'ignore-word', 'matka.txt', ['matka'], ['matki']);
 	$checked += check_extract('de', 'sk', 'ignore-word', 'genius.txt', ['génius'], ['géniovia']);
 	$checked += check_extract('de', 'xx', 'ignore-word', 'hoofd.txt', [], []);
