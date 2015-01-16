@@ -90,11 +90,19 @@ sub extract_plural {
 			return _extract_plural_with_cases_dewikt($section_ref, '(der|die|das) ');
 		} elsif ($lang eq 'en') {
 			return _extract_simple_plural_dewikt($section_ref, 'the ');
+		} elsif($lang eq 'es') {
+			return _extract_simple_plural_dewikt($section_ref, '(el|los|la|las) ');
+		} elsif($lang eq 'fr') {
+			return _extract_simple_plural_dewikt($section_ref, '(le |la |les |l\'|l’)');
+		} elsif ($lang eq 'hsb') {
+			return _extract_plural_with_cases_dewikt($section_ref);
 		} elsif ($lang eq 'it') {
 			return _extract_simple_plural_dewikt($section_ref, '(la |le |lo |gli |il |i |l\'|l’)');
 		}  elsif ($lang eq 'nl') {
 			return _extract_simple_plural_dewikt($section_ref, '(het|de) ');
 		} elsif ($lang eq 'pl') {
+			return _extract_plural_with_cases_dewikt($section_ref);
+		} elsif ($lang eq 'sk') {
 			return _extract_plural_with_cases_dewikt($section_ref);
 		}
 	}

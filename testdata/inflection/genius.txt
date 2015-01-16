@@ -1,0 +1,14 @@
+{{Slowakisch Substantiv Übersicht
+|Nominativ Singular=génius
+|Genitiv Singular=génia
+|Dativ Singular=géniovi
+|Akkusativ Singular=génia
+|Lokativ Singular=géniovi
+|Instrumental Singular=géniom
+|Nominativ Plural=géniovia
+|Genitiv Plural=géniov
+|Dativ Plural=géniom
+|Akkusativ Plural=géniov
+|Lokativ Plural=génioch
+|Instrumental Plural=géniami
+}}

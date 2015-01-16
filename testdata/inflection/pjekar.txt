@@ -1,0 +1,23 @@
+{{Obersorbisch Substantiv Übersicht
+|Nominativ Singular=pjekar
+|Nominativ Dual=pjekarjej
+|Nominativ Plural=pjekarjo
+|Genitiv Singular=pjekarja
+|Genitiv Dual=pjekarjow
+|Genitiv Plural=pjekarjow
+|Dativ Singular=pjekarjej
+|Dativ Dual=pjekarjomaj
+|Dativ Plural=pjekarjam
+|Akkusativ Singular=pjekarja
+|Akkusativ Dual=pjekarjow
+|Akkusativ Plural=pjekarjow
+|Instrumental Singular=pjekarjom
+|Instrumental Dual=pjekarjomaj
+|Instrumental Plural=pjekarjemi
+|Lokativ Singular=pjekarju
+|Lokativ Dual=pjekarjomaj
+|Lokativ Plural=pjekarjach
+|Vokativ Singular=pjekarjo
+|Vokativ Dual=
+|Vokativ Plural=
+}}
