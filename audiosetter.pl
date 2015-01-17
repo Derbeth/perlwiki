@@ -34,6 +34,7 @@ use Derbeth::Inflection;
 use Derbeth::Util;
 use Encode;
 use Getopt::Long;
+use Term::ANSIColor;
 
 use strict;
 use utf8;
@@ -315,7 +316,7 @@ foreach my $l (@langs) {
 			if ($debug_mode) {
 				print DEBUG encode_utf8($page_text),"\n";
 			}
-			print encode_utf8($word),': CANNOT add audio; ';
+			print encode_utf8($word),': ', colored('CANNOT', 'red'), ' add audio; ';
 			print encode_utf8($edit_summary), "\n";
 			print ERRORS encode_utf8($word),"($wikt_lang,$lang_code): CANNOT add audio; ";
 			print ERRORS encode_utf8($edit_summary), "\n";
@@ -355,7 +356,7 @@ foreach my $l (@langs) {
 				$added_files += $audios_count;
 				++$edited_pages;
 			} else {
-				print STDERR 'edit FAILED for ',encode_utf8($word);
+				print STDERR 'edit ', colored('FAILED', 'red'), ' for ',encode_utf8($word);
 				print STDERR " details: $editor->{error}->{details}" if $editor->{error};
 				print STDERR "\n";
 				mark_done($word,'error');
@@ -426,7 +427,8 @@ sub is_done {
 }
 
 sub print_progress {
-	printf STDERR '%d/%d %2.0f%%', $processed_words, $word_count, 100*$processed_words/$word_count;
+	print STDERR "$processed_words/$word_count";
+	printf STDERR colored(' %2.0f%%', 'green'), 100*$processed_words/$word_count;
 	unless($filter_mode) {
 		print STDERR " added $added_files files for ", $lang_code;
 		print STDERR ' at ',$wikt_lang,"wikt";
