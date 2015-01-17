@@ -422,7 +422,7 @@ sub is_done {
 }
 
 sub print_progress {
-	print STDERR "$processed_words/$word_count";
+	printf STDERR '%d/%d %2.0f%%', $processed_words, $word_count, 100*$processed_words/$word_count;
 	unless($filter_mode) {
 		print STDERR " added $added_files files for ", $lang_code;
 		print STDERR ' at ',$wikt_lang,"wikt";

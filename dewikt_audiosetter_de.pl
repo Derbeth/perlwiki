@@ -264,5 +264,6 @@ sub is_done {
 }
 
 sub print_progress {
-	print STDERR "$processed_words/$word_count added $added_files files\n";
+	printf STDERR '%d/%d %2.0f%%', $processed_words, $word_count, 100*$processed_words/$word_count;
+	print STDERR " added $added_files files\n";
 }
