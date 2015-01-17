@@ -42,11 +42,10 @@ my $debug_mode=0;  # does not write anything to wiki, writes to
 
 my $edited_pages_limit=80000; # bot won't change more that x number of pages
 
-my $wikt_lang='de';   # 'en','de','pl'; other Wiktionaries are not
-                      # supported
-
+my $wikt_lang='de';   # 'en','de','pl'; other Wiktionaries are not supported
 my $lang_code='de';
 my $language=get_language_name('de',$lang_code);
+my $pause=2;          # number of seconds to wait before fetching each page
 my $randomize=0; # edit pages in random order
 my $verbose=0;
 
@@ -61,7 +60,8 @@ Derbeth::Web::enable_caching(1);
 
 # ============ end settings
 
-GetOptions('p|limit=i' => \$edited_pages_limit, 'r|random!' => \$randomize, 'v|verbose!' => \$verbose) or die;
+GetOptions('p|limit=i' => \$edited_pages_limit, 'r|random!' => \$randomize, 'v|verbose!' => \$verbose,
+	'pause=i' => \$pause) or die;
 
 my %done; # langcode-skip_word => 1
 my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
@@ -137,7 +137,7 @@ foreach my $word (@entries) {
 	}
 
 	if (!$debug_mode) {
-		sleep 2;
+		sleep $pause;
 	}
 
 	++$visited_pages;

@@ -99,7 +99,7 @@ my $filtered_audio_filename;
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
 		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize,
 		'input|i=s'=> \$input_list, 'word=s' => \$only_words,
-		'verbose|v' => \$verbose) or die;
+		'verbose|v' => \$verbose, 'pause=i' => \$pause) or die;
 	
 	die "provide -w and -l correctly!" unless($wikt_lang && ($lang_codes || $all_langs));
 	die "cannot specify both -a and -l" if ($lang_codes && $all_langs);
