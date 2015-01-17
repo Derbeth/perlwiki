@@ -47,6 +47,7 @@ my $wikt_lang='de';   # 'en','de','pl'; other Wiktionaries are not
 my $lang_code='de';
 my $language=get_language_name('de',$lang_code);
 my $randomize=0; # edit pages in random order
+my $verbose=0;
 
 my %settings = load_hash('settings.ini');
 
@@ -59,7 +60,7 @@ Derbeth::Web::enable_caching(1);
 
 # ============ end settings
 
-GetOptions('p|limit=i' => \$edited_pages_limit, 'r|random!' => \$randomize) or die;
+GetOptions('p|limit=i' => \$edited_pages_limit, 'r|random!' => \$randomize, 'v|verbose!' => \$verbose) or die;
 
 my %done; # langcode-skip_word => 1
 my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
@@ -124,7 +125,7 @@ if ($randomize) {
 foreach my $word (@entries) {
 	++$processed_words;
 	if (is_done($word) && !$debug_mode) {
-		print encode_utf8($word),": already done\n" if ($visited_pages > 0);
+		print encode_utf8($word),": already done\n" if ($visited_pages > 0 && $verbose);
 		next;
 	}
 
@@ -134,13 +135,13 @@ foreach my $word (@entries) {
 		next;
 	}
 
-	++$visited_pages;
-	print_progress() if ($visited_pages % 200 == 1);
-		
 	if (!$debug_mode) {
 		sleep 2;
 	}
-	
+
+	++$visited_pages;
+	print_progress() if ($visited_pages % 200 == 1);
+
 	my $page_text = $editor->get_text($word);
 	my $original_page_text = $page_text;
 	if (!defined($page_text)) {

@@ -46,6 +46,7 @@ my $filter_mode=0; # only filters data from audio_xy.txt to
                    # enwikt_audio_xy.txt
                    # disables $debug_mode
 my $randomize=0;   # process entries in random order
+my $verbose=0;
 my $clean_cache=0;
 my $clean_start=0; # removes all done files etc.
 my $stop_on_error=1;
@@ -96,7 +97,8 @@ my $filtered_audio_filename;
 		'l|lang=s' => \$lang_codes, 'w|wikt=s' => \$wikt_lang, 'all|a' => \$all_langs,
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
 		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize,
-		'input|i=s'=> \$input_list, 'word=s' => \$only_words) or die;
+		'input|i=s'=> \$input_list, 'word=s' => \$only_words,
+		'verbose|v' => \$verbose) or die;
 	
 	die "provide -w and -l correctly!" unless($wikt_lang && ($lang_codes || $all_langs));
 	die "cannot specify both -a and -l" if ($lang_codes && $all_langs);
@@ -237,14 +239,14 @@ foreach my $l (@langs) {
 		print "using input list: ", encode_utf8($input_list), "\n";
 	}
 	$word_count=scalar(@keys);
+	my $small_count = $word_count < 400;
 	foreach my $word (@keys) {
 		next if ($only_words && ! exists $forced_words{$word});
 
 		++$processed_words;
-		print_progress() if ($processed_words % 200 == 0);
-		
+
 		if (is_done($word) && !$debug_mode) {
-			print encode_utf8($word),": already done\n";
+			print encode_utf8($word),": already done\n" if ($visited_pages > 0 && ($verbose || $small_count));
 			next;
 		}
 
@@ -256,6 +258,9 @@ foreach my $l (@langs) {
 		if (!$debug_mode && !$filter_mode) {
 			sleep $pause;
 		}
+
+		++$visited_pages;
+		print_progress() if ($visited_pages % 200 == 1);
 
 		my $page_text;
 		if ($filter_mode || $debug_mode) {
@@ -269,7 +274,7 @@ foreach my $l (@langs) {
 			if ($editor->{error} && $editor->{error}->{code}) {
 				last; # network error
 			}
-			print "entry does not exist: ",encode_utf8($word),"\n";
+			print "entry does not exist: ",encode_utf8($word),"\n" if ($verbose || $small_count);
 			mark_done($word,'no_entry');
 			next;
 		}
@@ -299,7 +304,6 @@ foreach my $l (@langs) {
 			mark_done($word,'has_audio');
 			next;
 		}
-		++$visited_pages;
 		
 		if ($debug_mode) {
 			print ORIG encode_utf8($original_page_text),"\n";
