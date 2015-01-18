@@ -994,11 +994,11 @@ sub final_cosmetics_dewikt {
 
 	my $fixed_old_regional = 0;
 	while (my ($old_regional,$regional_param) = each %Derbeth::I18n::text_to_regional_param_dewikt) {
-		if ($$page_text_ref =~ s/(\{\{[aA]udio[^}]+)\| *($word|\{\{PAGENAME\}\}) \($old_regional\) *\}\}/$1|spr=$regional_param}}/) {
+		if ($$page_text_ref =~ s/(\{\{[aA]udio[^}]+)\| *($word|\{\{PAGENAME\}\}) \($old_regional\) *\}\}/$1|spr=$regional_param}}/g) {
 			$fixed_old_regional = 1;
 		}
 		if ($plural) {
-			if ($$page_text_ref =~ s/(\{\{[aA]udio[^}]+)\| *$plural \($old_regional\) *\}\}/$1|$plural|spr=$regional_param}}/) {
+			if ($$page_text_ref =~ s/(\{\{[aA]udio[^}]+)\| *$plural \($old_regional\) *\}\}/$1|$plural|spr=$regional_param}}/g) {
 				$fixed_old_regional = 1;
 			}
 		}

@@ -12,4 +12,4 @@
 
 {{Aussprache}}
 :{{IPA}} {{Lautschrift|kæt}}, {{Pl.}} {{Lautschrift|kæʦ}}
-:{{Hörbeispiele}} {{Audio|En-au-cat.ogg|cat (australisch)}} {{Audio|En-ca-cat.oga|spr=ca}} {{Audio|En-uk-a cat.ogg|spr=uk}} {{Audio|En-us-cat.ogg|spr=us}}, {{Pl.}} {{Audio|}}
+:{{Hörbeispiele}} {{Audio|En-au-cat.ogg|cat (australisch)}} {{Audio|En-ca-cat.oga|spr=ca}} {{Audio|En-uk-a cat.ogg|spr=uk}} {{Audio|En-uk-cat.ogg|spr=uk}} {{Audio|En-us-cat.ogg|spr=us}}, {{Pl.}} {{Audio|}}
