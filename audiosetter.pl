@@ -296,7 +296,10 @@ foreach my $l (@langs) {
 		# ===== section processing =======
 		
 		my ($pron,$pron_pl,$sing,$plural) = find_pronunciation_files($wikt_lang,$lang_code,$word,\$section,\%pronunciation);
-		die "error finding audios for ".encode_utf8($word) if (!$pron && !$pron_pl);
+		if (!$pron && !$pron_pl && !$sing && !$plural) {
+			save_results();
+			die "error finding audios for ".encode_utf8($word);
+		}
 		my ($result,$audios_count,$edit_summary)
 			= add_audio($wikt_lang,\$section,$pron,$lang_code,$filter_mode,$word,$pron_pl,$plural);
 		

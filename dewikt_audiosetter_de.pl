@@ -170,7 +170,10 @@ foreach my $word (@entries) {
 	# ===== section processing =======
 
 	my ($pron, $pron_pl, $sing, $plural) = find_pronunciation_files('de', 'de', $word, \$section, \%pronunciation);
-	die "error finding audios for ".encode_utf8($word) if (!$pron && !$pron_pl);
+	if (!$pron && !$pron_pl && !$sing && !$plural) {
+		save_results();
+		die "error finding audios for ".encode_utf8($word);
+	}
 	my ($result,$audios_count,$edit_summary)
 		= add_audio('de',\$section,$pron,$lang_code,0,$word,$pron_pl,$plural);
 
