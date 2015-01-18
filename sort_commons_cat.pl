@@ -23,82 +23,124 @@
 # THE SOFTWARE.
 
 use MediaWiki::Bot;
-use Derbeth::Wikitools;
-use Derbeth::Wiktionary;
 use Derbeth::I18n;
-use Derbeth::Inflection;
 use Derbeth::Util;
+use Derbeth::Wikitools;
 use Encode;
+use Getopt::Long;
+use Term::ANSIColor;
 
 use strict;
 use utf8;
 
 # ========== settings
 my $category_name = 'German pronunciation';
-
-my %settings = load_hash('settings.ini');
-my $user = $settings{'bot_login'};
-my $pass = $settings{'bot_password'};
+my $lang_code = 'de';
+my $page_regex = undef;
+my $limit=undef;
+my $pause=2;
+my $clean=0;
+my $debug=0;
 
 my $donefile = "done/sort_commons_cat.txt";
-Derbeth::Web::enable_caching(1);
 # ============ end settings
 
+GetOptions(
+	'c|category=s' => \$category_name,
+	'l|lang=s' => \$lang_code,
+	'r|regex=s' => \$page_regex,
+	'limit=i' => \$limit,
+	'clean' => \$clean,
+	'd|debug' => \$debug,
+	'p|pause' => \$pause,
+) or die;
+
+$page_regex ||= "File:$lang_code".'[- ]([^.]+)\.og[ag]';
+
+my %settings = load_hash('settings.ini');
 my %done;
+unlink $donefile if ($clean && -e $donefile);
 read_hash_loose($donefile, \%done);
 
 $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit; };
 
 # ======= main
 
-my $editor=MediaWiki::Bot->new($user);
-$editor->{debug} = 1;
-$editor->set_wiki('commons.wikimedia.org', 'w');
-my $res = $editor->login($user, $pass); # die "cannot login $res $user $pass";
+my $editor = MediaWiki::Bot->new({
+	assert => 'bot',
+	host => 'commons.wikimedia.org',
+	debug => $debug,
+	login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
+	operator => $settings{bot_operator},
+});
+
+print "Fixing pages like $page_regex in $category_name\n";
 
 if (scalar(keys %done) == 0) {
-	foreach my $page (get_category_contents('http://commons.wikimedia.org/w/',"Category:$category_name")) {
+	foreach my $page (Derbeth::Wikitools::get_category_contents_perlwikipedia($editor, "Category:$category_name",undef,{file=>1})) {
 		$done{$page} = 'not_done';
 	}
 }
 
-print scalar(keys %done), " pages\n";
+my $pages_count = scalar(keys %done);
+print "$pages_count pages\n";
+my $progress_every = $pages_count < 400 ? 50 : 100;
+my $visited_pages=0;
+my $processed_pages=0;
+my $fixed_count=0;
 
 foreach my $page (sort keys(%done)) {
+	++$processed_pages;
+
+	print_progress() if $visited_pages > 0 && $processed_pages % $progress_every == 0;
+
 	my $is_done = $done{$page};
 	next if ($is_done eq 'not_fixed' || $is_done eq 'skipped' || $is_done eq 'fixed');
 
-	if ($page =~ /De-([^.]+)\.ogg/i) {
-		my $sortkey = $1;
-		$sortkey =~ s/^(at)-//i;
-
-		my $text = $editor->get_text($page);
-		my $fixx = ($text =~ s/\|(at)-[^\]]+\]\]/]]/i);
-		my $changed = ($text =~ s/\[\[ *Category *: *($category_name)\]\]/[[Category:$1|$sortkey]]/);
-		if (!$changed && !$fixx) {
-			print "nothing to fix: ", encode_utf8($page), "\n";
-			$done{$page} = 'not_fixed';
-		} else {
-			my $edited = $editor->edit($page,$text,'catsort',1);
-			if ($edited) {
-				print "fixed ", encode_utf8($page), "\n";
-				$done{$page} = 'fixed';
-				#last;
-			} else {
-				die "failed to fix ", encode_utf8($page);
-			}
-		}
-	} else {
+	if ($page !~ /$page_regex/io) {
 		print "skipping because of name ", encode_utf8($page), "\n";
 		$done{$page} = 'skipped';
+		next;
+	}
+	my $sortkey = $1;
+	$sortkey =~ s/^(at)-//i;
+
+	++$visited_pages;
+	sleep $pause;
+
+	my $text = $editor->get_text($page);
+	my $changed = ($text =~ s/\[\[ *Category *: *($category_name) *\]\]/[[Category:$1|$sortkey]]/);
+	if (!$changed) {
+		print "nothing to fix: ", encode_utf8($page), "\n";
+		$done{$page} = 'not_fixed';
+		next;
+	}
+	my $edited = $editor->edit({page=>$page, text=>$text, bot=>1, minor=>1,
+		summary=>"sort in Category:$category_name ($sortkey)"});
+	if (!$edited) {
+		save_results();
+		die "failed to fix ", encode_utf8($page);
+	}
+	print encode_utf8("fixed $page using sort '$sortkey'\n");
+	$done{$page} = 'fixed';
+	++$fixed_count;
+
+	if ($limit && $fixed_count >= $limit) {
+		last;
 	}
 }
 
+print_progress();
 save_results();
 
 # ======= end main
 
+sub print_progress {
+	print "$processed_pages/$pages_count";
+	printf colored(' %2.0f%%', 'green'), 100*$processed_pages/$pages_count;
+	print " fixed $fixed_count\n";
+}
+
 sub save_results {
 	save_hash_sorted($donefile, \%done);
 }
-

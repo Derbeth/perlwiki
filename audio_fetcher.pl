@@ -376,7 +376,7 @@ my $editor = Derbeth::Wikitools::create_editor($server);
 
 foreach my $cat (sort(keys(%categories))) {
 	my $code = $categories{$cat};
-	my @pages=Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,'Category:'.$cat,undef,{all=>1});
+	my @pages=Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,'Category:'.$cat,undef,{file=>1});
 	print 'Category: ',encode_utf8($cat),' pages: ';
 	print scalar(@pages), "\n";
 
