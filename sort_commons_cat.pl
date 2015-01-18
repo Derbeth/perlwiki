@@ -52,7 +52,7 @@ GetOptions(
 	'limit=i' => \$limit,
 	'clean' => \$clean,
 	'd|debug' => \$debug,
-	'p|pause' => \$pause,
+	'p|pause=i' => \$pause,
 ) or die;
 
 $page_regex ||= "File:$lang_code".'[- ]([^.]+)\.og[ag]';
