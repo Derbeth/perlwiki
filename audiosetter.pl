@@ -273,7 +273,7 @@ foreach my $l (@langs) {
 		my $original_page_text = $page_text;
 		if (!defined($page_text)) {
 			if ($editor->{error} && $editor->{error}->{code}) {
-				print STDERR encode_utf8("cannot get text of $word: "), $editor->{error}->{details}, "\n";
+				print STDERR colored('cannot', 'red'), encode_utf8(" get text of $word: "), $editor->{error}->{details}, "\n";
 				last; # network error
 			}
 			print "entry does not exist: ",encode_utf8($word),"\n" if ($verbose || $small_count);
