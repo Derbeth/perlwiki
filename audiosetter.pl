@@ -431,7 +431,8 @@ sub is_done {
 }
 
 sub print_progress {
-	print STDERR "$processed_words/$word_count";
+	my ($sec,$min,$hour) = localtime();
+	printf STDERR '%02d:%02d %d/%d', $hour, $min, $processed_words, $word_count;
 	printf STDERR colored(' %2.0f%%', 'green'), 100*$processed_words/$word_count;
 	unless($filter_mode) {
 		print STDERR " added $added_files files for ", $lang_code;

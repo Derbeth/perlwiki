@@ -147,7 +147,8 @@ save_results();
 # ======= end main
 
 sub print_progress {
-	print "$processed_pages/$pages_count";
+	my ($sec,$min,$hour) = localtime();
+	printf '%02d:%02d %d/%d', $hour, $min, $processed_pages, $pages_count;
 	printf colored(' %2.0f%%', 'green'), 100*$processed_pages/$pages_count;
 	print " fixed $fixed_count\n";
 }
