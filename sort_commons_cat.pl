@@ -62,7 +62,7 @@ my %done;
 unlink $donefile if ($clean && -e $donefile);
 read_hash_loose($donefile, \%done);
 
-$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit 1; };
+$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { print_progress(); save_results(); exit 1; };
 
 # ======= main
 
