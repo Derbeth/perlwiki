@@ -109,6 +109,15 @@ foreach my $page (sort keys(%done)) {
 	sleep $pause;
 
 	my $text = $editor->get_text($page);
+	unless (defined($text)) {
+		if ($editor->{error}) {
+			print encode_utf8("cannot get text of $page: "), $editor->{error}->{details}, "\n";
+		} else {
+			print encode_utf8("unknown error getting text of $page\n");
+		}
+		last;
+	}
+
 	my $changed = ($text =~ s/\[\[ *Category *: *($category_name) *\]\]/[[Category:$1|$sortkey]]/);
 	if (!$changed) {
 		print "nothing to fix: ", encode_utf8($page), "\n";
@@ -118,8 +127,10 @@ foreach my $page (sort keys(%done)) {
 	my $edited = $editor->edit({page=>$page, text=>$text, bot=>1, minor=>1,
 		summary=>"sort in Category:$category_name ($sortkey)"});
 	if (!$edited) {
-		save_results();
-		die "failed to fix ", encode_utf8($page);
+		print "failed to fix ", encode_utf8($page);
+		print " details: $editor->{error}->{details}" if $editor->{error};
+		print "\n";
+		last;
 	}
 	print encode_utf8("fixed $page using sort '$sortkey'\n");
 	$done{$page} = 'fixed';
