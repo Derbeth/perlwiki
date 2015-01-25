@@ -332,9 +332,7 @@ foreach my $l (@langs) {
 			mark_done($word,'to_add');
 			next;
 		}
-		
-		
-		
+
 		# === end section processing
 		
 		$page_text = $before.$section.$after;
@@ -378,7 +376,6 @@ foreach my $l (@langs) {
 	
 	save_results('finish');
 } # foreach language
-close ERRORS;
 
 sub save_results {
 	my $finish = shift;
@@ -393,6 +390,7 @@ sub save_results {
 
 	} else {
 		print_progress();
+		close ERRORS;
 		if ($debug_mode && $finish) {close DEBUG; exit(0); }
 
 		add_audio_count('done/audio_count_'.$wikt_lang.'wikt.txt', $lang_code, $added_files);

@@ -227,7 +227,7 @@ foreach my $word (@entries) {
 
 } continue {
 	if ($edited_pages >= $edited_pages_limit) {
-		print "interrupted\n";
+		print "limit ($edited_pages_limit) reached\n";
 		last;
 	}
 }
