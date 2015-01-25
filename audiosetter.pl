@@ -359,7 +359,6 @@ foreach my $l (@langs) {
 				print STDERR 'edit ', colored('FAILED', 'red'), ' for ',encode_utf8($word);
 				print STDERR " details: $editor->{error}->{details}" if $editor->{error};
 				print STDERR "\n";
-				mark_done($word,'error');
 				last if $stop_on_error;
 				next; # something went wrong, don't mark as done
 			}

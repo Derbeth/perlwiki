@@ -222,7 +222,6 @@ foreach my $word (@entries) {
 			print STDERR 'edit ', colored('FAILED', 'red'), ' for ',encode_utf8($word);
 			print STDERR " details: $editor->{error}->{details}" if $editor->{error};
 			print STDERR "\n";
-			mark_done($word,'error');
 		}
 	}
 
