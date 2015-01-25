@@ -214,7 +214,7 @@ foreach my $word (@entries) {
 		my $response = $editor->edit({page=>$word, text=>$page_text,
 			summary=>$edit_summary, bot=>1});
 		if ($response) {
-			mark_done($word, 'added_audio');
+			mark_done($word, 'added');
 			print encode_utf8("edited $word: $edit_summary\n");
 			$added_files += $audios_count;
 			++$edited_pages;
