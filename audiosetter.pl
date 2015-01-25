@@ -247,12 +247,12 @@ foreach my $l (@langs) {
 		++$processed_words;
 
 		if (is_done($word) && !$debug_mode) {
-			print encode_utf8($word),": already done\n" if ($visited_pages > 0 && ($verbose || $small_count));
+			print encode_utf8("already done: $word\n") if ($visited_pages > 0 && ($verbose || $small_count));
 			next;
 		}
 
 		if ($filter_mode && exists($pronunciation_filtered{$word})) {
-			print encode_utf8($word),": already filtered\n";
+			print encode_utf8("already filtered: $word\n");
 			next;
 		}
 
@@ -305,7 +305,7 @@ foreach my $l (@langs) {
 			= add_audio($wikt_lang,\$section,$pron,$lang_code,$filter_mode,$word,$pron_pl,$plural);
 		
 		if ($result == 1) {
-			print encode_utf8($word),": has audio\n";
+			print encode_utf8("has audio: $word\n");
 			mark_done($word,'has_audio');
 			next;
 		}
@@ -320,8 +320,7 @@ foreach my $l (@langs) {
 			if ($debug_mode) {
 				print DEBUG encode_utf8($page_text),"\n";
 			}
-			print encode_utf8($word),': ', colored('CANNOT', 'red'), ' add audio; ';
-			print encode_utf8($edit_summary), "\n";
+			print colored('CANNOT', 'red'), encode_utf8(" add audio to $word; $edit_summary\n");
 			print ERRORS encode_utf8($word),"($wikt_lang,$lang_code): CANNOT add audio; ";
 			print ERRORS encode_utf8($edit_summary), "\n";
 			next;
@@ -343,20 +342,17 @@ foreach my $l (@langs) {
 		my $final_cosm_summary = final_cosmetics($wikt_lang, \$page_text, $word, $plural);
 		$edit_summary .= '; '.$initial_summary if ($initial_summary);
 		$edit_summary .= '; '.$final_cosm_summary if ($final_cosm_summary);
-		
-		
-		
+
 		if ($debug_mode) {
 			print DEBUG encode_utf8($page_text),"\n";
 			$added_files += $audios_count;
 			++$edited_pages;
 		} else {
-		
-			# was: encode_utf8($edit_summary)
 			my $response = $editor->edit({page=>$word, text=>$page_text,
 				summary=>$edit_summary, bot=>1});
 			if ($response) {
-				print encode_utf8($word),': ',encode_utf8($edit_summary),"\n";
+				mark_done($word,'added');
+				print encode_utf8("edited $word: $edit_summary\n");
 				$added_files += $audios_count;
 				++$edited_pages;
 			} else {
@@ -368,9 +364,7 @@ foreach my $l (@langs) {
 				next; # something went wrong, don't mark as done
 			}
 		}
-		mark_done($word,'added');
-		
-		
+
 	} continue {
 		if ($edited_pages >= $page_limit) {
 			print "limit ($page_limit) reached\n";
@@ -397,15 +391,15 @@ sub save_results {
 		#print STDERR 'processed ',$processed_words,' of ';
 		#print STDERR scalar(keys(%pronunciation)),"\n";
 		save_hash_sorted($filtered_audio_filename,\%pronunciation_filtered);
-		
+
 	} else {
 		print_progress();
 		if ($debug_mode && $finish) {close DEBUG; exit(0); }
-		
+
 		add_audio_count('done/audio_count_'.$wikt_lang.'wikt.txt', $lang_code, $added_files);
 		$added_files = 0;
 	}
-	
+
 	save_hash_sorted($donefile, \%done);
 }
 

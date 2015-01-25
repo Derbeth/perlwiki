@@ -111,7 +111,7 @@ foreach my $page (sort keys(%done)) {
 	my $text = $editor->get_text($page);
 	unless (defined($text)) {
 		if ($editor->{error}) {
-			print colored('cannot','red'), encode_utf8("get text of $page: "), $editor->{error}->{details}, "\n";
+			print colored('cannot','red'), encode_utf8(" get text of $page: "), $editor->{error}->{details}, "\n";
 		} else {
 			print 'unknown ', colored('error','red'), encode_utf8(" getting text of $page\n");
 		}

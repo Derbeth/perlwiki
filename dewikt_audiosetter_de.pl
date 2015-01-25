@@ -126,7 +126,7 @@ if ($randomize) {
 foreach my $word (@entries) {
 	++$processed_words;
 	if (is_done($word) && !$debug_mode) {
-		print encode_utf8($word),": already done\n" if ($visited_pages > 0 && $verbose);
+		print encode_utf8("already done: $word\n") if ($visited_pages > 0 && $verbose);
 		next;
 	}
 
@@ -183,7 +183,7 @@ foreach my $word (@entries) {
 	}
 
 	if ($result == 1) {
-		print encode_utf8($word),": already has audio\n";
+		print encode_utf8("has audio: $word\n");
 		mark_done($word, 'has_audio');
 		next;
 	}
@@ -192,8 +192,7 @@ foreach my $word (@entries) {
 		if ($debug_mode) {
 			print DEBUG encode_utf8($page_text),"\n";
 		}
-		print encode_utf8($word),': ', colored('CANNOT', 'red'), ' add audio; ';
-		print encode_utf8($edit_summary), "\n";
+		print colored('CANNOT', 'red'), encode_utf8(" add audio to $word; $edit_summary\n");
 		print ERRORS encode_utf8($word),': CANNOT add audio; ';
 		print ERRORS encode_utf8($edit_summary), "\n";
 		next;
@@ -207,18 +206,18 @@ foreach my $word (@entries) {
 	$edit_summary .= '; '.$initial_summary if ($initial_summary);
 	$edit_summary .= '; '.$final_summary if ($final_summary);
 
-	print encode_utf8($word),': ',encode_utf8($edit_summary),"\n";
-
-	++$edited_pages;
 	if ($debug_mode) {
 		print DEBUG encode_utf8($page_text),"\n";
+		$added_files += $audios_count;
+		++$edited_pages;
 	} else {
-
 		my $response = $editor->edit({page=>$word, text=>$page_text,
 			summary=>$edit_summary, bot=>1});
 		if ($response) {
 			mark_done($word, 'added_audio');
+			print encode_utf8("edited $word: $edit_summary\n");
 			$added_files += $audios_count;
+			++$edited_pages;
 		} else {
 			print STDERR 'edit ', colored('FAILED', 'red'), ' for ',encode_utf8($word);
 			print STDERR " details: $editor->{error}->{details}" if $editor->{error};
