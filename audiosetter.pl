@@ -179,7 +179,7 @@ $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); close ERRORS
 
 # ========== Main loop
 
-foreach my $l (@langs) {
+LANGUAGES: foreach my $l (@langs) {
 	if ($wikt_lang eq 'de' && $l eq 'de') {
 		print "Skipping de, run ./dewikt_audiosetter_de.pl\n";
 		next;
@@ -298,7 +298,8 @@ foreach my $l (@langs) {
 		
 		my ($pron,$pron_pl,$sing,$plural) = find_pronunciation_files($wikt_lang,$lang_code,$word,\$section,\%pronunciation);
 		if (!$pron && !$pron_pl && !$sing && !$plural) {
-			save_results();
+			save_results('finish');
+			close ERRORS;
 			die "error finding audios for ".encode_utf8($word);
 		}
 		my ($result,$audios_count,$edit_summary)
@@ -366,7 +367,7 @@ foreach my $l (@langs) {
 		if ($edited_pages >= $page_limit) {
 			print "limit ($page_limit) reached\n";
 			save_results('finish');
-			exit;
+			last LANGUAGES;
 		}
 		if ($visited_pages - $last_save > $save_every) {
 			$last_save = $visited_pages;
@@ -376,6 +377,7 @@ foreach my $l (@langs) {
 	
 	save_results('finish');
 } # foreach language
+close ERRORS;
 
 sub save_results {
 	my $finish = shift;
@@ -390,7 +392,6 @@ sub save_results {
 
 	} else {
 		print_progress();
-		close ERRORS;
 		if ($debug_mode && $finish) {close DEBUG; exit(0); }
 
 		add_audio_count('done/audio_count_'.$wikt_lang.'wikt.txt', $lang_code, $added_files);
