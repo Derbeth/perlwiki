@@ -40,6 +40,7 @@ my $page_regex = undef;
 my $limit=undef;
 my $pause=2;
 my $clean=0;
+my $verbose=0;
 my $debug=0;
 
 my $donefile = "done/sort_commons_cat.txt";
@@ -53,6 +54,7 @@ GetOptions(
 	'clean' => \$clean,
 	'd|debug' => \$debug,
 	'p|pause=i' => \$pause,
+	'v|verbose' => \$verbose,
 ) or die;
 
 $page_regex ||= "File:$lang_code".'[- ]([^.]+)\.og[ag]';
@@ -98,7 +100,7 @@ foreach my $page (sort keys(%done)) {
 	next if ($is_done eq 'not_fixed' || $is_done eq 'skipped' || $is_done eq 'fixed');
 
 	if ($page !~ /$page_regex/io) {
-		print "skipping because of name ", encode_utf8($page), "\n";
+		print "skipping because of name ", encode_utf8($page), "\n" if $verbose;
 		$done{$page} = 'skipped';
 		next;
 	}
