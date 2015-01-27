@@ -59,6 +59,8 @@ GetOptions(
 
 $page_regex ||= "File:$lang_code".'[- ]([^.]+)\.og[ag]';
 
+die "regex '$page_regex' needs to have a capture group" if $page_regex !~ /\([^)]+\)/;
+
 my %settings = load_hash('settings.ini');
 my %done;
 unlink $donefile if ($clean && -e $donefile);
