@@ -122,6 +122,10 @@ foreach my $page (sort keys(%done)) {
 		last;
 	}
 
+	# initial cosmetics
+	$text =~ s/\[\[ *Category *: */[[Category:/g;
+	while ($text =~ s/\[\[ *Category *: *([^_\]|]+)_/[[Category:$1 /g) {};
+
 	my $changed = ($text =~ s/\[\[ *Category *: *($category_name) *\]\]/[[Category:$1|$sortkey]]/);
 	if (!$changed) {
 		print "nothing to fix: ", encode_utf8($page), "\n";
