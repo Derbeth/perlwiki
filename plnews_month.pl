@@ -124,7 +124,7 @@ plnews_month - generates new month for Polish Wikinews
 
 =head1 AUTHOR
 
-Derbeth
+Derbeth <https://github.com/Derbeth>
 
 =cut
 

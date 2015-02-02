@@ -28,6 +28,7 @@ use Derbeth::Util;
 use Derbeth::Wikitools;
 use Encode;
 use Getopt::Long;
+use Pod::Usage;
 use Term::ANSIColor;
 
 use strict;
@@ -42,6 +43,8 @@ my $pause=2;
 my $clean=0;
 my $verbose=0;
 my $debug=0;
+my $dry_run=undef;
+my $show_help=0;
 
 my $donefile = "done/sort_commons_cat.txt";
 # ============ end settings
@@ -55,11 +58,17 @@ GetOptions(
 	'd|debug' => \$debug,
 	'p|pause=i' => \$pause,
 	'v|verbose' => \$verbose,
-) or die;
+	'dry-run:s' => \$dry_run,
+	'h|help' => \$show_help,
+) or pod2usage('-verbose'=>1,'-exitval'=>1);
+pod2usage('-verbose'=>2,'-noperldoc'=>1) if ($show_help);
+pod2usage('-verbose'=>1,'-noperldoc'=>1, '-msg'=>'No args expected') if ($#ARGV != -1);
 
 $page_regex ||= "File:$lang_code".'[- ]([^.]+)\.og[ag]';
 
 die "regex '$page_regex' needs to have a capture group" if $page_regex !~ /\([^)]+\)/;
+
+print "Fixing pages like $page_regex in $category_name\n";
 
 my %settings = load_hash('settings.ini');
 my %done;
@@ -78,8 +87,6 @@ my $editor = MediaWiki::Bot->new({
 	operator => $settings{bot_operator},
 });
 
-print "Fixing pages like $page_regex in $category_name\n";
-
 if (scalar(keys %done) == 0) {
 	foreach my $page (Derbeth::Wikitools::get_category_contents_perlwikipedia($editor, "Category:$category_name",undef,{file=>1})) {
 		$done{$page} = 'not_done';
@@ -92,6 +99,17 @@ my $progress_every = $pages_count < 400 ? 50 : 100;
 my $visited_pages=0;
 my $processed_pages=0;
 my $fixed_count=0;
+
+if (defined $dry_run) {
+	if ($dry_run) {
+		if ($dry_run =~ /$page_regex/i) {
+			print encode_utf8("Matched $dry_run: sort key is '$1'\n");
+		} else {
+			print encode_utf8("Did not match $dry_run\n");
+		}
+	}
+	exit;
+}
 
 foreach my $page (sort keys(%done)) {
 	++$processed_pages;
@@ -164,3 +182,39 @@ sub print_progress {
 sub save_results {
 	save_hash_sorted($donefile, \%done);
 }
+
+=head1 NAME
+
+sort_commons_cat - adds sort key to audio files on Commons
+
+=head1 SYNOPSIS
+
+ plnews_month.pl [options]
+
+ Options:
+   -c --category <cat>    category name like 'German pronunciation' (required)
+   -l --lang <lang>       language code like 'de' used to create the regular expression
+   -r --regex <regex>     regular expression used to match file names and get sort key
+                          defaults to "File:$lang_code".'[- ]([^.]+)\.og[ag]'
+      --limit <limit>     edit at most <limit> pages, then finish
+   -p --pause <pause>     pause for <pause> seconds before fetching each page
+                          defaults to 2
+      --clean             forget what was done before
+                          needed if you change category since last run
+      --dry-run[=exmpl]   do not make any modifications, just print what will be edited
+                          if the example is provided, a match against the regular expression will be tried
+
+   -v --verbose           print diagnostic messages
+   -d --debug             print diagnostic messages for MediaWiki bot
+   -h --help              show full help and exit
+
+=head1 EXAMPLE
+
+ ./sort_commmons_cat.pl -c 'German pronunciation' -l 'de' --pause 4
+ ./sort_commmons_cat.pl -c 'English pronunciation' -r 'File:En-ca[- ]([^.]+)\.og[ag]' --dry-run='File:En-ca-cat.ogg'
+
+=head1 AUTHOR
+
+Derbeth <https://github.com/Derbeth>
+
+=cut
