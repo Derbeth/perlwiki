@@ -151,7 +151,7 @@ foreach my $page (sort keys(%done)) {
 		next;
 	}
 	my $edited = $editor->edit({page=>$page, text=>$text, bot=>1, minor=>1,
-		summary=>"sort in Category:$category_name ($sortkey)"});
+		summary=>"sort in [[Category:$category_name]] ($sortkey)"});
 	if (!$edited) {
 		print colored('failed','red'), " to fix ", encode_utf8($page);
 		print " details: $editor->{error}->{details}" if $editor->{error};
