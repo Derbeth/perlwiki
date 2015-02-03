@@ -95,6 +95,7 @@ my $editor;
 	});
 	die unless $editor;
 	die if ($editor->{error} && $editor->{error}->{code});
+	$editor->{api}->{config}->{max_lag_delay} = 30;
 }
 
 if ($debug_mode) {

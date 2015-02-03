@@ -89,6 +89,7 @@ my $editor = MediaWiki::Bot->new({
 	login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
 	operator => $settings{bot_operator},
 });
+$editor->{api}->{config}->{max_lag_delay} = 30;
 
 my @pages;
 if ($user) {
