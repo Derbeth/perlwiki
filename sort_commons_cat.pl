@@ -102,11 +102,11 @@ my $fixed_count=0;
 
 if (defined $dry_run) {
 	if ($dry_run) {
-		if ($dry_run =~ /$page_regex/i) {
-			print encode_utf8("Matched $dry_run: sort key is '$1'\n");
-		} else {
-			print encode_utf8("Did not match $dry_run\n");
-		}
+		test_match($dry_run);
+	}
+	if (keys %done) {
+		my @pages = keys %done;
+		test_match($pages[0]);
 	}
 	exit;
 }
@@ -171,6 +171,15 @@ print_progress();
 save_results();
 
 # ======= end main
+
+sub test_match {
+	my ($name) = @_;
+	if ($name =~ /$page_regex/i) {
+		print encode_utf8("Matched $name: sort key is '$1'\n");
+	} else {
+		print encode_utf8("Did not match $name\n");
+	}
+}
 
 sub print_progress {
 	my ($sec,$min,$hour) = localtime();
