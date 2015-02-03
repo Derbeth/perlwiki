@@ -109,6 +109,7 @@ if ($user) {
 } else {
 	print "Fixing pages like $page_regex in category $category_name\n";
 	@pages = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor, "Category:$category_name",undef,{file=>1}, $no_cache);
+	@pages = sort @pages;
 }
 
 my $pages_count = scalar(@pages);
@@ -130,7 +131,7 @@ if (defined $dry_run) {
 
 $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { print_progress(); save_results(); exit 1; };
 
-foreach my $page (sort @pages) {
+foreach my $page (@pages) {
 	++$processed_pages;
 
 	print_progress() if $visited_pages > 0 && $processed_pages % $progress_every == 0;
