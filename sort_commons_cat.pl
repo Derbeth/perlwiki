@@ -92,7 +92,7 @@ my $editor = MediaWiki::Bot->new({
 
 my @pages;
 if ($user) {
-	print "Fixing pages like $page_regex in contributions of $user\n";
+	print "Fixing pages like $page_regex in category $category_name from contributions of $user\n";
 	my $key = "commons.wikimedia.org|$user|".($pages_limit||-1);
 	my $cached_pages = $no_cache ? undef : cache_read_values($key);
 	if (defined $cached_pages) {
@@ -114,7 +114,7 @@ if ($user) {
 
 my $pages_count = scalar(@pages);
 print "$pages_count pages\n";
-my $progress_every = $pages_count < 400 ? 50 : 100;
+my $progress_every = $pages_count < 400 ? 25 : 100;
 my $visited_pages=0;
 my $processed_pages=0;
 my $fixed_count=0;
@@ -134,10 +134,10 @@ $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { print_progress(); save_results(); ex
 foreach my $page (@pages) {
 	++$processed_pages;
 
-	print_progress() if $visited_pages > 0 && $processed_pages % $progress_every == 0;
-
 	my $is_done = $done{$page};
 	next if ($is_done && ($is_done eq 'not_fixed' || $is_done eq 'skipped' || $is_done eq 'fixed'));
+
+	print_progress() if $processed_pages % $progress_every == 0;
 
 	if ($page !~ /$page_regex/io) {
 		print "skipping because of name ", encode_utf8($page), "\n" if $verbose;
@@ -221,7 +221,7 @@ sort_commons_cat - adds sort key to audio files on Commons
  plnews_month.pl [options]
 
  Options:
-   -c --category <cat>    read pages from category, for example 'German pronunciation'
+   -c --category <cat>    read pages from category, for example 'German pronunciation' (required)
    -u --user <user>       read pages from recent user contributions, for example 'JohnDoe'
    -l --lang <lang>       language code like 'de' used to create the regular expression
    -r --regex <regex>     regular expression used to match file names and get sort key
