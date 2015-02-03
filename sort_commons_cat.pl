@@ -75,8 +75,6 @@ my %done;
 unlink $donefile if ($clean && -e $donefile);
 read_hash_loose($donefile, \%done);
 
-$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { print_progress(); save_results(); exit 1; };
-
 # ======= main
 
 my $editor = MediaWiki::Bot->new({
@@ -87,13 +85,9 @@ my $editor = MediaWiki::Bot->new({
 	operator => $settings{bot_operator},
 });
 
-if (scalar(keys %done) == 0) {
-	foreach my $page (Derbeth::Wikitools::get_category_contents_perlwikipedia($editor, "Category:$category_name",undef,{file=>1})) {
-		$done{$page} = 'not_done';
-	}
-}
+my @pages = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor, "Category:$category_name",undef,{file=>1});
 
-my $pages_count = scalar(keys %done);
+my $pages_count = scalar(@pages);
 print "$pages_count pages\n";
 my $progress_every = $pages_count < 400 ? 50 : 100;
 my $visited_pages=0;
@@ -104,14 +98,15 @@ if (defined $dry_run) {
 	if ($dry_run) {
 		test_match($dry_run);
 	}
-	if (keys %done) {
-		my @pages = keys %done;
+	if (@pages) {
 		test_match($pages[0]);
 	}
 	exit;
 }
 
-foreach my $page (sort keys(%done)) {
+$SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { print_progress(); save_results(); exit 1; };
+
+foreach my $page (sort @pages) {
 	++$processed_pages;
 
 	print_progress() if $visited_pages > 0 && $processed_pages % $progress_every == 0;
