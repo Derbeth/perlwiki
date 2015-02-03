@@ -46,7 +46,7 @@ our @EXPORT = qw/split_before_sections
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.9.1;
+our $VERSION = 0.9.2;
 
 # Variable: $use_perlwikipedia
 our $use_perlwikipedia=0;
@@ -359,12 +359,12 @@ sub create_editor {
 }
 
 sub get_category_contents_perlwikipedia {
-	my ($editor,$category,$maxparts,$allow_namespaces) = @_;
+	my ($editor,$category,$maxparts,$allow_namespaces,$recache) = @_;
 	my @retval;
 
 	my $key = $editor->{host} . '|' . $category;
 	my @pages;
-	my $cached_pages = cache_read_values($key);
+	my $cached_pages = $recache ? undef : cache_read_values($key);
 	if (defined $cached_pages) {
 		@pages = @$cached_pages;
 	} else {

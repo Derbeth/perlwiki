@@ -23,6 +23,7 @@
 # THE SOFTWARE.
 
 use MediaWiki::Bot;
+use Derbeth::Cache;
 use Derbeth::I18n;
 use Derbeth::Util;
 use Derbeth::Wikitools;
@@ -36,10 +37,13 @@ use utf8;
 
 # ========== settings
 my $category_name = 'German pronunciation';
+my $user = undef;
 my $lang_code = 'de';
 my $page_regex = undef;
 my $limit=undef;
+my $pages_limit=undef;
 my $pause=2;
+my $no_cache=0;
 my $clean=0;
 my $verbose=0;
 my $debug=0;
@@ -51,9 +55,12 @@ my $donefile = "done/sort_commons_cat.txt";
 
 GetOptions(
 	'c|category=s' => \$category_name,
+	'u|user=s' => \$user,
 	'l|lang=s' => \$lang_code,
 	'r|regex=s' => \$page_regex,
 	'limit=i' => \$limit,
+	'pages-limit=i' => \$pages_limit,
+	'no-cache' => \$no_cache,
 	'clean' => \$clean,
 	'd|debug' => \$debug,
 	'p|pause=i' => \$pause,
@@ -67,8 +74,6 @@ pod2usage('-verbose'=>1,'-noperldoc'=>1, '-msg'=>'No args expected') if ($#ARGV 
 $page_regex ||= "File:$lang_code".'[- ]([^.]+)\.og[ag]';
 
 die "regex '$page_regex' needs to have a capture group" if $page_regex !~ /\([^)]+\)/;
-
-print "Fixing pages like $page_regex in $category_name\n";
 
 my %settings = load_hash('settings.ini');
 my %done;
@@ -85,7 +90,26 @@ my $editor = MediaWiki::Bot->new({
 	operator => $settings{bot_operator},
 });
 
-my @pages = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor, "Category:$category_name",undef,{file=>1});
+my @pages;
+if ($user) {
+	print "Fixing pages like $page_regex in contributions of $user\n";
+	my $key = "commons.wikimedia.org|$user|".($pages_limit||-1);
+	my $cached_pages = $no_cache ? undef : cache_read_values($key);
+	if (defined $cached_pages) {
+		@pages = @$cached_pages;
+	} else {
+		my $query = {action=>'query',list=>'usercontribs',ucuser=>$user, ucnamespace=>6,
+			ucprop => 'title', ucshow => 'new'};
+		$query->{uclimit} = $pages_limit if $pages_limit;
+		my $result_ref = $editor->{api}->list($query, {max=>1})
+			|| die $editor->{api}->{error}->{code} . ': ' . $editor->{api}->{error}->{details};
+		@pages = map { $_->{title} } @{$result_ref};
+		cache_write_values($key, \@pages);
+	}
+} else {
+	print "Fixing pages like $page_regex in category $category_name\n";
+	@pages = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor, "Category:$category_name",undef,{file=>1}, $no_cache);
+}
 
 my $pages_count = scalar(@pages);
 print "$pages_count pages\n";
@@ -112,7 +136,7 @@ foreach my $page (sort @pages) {
 	print_progress() if $visited_pages > 0 && $processed_pages % $progress_every == 0;
 
 	my $is_done = $done{$page};
-	next if ($is_done eq 'not_fixed' || $is_done eq 'skipped' || $is_done eq 'fixed');
+	next if ($is_done && ($is_done eq 'not_fixed' || $is_done eq 'skipped' || $is_done eq 'fixed'));
 
 	if ($page !~ /$page_regex/io) {
 		print "skipping because of name ", encode_utf8($page), "\n" if $verbose;
@@ -196,13 +220,16 @@ sort_commons_cat - adds sort key to audio files on Commons
  plnews_month.pl [options]
 
  Options:
-   -c --category <cat>    category name like 'German pronunciation' (required)
+   -c --category <cat>    read pages from category, for example 'German pronunciation'
+   -u --user <user>       read pages from recent user contributions, for example 'JohnDoe'
    -l --lang <lang>       language code like 'de' used to create the regular expression
    -r --regex <regex>     regular expression used to match file names and get sort key
                           defaults to "File:$lang_code".'[- ]([^.]+)\.og[ag]'
       --limit <limit>     edit at most <limit> pages, then finish
+      --pages-limit <l>   fetch at most <l> pages from server
    -p --pause <pause>     pause for <pause> seconds before fetching each page
                           defaults to 2
+      --no-cache          skip cache when fetching the list pages from server
       --clean             forget what was done before
                           needed if you change category since last run
       --dry-run[=exmpl]   do not make any modifications, just print what will be edited
