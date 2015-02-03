@@ -114,6 +114,7 @@ if ($user) {
 
 my $pages_count = scalar(@pages);
 print "$pages_count pages\n";
+die if $pages_count == 0;
 my $progress_every = $pages_count < 400 ? 25 : 100;
 my $visited_pages=0;
 my $processed_pages=0;
@@ -135,7 +136,10 @@ foreach my $page (@pages) {
 	++$processed_pages;
 
 	my $is_done = $done{$page};
-	next if ($is_done && ($is_done eq 'not_fixed' || $is_done eq 'skipped' || $is_done eq 'fixed'));
+	if ($is_done && $is_done ne 'not_done') {
+		print encode_utf8("already done: $page\n") if $verbose && $visited_pages > 0;
+		next;
+	}
 
 	print_progress() if $processed_pages % $progress_every == 0;
 
@@ -162,12 +166,20 @@ foreach my $page (@pages) {
 
 	# initial cosmetics
 	$text =~ s/\[\[ *Category *: */[[Category:/g;
-	while ($text =~ s/\[\[ *Category *: *([^_\]|]+)_/[[Category:$1 /g) {};
+	while ($text =~ s/\[\[ *Category *: *([^_\]|]+)_/[[Category:$1 /g) {}
 
 	my $changed = ($text =~ s/\[\[ *Category *: *($category_name) *\]\]/[[Category:$1|$sortkey]]/);
 	if (!$changed) {
-		print "nothing to fix: ", encode_utf8($page), "\n";
-		$done{$page} = 'not_fixed';
+		if ($text =~ /Category:$category_name *\|([^\]]+)/) {
+			print encode_utf8("already sorted: $page ($1)\n");
+			$done{$page} = 'not_fixed';
+		} elsif ($text =~ /\b$category_name\b/) {
+			print encode_utf8("in category, but won't fix: $page\n");
+			$done{$page} = 'not_fixed';
+		} else {
+			print encode_utf8("not in this category: $page\n");
+			$done{$page} = 'not_in_category';
+		}
 		next;
 	}
 	my $edited = $editor->edit({page=>$page, text=>$text, bot=>1, minor=>1,
