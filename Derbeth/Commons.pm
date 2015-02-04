@@ -285,7 +285,7 @@ sub word_pronounced_in_file {
 		} elsif ($word =~ /-Ar-Rosario$/) {
 			$regional = 'ar';
 			$word = $PREMATCH;
-		} elsif ($word =~ /^(chile|mx)-/) {
+		} elsif ($word =~ /^(chile|mx|us|am-lat)-/) {
 			$regional = lc($1);
 			$word = $POSTMATCH;
 		}

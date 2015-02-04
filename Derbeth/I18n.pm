@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.8.0;
+our $VERSION = 0.8.1;
 our %regional_names;
 our %regional_params_dewikt;
 our %text_to_regional_param_dewikt;
@@ -41,6 +41,7 @@ our %text_to_regional_param_dewikt;
 # en: uk => (British pronunciation)
 %regional_names = (
 	'pl' => {
+		'am-lat' => 'w Ameryce Łacińskiej',
 		'ar' => 'argentyńska',
 		'at' => 'austriacka',
 		'au' => 'australijska',
@@ -67,6 +68,7 @@ our %text_to_regional_param_dewikt;
 		'us-ncalif' => 'amerykańska z Północnej Kalifornii',
 	},
 	'de' => {
+		'am-lat' => 'lateinamerikanisch',
 		'ar' => 'argentinisch',
 		'at' => 'österreichisch',
 		'au' => 'australisch',
@@ -94,6 +96,7 @@ our %text_to_regional_param_dewikt;
 		'us-ncalif' => 'amerikanisch Nordkalifornien',
 	},
 	'en' => {
+		'am-lat' => 'Latin America',
 		'ar' => 'Argentina',
 		'at' => 'Austria',
 		'au' => 'AUS',
