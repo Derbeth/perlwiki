@@ -392,7 +392,7 @@ foreach my $cat (sort(keys(%categories))) {
 	print 'Category: ',encode_utf8($cat),' pages: ';
 	print scalar(@pages), "\n";
 
-	foreach my $page (@pages) {
+	foreach my $page (sort @pages) {
 		$page =~ s/&#039;/'/g;
 
 		my ($file, @words) = word_pronounced_in_file($page, $code, $cat);
