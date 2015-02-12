@@ -37,10 +37,12 @@ use utf8;
 
 my $clean_cache=0;
 my $clean_start=0; # removes all done files etc.
+my $refresh_lang;
 
 GetOptions(
 	'c|cleanstart!' => \$clean_start,
 	'cleancache!' => \$clean_cache,
+	'refresh=s' => \$refresh_lang,
 ) or die;
 
 if ($clean_start) {
@@ -262,7 +264,17 @@ my %categories=(
 	'Welsh pronunciation of words relating to animals' => 'cy',
 	'Wolof pronunciation' => 'wo',
 );
-#%categories=('Welsh pronunciation' => 'cy','Albanian pronunciation' => 'sq');
+if ($refresh_lang) {
+	my %filtered_categories;
+	while (my ($cat, $lang) = each(%categories)) {
+		if ($lang eq $refresh_lang) {
+			$filtered_categories{$cat} = $lang;
+		}
+	}
+	%categories = %filtered_categories;
+	die "no categories for lang code $refresh_lang" unless keys %categories;
+	print "Refreshing ", scalar(keys %categories), " categories for $refresh_lang\n";
+}
 
 # 'en' => 'cat' => 'en-us-cat.ogg<us>|en-gb-cat.ogg<uk>
 # 'de' => 'Katze' => 'de-Katze.ogg'
@@ -376,7 +388,7 @@ my $editor = Derbeth::Wikitools::create_editor($server);
 
 foreach my $cat (sort(keys(%categories))) {
 	my $code = $categories{$cat};
-	my @pages=Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,'Category:'.$cat,undef,{file=>1});
+	my @pages=Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,'Category:'.$cat,undef,{file=>1},$refresh_lang);
 	print 'Category: ',encode_utf8($cat),' pages: ';
 	print scalar(@pages), "\n";
 
@@ -420,18 +432,20 @@ foreach my $lang_code (sort(keys(%audio))) {
 	close(OUT);
 }
 
-my $many_vers_saved = 0;
-open(OUT, '>audio/many_vers.txt') or die "cannot write many_vers: $!";
-foreach my $lang_code (sort keys %many_vers) {
-	foreach my $key (sort keys %{$many_vers{$lang_code}}) {
-		foreach my $regional (sort keys %{$many_vers{$lang_code}{$key}}) {
-			my @files = @{$many_vers{$lang_code}{$key}{$regional}};
-			if (scalar(@files) > 1) {
-				print OUT encode_utf8("$lang_code|$key|$regional"), '=', encode_utf8(join('|', sort @files)), "\n";
-				++$many_vers_saved;
+unless($refresh_lang) {
+	my $many_vers_saved = 0;
+	open(OUT, '>audio/many_vers.txt') or die "cannot write many_vers: $!";
+	foreach my $lang_code (sort keys %many_vers) {
+		foreach my $key (sort keys %{$many_vers{$lang_code}}) {
+			foreach my $regional (sort keys %{$many_vers{$lang_code}{$key}}) {
+				my @files = @{$many_vers{$lang_code}{$key}{$regional}};
+				if (scalar(@files) > 1) {
+					print OUT encode_utf8("$lang_code|$key|$regional"), '=', encode_utf8(join('|', sort @files)), "\n";
+					++$many_vers_saved;
+				}
 			}
 		}
 	}
+	close(OUT);
+	print "Saved $many_vers_saved words with many versions\n";
 }
-close(OUT);
-print "Saved $many_vers_saved words with many versions\n";
