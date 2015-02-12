@@ -171,7 +171,7 @@ sub word_pronounced_in_file {
 			return ($file, $1);
 		}
 	}
-	elsif ($code eq 'ar') {
+	elsif ($code eq 'ar' || $code eq 'or') {
 		if ($main_text !~ /-/) {
 			$skip_key_extraction = 1;
 			$word = $main_text;

@@ -197,6 +197,7 @@ my %categories=(
 	'Norwegian pronunciation of adverbs' => 'nb',
 	'Norwegian pronunciation of nouns' => 'nb',
 	'Norwegian pronunciation of verbs' => 'nb',
+	'Odia pronunciation' => 'or',
 	'Polish pronunciation' => 'pl',
 	'Polish pronunciation of islands' => 'pl',
 	'Polish pronunciation of names of cities' => 'pl',
@@ -306,7 +307,7 @@ sub save_pron {
 			print "$lang-", encode_utf8($key), ": detected words are '", encode_utf8(join(' ', @detected)), "'\n";
 			@keys = @detected;
 			$key = $detected[0];
-		} elsif ($lang =~ /^(ar|be|el|fa|he|ja|ka|ko|mk|ru|th|uk)$/) {
+		} elsif ($lang =~ /^(ar|be|el|fa|he|ja|ka|ko|mk|or|ru|th|uk)$/) {
 			print "$lang-",encode_utf8($key)," contains latin chars ($latin); won't be added\n";
 			return;
 		}

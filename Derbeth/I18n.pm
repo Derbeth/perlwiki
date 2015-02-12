@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.8.1;
+our $VERSION = 0.8.2;
 our %regional_names;
 our %regional_params_dewikt;
 our %text_to_regional_param_dewikt;
@@ -208,6 +208,7 @@ my %language_names = (
 		'nb'  => 'język norweski (bokmål)',
 		'nl'  => 'język holenderski',
 		'nv'  => 'język nawaho',
+		'or'  => 'orija',
 		'pam' => 'język pampango',
 		'pl'  => 'język polski',
 		'pol' => 'język staropolski',
@@ -280,6 +281,7 @@ my %language_names = (
 		'nb'  => 'Norwegisch',
 		'nl'  => 'Niederländisch',
 		'nv'  => 'Navajo',
+		'or'  => 'Oriya',
 		'pam' => 'Kapampangan',
 		'pl'  => 'Polnisch',
 		'pol' => 'Altpolnisch',
@@ -352,6 +354,7 @@ my %language_names = (
 		'nb'  => 'Norwegian',
 		'nl'  => 'Dutch',
 		'nv'  => 'Navajo',
+		'or'  => 'Oriya',
 		'pam' => 'Kapampangan',
 		'pl'  => 'Polish',
 		'pol' => 'Old Polish',
