@@ -97,6 +97,7 @@ if ($user) {
 	my $key = "commons.wikimedia.org|$user|".($pages_limit||-1);
 	my $cached_pages = $no_cache ? undef : cache_read_values($key);
 	if (defined $cached_pages) {
+		print "Reading from cache\n" if $verbose;
 		@pages = @$cached_pages;
 	} else {
 		my $query = {action=>'query',list=>'usercontribs',ucuser=>$user, ucnamespace=>6,
