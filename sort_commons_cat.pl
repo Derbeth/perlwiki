@@ -197,6 +197,7 @@ foreach my $page (@pages) {
 	++$fixed_count;
 
 	if ($limit && $fixed_count >= $limit) {
+		print "limit ($limit) reached\n";
 		last;
 	}
 }
