@@ -274,7 +274,7 @@ if ($refresh_lang) {
 	}
 	%categories = %filtered_categories;
 	die "no categories for lang code $refresh_lang" unless keys %categories;
-	print "Refreshing ", scalar(keys %categories), " categories for $refresh_lang\n";
+	print STDERR "Refreshing ", scalar(keys %categories), " categories for $refresh_lang\n";
 }
 
 # 'en' => 'cat' => 'en-us-cat.ogg<us>|en-gb-cat.ogg<uk>
