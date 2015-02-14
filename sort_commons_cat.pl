@@ -146,8 +146,7 @@ foreach my $page (@pages) {
 	print_progress() if $processed_pages % $progress_every == 0;
 
 	if ($page !~ /$page_regex/io) {
-		print "skipping because of name ", encode_utf8($page), "\n" if $verbose;
-		$done{$page} = 'skipped';
+		print "skipping because of name ", encode_utf8($page), "\n" if $verbose && $visited_pages > 0;
 		next;
 	}
 	my $sortkey = $1;
