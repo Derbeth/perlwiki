@@ -143,7 +143,7 @@ foreach my $page (@pages) {
 		next;
 	}
 
-	print_progress() if $processed_pages % $progress_every == 0;
+	print_progress() if $visited_pages > 0 && $processed_pages % $progress_every == 0;
 
 	if ($page !~ /$page_regex/io) {
 		print "skipping because of name ", encode_utf8($page), "\n" if $verbose && $visited_pages > 0;
