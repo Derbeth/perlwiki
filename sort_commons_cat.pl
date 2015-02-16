@@ -71,6 +71,8 @@ GetOptions(
 pod2usage('-verbose'=>2,'-noperldoc'=>1) if ($show_help);
 pod2usage('-verbose'=>1,'-noperldoc'=>1, '-msg'=>'No args expected') if ($#ARGV != -1);
 
+($category_name,$user,$page_regex) = map { defined $_ ? decode_utf8($_) : undef } ($category_name,$user,$page_regex);
+
 $page_regex ||= "File:$lang_code".'[- ]([^.]+)\.og[ag]';
 
 die "regex '$page_regex' needs to have a capture group" if $page_regex !~ /\([^)]+\)/;
@@ -93,7 +95,7 @@ $editor->{api}->{config}->{max_lag_delay} = 30;
 
 my @pages;
 if ($user) {
-	print "Fixing pages like $page_regex in category $category_name from contributions of $user\n";
+	print encode_utf8("Fixing pages like $page_regex in category $category_name from contributions of $user\n");
 	my $key = "commons.wikimedia.org|$user|".($pages_limit||-1);
 	my $cached_pages = $no_cache ? undef : cache_read_values($key);
 	if (defined $cached_pages) {
@@ -109,7 +111,7 @@ if ($user) {
 		cache_write_values($key, \@pages);
 	}
 } else {
-	print "Fixing pages like $page_regex in category $category_name\n";
+	print encode_utf8("Fixing pages like $page_regex in category $category_name\n");
 	@pages = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor, "Category:$category_name",undef,{file=>1}, $no_cache);
 	@pages = sort @pages;
 }
@@ -173,7 +175,7 @@ foreach my $page (@pages) {
 	if (!$changed) {
 		if ($text =~ /Category:$category_name *\|([^\]]+)/) {
 			print encode_utf8("already sorted: $page ($1)\n");
-			$done{$page} = 'not_fixed';
+			$done{$page} = 'already_sorted';
 		} elsif ($text =~ /\b$category_name\b/) {
 			print encode_utf8("in category, but won't fix: $page\n");
 			$done{$page} = 'not_fixed';
@@ -237,7 +239,7 @@ sort_commons_cat - adds sort key to audio files on Commons
  Options:
    -c --category <cat>    read pages from category, for example 'German pronunciation' (required)
    -u --user <user>       read pages from recent user contributions, for example 'JohnDoe'
-   -l --lang <lang>       language code like 'de' used to create the regular expression
+   -l --lang <lang>       language code like 'de' used to create the regular expression (optional)
    -r --regex <regex>     regular expression used to match file names and get sort key
                           defaults to "File:$lang_code".'[- ]([^.]+)\.og[ag]'
       --limit <limit>     edit at most <limit> pages, then finish
