@@ -43,7 +43,7 @@ Derbeth::Web::enable_caching(1);
 my %regional_fr = ('fr-Paris' => 'Paris', 'FR Paris' => 'Paris', 'fr FR-Paris' => 'Paris',
 	'ca-Montréal' => 'ca', 'fr Be' => 'be', 'fr BE' => 'be', 'fr CA' => 'ca');
 # normal language code => regexp for matching alternative code
-my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by|bar', 'el' => 'ell', 'nb' => 'no',
+my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by|bar', 'el' => 'ell', 'fr' => 'qc', 'nb' => 'no',
 	'roa' => 'jer');
 
 # marks words with lower priority
@@ -210,6 +210,9 @@ sub word_pronounced_in_file {
 		if ($main_text =~ /^([^-]+)-FR$/) {
 			return ($file, lcfirst($1));
 		}
+		if ($main_text =~ /Qc-/i) {
+			$regional = 'ca';
+		}
 	}
 	elsif ($code eq 'is') {
 		if ($main_text !~ /^Is-/i) {
@@ -315,7 +318,7 @@ sub word_pronounced_in_file {
 			$word = $PREMATCH;
 		}
 		if ($cat eq 'Quebec French pronunciation') {
-			$regional = 'ca';
+			$regional ||= 'ca';
 		}
 	}
 	elsif ($code eq 'gd') {
