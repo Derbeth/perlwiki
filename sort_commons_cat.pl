@@ -71,7 +71,7 @@ GetOptions(
 pod2usage('-verbose'=>2,'-noperldoc'=>1) if ($show_help);
 pod2usage('-verbose'=>1,'-noperldoc'=>1, '-msg'=>'No args expected') if ($#ARGV != -1);
 
-($category_name,$user,$page_regex) = map { defined $_ ? decode_utf8($_) : undef } ($category_name,$user,$page_regex);
+($category_name,$user,$page_regex,$dry_run) = map { defined $_ ? decode_utf8($_) : undef } ($category_name,$user,$page_regex,$dry_run);
 
 $page_regex ||= "File:$lang_code".'[- ]([^.]+)\.og[ag]';
 
