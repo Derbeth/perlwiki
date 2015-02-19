@@ -42,7 +42,7 @@ my $refresh_lang;
 GetOptions(
 	'c|cleanstart!' => \$clean_start,
 	'cleancache!' => \$clean_cache,
-	'refresh=s' => \$refresh_lang,
+	'r|refresh=s' => \$refresh_lang,
 ) or die;
 
 if ($clean_start) {
@@ -268,7 +268,7 @@ my %categories=(
 if ($refresh_lang) {
 	my %filtered_categories;
 	while (my ($cat, $lang) = each(%categories)) {
-		if ($lang eq $refresh_lang) {
+		if ($refresh_lang eq 'all' || $lang eq $refresh_lang) {
 			$filtered_categories{$cat} = $lang;
 		}
 	}
