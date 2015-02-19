@@ -117,8 +117,12 @@ if ($user) {
 }
 
 my $pages_count = scalar(@pages);
-print "$pages_count pages\n";
+print "$pages_count pages";
 die if $pages_count == 0;
+print ': ', encode_utf8($pages[0]);
+print ' to ', encode_utf8($pages[$#pages]);
+print "\n";
+
 my $progress_every = $pages_count < 400 ? 25 : 100;
 my $visited_pages=0;
 my $processed_pages=0;
