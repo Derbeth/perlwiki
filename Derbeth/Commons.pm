@@ -73,7 +73,7 @@ sub detect_pronounced_word {
 
 sub _language_supported {
 	my ($lang) = @_;
-	return ($lang =~ /^(bg|he|ja|th|zh)$/);
+	return ($lang =~ /^(bg|he|ja|or|th|zh)$/);
 }
 
 sub _detect {
@@ -105,6 +105,11 @@ sub _detect {
 			push @detected, $1;
 		}
 		if ($wikicode =~ /Pronunciation of the Japanese word[^(]+\({{lang\|ja\|([^,()a-z]+),/) {
+			push @detected, $1;
+		}
+	}
+	elsif ($lang eq 'or') {
+		if ($wikicode =~ /or[^"]+"([^"]+)"ର ଉଚ୍ଚାରଣ/) {
 			push @detected, $1;
 		}
 	}

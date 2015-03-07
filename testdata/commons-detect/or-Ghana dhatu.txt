@@ -1,0 +1,16 @@
+=={{int:filedesc}}==
+{{Information
+|description={{or|1=ଓଡିଆ ଯୁଗ୍ମ ଶବ୍ଦ "ଘନ ଧାତୁ"ର ଉଚ୍ଚାରଣ}}
+{{en|1=Pronunciation of Odia combined words "Ghana Dhatu"}}
+|date=2015-01-04
+|source={{own}}
+|author=[[User:Hellohappy|Hellohappy]]
+|permission=
+|other versions=
+}}
+
+=={{int:license-header}}==
+{{self|cc-by-sa-4.0}}
+
+[[Category:Uploaded with UploadWizard]]
+[[Category:Odia pronunciation]]

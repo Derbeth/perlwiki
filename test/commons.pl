@@ -48,12 +48,15 @@ sub test_detect_pronounced_word {
 	my $checked = 0;
 
 	$checked += _check_detected('zh-mofang.txt', 'zh', ['模仿']);
+	$checked += _check_detected('or-Ghana dhatu.txt', 'or', ['ଘନ ଧାତୁ']);
+	$checked += _check_detected('or-Ghanagarjita.txt', 'or', ['ଘନଗର୍ଜିତ']);
 
 	print "detect_pronounced_word: $checked tests succeeded\n";
 }
 
 sub _check_detected {
 	my ($input_file, $lang_code, $expected_arr) = @_;
+	assert_true Derbeth::Commons::_language_supported($lang_code);
 	my $input = read_file("testdata/commons-detect/$input_file", binmode => ':utf8');
 	my @actual = Derbeth::Commons::_detect($lang_code, $input);
 	assert_deep_equals $expected_arr, \@actual;
