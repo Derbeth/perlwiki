@@ -10,6 +10,7 @@ use Test::Assert ':all';
 
 test_word_pronounced_in_file();
 test_detect_pronounced_word();
+test_latin_chars_disallowed();
 
 sub test_word_pronounced_in_file {
 	my $input='testdata/commons.ini';
@@ -54,9 +55,18 @@ sub test_detect_pronounced_word {
 	print "detect_pronounced_word: $checked tests succeeded\n";
 }
 
+sub test_latin_chars_disallowed {
+	my $checked = 0;
+
+	assert_true latin_chars_disallowed('ru'); ++$checked;
+	assert_false latin_chars_disallowed('en'); ++$checked;
+
+	print "latin_chars_disallowed: $checked tests succeeded\n";
+}
+
 sub _check_detected {
 	my ($input_file, $lang_code, $expected_arr) = @_;
-	assert_true Derbeth::Commons::_language_supported($lang_code);
+	assert_true Derbeth::Commons::_detect_language_supported($lang_code);
 	my $input = read_file("testdata/commons-detect/$input_file", binmode => ':utf8');
 	my @actual = Derbeth::Commons::_detect($lang_code, $input);
 	assert_deep_equals $expected_arr, \@actual;

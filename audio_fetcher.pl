@@ -308,7 +308,7 @@ sub save_pron {
 			print "$lang-", encode_utf8($key), ": detected words are '", encode_utf8(join(' ', @detected)), "'\n";
 			@keys = @detected;
 			$key = $detected[0];
-		} elsif ($lang =~ /^(ar|be|el|fa|he|hi|ja|ka|ko|mk|or|ru|th|uk)$/) {
+		} elsif (latin_chars_disallowed($lang)) {
 			print "$lang-",encode_utf8($key)," contains latin chars ($latin); won't be added\n";
 			return;
 		}

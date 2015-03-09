@@ -35,6 +35,7 @@ use Derbeth::I18n 0.6.4;
 
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/detect_pronounced_word
+	latin_chars_disallowed
 	word_pronounced_in_file/;
 our $VERSION = 0.3.0;
 
@@ -49,6 +50,11 @@ my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by|bar', 'el' => 'ell', 'fr' => 
 # marks words with lower priority
 my $LOWPR = '&';
 
+sub latin_chars_disallowed {
+	my ($lang) = @_;
+	return $lang =~ /^(ar|be|el|fa|he|hi|ja|ka|ko|mk|or|ru|th|uk)$/;
+}
+
 # For a pronunciation file for a non-Latin-script language, tries to guess
 # the real word from the file description page.
 #
@@ -60,7 +66,7 @@ my $LOWPR = '&';
 #   array of detected real words or empty array if the real word cannot be detected
 sub detect_pronounced_word {
 	my ($lang,$file,$editor) = @_;
-	return () unless (_language_supported($lang));
+	return () unless (_detect_language_supported($lang));
 
 	my $wikicode = Derbeth::Wikitools::get_wikicode_perlwikipedia($editor, "File:$file");
 	unless ($wikicode && $wikicode =~ /\w/) {
@@ -71,7 +77,7 @@ sub detect_pronounced_word {
 	return _detect($lang, $wikicode);
 }
 
-sub _language_supported {
+sub _detect_language_supported {
 	my ($lang) = @_;
 	return ($lang =~ /^(bg|he|ja|or|th|zh)$/);
 }
