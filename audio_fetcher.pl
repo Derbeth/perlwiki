@@ -217,6 +217,7 @@ my %categories=(
 	'Russian pronunciation of names of colors' => 'ru',
 	'Russian pronunciation of names of countries' => 'ru',
 	'Russian pronunciation of states of the United States' => 'ru',
+	'Russian words' => 'ru',
 	'Scottish Gaelic pronunciation' => 'gd',
 	'Serbian pronunciation' => 'sr', # capitalisation problems
 	'Serbian pronunciation of adverbs' => 'sr',
