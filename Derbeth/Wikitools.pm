@@ -46,7 +46,7 @@ our @EXPORT = qw/split_before_sections
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.9.2;
+our $VERSION = 0.10.0;
 
 # Variable: $use_perlwikipedia
 our $use_perlwikipedia=0;
@@ -360,8 +360,6 @@ sub create_editor {
 
 sub get_category_contents_perlwikipedia {
 	my ($editor,$category,$maxparts,$allow_namespaces,$recache) = @_;
-	my @retval;
-
 	my $key = $editor->{host} . '|' . $category;
 	my @pages;
 	my $cached_pages = $recache ? undef : cache_read_values($key);
@@ -371,24 +369,51 @@ sub get_category_contents_perlwikipedia {
 		@pages = $editor->get_pages_in_category($category, { max => 0 });
 		cache_write_values($key, \@pages);
 	}
-	foreach my $page (@pages) {
-# 		print scalar(@pages);
-		if ($allow_namespaces->{'all'}) {
-			push @retval, $page;
-		} else {
-			if ($page =~ /(Category|Kategoria|Kategorie):/) {
-				push @retval, $page if ($allow_namespaces->{'category'});
-			} elsif ($page =~ /(Template|Szablon|Vorlage):/) {
-				push @retval, $page if ($allow_namespaces->{'template'});
-			}  elsif ($page =~ /(Image|File|Grafika|Plik):/) {
-				push @retval, $page if ($allow_namespaces->{'image'} || $allow_namespaces->{'file'});
-			} else {
-				push @retval, $page if ($allow_namespaces->{'main'});
-			}
+	return filter_to_namespace($allow_namespaces, @pages);
+}
+
+sub get_all_category_contents {
+	my ($editor,$category,$allow_namespaces,$recache) = @_;
+	my $key = $editor->{host} . '|' . $category . '|all';
+	my @pages;
+	my $cached_pages = $recache ? undef : cache_read_values($key);
+	if (defined $cached_pages) {
+		@pages = @$cached_pages;
+	} else {
+		@pages = $editor->get_all_pages_in_category($category, { max => 0 });
+		cache_write_values($key, \@pages);
+	}
+	return filter_to_namespace($allow_namespaces, @pages);
+}
+
+sub filter_to_namespace {
+	my ($allow_namespaces, @results) = @_;
+	return @results if $allow_namespaces->{'all'};
+	return grep {
+		($allow_namespaces->{'category'} && /(Category|Kategoria|Kategorie):/)
+		|| ($allow_namespaces->{'template'} && /(Template|Szablon|Vorlage):/)
+		|| ($allow_namespaces->{'file'} && /(Image|File|Grafika|Plik):/)
+		|| ($allow_namespaces->{'main'} && !/(Category|Kategoria|Kategorie|Template|Szablon|Vorlage|Image|File|Grafika|Plik):/);
+	} @results;
+}
+
+sub get_contents_include_exclude {
+	my ($editor, $include_categories, $exclude_categories, $allow_namespaces, $recache) = @_;
+	my @result;
+	foreach my $included_category (@{$include_categories}) {
+		my @pages = get_all_category_contents($editor, "Category:$included_category", $allow_namespaces, $recache);
+		print encode_utf8("warn: no pages in $included_category\n") unless @pages;
+		push @result, @pages;
+	}
+	my %exclude;
+	foreach my $excluded_category (@{$exclude_categories}) {
+		my @pages = get_all_category_contents($editor, "Category:$excluded_category", $allow_namespaces, $recache);
+		print encode_utf8("warn: no pages in $excluded_category\n") unless @pages;
+		foreach my $page (@pages) {
+			$exclude{$page} = 1;
 		}
 	}
-
-	return @retval;
+	return grep {! $exclude{$_}} @result;
 }
 
 sub get_category_contents_internal {
