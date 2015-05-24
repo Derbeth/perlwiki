@@ -43,6 +43,7 @@ GetOptions(
 	'c|cleanstart!' => \$clean_start,
 	'cleancache!' => \$clean_cache,
 	'r|refresh=s' => \$refresh_lang,
+	'v|verbose!' => \$Derbeth::Commons::verbose,
 ) or die;
 
 if ($clean_start) {
@@ -54,250 +55,245 @@ if ($clean_cache) {
 
 Derbeth::Web::enable_caching(1);
 
-my %categories=(
-	'Albanian pronunciation' => 'sq',
-	'Arabic pronunciation' => 'ar',
-	'Armenian pronunciation'=>'hy',
-	'Bashkir pronunciation' => 'ba',
-	'Basque pronunciation' => 'eu',
-	'Belarusian pronunciation'=>'be',
-	'Belarusian pronunciation of names of countries'=>'be',
-	'Bulgarian pronunciation' => 'bg',
-	'Cantonese pronunciation' => 'yue',
-	'Chechen pronunciation'=>'ce',
-	'Chinese pronunciation' => 'zh',
-	'Chinese pronunciation of names of countries' => 'zh',
-	'Mandarin pronunciation' => 'zh',
-	'Croatian pronunciation'=>'hr',
-	'Croatian pronunciation of names of countries'=>'hr',
-	'Czech pronunciation' => 'cs',
-	'Czech prepositions' => 'cs',
-	'Czech pronunciation of names' => 'cs',
-	'Czech pronunciation of names of cities' => 'cs',
-	'Czech pronunciation of names of continents' => 'cs',
-	'Czech pronunciation of names of countries' => 'cs',
-	'Czech pronunciation of names of people' => 'cs',
-	'Czech pronunciation of nationalities' => 'cs',
-	'Czech pronunciation of numbers' => 'cs',
-	'Czech pronunciation of planets' => 'cs',
-	'Czech pronunciation of proverbs' => 'cs',
-	'Adjectives in Czech pronunciation' => 'cs',
-	'Nouns in Czech pronunciation' => 'cs',
-	'Pronunciation of names of rivers in the Czech Republic' => 'cs',
-	'Danish pronunciation' => 'da',
-	'Danish pronunciation of names of countries' => 'da',
-	'Dutch pronunciation' => 'nl',
-	'Dutch pronunciation of geographical entities' => 'nl',
-	'Dutch pronunciation of names of continents' => 'nl',
-	'Dutch pronunciation of names of countries' => 'nl',
-	'Dutch pronunciation of numbers' => 'nl',
-	'Dutch pronunciation of phrases' => 'nl',
-	'English pronunciation' => 'en',
-	'Australian English pronunciation' => 'en',
-	'British English pronunciation' => 'en',
-	'Canadian English pronunciation' => 'en',
-	'English pronunciation of names' => 'en',
-	'English pronunciation of names of cities' => 'en',
-	'English pronunciation of names of continents' => 'en',
-	'English pronunciation of names of countries' => 'en',
-	'English pronunciation of names of rivers' => 'en',
-	'English pronunciation of numbers' => 'en', # letter size!
-	'English pronunciation of states of the United States' => 'en',
-	'English pronunciation of terms' => 'en',
-	'New Zealand English pronunciation' => 'en',
-	'U.S. English pronunciation' => 'en',
-	'Esperanto pronunciation' => 'eo',
-	'Esperanto pronunciation of names of cities' => 'eo',
-	'Esperanto pronunciation of names of countries' => 'eo',
-	'Ewe pronunciation' => 'ee',
-	'Farsi pronunciation' => 'fa',
-	'Farsi pronunciation of names of cities' => 'fa',
-	'Farsi pronunciation of names of countries' => 'fa',
-	'Finnish pronunciation' => 'fi',
-	'Finnish pronunciation of names of countries' => 'fi',
-	'French pronunciation' => 'fr', # letter size
-	'French pronunciation of adjectives' => 'fr',
-	'French pronunciation of adverbs' => 'fr',
-	'French pronunciation of chemical compounds' => 'fr',
-	'French pronunciation of chemical elements' => 'fr',
-	'French pronunciation of common nouns' => 'fr',
-	'French pronunciation of currency' => 'fr',
-	'French pronunciation of days' => 'fr',
-	'French pronunciation of expressions' => 'fr',
-	'French pronunciation of French departments' => 'fr',
-	'French pronunciation of fruit' => 'fr',
-	'French pronunciation of islands' => 'fr',
-	'French pronunciation of kinship' => 'fr',
-	'French pronunciation of months' => 'fr',
-	'French pronunciation of names of colors' => 'fr',
-	'French pronunciation of names of continents' => 'fr',
-	'French pronunciation of names of countries' => 'fr', # la, l' un
-	'French pronunciation of the names of planets' => 'fr',
-	'French pronunciation of nouns' => 'fr',
-	'French pronunciation of numbers' => 'fr', # letter size
-	'French pronunciation of plants' => 'fr',
-	'French pronunciation of proper nouns' => 'fr',
-	'French pronunciation of subatomic particles' => 'fr',
-	'French pronunciation of units of measure' => 'fr',
-	'French pronunciation of verbs' => 'fr',
-	'French pronunciation of words relating to animals' => 'fr',
-	'French pronunciation of words relating to birds' => 'fr',
-	'French pronunciation of words relating to fishes' => 'fr',
-	'French pronunciation of words relating to fruit' => 'fr',
-	'French pronunciation of words relating to mammals' => 'fr',
-	'French pronunciation of words relating to plants' => 'fr',
-	'Quebec French pronunciation' => 'fr',
-	'Frisian pronunciation' => 'fy', # West Frisian
-	'Galician pronunciation' => 'gl',
-	'Galician pronunciation of currency' => 'gl',
-	'Galician pronunciation of names of continents' => 'gl',
-	'Georgian pronunciation' => 'ka',
-	'German pronunciation' => 'de',
-	'Austrian pronunciations' => 'de',
-	'Bavarian pronunciation' => 'de',
-	'German pronunciation of names of cities' => 'de',
-	'German pronunciation of names of colors' => 'de',
-	'German pronunciation of names of countries' => 'de',
-	'German pronunciation of names of continents' => 'de',
-	'German pronunciation of numbers' => 'de',
-	'German pronunciation of planets' => 'de',
-	'Greek pronunciation' => 'el',
-	'Hebrew pronunciation' => 'he',
-	'Hindi pronunciation' => 'hi',
-	'Hungarian pronunciation' => 'hu',
-	'Hungarian pronunciation of birds' => 'hu',
-	'Hungarian pronunciation of flowers' => 'hu',
-	'Hungarian pronunciation of fruit' => 'hu',
-	'Hungarian pronunciation of months' => 'hu',
-	'Hungarian pronunciation of musical instruments' => 'hu',
-	'Hungarian pronunciation of names' => 'hu',
-	'Hungarian pronunciation of names of cities' => 'hu',
-	'Hungarian pronunciation of names of colors' => 'hu',
-	'Hungarian pronunciation of names of continents' => 'hu',
-	'Hungarian pronunciation of names of countries' => 'hu',
-	'Hungarian pronunciation of nationalities' => 'hu',
-	'Hungarian pronunciation of numbers' => 'hu',
-	'Icelandic pronunciation' => 'is', # no prefix, letter size
-	'Indonesian pronunciation' => 'id',
-	'Interlingua pronunciation' => 'ia',
-	'Irish pronunciation' => 'ga',
-	'Italian pronunciation' => 'it',
-	'Italian pronunciation of names of cities' => 'it',
-	'Italian pronunciation of names of countries' => 'it',
-	'Italian pronunciation of the names of planets' => 'it',
-	'Japanese pronunciation' => 'ja',
-	'Japanese pronunciation of names of continents' => 'ja',
-	'Japanese pronunciation of names of countries' => 'ja',
-	'Pronunciation of names of places in Japan' => 'ja',
-	'Pronunciation of Japanese numbers' => 'ja',
-	'Pronunciation of Japanese words' => 'ja',
-	'Jèrriais pronunciation' => 'roa',
-	'Jèrriais pronunciation of adjectives' => 'roa',
-	'Jèrriais pronunciation of adverbs' => 'roa',
-	'Jèrriais pronunciation of names' => 'roa',
-	'Jèrriais pronunciation of names of colors' => 'roa',
-	'Jèrriais pronunciation of names of continents' => 'roa',
-	'Jèrriais pronunciation of names of countries' => 'roa',
-	'Jèrriais pronunciation of numbers' => 'roa',
-	'Jèrriais pronunciation of verbs' => 'roa',
-	'Kapampangan pronunciation' => 'pam',
-	'Korean pronunciation' => 'ko',
-	'Latin pronunciation' => 'la',
-	'Latin pronunciation of names of continents' => 'la',
-	'Latvian pronunciation' => 'lv', # wrong naming
-	'Latvian pronunciation of names of continents' => 'lv',
-	'Latvian pronunciation of names of countries' => 'lv',
-	'Limburgish pronunciation' => 'li',
-	'Malagasy pronunciation' => 'mg',
-	'Mapudungun pronunciation' => 'arn',
-	'Navajo pronunciation' => 'nv',
-	'Norwegian pronunciation' => 'nb',
-	'Norwegian pronunciation of adjectives' => 'nb',
-	'Norwegian pronunciation of adverbs' => 'nb',
-	'Norwegian pronunciation of nouns' => 'nb',
-	'Norwegian pronunciation of verbs' => 'nb',
-	'Odia pronunciation' => 'or',
-	'Polish pronunciation' => 'pl',
-	'Polish pronunciation of islands' => 'pl',
-	'Polish pronunciation of names of cities' => 'pl',
-	'Polish pronunciation of names of continents' => 'pl',
-	'Polish pronunciation of names of countries' => 'pl',
-	'Polish pronunciation of nationalities' => 'pl',
-	'Polish pronunciation of numbers' => 'pl',
-	'Portuguese pronunciation' => 'pt',
-	'Portuguese pronunciation of names of countries' => 'pt',
-	'Romanian pronunciation' => 'ro',
-	'Romanian pronunciation of names of cities' => 'ro',
-	'Romanian pronunciation of names of countries' => 'ro',
-	'Romansh pronunciation' => 'roh',
-	'Sursilvan pronunciation' => 'roh',
-	'Russian pronunciation' => 'ru',
-	'Russian pronunciation of names of cities' => 'ru',
-	'Russian pronunciation of names of colors' => 'ru',
-	'Russian pronunciation of names of countries' => 'ru',
-	'Russian pronunciation of states of the United States' => 'ru',
-	'Russian words' => 'ru',
-	'Scottish Gaelic pronunciation' => 'gd',
-	'Serbian pronunciation' => 'sr', # capitalisation problems
-	'Serbian pronunciation of adverbs' => 'sr',
-	'Serbian pronunciation of names of countries' => 'sr',
-	'Serbian pronunciation of nouns' => 'sr',
-	'Serbian pronunciation of numbers' => 'sr',
-	'Serbian pronunciation of verbs' => 'sr',
-	'Slovak pronunciation' => 'sk',
-	'Slovak pronunciation of names of cities' => 'sk',
-	'Slovak pronunciation of names of countries' => 'sk',
-	'Slovene pronunciation' => 'sl',
-	'Slovenian pronunciation of cities' => 'sl',
-	'Slovenian pronunciation of names of countries' => 'sl',
-	'Spanish pronunciation' => 'es', # wrong naming, odd regional
-	'Spanish pronunciation of names of countries' => 'es',
-	'Andean Spanish pronunciation' => 'es',
-	'Mexican Spanish pronunciation' => 'es',
-	'Peruvian Coast Spanish pronunciation' => 'es',
-	'Pronunciation of Spanish words' => 'es',
-	'Swedish pronunciation' => 'sv',
-	'Swedish consonants' => 'sv',
-	'Swedish vowels' => 'sv',
-	'Swedish pronunciation of names of cities' => 'sv',
-	'Swedish pronunciation of names of continents' => 'sv',
-	'Swedish pronunciation of names of countries' => 'sv',
-	'Swedish pronunciation of numbers' => 'sv',
-	'Tagalog pronunciation' => 'tl',
-	'Tamil pronunciation' => 'ta',
-	'Thai pronunciation' => 'th',
-	'Turkish pronunciation' => 'tr',
-	'Twi pronunciation' => 'twi',
-	'Ukrainian pronunciation' => 'uk',
-	'Ukranian pronunciation of names of cities' => 'uk',
-	'Ukrainian pronunciation of names of countries' => 'uk',
-	'Upper Sorbian pronunciation' => 'hsb',
-	'Vietnamese pronunciation' => 'vi',
-	'Wymysorys pronunciation (Józef Gara\'s version)' => 'wym',
-	'Welsh pronunciation' => 'cy',
-	'Welsh pronunciation of adjectives' => 'cy',
-	'Welsh pronunciation of names of colors' => 'cy',
-	'Welsh pronunciation of days' => 'cy',
-	'Welsh pronunciation of given names' => 'cy',
-	'Welsh pronunciation of names of countries' => 'cy',
-	'Welsh pronunciation of names of languages' => 'cy',
-	'Welsh pronunciation of months' => 'cy',
-	'Welsh pronunciation of nouns' => 'cy',
-	'Welsh pronunciation of numbers' => 'cy',
-	'Welsh pronunciation of verbs' => 'cy',
-	'Welsh pronunciation of words relating to animals' => 'cy',
-	'Wolof pronunciation' => 'wo',
+my %categories = (
+	ar => {
+		include => ['Arabic pronunciation'],
+	},
+	arn => {
+		include => ['Mapudungun pronunciation'],
+	},
+	ba => {
+		include => ['Bashkir pronunciation'],
+	},
+	be => {
+		include => ['Belarusian pronunciation'],
+	},
+	bg => {
+		include => ['Bulgarian pronunciation'],
+	},
+	ce => {
+		include => ['Chechen pronunciation'],
+	},
+	cs => {
+		include => ['Czech pronunciation'],
+		exclude => ['Spoken Wikinews - Czech'],
+	},
+	cy => {
+		include => ['Welsh pronunciation'],
+	},
+	da => {
+		include => ['Danish pronunciation'],
+	},
+	de => {
+		single => ['Bavarian pronunciation', 'German pronunciation of given names'],
+		include => ['German pronunciation'],
+		exclude => ['German pronunciation of names of people'],
+	},
+	ee => {
+		include => ['Ewe pronunciation'],
+	},
+	el => {
+		include => ['Greek pronunciation'],
+		exclude => ['Spoken Wikipedia - Greek'],
+	},
+	en => {
+		single => ['English pronunciation of numbers'],
+		include => ['English pronunciation'],
+		exclude => ['Spoken Wikipedia - English'],
+	},
+	eo => {
+		include => ['Esperanto pronunciation'],
+	},
+	es => {
+		include => ['Spanish pronunciation'],
+		exclude => ['Spanish audiobooks'],
+	},
+	eu => {
+		include => ['Basque pronunciation'],
+	},
+	fa => {
+		include => ['Farsi pronunciation'],
+	},
+	fi => {
+		include => ['Finnish pronunciation'],
+	},
+	fr => {
+		single => ['Quebec French pronunciation'],
+		include => ['French pronunciation'],
+		exclude => ['Ogg sound files of spoken French'],
+	},
+	fy => {
+		include => ['Frisian pronunciation'],
+	},
+	ga => {
+		include => ['L\'accent dans le gaëlique du Munster'],
+	},
+	gd => {
+		include => ['Scottish Gaelic pronunciation'],
+	},
+	gl => {
+		include => ['Galician pronunciation'],
+	},
+	he => {
+		include => ['Hebrew pronunciation'],
+	},
+	hi => {
+		include => ['Hindi pronunciation'],
+		exclude => ['Spoken Wikipedia - Hindi'],
+	},
+	hr => {
+		include => ['Croatian pronunciation'],
+	},
+	hsb => {
+		include => ['Upper Sorbian pronunciation'],
+	},
+	hu => {
+		include => ['Hungarian pronunciation'],
+	},
+	hy => {
+		include => ['Armenian pronunciation'],
+	},
+	ia => {
+		include => ['Interlingua pronunciation'],
+	},
+	id => {
+		include => ['Indonesian pronunciation'],
+	},
+	is => {
+		include => ['Icelandic pronunciation'],
+		exclude => ['Icelandic pronunciation of Icelandic literature'],
+	},
+	it => {
+		include => ['Italian pronunciation'],
+		exclude => ['Ogg sound files of spoken Italian', 'Italian pronunciation of titles of classical music works',
+			'Spoken Wikinews - Italian', 'Spoken Wikipedia - Italian'],
+	},
+	ja => {
+		include => ['Japanese pronunciation'],
+		exclude => ['Japanese pitch accents', 'Japanese audio files from Wikibooks'],
+	},
+	ka => {
+		include => ['Georgian pronunciation'],
+	},
+	ko => {
+		include => ['Korean pronunciation'],
+	},
+	la => {
+		include => ['Latin pronunciation'],
+		exclude => ['Recitations in Latin'],
+	},
+	li => {
+		include => ['Limburgish pronunciation'],
+	},
+	lv => {
+		include => ['Latvian pronunciation'],
+	},
+	mg => {
+		include => ['Malagasy pronunciation'],
+	},
+	nb => {
+		include => ['Norwegian pronunciation'],
+	},
+	nl => {
+		include => ['Dutch pronunciation'],
+		exclude => ['Dutch pronunciation of buildings and places in Brussels',
+			'Dutch dialect pronunciation','Dutch pronunciation of names of municipalities',
+			'Dutch pronunciation (wikibooks)'],
+	},
+	nv => {
+		include => ['Navajo pronunciation'],
+	},
+	'or' => {
+		include => ['Odia pronunciation'],
+	},
+	pam => {
+		include	=> ['Kapampangan pronunciation'],
+	},
+	pl => {
+		include => ['Polish pronunciation'],
+		exclude	=> ['Spoken Wikipedia - Polish'],
+	},
+	pt => {
+		include => ['Portuguese pronunciation'],
+	},
+	roa => {
+		single => ['Jèrriais pronunciation of names of countries'], # no capitalization hack here
+		include => ['Jèrriais pronunciation'],
+	},
+	ro => {
+		include => ['Romanian pronunciation'],
+	},
+	roh => {
+		include => ['Romansh pronunciation'],
+	},
+	ru => {
+		include	=> ['Russian pronunciation'],
+	},
+	sk => {
+		include	=> ['Slovak pronunciation'],
+	},
+	sl => {
+		include	=> ['Slovene pronunciation'],
+		exclude	=> ['Audiobooks in Slovenian', 'Spoken Wikisource - Slovenian'],
+	},
+	sr => {
+		include => ['Serbian pronunciation'],
+		exclude => ['Serbian pronunciation of placenames', 'Spoken Wikipedia Serbian', 'Serbian pronunciation of names of people'],
+	},
+	sq => {
+		include => ['Albanian pronunciation'],
+		exclude => ['Ogg sound files of spoken Albanian'],
+	},
+	sv => {
+		include => ['Swedish pronunciation'],
+	},
+	ta => {
+		include => ['Tamil pronunciation'],
+		exclude => ['Tamil audio songs', 'Tamil audio articles', 'Tamil stories', 'Machine pronunciations'],
+	},
+	th => {
+		include => ['Thai pronunciation'],
+	},
+	tl => {
+		include => ['Tagalog pronunciation'],
+	},
+	'tr' => {
+		include => ['Turkish pronunciation'],
+	},
+	twi => {
+		include => ['Twi pronunciation'],
+	},
+	uk => {
+		include => ['Ukrainian pronunciation'],
+		exclude => ['Spoken Wikipedia - Ukrainian'],
+	},
+	yue => {
+		include => ['Cantonese pronunciation'],
+	},
+	vi => {
+		include => ['Vietnamese pronunciation'],
+	},
+	wo => {
+		include => ['Wolof pronunciation'],
+	},
+	wym => {
+		include => ['Vilamovian pronunciation'],
+	},
+	zh => {
+		include => ['Chinese pronunciation'],
+		exclude => ['Cantonese pronunciation','Shanghai dialect','Taiwanese pronunciation'],
+	},
 );
 if ($refresh_lang) {
 	my %filtered_categories;
-	while (my ($cat, $lang) = each(%categories)) {
+	while (my ($lang, $keys) = each(%categories)) {
 		if ($refresh_lang eq 'all' || $lang eq $refresh_lang) {
-			$filtered_categories{$cat} = $lang;
+			$filtered_categories{$lang} = $keys;
 		}
 	}
 	%categories = %filtered_categories;
 	die "no categories for lang code $refresh_lang" unless keys %categories;
-	print STDERR "Refreshing ", scalar(keys %categories), " categories for $refresh_lang\n";
+	print STDERR "Refreshing $refresh_lang\n";
 }
 
 # 'en' => 'cat' => 'en-us-cat.ogg<us>|en-gb-cat.ogg<uk>
@@ -327,16 +323,13 @@ sub save_pron {
 		my $latin = $&;
 		my @detected = detect_pronounced_word($lang, $file, $editor);
 		if ($#detected != -1) {
-			print "$lang-", encode_utf8($key), ": detected words are '", encode_utf8(join(' ', @detected)), "'\n";
+			print "$lang-", encode_utf8($key), ": detected words are '", encode_utf8(join(' ', @detected)), "'\n" if $Derbeth::Commons::verbose;
 			@keys = @detected;
 			$key = $detected[0];
 		} elsif (latin_chars_disallowed($lang)) {
-			print "$lang-",encode_utf8($key)," contains latin chars ($latin); won't be added\n";
+			print "$lang-",encode_utf8($key)," contains latin chars ($latin); won't be added\n" if $Derbeth::Commons::verbose;
 			return;
 		}
-	}
-	if ($file =~ /-synth-/) {
-		print encode_utf8($file), " ignored because is synthesized\n";
 	}
 
 	foreach my $k (@keys) {
@@ -407,29 +400,58 @@ sub _save_other_vers {
 	}
 }
 
+sub process_page {
+	my ($page, $code, $cat, $editor) = @_;
+	my ($file, @words) = word_pronounced_in_file($page, $code, $cat);
+	foreach my $word (@words) {
+		my $regional='';
+		my $low_priority=0;
+		$low_priority = 1 if $word =~ s/&$//;
+		if ($word =~ /<([^>]+)>$/) {
+			$word = $`;
+			$regional = $1;
+		}
+
+		save_pron($editor, $code, $word, $file, $regional, $low_priority);
+	}
+}
+
 my $server='http://commons.wikimedia.org/w/';
 my $editor = Derbeth::Wikitools::create_editor($server);
 
-foreach my $cat (sort(keys(%categories))) {
-	my $code = $categories{$cat};
-	my @pages=Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,'Category:'.$cat,undef,{file=>1},$refresh_lang);
-	print 'Category: ',encode_utf8($cat),' pages: ';
-	print scalar(@pages), "\n";
+foreach my $lang (sort keys %categories) {
+	my $lang_conf = $categories{$lang};
 
-	foreach my $page (sort @pages) {
-		$page =~ s/&#039;/'/g;
+	if (!$lang_conf->{single} && !$lang_conf->{include}) {
+		print "$lang: no categories to include!\n";
+		continue;
+	}
 
-		my ($file, @words) = word_pronounced_in_file($page, $code, $cat);
-		foreach my $word (@words) {
-			my $regional='';
-			my $low_priority=0;
-			$low_priority = 1 if $word =~ s/&$//;
-			if ($word =~ /<([^>]+)>$/) {
-				$word = $`;
-				$regional = $1;
+	if ($lang_conf->{single}) {
+		foreach my $cat (sort @{$lang_conf->{single}}) {
+			my @pages=Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,'Category:'.$cat,undef,{file=>1},$refresh_lang);
+			print "$lang: ", scalar(@pages), " pages in ", encode_utf8($cat), "\n";
+			foreach my $page (sort @pages) {
+				process_page($page, $lang, $cat, $editor);
 			}
+		}
+	}
 
-			save_pron($editor, $code, $word, $file, $regional, $low_priority);
+	if ($lang_conf->{include}) {
+		my @excluded;
+		push @excluded, @{$lang_conf->{exclude}} if $lang_conf->{exclude};
+		push @excluded, @{$lang_conf->{single}} if $lang_conf->{single};
+		my @pages = Derbeth::Wikitools::get_contents_include_exclude($editor,
+			$lang_conf->{include} || [],
+			\@excluded,
+			{file=>1},
+			$refresh_lang);
+		print "$lang: ", scalar(@pages), " pages in all of ", encode_utf8(join ' ',@{$lang_conf->{include}}), "\n";
+
+		my $main_included = $lang_conf->{include}->[0];
+		die unless $main_included; # TODO remove me
+		foreach my $page (sort @pages) {
+			process_page($page, $lang, $main_included, $editor);
 		}
 	}
 }

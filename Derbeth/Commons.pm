@@ -38,6 +38,9 @@ our @EXPORT = qw/detect_pronounced_word
 	latin_chars_disallowed
 	word_pronounced_in_file/;
 our $VERSION = 0.3.0;
+use vars qw($verbose);
+
+$verbose=0;
 
 Derbeth::Web::enable_caching(1);
 
@@ -157,8 +160,12 @@ sub word_pronounced_in_file {
 	my $main_text = $1;
 
 	if ($main_text =~ / \(etymology | \((adj|noun|verb)\)$/) {
-		print "skipping alternative variant ", encode_utf8($page), "\n";
+		print "skipping alternative variant ", encode_utf8($page), "\n" if $verbose;
 		return ();
+	}
+	if ($main_text =~ /-synth-/) {
+		print "skipping synthesized ", encode_utf8($page), "\n" if $verbose;
+		return;
 	}
 	if ($main_text =~ /Voice of America/) {
 		return ();
@@ -262,7 +269,7 @@ sub word_pronounced_in_file {
 			$lang_code=$code;
 		}
 		if ($main_text !~ /^$lang_code(- | |-)/i) { # case-insensitive
-			print 'not a pronunciation file: ',encode_utf8($page),"\n";
+			print 'not a pronunciation file: ',encode_utf8($page),"\n" if $verbose;
 			return ();
 		}
 		$word = $POSTMATCH;
@@ -385,7 +392,7 @@ sub word_pronounced_in_file {
 		}
 	}
 	elsif ($code eq 'pt') {
-		if ($word =~ /^(br|pt)-/) {
+		if ($word =~ /^(br|pt)[- ]/) {
 			$regional = $1 if ($1 ne 'pt');
 			$word = $POSTMATCH;
 		}
@@ -393,6 +400,9 @@ sub word_pronounced_in_file {
 	if ($code eq 'roh') {
 		if ($word =~ /^(sursilvan( \(Breil\))?)-/i) {
 			$regional = 'sursilvan';
+			$word = $POSTMATCH;
+		} elsif ($word =~ /^(putèr|vallader)-/i) {
+			$regional = $1;
 			$word = $POSTMATCH;
 		}
 	}
@@ -431,9 +441,6 @@ sub word_pronounced_in_file {
 
 	# === Letter size problems go here
 	if ($cat eq 'English pronunciation of numbers'
-	#||  $cat eq 'French pronunciation'
-	||  $cat eq 'Finnish pronunciation'
-	||  $cat eq 'French pronunciation of numbers'
 	||  $cat eq 'Jèrriais pronunciation'
 	||  $code eq 'sr'
 	) {

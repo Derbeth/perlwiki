@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.8.2;
+our $VERSION = 0.8.3;
 our %regional_names;
 our %regional_params_dewikt;
 our %text_to_regional_param_dewikt;
@@ -59,6 +59,7 @@ our %text_to_regional_param_dewikt;
 		'nz' => 'nowozelandzka',
 		'Paris' => 'paryska',
 		'ph' => 'filipińska',
+		'putèr' => 'Putèr',
 		'rom' => 'Rzymska',
 		'sa' => 'południowoafrykańska',
 		'sursilvan' => 'Sursilvan',
@@ -66,6 +67,7 @@ our %text_to_regional_param_dewikt;
 		'us' => 'amerykańska',
 		'us-inlandnorth' => 'amerykańska Inland North',
 		'us-ncalif' => 'amerykańska z Północnej Kalifornii',
+		'vallader' => 'Vallader',
 	},
 	'de' => {
 		'am-lat' => 'lateinamerikanisch',
@@ -86,6 +88,7 @@ our %text_to_regional_param_dewikt;
 		'nz' => 'neuseeländisch',
 		'Paris' => 'pariserisch',
 		'ph' => 'philippinisch',
+		'putèr' => 'Putèr',
 		'rom' => 'römisch',
 		'sa' => 'südafrikanisch',
 		'sursilvan' => 'Surselvisch',
@@ -94,6 +97,7 @@ our %text_to_regional_param_dewikt;
 		'us' => 'US-amerikanisch',
 		'us-inlandnorth' => 'amerikanisch Inland North',
 		'us-ncalif' => 'amerikanisch Nordkalifornien',
+		'vallader' => 'Vallader',
 	},
 	'en' => {
 		'am-lat' => 'Latin America',
@@ -114,6 +118,7 @@ our %text_to_regional_param_dewikt;
 		'nz' => 'NZ',
 		'Paris' => 'Paris',
 		'ph' => 'PH',
+		'putèr' => 'Putèr',
 		'rom' => 'Roman',
 		'sa' => 'SA',
 		'sursilvan' => 'Sursilvan',
@@ -121,6 +126,7 @@ our %text_to_regional_param_dewikt;
 		'us' => 'US',
 		'us-inlandnorth' => 'US Inland North',
 		'us-ncalif' => 'Northern California, US',
+		'vallader' => 'vallader',
 	}
 );
 $regional_names{'simple'} = $regional_names{'en'};
