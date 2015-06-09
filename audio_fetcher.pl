@@ -126,7 +126,8 @@ my %categories = (
 		include => ['Frisian pronunciation'],
 	},
 	ga => {
-		include => ['L\'accent dans le gaëlique du Munster'],
+		include => ['Irish pronunciation'],
+		exclude => ['L\'accent dans le gaëlique du Munster'],
 	},
 	gd => {
 		include => ['Scottish Gaelic pronunciation'],
