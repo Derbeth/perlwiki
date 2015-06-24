@@ -268,6 +268,9 @@ my %categories = (
 		include => ['Ukrainian pronunciation'],
 		exclude => ['Spoken Wikipedia - Ukrainian'],
 	},
+	uz => {
+		include => ['Uzbek pronunciation'],
+	},
 	yue => {
 		include => ['Cantonese pronunciation'],
 	},

@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.8.3;
+our $VERSION = 0.8.4;
 our %regional_names;
 our %regional_params_dewikt;
 our %text_to_regional_param_dewikt;
@@ -234,6 +234,7 @@ my %language_names = (
 		'tr'  => 'język turecki',
 		'twi' => 'język twi',
 		'uk'  => 'język ukraiński',
+		'uz'  => 'język uzbecki',
 		'vi'  => 'język wietnamski',
 		'wo'  => 'język wolof',
 		'wym' => 'język wilamowski',
@@ -307,6 +308,7 @@ my %language_names = (
 		'tr'  => 'Türkisch',
 		'twi' => 'Twi',
 		'uk'  => 'Ukrainisch',
+		'uz'  => 'Usbekisch',
 		'vi'  => 'Vietnamesisch',
 		'wo'  => 'Wolof',
 		'wym' => 'Wilmesaurisch', # cat does not exist yet
@@ -380,6 +382,7 @@ my %language_names = (
 		'tr'  => 'Turkish',
 		'twi' => 'Twi',
 		'uk'  => 'Ukrainian',
+		'uz'  => 'Uzbek',
 		'vi'  => 'Vietnamese',
 		'wo'  => 'Wolof',
 		'wym' => 'Vilamovian',
