@@ -200,7 +200,7 @@ Related words are Old High German {{term|wohha|lang=goh}} (Modern German {{term|
 
 ===Pronunciation===
 * {{IPA|/ʋeːk/|/weːk/|lang=nl}}
-* {{audio|Nl-week.ogg|Audio}}
+* {{audio|Nl-week.ogg|Audio|lang=nl}}
 
 ===Etymology===
 From {{etyl|odt|nl}} {{recons|wika|lang=odt}}, from {{proto|Germanic|wikōn|lang=nl}}.

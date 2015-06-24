@@ -8,7 +8,7 @@ Related words are Old High German {{term|wohha|lang=goh}} (Modern German {{term|
 ===Pronunciation===
 * {{enPR|wēk}}, {{IPA|/wiːk/}}, {{X-SAMPA|/wi:k/}}
 * {{audio|en-us-week.ogg|Audio (US)}}
-* {{audio|En-uk-a week.ogg|Audio (UK)}}
+* {{audio|En-uk-a week.ogg|Audio (UK)|lang=en}}
 * {{rhymes|iːk}}
 * {{homophones|weak|lang=en}}
 

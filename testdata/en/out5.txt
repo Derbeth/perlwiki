@@ -147,7 +147,7 @@ only used in Modern French as ''us et coutumes'' (traditions and customs)
 ==Latin==
 
 ===Pronunciation===
-* {{audio|la-ecc-us.ogg|Audio}}
+* {{audio|la-ecc-us.ogg|Audio|lang=la}}
 
 ===Verb===
 {{la-verb-form|us esse}}

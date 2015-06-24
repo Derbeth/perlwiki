@@ -7,7 +7,7 @@
 this is some etymology
 
 ===Pronunciation===
-* {{audio|En-manysections.ogg|Audio}}
+* {{audio|En-manysections.ogg|Audio|lang=en}}
 
 ===Noun===
 {{en-noun|-|head=[[sit down|sit-down]] [[money]]}}

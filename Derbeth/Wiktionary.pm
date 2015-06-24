@@ -71,6 +71,7 @@ sub create_audio_entries_enwikt {
 			$regional_name = get_regional_name('en',$region);
 			$text .= " ($regional_name)";
 		}
+		$text .= "|lang=$lang_code";
 		$text .= '}}';
 
 		push @audios, $text;
@@ -80,7 +81,9 @@ sub create_audio_entries_enwikt {
 }
 
 sub create_audio_entries_simplewikt {
-	return create_audio_entries_enwikt(@_);
+	my ($text, $count, $summary) = create_audio_entries_enwikt(@_);
+	$text =~ s/\|lang=[^}]+//g;
+	return ($text, $count, $summary);
 }
 
 # Function: create_audio_entries_frwikt
