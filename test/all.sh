@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
+
 echo ...addaudio
 ./test/addaudio.pl
 echo ...cache
