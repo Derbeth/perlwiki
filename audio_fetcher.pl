@@ -428,7 +428,7 @@ foreach my $lang (sort keys %categories) {
 
 	if (!$lang_conf->{single} && !$lang_conf->{include}) {
 		print "$lang: no categories to include!\n";
-		continue;
+		next;
 	}
 
 	if ($lang_conf->{single}) {
