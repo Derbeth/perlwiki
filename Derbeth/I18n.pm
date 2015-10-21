@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.8.4;
+our $VERSION = 0.8.5;
 our %regional_names;
 our %regional_params_dewikt;
 our %text_to_regional_param_dewikt;
@@ -53,7 +53,8 @@ our %text_to_regional_param_dewikt;
 		'chile' => 'chilijska',
 		'cls' => 'tradycyjna', # łacina
 		'ecc' => 'kościelna',
-		'east-armenian' => 'ze Wschodniej Armenii',
+		'east-armenian' => 'wschodnioormiańska',
+		'west-armenian' => 'zachodnioormiańska',
 		'Lewis' => '– wyspa Lewis',
 		'mx' => 'meksykańska',
 		'nz' => 'nowozelandzka',
@@ -83,6 +84,7 @@ our %text_to_regional_param_dewikt;
 		'cls' => 'klassisches Latein',
 		'ecc' => 'Kirchenlatein',
 		'east-armenian' => 'ostarmenisch',
+		'west-armenian' => 'westarmenisch',
 		'Lewis' => 'Lewis Insel',
 		'mx' => 'mexikanisch',
 		'nz' => 'neuseeländisch',
@@ -112,6 +114,7 @@ our %text_to_regional_param_dewikt;
 		'chile' => 'Chile',
 		'cls' => 'classical',
 		'east-armenian' => 'East Armenian',
+		'west-armenian' => 'West Armenian',
 		'ecc' => 'ecclesiastical',
 		'Lewis' => 'Isle of Lewis',
 		'mx' => 'Mexico',
