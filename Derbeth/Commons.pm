@@ -55,7 +55,7 @@ my $LOWPR = '&';
 
 sub latin_chars_disallowed {
 	my ($lang) = @_;
-	return $lang =~ /^(ar|be|el|fa|he|hi|ja|ka|ko|mk|or|ru|th|uk)$/;
+	return $lang =~ /^(ar|be|el|fa|he|hi|hy|ja|ka|ko|mk|or|ru|th|uk)$/;
 }
 
 # For a pronunciation file for a non-Latin-script language, tries to guess
@@ -235,6 +235,12 @@ sub word_pronounced_in_file {
 	elsif ($code eq 'hy') {
 		if ($main_text =~ /^HyW-/i) {
 			$regional = 'west-armenian';
+		} elsif ($main_text =~ / WA$/) {
+			$regional = 'west-armenian';
+			$main_text = $`;
+		} elsif ($main_text !~ /-/) {
+			$skip_key_extraction = 1;
+			$word = $main_text;
 		}
 	}
 	elsif ($code eq 'is') {
