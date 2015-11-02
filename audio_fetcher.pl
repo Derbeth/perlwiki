@@ -255,6 +255,9 @@ my %categories = (
 		include => ['Tamil pronunciation'],
 		exclude => ['Tamil audio songs', 'Tamil audio articles', 'Tamil stories', 'Machine pronunciations'],
 	},
+	te => {
+		include => ['Telugu pronunciation'],
+	},
 	th => {
 		include => ['Thai pronunciation'],
 	},

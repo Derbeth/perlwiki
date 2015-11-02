@@ -49,13 +49,14 @@ my %regional_fr = ('fr-Paris' => 'Paris', 'FR Paris' => 'Paris', 'fr FR-Paris' =
 # normal language code => regexp for matching alternative code
 my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by|bar', 'el' => 'ell', 'fr' => 'qc', 'hy' => 'hyw-hy|hyw', 'nb' => 'no',
 	'roa' => 'jer');
+my %editor_cache;
 
 # marks words with lower priority
 my $LOWPR = '&';
 
 sub latin_chars_disallowed {
 	my ($lang) = @_;
-	return $lang =~ /^(ar|be|el|fa|he|hi|hy|ja|ka|ko|mk|ne|or|ru|th|uk)$/;
+	return $lang =~ /^(ar|be|el|fa|he|hi|hy|ja|ka|ko|mk|ne|or|ru|te|th|uk)$/;
 }
 
 # For a pronunciation file for a non-Latin-script language, tries to guess
@@ -69,23 +70,32 @@ sub latin_chars_disallowed {
 #   array of detected real words or empty array if the real word cannot be detected
 sub detect_pronounced_word {
 	my ($lang,$file,$editor) = @_;
-	return () unless (_detect_language_supported($lang));
 
-	my $wikicode = Derbeth::Wikitools::get_wikicode_perlwikipedia($editor, "File:$file");
-	unless ($wikicode && $wikicode =~ /\w/) {
-		print encode_utf8("cannot detect word: no description for File:$file\n");
-		return ();
+	if (_detect_by_content_supported($lang)) {
+		my $wikicode = Derbeth::Wikitools::get_wikicode_perlwikipedia($editor, "File:$file");
+		unless ($wikicode && $wikicode =~ /\w/) {
+			print encode_utf8("cannot detect word: no description for File:$file\n");
+			return ();
+		}
+		return _detect_by_content($lang, $wikicode);
 	}
-
-	return _detect($lang, $wikicode);
+	if (_detect_by_usages_supported($lang)) {
+		return _detect_by_usages($lang,$file);
+	}
+	return ();
 }
 
-sub _detect_language_supported {
+sub _detect_by_content_supported {
 	my ($lang) = @_;
 	return ($lang =~ /^(bg|he|ja|ka|or|th|zh)$/);
 }
 
-sub _detect {
+sub _detect_by_usages_supported {
+	my ($lang) = @_;
+	return ($lang =~ /^(te)$/);
+}
+
+sub _detect_by_content {
 	my ($lang, $wikicode) = @_;
 	my @detected;
 
@@ -139,6 +149,28 @@ sub _detect {
 	}
 
 	return @detected;
+}
+
+sub _detect_by_usages {
+	my ($lang,$file) = @_;
+	my $local_editor = $editor_cache{$lang} || Derbeth::Wikitools::create_editor("http://$lang.wiktionary.org/w/");
+	my $query = {action=>'query',iutitle=>"File:$file",list=>'imageusage',fuprop=>'title',
+		fushow=>'!redirect',fulimit=>2};
+	my $result_ref = $local_editor->{api}->list($query, {max=>1});
+	unless ($result_ref) {
+		print encode_utf8("cannot detect word in $file: ").$local_editor->{api}->{error}->{code}
+			. ': ' . $local_editor->{api}->{error}->{details}."\n";
+		return ();
+	}
+	my @usages = @{$result_ref};
+	if ($#usages == -1) {
+		return ();
+	}
+	if ($#usages > 0) {
+		print encode_utf8("more than 1 usage of $file\n");
+		return ();
+	}
+	return ($usages[0]->{title});
 }
 
 # Returns word pronounced in given file.
@@ -268,6 +300,12 @@ sub word_pronounced_in_file {
 	elsif ($code eq 'sq') {
 		if ($main_text =~ /^Albanian /) {
 			return ($file, $POSTMATCH);
+		}
+	}
+	elsif ($code eq 'te') {
+		if ($main_text =~ / ?- ?te$/i) {
+			$skip_key_extraction = 1;
+			$word = $`;
 		}
 	}
 	elsif ($code eq 'tr') {

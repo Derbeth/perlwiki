@@ -67,9 +67,9 @@ sub test_latin_chars_disallowed {
 
 sub _check_detected {
 	my ($input_file, $lang_code, $expected_arr) = @_;
-	assert_true Derbeth::Commons::_detect_language_supported($lang_code);
+	assert_true Derbeth::Commons::_detect_by_content_supported($lang_code);
 	my $input = read_file("testdata/commons-detect/$input_file", binmode => ':utf8');
-	my @actual = Derbeth::Commons::_detect($lang_code, $input);
+	my @actual = Derbeth::Commons::_detect_by_content($lang_code, $input);
 	assert_deep_equals $expected_arr, \@actual;
 	return 1;
 }
