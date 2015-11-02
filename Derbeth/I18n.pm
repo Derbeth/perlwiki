@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.8.5;
+our $VERSION = 0.8.6;
 our %regional_names;
 our %regional_params_dewikt;
 our %text_to_regional_param_dewikt;
@@ -215,6 +215,7 @@ my %language_names = (
 		'mg'  => 'język malgaski',
 		'mk'  => 'język macedoński',
 		'nb'  => 'język norweski (bokmål)',
+		'ne'  => 'język nepalski',
 		'nl'  => 'język holenderski',
 		'nv'  => 'język nawaho',
 		'or'  => 'orija',
@@ -232,6 +233,7 @@ my %language_names = (
 		'sr'  => 'język serbski',
 		'sv'  => 'język szwedzki',
 		'ta'  => 'język tamilski',
+		'te'  => 'język telugu',
 		'th'  => 'język tajski',
 		'tl'  => 'język tagalski',
 		'tr'  => 'język turecki',
@@ -289,6 +291,7 @@ my %language_names = (
 		'mg'  => 'Malagasy',
 		'mk'  => 'Mazedonisch',
 		'nb'  => 'Norwegisch',
+		'ne'  => 'Nepali',
 		'nl'  => 'Niederländisch',
 		'nv'  => 'Navajo',
 		'or'  => 'Oriya',
@@ -306,6 +309,7 @@ my %language_names = (
 		'sr'  => 'Serbisch',
 		'sv'  => 'Schwedisch',
 		'ta'  => 'Tamil',
+		'te'  => 'Telugu',
 		'th'  => 'Thai',
 		'tl'  => 'Tagalog',
 		'tr'  => 'Türkisch',
@@ -363,6 +367,7 @@ my %language_names = (
 		'mg'  => 'Malagasy',
 		'mk'  => 'Macedonian',
 		'nb'  => 'Norwegian',
+		'ne'  => 'Nepali',
 		'nl'  => 'Dutch',
 		'nv'  => 'Navajo',
 		'or'  => 'Oriya',
@@ -380,6 +385,7 @@ my %language_names = (
 		'sr'  => 'Serbian',
 		'sv'  => 'Swedish',
 		'ta'  => 'Tamil',
+		'te'  => 'Telugu',
 		'tl'  => 'Tagalog',
 		'th'  => 'Thai',
 		'tr'  => 'Turkish',

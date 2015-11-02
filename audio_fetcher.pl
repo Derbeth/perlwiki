@@ -195,6 +195,9 @@ my %categories = (
 	nb => {
 		include => ['Norwegian pronunciation'],
 	},
+	'ne' => {
+		include => ['Nepali pronunciation'],
+	},
 	nl => {
 		include => ['Dutch pronunciation'],
 		exclude => ['Dutch pronunciation of buildings and places in Brussels',

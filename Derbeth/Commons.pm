@@ -55,7 +55,7 @@ my $LOWPR = '&';
 
 sub latin_chars_disallowed {
 	my ($lang) = @_;
-	return $lang =~ /^(ar|be|el|fa|he|hi|hy|ja|ka|ko|mk|or|ru|th|uk)$/;
+	return $lang =~ /^(ar|be|el|fa|he|hi|hy|ja|ka|ko|mk|ne|or|ru|th|uk)$/;
 }
 
 # For a pronunciation file for a non-Latin-script language, tries to guess
@@ -82,7 +82,7 @@ sub detect_pronounced_word {
 
 sub _detect_language_supported {
 	my ($lang) = @_;
-	return ($lang =~ /^(bg|he|ja|or|th|zh)$/);
+	return ($lang =~ /^(bg|he|ja|ka|or|th|zh)$/);
 }
 
 sub _detect {
@@ -101,6 +101,11 @@ sub _detect {
 	}
 	elsif ($lang eq 'he') {
 		if ($wikicode =~ /Pronunciation of the Hebrew word "([^a-z"]+)"/) {
+			push @detected, $1;
+		}
+	}
+	elsif ($lang eq 'ka') {
+		if ($wikicode =~ /წარმოთქმა „([^“]+)“. მამაკაცის/) {
 			push @detected, $1;
 		}
 	}
@@ -252,6 +257,12 @@ sub word_pronounced_in_file {
 		$main_text =~ s/ \.\.\.//;
 		if ($main_text =~ /^Italian /) {
 			return ($file, $POSTMATCH);
+		}
+	}
+	elsif ($code eq 'ne') {
+		if ($main_text !~ /-/) {
+			$skip_key_extraction = 1;
+			$word = $main_text;
 		}
 	}
 	elsif ($code eq 'sq') {
