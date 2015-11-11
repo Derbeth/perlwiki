@@ -1,0 +1,16 @@
+=={{int:filedesc}}==
+{{Information
+|description={{ka|1=ქართული მშობლიური წარმოთქმა „ვიეტნამი“. მამაკაცის ხმა.}}{{en|1=Polish native pronunciation of „vietnami“. Male voice.}}
+|date=2015-05-27
+|source={{own}}
+|author=[[User:David1010|David1010]]
+|permission=
+|other versions=
+}}
+
+=={{int:license-header}}==
+{{self|cc-by-sa-4.0}}
+
+
+[[Category:Georgian pronunciation]]
+[[Category:Uploaded with UploadWizard]]
