@@ -47,6 +47,7 @@ my $lang_code='de';
 my $language=get_language_name('de',$lang_code);
 my $pause=2;          # number of seconds to wait before fetching each page
 my $randomize=0; # edit pages in random order
+my $recache=0;
 my $verbose=0;
 
 my %settings = load_hash('settings.ini');
@@ -61,7 +62,7 @@ Derbeth::Web::enable_caching(1);
 # ============ end settings
 
 GetOptions('p|limit=i' => \$edited_pages_limit, 'r|random!' => \$randomize, 'v|verbose!' => \$verbose,
-	'pause=i' => \$pause) or die;
+	'pause=i' => \$pause, 'recache!' => \$recache) or die;
 
 my %done; # langcode-skip_word => 1
 my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
@@ -110,7 +111,7 @@ open(ERRORS,">>$errors_file");
 my $server='http://de.wiktionary.org/w/';
 my $category='Kategorie:Deutsch';
 
-my @entries = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,$category,undef,{main=>1});
+my @entries = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor,$category,undef,{main=>1}, $recache);
 # my @entries = ('Abteilung');
 
 my $word_count = scalar(@entries);
