@@ -129,7 +129,7 @@ sub split_article_plwikt {
 sub _split_article_pl {
 	my ($lang, $article_text) = @_;
 	
-	my @sections = split /(==.*?\( *{{[^}]+\}\} *\).*?==)/, $article_text;
+	my @sections = split /(==.*?\( *\{\{[^}]+\}\} *\).*?==)/, $article_text;
 	
 	#print "sections: $#sections\n";
 	
@@ -140,7 +140,7 @@ sub _split_article_pl {
 		
 		my $lang_escaped = escape_regex($lang);
 		#print encode_utf8("lang escaped: $lang_escaped\n");
-		if ($section =~ /==.*?\( *{{ *$lang_escaped *(\|[^}]+)?}} *\).*?==/i) {
+		if ($section =~ /==.*?\( *\{\{ *$lang_escaped *(\|[^}]+)?}} *\).*?==/i) {
 			last;
 		}
 		++$lang_index;
@@ -190,7 +190,7 @@ sub split_article_dewikt {
 sub _split_article_de {
 	my ($lang, $article_text) = @_;
 	
-	my @sections = split /(==[^={]+\(\s*{{\s*Sprache\s*\|\s*[^)]+\)\s*==)/, $article_text;
+	my @sections = split /(==[^={]+\(\s*\{\{\s*Sprache\s*\|\s*[^)]+\)\s*==)/, $article_text;
 	
 	#print "sections: $#sections\n";
 	
@@ -199,7 +199,7 @@ sub _split_article_de {
 	
 	foreach my $section (@sections) {
 			
-		if ($section =~ /==[^={]+\(\s*{{\s*Sprache\s*\|\s*$lang\s*}}\s*\)\s*==/) {
+		if ($section =~ /==[^={]+\(\s*\{\{\s*Sprache\s*\|\s*$lang\s*}}\s*\)\s*==/) {
 			last;
 		}
 		++$lang_index;

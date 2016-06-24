@@ -125,10 +125,10 @@ sub _detect_by_content {
 		}
 	}
 	elsif ($lang eq 'ja') {
-		if ($wikicode =~ /Pronunciation of the Japanese(?: word)? {{lang\|ja\|「([^」a-z]+)」}}/) {
+		if ($wikicode =~ /Pronunciation of the Japanese(?: word)? \{\{lang\|ja\|「([^」a-z]+)」}}/) {
 			push @detected, $1;
 		}
-		if ($wikicode =~ /Pronunciation of the Japanese word[^(]+\({{lang\|ja\|([^,()a-z]+),/) {
+		if ($wikicode =~ /Pronunciation of the Japanese word[^(]+\(\{\{lang\|ja\|([^,()a-z]+),/) {
 			push @detected, $1;
 		}
 	}

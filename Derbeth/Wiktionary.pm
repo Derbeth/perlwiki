@@ -389,15 +389,15 @@ sub add_audio_enwikt {
 		return (2,0,$edit_summary);
 	}
 
-	if ($$section =~ /{{rfap/) {
-		if($$section =~ s/{{rfap(\|lang=$lang_code)?}}\r?\n//) {
+	if ($$section =~ /\{\{rfap/) {
+		if($$section =~ s/\{\{rfap(\|lang=$lang_code)?}}\r?\n//) {
 			$edit_summary .= '; removed {{rfap}}';
 		} else {
 			$edit_summary .= '; cannot remove {{rfap}}';
 		}
 	}
 
-	$$section =~ s/(\n|\r|\f){{IPA/$1*{{IPA/;
+	$$section =~ s/(\n|\r|\f)\{\{IPA/$1*{{IPA/;
 
 	#my $cat = '[[Category:Mandarin entries with audio links]]';
 	#if ($$section =~ s/(\[\[Category:)/$cat\n$1/){
@@ -568,17 +568,17 @@ sub add_audio_dewikt {
 		$newaudio .= ', {{Pl.}} {{Audio|}}';
 	}
 
-	if ($$section !~ /{{Aussprache}}/) {
+	if ($$section !~ /\{\{Aussprache}}/) {
 		$edit_summary .= '; + fehlende {{Aussprache}}';
 
-		if ($$section !~ /{{Bedeutung/) {
+		if ($$section !~ /\{\{Bedeutung/) {
 			unless ($$section =~ s/(==== *Übersetzungen)/{{Bedeutungen}}\n\n$1/) {
 				return (2,0,$edit_summary.$edit_summary_pl.'; no {{Bedeutungen}} and cannot add it');
 			}
 			$edit_summary .= '; + {{Bedeutungen}} (leer)';
 		}
 
-		unless ($$section =~ s/{{Bedeutung(en)?}}/{{Aussprache}}
+		unless ($$section =~ s/\{\{Bedeutung(en)?}}/{{Aussprache}}
 $newipa
 $newaudio
 
@@ -586,18 +586,18 @@ $newaudio
 			return (2,0,$edit_summary.$edit_summary_pl.'; cannot add {{Aussprache}}');
 		}
 	}
-	if ($$section !~ /: *{{Hörbeispiele}}/) {
-		$$section =~ s/{{Aussprache}}/{{Aussprache}}
+	if ($$section !~ /: *\{\{Hörbeispiele}}/) {
+		$$section =~ s/\{\{Aussprache}}/{{Aussprache}}
 $newaudio/x;
 	}
 
 	if ($audios ne '') {
-		if ($$section =~ /{{Hörbeispiele}} +(-|–|—|{{[fF]ehlend}}|{{[aA]udio\|}})/) {
-			unless ($$section =~ s/({{Hörbeispiele}}) +(-|–|—|{{[fF]ehlend}}|{{[aA]udio\|}})/$1 $audios/) {
+		if ($$section =~ /\{\{Hörbeispiele}} +(-|–|—|\{\{[fF]ehlend}}|\{\{[aA]udio\|}})/) {
+			unless ($$section =~ s/(\{\{Hörbeispiele}}) +(-|–|—|\{\{[fF]ehlend}}|\{\{[aA]udio\|}})/$1 $audios/) {
 				return (2,0,$edit_summary.$edit_summary_pl.'; cannot replace {{fehlend}}');
 			}
 		} else { # already some pronunciation
-			unless ($$section =~ s/({{Hörbeispiele}}) */$1 $audios /) {
+			unless ($$section =~ s/(\{\{Hörbeispiele}}) */$1 $audios /) {
 				return (2,0,$edit_summary.$edit_summary_pl.'; cannot append pron.');
 			}
 			$$section =~ s/  / /g;
@@ -605,12 +605,12 @@ $newaudio/x;
 	}
 
 	if ($audios_pl ne '') {
-		$$section =~ /({{Hörbeispiele}})([^\r\f\n]*)/;
+		$$section =~ /(\{\{Hörbeispiele}})([^\r\f\n]*)/;
 		my $before = $`.$1;
 		my $after = $';
 		my $pron_line = $2;
 
-		if ($pron_line =~ /{{Pl\.\d}}/) {
+		if ($pron_line =~ /\{\{Pl\.\d}}/) {
 			if ($audios eq '') {
 				return (2,0,$edit_summary.$edit_summary_pl.'; cannot handle multiple plural');
 			} else {
@@ -618,14 +618,14 @@ $newaudio/x;
 			}
 		} else {
 			# no plural {{Pl.}} ?
-			if ($pron_line !~ /{{Pl\.}}/) {
+			if ($pron_line !~ /\{\{Pl\.}}/) {
 				$pron_line .= ' {{Pl.}} {{Audio|}}';
 			}
 
-			if ($pron_line =~ /{{Pl\.}} +{{([fF]ehlend|[aA]udio\|)}}/) {
-				$pron_line =~ s/{{Pl\.}} +{{([fF]ehlend|[aA]udio\|)}}/{{Pl.}} $audios_pl/;
+			if ($pron_line =~ /\{\{Pl\.}} +\{\{([fF]ehlend|[aA]udio\|)}}/) {
+				$pron_line =~ s/\{\{Pl\.}} +\{\{([fF]ehlend|[aA]udio\|)}}/{{Pl.}} $audios_pl/;
 			} else {
-				$pron_line =~ s/{{Pl\.}}/{{Pl.}} $audios_pl/;
+				$pron_line =~ s/\{\{Pl\.}}/{{Pl.}} $audios_pl/;
 			}
 
 			$$section = $before.$pron_line.$after;
@@ -635,7 +635,7 @@ $newaudio/x;
 	}
 
 	# if audio before ipa, put it after ipa
-	$$section =~ s/(:{{Hörbeispiele}}.*)(\n|\r|\f)(:{{IPA}}.*)/$3$2$1/;
+	$$section =~ s/(:\{\{Hörbeispiele}}.*)(\n|\r|\f)(:\{\{IPA}}.*)/$3$2$1/;
 
 	# prevent pronunciation being commented out
 	#if ($$section =~ /<!--((.|\n|\r|\f)*?Aussprache(.|\n|\r|\f)*?)-->/$1/) {
@@ -648,8 +648,8 @@ $newaudio/x;
 sub _put_audio_plwikt {
 	my ($pron_part_ref,$audios) = @_;
 
-	if ($$pron_part_ref =~ /{{IPA/) {
-		unless ($$pron_part_ref =~ s/({{IPA[^}]+}})/$1 $audios/) {
+	if ($$pron_part_ref =~ /\{\{IPA/) {
+		unless ($$pron_part_ref =~ s/(\{\{IPA[^}]+}})/$1 $audios/) {
 			return 0;
 		}
 	} else {
@@ -666,7 +666,7 @@ sub _put_audio_plwikt {
 sub _split_pron_plwikt {
 	my ($section_ref) = @_;
 
-	$$section_ref =~ /{{wymowa}}([^\r\n\f]*)/;
+	$$section_ref =~ /\{\{wymowa}}([^\r\n\f]*)/;
 	my $pron_line = $1;
 	die if $pron_line =~ /\n|\r|\f/;
 	my $pron_line_prelude='';
@@ -675,14 +675,14 @@ sub _split_pron_plwikt {
 		$pron_line_prelude .= $MATCH;
 		$pron_line = $POSTMATCH;
 	}
-	if ($pron_line =~ /^.*{{lp}} */) {
+	if ($pron_line =~ /^.*\{\{lp}} */) {
 		$pron_line_prelude .= $MATCH;
 		$pron_line = $POSTMATCH;
 	}
 
 	my ($pron_line_sing,$pron_line_pl);
-	if ($pron_line =~ /^(.*){{lm}}/) {
-		$pron_line =~ /^(.*){{lm}}/;
+	if ($pron_line =~ /^(.*)\{\{lm}}/) {
+		$pron_line =~ /^(.*)\{\{lm}}/;
 		$pron_line_sing = $1;
 		$pron_line_pl = $POSTMATCH;
 	} else {
@@ -717,9 +717,9 @@ sub add_audio_plwikt {
 	my ($audios_pl,$audios_count_pl,$edit_summary_pl)
 		= create_audio_entries('pl',$lang_code,$pron_pl,$section_ref,$singular);
 
-	if ($$section_ref !~ /{{wymowa}}/) {
+	if ($$section_ref !~ /\{\{wymowa}}/) {
 		push @summary, '+ brakująca sekcja {{wymowa}}';
-		unless ($$section_ref =~ s/{{znaczenia}}/{{wymowa}}\n{{znaczenia}}/) {
+		unless ($$section_ref =~ s/\{\{znaczenia}}/{{wymowa}}\n{{znaczenia}}/) {
 			push @summary, 'nie udało się dodać sekcji "wymowa"';
 			return (2,0,join('; ', @summary));
 		}
@@ -728,8 +728,8 @@ sub add_audio_plwikt {
 	my ($pron_line_prelude,$pron_line_sing,$pron_line_pl)
 		= _split_pron_plwikt($section_ref);
 
-	my $can_add_ipa = ($ipa_sing ne '' && $pron_line_sing !~ /{{IPA/)
-	|| ($ipa_pl ne '' && $pron_line_pl !~ /{{IPA/);
+	my $can_add_ipa = ($ipa_sing ne '' && $pron_line_sing !~ /\{\{IPA/)
+	|| ($ipa_pl ne '' && $pron_line_pl !~ /\{\{IPA/);
 
 	if ($audios eq '' && $audios_pl eq '' && !$can_add_ipa) {
 		return (1,'','');
@@ -747,11 +747,11 @@ sub add_audio_plwikt {
 		push @summary, '+ audio dla lm '.$edit_summary_pl;
 	}
 
-	if ($ipa_sing ne '' && $pron_line_sing !~ /{{IPA/) {
+	if ($ipa_sing ne '' && $pron_line_sing !~ /\{\{IPA/) {
 		$pron_line_sing = "{{IPA3|$ipa_sing}} " . $pron_line_sing;
 		push @summary, '+ IPA dla lp z de.wikt';
 	}
-	if ($ipa_pl ne '' && $pron_line_pl !~ /{{IPA/) {
+	if ($ipa_pl ne '' && $pron_line_pl !~ /\{\{IPA/) {
 		$pron_line_pl = "{{IPA4|$ipa_pl}} " . $pron_line_pl;
 		push @summary, '+ IPA dla lm z de.wikt';
 	}
@@ -780,7 +780,7 @@ sub add_audio_plwikt {
 		push @summary, 'UWAGA: napotkano IPA bez szablonu';
 	}
 
-	$$section_ref =~ s/{{wymowa}}(.*)/{{wymowa}}$pron_line/;
+	$$section_ref =~ s/\{\{wymowa}}(.*)/{{wymowa}}$pron_line/;
 
 	return (0,$audios_count,join('; ', @summary));
 }
@@ -843,7 +843,7 @@ sub initial_cosmetics_dewikt {
 	my @summary;
 	my $comment_removed = 0;
 
-	if ($$page_text_ref =~ s/({{Aussprache}}) +(\[\[Hilfe:IPA\|)/$1\n:$2/g) {
+	if ($$page_text_ref =~ s/(\{\{Aussprache}}) +(\[\[Hilfe:IPA\|)/$1\n:$2/g) {
 		push @summary, '{{Aussprache}} und IPA waren in einer Zeile';
 	}
 
@@ -857,7 +857,7 @@ sub initial_cosmetics_dewikt {
 		while ($$page_text_ref =~ /<!--((.|\n|\r|\f)*?)-->/gc) {
 			my $comment = $MATCH;
 			my $inside = $1;
-			if ($inside =~ /Hilfe:Hörbeispiele|{{Aussprache}}/) {
+			if ($inside =~ /Hilfe:Hörbeispiele|\{\{Aussprache}}/) {
 				# prepare to serve as regexp
 				#$comment =~ s/([^\\])([\[|])/$1\\$2/g;
 				$comment =~ s/(\[|\||\(|\))/\\$1/g;
@@ -873,7 +873,7 @@ sub initial_cosmetics_dewikt {
 			}
 		}
 	}
-	$$page_text_ref =~ s/ +{{Aussprache}}/{{Aussprache}}/g;
+	$$page_text_ref =~ s/ +\{\{Aussprache}}/{{Aussprache}}/g;
 	$$page_text_ref =~ s/ +(:\[\[Hilfe:(IPA|Hörbeispiele))/$1/g;
 	if ($comment_removed) {
 		push @summary, 'ein Kommentar um Aussprache wurde entfernt';
@@ -894,7 +894,7 @@ sub initial_cosmetics_dewikt {
 	if ($$page_text_ref =~ s/(:\[\[Hilfe:(Hörbeispiele|IPA)[^\r\f\n]*)''Plural:?''/$1\{\{Pl.}}/g) {
 		push @summary, "''Plural'' -> {{Pl.}}";
 	}
-	if ($$page_text_ref =~ s/{{Bedeutung}}/{{Bedeutungen}}/gi) {
+	if ($$page_text_ref =~ s/\{\{Bedeutung}}/{{Bedeutungen}}/gi) {
 		push @summary, '{{Bedeutung}} -> {{Bedeutungen}}';
 	}
 
@@ -922,21 +922,21 @@ sub initial_cosmetics_plwikt {
 
 	$$page_text_ref =~ s/''l(p|m)''/{{l$1}}/g;
 
-	if ($$page_text_ref =~ s/<!-- *{{IPA[^}]+}} *-->//g) {
+	if ($$page_text_ref =~ s/<!-- *\{\{IPA[^}]+}} *-->//g) {
 		push @summary, '- zakomentowane puste IPA';
 		$comm_removed = 1;
 	}
 	if ($$page_text_ref =~ s/<!-- *\[\[Aneks:IPA\|(IPA)?\]\]:.*?-->//g) {
 		push @summary, '- zakomentowane puste IPA' if (!$comm_removed);
 	}
-	if ($$page_text_ref =~ s/{{wymowa}} +\[\[Aneks:IPA\|IPA\]\]:\s*(?:\/\s*\/\s*)?(\n|\r|\f)/{{wymowa}}$1/g) {
+	if ($$page_text_ref =~ s/\{\{wymowa}} +\[\[Aneks:IPA\|IPA\]\]:\s*(?:\/\s*\/\s*)?(\n|\r|\f)/{{wymowa}}$1/g) {
 		push @summary, 'usun. pustego IPA';
 	}
 
-	if ($$page_text_ref =~ s/{{IPA.?\|}}//g) {
+	if ($$page_text_ref =~ s/\{\{IPA.?\|}}//g) {
 		push @summary, 'usun. pustego IPA';
 	}
-	if ($$page_text_ref =~ s/(\{\{IPA[^}]+\}\}) +({{lp}})/$2 $1/g) {
+	if ($$page_text_ref =~ s/(\{\{IPA[^}]+\}\}) +(\{\{lp}})/$2 $1/g) {
 		push @summary, 'formatowanie wymowy';
 	}
 	if ($$page_text_ref =~ s/\[\[(Image|Grafika|File):/[[Plik:/g) {
@@ -960,7 +960,7 @@ sub initial_cosmetics {
 	my $repeat=1;
 	while ($repeat) {
 		$repeat=0;
-		while ($$page_text_ref =~ /{{audio([^}]+)}}/igc) {
+		while ($$page_text_ref =~ /\{\{audio([^}]+)}}/igc) {
 			my $inside = $1;
 			if ($inside =~ /_/) {
 				my $changed = $inside;
@@ -1033,7 +1033,7 @@ sub final_cosmetics_plwikt {
 		push @summary, 'usun. poziomej linii';
 	}
 
-	if ($$page_text_ref =~ s/{{zobtlum/{{zobtłum/g) {
+	if ($$page_text_ref =~ s/\{\{zobtlum/{{zobtłum/g) {
 		push @summary, 'popr. zobtłum';
 	}
 
@@ -1054,7 +1054,7 @@ sub final_cosmetics_plwikt {
 	if ($before =~ s/('{2,3})?(z|Z)obacz (też|także|tez):?\s*('{2,3})?\s*\[\[([^\]]+)\]\]\s*\n/{{zobteż|$5}}\n/) {
 		push @summary, 'popr. zobteż';
 	}
-	$before =~ s/(\n|\r|\f)+({{zobteż[^}]+}})(\n|\r|\f)+/$1$2$3/;
+	$before =~ s/(\n|\r|\f)+(\{\{zobteż[^}]+}})(\n|\r|\f)+/$1$2$3/;
 	$before =~ s/(\n|\r|\f){2,}$/$1/;
 
 	$$page_text_ref = $before.$after;
@@ -1104,14 +1104,14 @@ sub final_cosmetics {
 #   1 - if added
 sub add_inflection_plwikt {
 	my ($section_ref, $inflection,$word) = @_;
-	unless ($$section_ref =~ /{{odmiana[^}]*}}(.*)/) {
+	unless ($$section_ref =~ /\{\{odmiana[^}]*}}(.*)/) {
 		return (0,'brak sekcji odmiana');
 	}
 	my $infl_line=$1;
 	if ($inflection !~ /\w/ || $infl_line =~ /\w/) {
 		return (0,'');
 	}
-	$$section_ref =~ s/({{odmiana[^}]*}})(.*)/$1 $inflection/;
+	$$section_ref =~ s/(\{\{odmiana[^}]*}})(.*)/$1 $inflection/;
 
 	return (1, "+ odmiana z [[:de:$word|de.wikt]]");
 }
