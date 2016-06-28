@@ -91,6 +91,8 @@ sub test_find_pronunciation_files {
 		['', '', undef, 'only-plural']);
 	$checked += check_find('xx', 'xx', 'use-this', 'hoofd.txt', {'use-this' => 'use-this.ogg'},
 		['use-this.ogg', '', 'use-this', undef]);
+    $checked += check_find('de', 'de', 'Arme', 'Arme.txt', {'Arme'=>'Arme.ogg'},
+        ['Arme.ogg', '', 'Arme', undef]);
 
 	print "test_find_pronunciation_files: $checked checks succeeded\n";
 }

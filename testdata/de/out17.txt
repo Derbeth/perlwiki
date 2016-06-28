@@ -1,0 +1,15 @@
+== Afghanen ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Deklinierte Form|Deutsch}} ===
+
+{{Silbentrennung}}
+
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|...}}
+:{{Hörbeispiele}} {{Audio|De-Afghanen.ogg}} {{Audio|De-at-Afghanen.ogg|spr=at}}
+
+{{Grundformverweis|Afghane}}
+
+[[en:Afghanen]]
+[[fr:Afghanen]]
+[[nl:Afghanen]]
