@@ -16,7 +16,7 @@
 
 {{Aussprache}}
 :{{IPA}} {{Lautschrift|haʊs}}, {{Pl.}} {{Lautschrift|haʊzɪz}}
-:{{Hörbeispiele}} {{Audio|En-us-house.ogg|spr=us}}, {{Pl.}} {{Audio|En-us-houses.ogg|houses|spr=us}}
+:{{Hörbeispiele}} {{Audio|En-us-house.ogg|spr=us}}
 
 {{Bedeutungen}}
 :[1] Wohnort des Menschen; Gebäude, das errichtet wurde, um in ihm zu wohnen

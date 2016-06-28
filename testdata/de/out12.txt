@@ -17,7 +17,7 @@
 
 {{Aussprache}}
 :{{IPA}} {{Lautschrift|bəˈfʏʁçtʊŋ}}, {{Pl.}} {{Lautschrift|bəˈfʏʁçtʊŋən}}, {{Lautschrift|bəˈfʏʁçtʊŋn̩}}
-:{{Hörbeispiele}} {{Audio|De-Befürchtung.ogg}}, {{Pl.}} {{Audio|De-Befürchtungen.ogg|Befürchtungen}}
+:{{Hörbeispiele}} {{Audio|De-Befürchtung.ogg}}
 
 {{Bedeutungen}}
 :[1] furchtvolle, schreckliche oder schlimme Erwartung bzw. Annahme

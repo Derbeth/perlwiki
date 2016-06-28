@@ -15,8 +15,8 @@
 :März, {{Pl.}} Mär·ze
 
 {{Aussprache}}
-:{{IPA}} {{Lautschrift|…}}, {{Pl.}} {{Lautschrift|…}}
-:{{Hörbeispiele}} {{Audio|De-März.ogg}}, {{Pl.}} {{Audio|De-Märze.ogg|Märze}}
+:{{IPA}} {{Lautschrift|…}}
+:{{Hörbeispiele}} {{Audio|De-März.ogg}}
 
 {{Bedeutungen}}
 :[1] der dritte Monat im Jahr

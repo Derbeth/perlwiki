@@ -530,15 +530,11 @@ sub add_audio_frwikt {
 sub add_audio_dewikt {
 	my ($section,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural) = @_;
 	my $language = get_language_name('de',$lang_code);
-# 	print ">>$$section<<\n"; # DEBUG
-	$pron_pl = '' if (!defined($pron_pl));
 
 	my ($audios,$audios_count,$edit_summary)
 		= create_audio_entries('de',$lang_code,$pron,$section,$singular);
-	my ($audios_pl,$audios_count_pl,$edit_summary_pl)
-		= create_audio_entries('de',$lang_code,$pron_pl,$section,$singular,$plural);
 
-	if ($audios eq '' && $audios_pl eq '') {
+	if ($audios eq '') {
 		return (1,0,'');
 	}
 	if ($check_only) {
@@ -546,15 +542,14 @@ sub add_audio_dewikt {
 	}
 
 	$edit_summary = '+ Audio '.$edit_summary;
-	$edit_summary_pl = $edit_summary_pl ? " Plural: $edit_summary_pl" : '';
 
 	if ($$section =~ /\{\{kSg\.\}\}/) {
-		return (2,0,$edit_summary.$edit_summary_pl.'; found {{kSg.}}, won\'t add audio automatically');
+		return (2,0,$edit_summary.'; found {{kSg.}}, won\'t add audio automatically');
 	}
 
 	my @speech_parts = ($$section =~ /= *\{\{(Wortart.*)/gi);
 	if (scalar(@speech_parts) > 1) {
-		return (2,0,$edit_summary.$edit_summary_pl.'; more than one speech part ('.@speech_parts.')');
+		return (2,0,$edit_summary.'; more than one speech part ('.@speech_parts.')');
 	}
 
 	$$section =~ s/:\[\[Hilfe:IPA\|IPA\]\]:/:{{IPA}}/g;
@@ -563,17 +558,12 @@ sub add_audio_dewikt {
 	my $newipa = ':{{IPA}} {{Lautschrift|…}}';
 	my $newaudio = ':{{Hörbeispiele}} {{Audio|}}';
 
-	if ($edit_summary_pl ne '' && $$section =~ /Wortart\s*\|\s*Substantiv/) {
-		$newipa .= ', {{Pl.}} {{Lautschrift|…}}';
-		$newaudio .= ', {{Pl.}} {{Audio|}}';
-	}
-
 	if ($$section !~ /\{\{Aussprache}}/) {
 		$edit_summary .= '; + fehlende {{Aussprache}}';
 
 		if ($$section !~ /\{\{Bedeutung/) {
 			unless ($$section =~ s/(==== *Übersetzungen)/{{Bedeutungen}}\n\n$1/) {
-				return (2,0,$edit_summary.$edit_summary_pl.'; no {{Bedeutungen}} and cannot add it');
+				return (2,0,$edit_summary.'; no {{Bedeutungen}} and cannot add it');
 			}
 			$edit_summary .= '; + {{Bedeutungen}} (leer)';
 		}
@@ -583,7 +573,7 @@ $newipa
 $newaudio
 
 {{Bedeutungen}}/xi) {
-			return (2,0,$edit_summary.$edit_summary_pl.'; cannot add {{Aussprache}}');
+			return (2,0,$edit_summary.'; cannot add {{Aussprache}}');
 		}
 	}
 	if ($$section !~ /: *\{\{Hörbeispiele}}/) {
@@ -594,43 +584,13 @@ $newaudio/x;
 	if ($audios ne '') {
 		if ($$section =~ /\{\{Hörbeispiele}} +(-|–|—|\{\{[fF]ehlend}}|\{\{[aA]udio\|}})/) {
 			unless ($$section =~ s/(\{\{Hörbeispiele}}) +(-|–|—|\{\{[fF]ehlend}}|\{\{[aA]udio\|}})/$1 $audios/) {
-				return (2,0,$edit_summary.$edit_summary_pl.'; cannot replace {{fehlend}}');
+				return (2,0,$edit_summary.'; cannot replace {{fehlend}}');
 			}
 		} else { # already some pronunciation
 			unless ($$section =~ s/(\{\{Hörbeispiele}}) */$1 $audios /) {
-				return (2,0,$edit_summary.$edit_summary_pl.'; cannot append pron.');
+				return (2,0,$edit_summary.'; cannot append pron.');
 			}
 			$$section =~ s/  / /g;
-		}
-	}
-
-	if ($audios_pl ne '') {
-		$$section =~ /(\{\{Hörbeispiele}})([^\r\f\n]*)/;
-		my $before = $`.$1;
-		my $after = $';
-		my $pron_line = $2;
-
-		if ($pron_line =~ /\{\{Pl\.\d}}/) {
-			if ($audios eq '') {
-				return (2,0,$edit_summary.$edit_summary_pl.'; cannot handle multiple plural');
-			} else {
-				$edit_summary .= "; passend, aber nicht automatisch hinzugefügt:$edit_summary_pl";
-			}
-		} else {
-			# no plural {{Pl.}} ?
-			if ($pron_line !~ /\{\{Pl\.}}/) {
-				$pron_line .= ' {{Pl.}} {{Audio|}}';
-			}
-
-			if ($pron_line =~ /\{\{Pl\.}} +\{\{([fF]ehlend|[aA]udio\|)}}/) {
-				$pron_line =~ s/\{\{Pl\.}} +\{\{([fF]ehlend|[aA]udio\|)}}/{{Pl.}} $audios_pl/;
-			} else {
-				$pron_line =~ s/\{\{Pl\.}}/{{Pl.}} $audios_pl/;
-			}
-
-			$$section = $before.$pron_line.$after;
-			$audios_count += $audios_count_pl;
-			$edit_summary .= $edit_summary_pl;
 		}
 	}
 
