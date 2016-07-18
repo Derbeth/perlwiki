@@ -1,4 +1,4 @@
-Perl-based tools for Wikipedia, Wiktionary etc.
+Perl-based tools for Wikipedia, Wiktionary etc. [![Build Status](https://travis-ci.org/Derbeth/perlwiki.svg?branch=master)](https://travis-ci.org/Derbeth/perlwiki)
 ===============================================
 
 Overview
