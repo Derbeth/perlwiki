@@ -2,10 +2,10 @@
 set -e
 
 echo ...addaudio
-./test/addaudio.pl
+perl test/addaudio.pl
 echo ...cache
-./test/cache.pl
+perl test/cache.pl
 echo ...commons
-./test/commons.pl
+perl test/commons.pl
 echo ...inflection
-./test/inflection.pl
+perl test/inflection.pl
