@@ -438,10 +438,5 @@ sub all_languages {
 	opendir(DIR, 'audio') or die "cannot open audio/ dir";
 	my @files = readdir(DIR);
 	closedir(DIR);
-	my @langs;
-	foreach (@files) {
-		/audio_([^.]+)\./ or next;
-		push @langs, $1;
-	}
-	return sort @langs;
+	return sort (grep { $_ } (map { /^audio_([^.]+)\.txt$/ && $1 } @files));
 }
