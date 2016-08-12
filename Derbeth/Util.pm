@@ -121,15 +121,19 @@ sub load_hash {
 sub save_hash {
 	my ($filename, $hash_ref, $sort) = @_;
 	
-	my ($fh,$tempfile_name)=tempfile();
-	
+	my $tempfile_name = "$filename-new";
+	open(OUT, ">$tempfile_name");
 	my @keys = $sort ? sort(keys(%$hash_ref)) : keys(%$hash_ref);
 	foreach my $key (@keys) {
 		my $val = $$hash_ref{$key};
-		print $fh encode_utf8($key.'='.$val),"\n";
+		print OUT encode_utf8($key.'='.$val),"\n";
 	}
-	close($fh);
-	move($tempfile_name, $filename);
+	close(OUT);
+	if (`cat $tempfile_name | wc -l` != scalar(keys(%$hash_ref))) {
+		print STDERR "ERROR: failed to properly write a temp version of $filename\n";
+		return;
+	}
+	system("mv $tempfile_name $filename");
 }
 
 # Function: save_hash_sorted

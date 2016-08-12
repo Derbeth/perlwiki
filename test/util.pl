@@ -31,7 +31,7 @@ END
 
 sub test_save_read_big_hash {
 	# don't use /tmp - try to catch errors when copying between devices
-	system("rm -f big-hash.txt");
+	system("rm -f *big-hash.txt*");
 	my $size = 400000;
 	my %data;
 	foreach my $i (1..$size) {
@@ -43,4 +43,5 @@ sub test_save_read_big_hash {
 	assert_equals $size, scalar(keys(%read_data));
 	assert_equals "has_pronunciation", $read_data{"word300000"};
 	assert_equals "no_audio", $read_data{"word300001"};
+	system("rm -f *big-hash.txt*");
 }
