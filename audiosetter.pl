@@ -60,6 +60,7 @@ my $wikt_lang='en';   # 'en','de','pl'; other Wiktionaries are not
 my $pause=1;          # number of seconds to wait before fetching each page
 my $only_words='';    # comma-separated list of words - only they will be processed
 my $all_langs=0;      # add in all languages
+my $except_langs;
 
 my @langs;
 
@@ -96,6 +97,7 @@ my $filtered_audio_filename;
 	
 	GetOptions('f|filter!' => \$filter_mode, 'd|debug!' => \$debug_mode,
 		'l|lang=s' => \$lang_codes, 'w|wikt=s' => \$wikt_lang, 'all|a' => \$all_langs,
+		'except=s' => \$except_langs,
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
 		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize,
 		'input|i=s'=> \$input_list, 'word=s' => \$only_words,
@@ -104,7 +106,7 @@ my $filtered_audio_filename;
 	die "provide -w and -l correctly!" unless($wikt_lang && ($lang_codes || $all_langs));
 	die "cannot specify both -a and -l" if ($lang_codes && $all_langs);
 	if ($all_langs) {
-		@langs = all_languages();
+		@langs = all_languages(split /,/, $except_langs);
 	} else {
 		@langs = split /,/, $lang_codes;
 	}
@@ -435,8 +437,9 @@ sub print_progress {
 }
 
 sub all_languages {
+	my @except_langs = @_;
 	opendir(DIR, 'audio') or die "cannot open audio/ dir";
 	my @files = readdir(DIR);
 	closedir(DIR);
-	return sort (grep { $_ } (map { /^audio_([^.]+)\.txt$/ && $1 } @files));
+	return sort (grep { my $lang = $_; ! grep { $_ eq $lang} @except_langs } (map { /^audio_([^.]+)\.txt$/ && $1 } @files));
 }
