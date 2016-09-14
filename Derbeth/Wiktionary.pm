@@ -562,6 +562,9 @@ sub add_audio_dewikt {
 		$edit_summary .= '; + fehlende {{Aussprache}}';
 
 		if ($$section !~ /\{\{Bedeutung/) {
+			if ($$section =~ /\{\{Schweizer und Liechtensteiner Schreibweise/) {
+				return (1,0,'');
+			}
 			unless ($$section =~ s/(==== *Übersetzungen)/{{Bedeutungen}}\n\n$1/) {
 				return (2,0,$edit_summary.'; no {{Bedeutungen}} and cannot add it');
 			}
