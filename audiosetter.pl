@@ -60,7 +60,7 @@ my $wikt_lang='en';   # 'en','de','pl'; other Wiktionaries are not
 my $pause=1;          # number of seconds to wait before fetching each page
 my $only_words='';    # comma-separated list of words - only they will be processed
 my $all_langs=0;      # add in all languages
-my $except_langs;
+my $except_langs='';
 
 my @langs;
 
@@ -441,5 +441,5 @@ sub all_languages {
 	opendir(DIR, 'audio') or die "cannot open audio/ dir";
 	my @files = readdir(DIR);
 	closedir(DIR);
-	return sort (grep { my $lang = $_; ! grep { $_ eq $lang} @except_langs } (map { /^audio_([^.]+)\.txt$/ && $1 } @files));
+	return sort (grep { my $lang = $_; $_ && ! grep { $_ eq $lang} @except_langs } (map { /^audio_([^.]+)\.txt$/ && $1 } @files));
 }
