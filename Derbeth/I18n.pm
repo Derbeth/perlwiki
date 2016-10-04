@@ -32,7 +32,7 @@ our @ISA = qw/Exporter/;
 our @EXPORT = qw/get_regional_name
 	get_language_name
 	get_regional_frwikt/;
-our $VERSION = 0.8.6;
+our $VERSION = 0.8.7;
 our %regional_names;
 our %regional_params_dewikt;
 our %text_to_regional_param_dewikt;
@@ -208,6 +208,7 @@ my %language_names = (
 		'it'  => 'język włoski',
 		'ja'  => 'język japoński',
 		'ka'  => 'język gruziński',
+		'km'  => 'język khmerski',
 		'ko'  => 'język koreański',
 		'la'  => 'język łaciński',
 		'li'  => 'język limburski',
@@ -284,6 +285,7 @@ my %language_names = (
 		'it'  => 'Italienisch',
 		'ja'  => 'Japanisch',
 		'ka'  => 'Georgisch',
+		'km'  => 'Kambodschanisch',
 		'ko'  => 'Koreanisch',
 		'la'  => 'Lateinisch',
 		'li'  => 'Limburgisch',
@@ -360,6 +362,7 @@ my %language_names = (
 		'it'  => 'Italian',
 		'ja'  => 'Japanese',
 		'ka'  => 'Georgian',
+		'km'  => 'Khmer',
 		'ko'  => 'Korean',
 		'la'  => 'Latin',
 		'li'  => 'Limburgish',

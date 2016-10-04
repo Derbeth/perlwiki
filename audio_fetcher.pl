@@ -176,6 +176,9 @@ my %categories = (
 	ka => {
 		include => ['Georgian pronunciation'],
 	},
+	km => {
+		include => ['Khmer pronunciation'],
+	},
 	ko => {
 		include => ['Korean pronunciation'],
 	},
