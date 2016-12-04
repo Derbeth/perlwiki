@@ -11,3 +11,5 @@ echo ...commons
 perl test/commons.pl
 echo ...inflection
 perl test/inflection.pl
+echo ...syntax
+./test/syntax.sh
