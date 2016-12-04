@@ -106,7 +106,9 @@ my $filtered_audio_filename;
 	die "provide -w and -l correctly!" unless($wikt_lang && ($lang_codes || $all_langs));
 	die "cannot specify both -a and -l" if ($lang_codes && $all_langs);
 	if ($all_langs) {
-		@langs = all_languages(split /,/, $except_langs);
+		my @except_langs = split /,/, $except_langs;
+		push @except_langs, 'th' if($wikt_lang eq 'en' && !grep('th', @except_langs));
+		@langs = all_languages(@except_langs);
 	} else {
 		@langs = split /,/, $lang_codes;
 	}
