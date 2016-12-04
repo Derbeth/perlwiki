@@ -50,8 +50,6 @@ my $randomize=0; # edit pages in random order
 my $recache=0;
 my $verbose=0;
 
-my %settings = load_hash('settings.ini');
-
 my $donefile = "done/done_dewikt_de.txt";
 #`rm -f $donefile`;
 my $debug_orig_file='in.txt';
@@ -83,21 +81,7 @@ my $visited_pages=0;
 my $edited_pages=0;
 my $added_files=0;
 
-my $editor;
-{
-	my $debug = 1;
-	my $host = "de.wiktionary.org";
-	$editor = MediaWiki::Bot->new({
-		host => $host,
-		debug => $debug,
-		login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
-		operator => $settings{bot_operator},
-		assert => 'bot',
-	});
-	die unless $editor;
-	die if ($editor->{error} && $editor->{error}->{code});
-	$editor->{api}->{config}->{max_lag_delay} = 30;
-}
+my $editor = create_editor() or die;
 
 if ($debug_mode) {
 	open(DEBUG,">$debug_file");
@@ -224,6 +208,14 @@ foreach my $word (@entries) {
 			print STDERR 'edit ', colored('FAILED', 'red'), ' for ',encode_utf8($word);
 			print STDERR " details: $editor->{error}->{details}" if $editor->{error};
 			print STDERR "\n";
+			if ($editor->{error}->{details} =~ /assertbotfailed/) {
+				$editor = create_editor();
+				if ($editor) {
+					redo;
+				} else {
+					last;
+				}
+			}
 		}
 	}
 
@@ -236,6 +228,23 @@ foreach my $word (@entries) {
 
 save_results();
 
+
+sub create_editor {
+	my %settings = load_hash('settings.ini');
+	my $debug = 1;
+	my $host = "de.wiktionary.org";
+	my $result = MediaWiki::Bot->new({
+		host => $host,
+		debug => $debug,
+		login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
+		operator => $settings{bot_operator},
+		assert => 'bot',
+	});
+	return undef unless $result;
+	return undef if ($result->{error} && $result->{error}->{code});
+	$result->{api}->{config}->{max_lag_delay} = 30;
+	return $result;
+}
 
 sub save_results {
 	print_progress();
