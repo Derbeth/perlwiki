@@ -81,7 +81,7 @@ my $visited_pages=0;
 my $edited_pages=0;
 my $added_files=0;
 
-my $editor = create_editor() or die;
+my $editor = create_wikt_editor('de') or die;
 
 if ($debug_mode) {
 	open(DEBUG,">$debug_file");
@@ -209,7 +209,7 @@ foreach my $word (@entries) {
 			print STDERR " details: $editor->{error}->{details}" if $editor->{error};
 			print STDERR "\n";
 			if ($editor->{error}->{details} =~ /assertbotfailed/) {
-				$editor = create_editor();
+				$editor = create_wikt_editor('de');
 				if ($editor) {
 					redo;
 				} else {

@@ -37,7 +37,8 @@ use HTML::Entities;
 use URI::Escape qw/uri_escape_utf8/;
 
 our @ISA = qw/Exporter/;
-our @EXPORT = qw/split_before_sections
+our @EXPORT = qw/create_wikt_editor
+	split_before_sections
 	split_article_wikt
 	split_article_dewikt
 	split_article_enwikt
@@ -46,7 +47,7 @@ our @EXPORT = qw/split_before_sections
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.10.0;
+our $VERSION = 0.11.0;
 
 # Variable: $use_perlwikipedia
 our $use_perlwikipedia=0;
@@ -336,6 +337,24 @@ sub get_category_contents {
 	} else {
 		return get_category_contents_internal($server,$category,$maxparts,$allow_namespaces,$from);
 	}
+}
+
+sub create_wikt_editor {
+	my ($wikt_lang) = @_;
+	my %settings = load_hash('settings.ini');
+	my $debug = 1;
+	my $host = "$wikt_lang.wiktionary.org";
+	my $result = MediaWiki::Bot->new({
+		host => $host,
+		debug => $debug,
+		login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
+		operator => $settings{bot_operator},
+		assert => 'bot',
+	});
+	return undef unless $result;
+	return undef if ($result->{error} && $result->{error}->{code});
+	$result->{api}->{config}->{max_lag_delay} = 30;
+	return $result;
 }
 
 sub create_editor {
