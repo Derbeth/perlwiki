@@ -299,8 +299,10 @@ my %categories = (
 );
 if ($refresh_lang) {
 	my %filtered_categories;
+	my @requested_langs = split /,/, $refresh_lang;
+	my $all = $refresh_lang eq 'all';
 	while (my ($lang, $keys) = each(%categories)) {
-		if ($refresh_lang eq 'all' || $lang eq $refresh_lang) {
+		if ($all || grep {$_ eq $lang} @requested_langs) {
 			$filtered_categories{$lang} = $keys;
 		}
 	}
