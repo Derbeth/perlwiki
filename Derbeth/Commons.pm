@@ -47,8 +47,8 @@ Derbeth::Web::enable_caching(1);
 my %regional_fr = ('fr-Paris' => 'Paris', 'FR Paris' => 'Paris', 'fr FR-Paris' => 'Paris',
 	'ca-Montréal' => 'ca', 'fr Be' => 'be', 'fr BE' => 'be', 'fr CA' => 'ca');
 # normal language code => regexp for matching alternative code
-my %code_alias=('tr'=>'tur','la'=>'lat', 'de'=>'by|bar', 'el' => 'ell', 'fr' => 'qc', 'hy' => 'hyw-hy|hyw', 'nb' => 'no',
-	'roa' => 'jer');
+my %code_alias=('de'=>'by|bar', 'el' => 'ell', 'eu' => 'eus', 'fr' => 'qc', 'hy' => 'hyw-hy|hyw',
+	'la'=>'lat', 'nb' => 'no', 'roa' => 'jer', 'tr'=>'tur');
 my %editor_cache;
 
 # marks words with lower priority
@@ -259,7 +259,9 @@ sub word_pronounced_in_file {
 		}
 	}
 	elsif ($code eq 'eu') {
-		return ($file, $main_text, lcfirst($main_text));
+		if ($main_text !~ /^Eus-/) {
+			return ($file, $main_text, lcfirst($main_text));
+		}
 	}
 	elsif ($code eq 'fr') {
 		if ($main_text =~ /^([^-]+)-FR$/) {

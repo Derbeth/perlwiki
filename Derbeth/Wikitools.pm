@@ -366,15 +366,14 @@ sub create_editor {
 
 	my %settings = load_hash('settings.ini');
 
-	my $editor=MediaWiki::Bot->new({
+	my $result=MediaWiki::Bot->new({
 		host => $server,
-		path => $prefix,
 		login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
 		operator => $settings{bot_operator},
 	});
-# 	$editor->{debug} = 1;
-# 	$editor->login($user, $pass);
-	return $editor;
+	return undef unless $result;
+	return undef if ($result->{error} && $result->{error}->{code});
+	return $result;
 }
 
 sub get_category_contents_perlwikipedia {
