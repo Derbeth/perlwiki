@@ -134,7 +134,7 @@ my $visited_pages=0;
 my $processed_pages=0;
 my $fixed_count=0;
 
-@pages = sort { return int(rand(3)) -1; } @pages;
+@pages = sort { return int(rand(3)) -1; } @pages if $randomize;
 
 if (defined $dry_run) {
 	if ($dry_run) {
