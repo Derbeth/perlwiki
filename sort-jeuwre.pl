@@ -41,7 +41,7 @@ my $user = undef;
 my $lang_code = 'de';
 my $page_regex = undef;
 my $limit=undef;
-my $pages_limit=undef;
+my $pages_limit=25000;
 my $pause=2;
 my $no_cache=0;
 my $clean=0;
@@ -49,8 +49,9 @@ my $verbose=0;
 my $debug=0;
 my $dry_run=undef;
 my $show_help=0;
+my $randomize=0;
 
-my $donefile = "done/sort_commons_cat.txt";
+my $donefile = "done/category-jeuwre.txt";
 # ============ end settings
 
 GetOptions(
@@ -67,6 +68,7 @@ GetOptions(
 	'v|verbose' => \$verbose,
 	'dry-run:s' => \$dry_run,
 	'h|help' => \$show_help,
+	'randomize' => \$randomize,
 ) or pod2usage('-verbose'=>1,'-exitval'=>1);
 pod2usage('-verbose'=>2,'-noperldoc'=>1) if ($show_help);
 pod2usage('-verbose'=>1,'-noperldoc'=>1, '-msg'=>'No args expected') if ($#ARGV != -1);
@@ -112,6 +114,10 @@ if ($user) {
 	}
 } else {
 	print encode_utf8("Fixing pages like $page_regex in category $category_name\n");
+	@pages = Derbeth::Wikitools::get_contents_include_exclude($editor,
+		['German pronunciation'],
+		['Bavarian pronunciation', 'German pronunciation of given names', 'German pronunciation of names of people'],
+		{file=>1});
 	@pages = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor, "Category:$category_name",undef,{file=>1}, $no_cache);
 	@pages = sort @pages;
 }
@@ -127,6 +133,8 @@ my $progress_every = $pages_count < 400 ? 25 : 100;
 my $visited_pages=0;
 my $processed_pages=0;
 my $fixed_count=0;
+
+@pages = sort { return int(rand(3)) -1; } @pages;
 
 if (defined $dry_run) {
 	if ($dry_run) {
@@ -176,7 +184,12 @@ foreach my $page (@pages) {
 	while ($text =~ s/(\[\[ *Category[^\]]+\]\]) *(\[\[Category)/$1\n$2/g) {};
 	while ($text =~ s/\[\[ *Category *: *([^_\]|]+)_/[[Category:$1 /g) {}
 
-	my $changed = ($text =~ s/\[\[ *Category *: *($category_name) *\]\]/[[Category:$1|$sortkey]]/);
+	my $changed = 0;
+	foreach my $term ($category_name, 'German pronunciation of [^|\]]+',
+		'Audio files made by jeuwre', 'Created with Audacity',
+		'Audio files made using a Rode NT-USB \(supported by Wikimedia Deutschland\)') {
+		($text =~ s/\[\[ *Category *: *($term)\]\]/[[Category:$1|$sortkey]]/g) and $changed = 1;
+	}
 	if (!$changed) {
 		if ($text =~ /Category:$category_name *\|([^\]]+)/) {
 			print encode_utf8("already sorted: $page ($1)\n");
@@ -191,7 +204,7 @@ foreach my $page (@pages) {
 		next;
 	}
 	my $edited = $editor->edit({page=>$page, text=>$text, bot=>1, minor=>1,
-		summary=>"sort in [[Category:$category_name]] ($sortkey)"});
+		summary=>"sort in categories ($sortkey)"});
 	if (!$edited) {
 		print colored('failed','red'), " to fix ", encode_utf8($page);
 		print " details: $editor->{error}->{details}" if $editor->{error};
