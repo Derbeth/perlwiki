@@ -118,7 +118,6 @@ if ($user) {
 		['German pronunciation'],
 		['Bavarian pronunciation', 'German pronunciation of given names', 'German pronunciation of names of people'],
 		{file=>1});
-	@pages = Derbeth::Wikitools::get_category_contents_perlwikipedia($editor, "Category:$category_name",undef,{file=>1}, $no_cache);
 	@pages = sort @pages;
 }
 
