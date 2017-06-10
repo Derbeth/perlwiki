@@ -525,6 +525,7 @@ sub add_audio_frwikt {
 # Returns:
 #   $result - 0 when ok, 1 when section already has all audio,
 #             2 when cannot add audio
+#             3 when more than one speech part
 #   $added_audios - how many audio files have been added
 #   $edit_summary - edit summary text
 sub add_audio_dewikt {
@@ -549,7 +550,7 @@ sub add_audio_dewikt {
 
 	my @speech_parts = ($$section =~ /= *\{\{(Wortart.*)/gi);
 	if (scalar(@speech_parts) > 1) {
-		return (2,0,$edit_summary.'; more than one speech part ('.@speech_parts.')');
+		return (3,0,$edit_summary.'; more than one speech part ('.@speech_parts.')');
 	}
 
 	$$section =~ s/:\[\[Hilfe:IPA\|IPA\]\]:/:{{IPA}}/g;

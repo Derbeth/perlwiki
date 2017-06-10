@@ -52,7 +52,7 @@ if ($wikt_lang eq 'de') {
 	my %de_done;
 	read_hash_loose("done/done_dewikt_de.txt", \%de_done);
 	while (my ($entry,$result) = each %de_done) {
-		if ($result eq 'error') {
+		if ($result =~ /^error/) {
 			$langs{de} ||= [];
 			push @{$langs{de}}, $entry;
 			++$errors_count;

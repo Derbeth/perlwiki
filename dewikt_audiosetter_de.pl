@@ -183,6 +183,11 @@ foreach my $word (@entries) {
 		print ERRORS encode_utf8($edit_summary), "\n";
 		next;
 	}
+	if ($result == 3) {
+		mark_done($word,'error-many-speech-parts');
+		print encode_utf8("more than 1 speech part: $word\n");
+		next;
+	}
 
 	# === end section processing
 
