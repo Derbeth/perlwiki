@@ -192,7 +192,10 @@ sub word_pronounced_in_file {
 	my ($page, $code, $cat) = @_;
 	$cat = '' unless(defined($cat));
 
-	return () if ($page !~ /(?:File|Image):(.+)\.(ogg|OGG|oga|OGA)/);
+	if ($page !~ /(?:File|Image):(.+)\.(flac|ogg|oga|opus|wav)/i) {
+		print "skipping because of extension ", encode_utf8($page), "\n" if $verbose;
+		return ();
+	}
 	my $file = $1.'.'.$2;
 	my $main_text = $1;
 
@@ -226,7 +229,7 @@ sub word_pronounced_in_file {
 			return ($file, $1);
 		}
 	}
-	elsif ($code eq 'ar' || $code eq 'or') {
+	elsif ($code eq 'ar') {
 		if ($main_text !~ /-/) {
 			$skip_key_extraction = 1;
 			$word = $main_text;
@@ -294,6 +297,15 @@ sub word_pronounced_in_file {
 		}
 	}
 	elsif ($code eq 'ne') {
+		if ($main_text !~ /-/) {
+			$skip_key_extraction = 1;
+			$word = $main_text;
+		}
+	}
+	elsif ($code eq 'or') {
+		if ($main_text =~ /^Pronunciation of Odia word "([^"]+)"/) {
+			return ($file, $1);
+		}
 		if ($main_text !~ /-/) {
 			$skip_key_extraction = 1;
 			$word = $main_text;
@@ -495,17 +507,17 @@ sub word_pronounced_in_file {
 
 	# == saving
 	
-	if ($art_rem || $force_low_pr || $page =~ /\.oga$/i) {
+	if ($art_rem || $force_low_pr || $page =~ /\.(oga|wav)$/i) {
 		$priority = $LOWPR;
 	}
 
 	my @result = ($file, _with_regional($word, $regional, $priority));
 
 	# === Letter size problems go here
-	if ($cat eq 'English pronunciation of numbers'
+	if (($cat eq 'English pronunciation of numbers'
 	||  $cat eq 'Jèrriais pronunciation'
 	||  $code eq 'sr'
-	) {
+	) && lcfirst($word) ne $word) {
 		push @result, _with_regional(lcfirst($word), $regional);
 	}
 	if ($code eq 'en') {
