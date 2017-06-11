@@ -112,7 +112,7 @@ my %categories = (
 		include => ['Basque pronunciation'],
 	},
 	fa => {
-		include => ['Farsi pronunciation'],
+		include => ['Persian pronunciation'],
 	},
 	fi => {
 		include => ['Finnish pronunciation'],
