@@ -29,6 +29,7 @@ use English;
 
 use Derbeth::I18n 0.8.0;
 use Derbeth::Wikitools;
+use Array::Compare;
 use Encode;
 use URI::Escape;
 use Carp;
@@ -521,6 +522,27 @@ sub add_audio_frwikt {
 	return (0,$audios_count,$edit_summary);
 }
 
+sub _speech_parts_dewikt {
+	my ($section) = @_;
+	my @parts;
+	while($$section =~ /= *\{\{Wortart\s*\|([^\|}]+)/gi) {
+		my $part = $1;
+		$part =~ s/^\s+|\s+$//g;
+		push @parts, $part;
+	}
+	return sort(@parts);
+}
+
+sub _speech_parts_disallowed_dewikt {
+	my @speech_parts = @_;
+	return 0 if scalar(@speech_parts) < 2;
+	my $comparator = Array::Compare->new;
+	return 0 if $comparator->compare(\@speech_parts, ['Konjugierte Form', 'Partizip II']);
+	return 0 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Partizip II']);
+	return 0 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Konjugierte Form', 'Partizip II']);
+	return 1;
+}
+
 # Function: add_audio_dewikt
 # Returns:
 #   $result - 0 when ok, 1 when section already has all audio,
@@ -548,9 +570,12 @@ sub add_audio_dewikt {
 		return (2,0,$edit_summary.'; found {{kSg.}}, won\'t add audio automatically');
 	}
 
-	my @speech_parts = ($$section =~ /= *\{\{(Wortart.*)/gi);
-	if (scalar(@speech_parts) > 1) {
-		return (3,0,$edit_summary.'; more than one speech part ('.@speech_parts.')');
+	my @speech_parts = _speech_parts_dewikt($section);
+	if (_speech_parts_disallowed_dewikt(@speech_parts)) {
+		return (3,0,$edit_summary.'; more than one speech part ('.join(' ', @speech_parts).')');
+	}
+	if (scalar(@speech_parts)) {
+		$edit_summary .= ' (mehrere Wortarte)';
 	}
 
 	$$section =~ s/:\[\[Hilfe:IPA\|IPA\]\]:/:{{IPA}}/g;
@@ -587,7 +612,7 @@ $newaudio/x;
 
 	if ($audios ne '') {
 		if ($$section =~ /\{\{Hörbeispiele}} +(-|–|—|\{\{[fF]ehlend}}|\{\{[aA]udio\|}})/) {
-			unless ($$section =~ s/(\{\{Hörbeispiele}}) +(-|–|—|\{\{[fF]ehlend}}|\{\{[aA]udio\|}})/$1 $audios/) {
+			unless ($$section =~ s/(\{\{Hörbeispiele}}) +(-|–|—|\{\{[fF]ehlend}}|\{\{[aA]udio\|}})/$1 $audios/g) {
 				return (2,0,$edit_summary.'; cannot replace {{fehlend}}');
 			}
 		} else { # already some pronunciation

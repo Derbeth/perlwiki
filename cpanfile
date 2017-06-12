@@ -1,3 +1,4 @@
+requires 'Array::Compare';
 requires 'HTML::Form';
 requires 'MediaWiki::Bot';
 

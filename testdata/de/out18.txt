@@ -1,0 +1,32 @@
+== überdeckt ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Partizip II|Deutsch}} ===
+
+{{Worttrennung}}
+:über·deckt
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|yːbɐˈdɛkt}}
+:{{Hörbeispiele}} {{Audio|De-überdeckt.ogg}}
+:{{Reime}} {{Reim|ɛkt|Deutsch}}
+
+{{Grammatische Merkmale}}
+* Partizip Perfekt des Verbs '''[[überdecken]]'''
+
+{{Grundformverweis Konj|überdecken}}
+
+=== {{Wortart|Konjugierte Form|Deutsch}} ===
+
+{{Worttrennung}}
+:über·deckt
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|yːbɐˈdɛkt}}
+:{{Hörbeispiele}} {{Audio|De-überdeckt.ogg}}
+:{{Reime}} {{Reim|ɛkt|Deutsch}}
+
+{{Grammatische Merkmale}}
+*3. Person Singular Indikativ Präsens Aktiv des Verbs '''[[überdecken]]'''
+*2. Person Plural Indikativ Präsens Aktiv des Verbs '''[[überdecken]]'''
+*2. Person Plural Imperativ Präsens Aktiv des Verbs '''[[überdecken]]'''
+
+{{Grundformverweis Konj|überdecken}}
