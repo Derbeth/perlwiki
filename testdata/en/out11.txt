@@ -1,0 +1,14 @@
+==English==
+
+===Alternative forms===
+* [[sit down money]]
+
+===Etymology===
+this is some etymology
+
+===Pronunciation===
+* {{audio|En-notogg.flac|Audio|lang=en}}
+* {{audio|En-uk-notogg.wav|Audio (UK)|lang=en}}
+
+===Noun===
+{{en-noun|-|head=[[sit down|sit-down]] [[money]]}}

@@ -101,7 +101,7 @@ sub create_audio_entries_frwikt {
 	my @summary;
 
 	my @all_audios;
-	while ($$section_ref =~ /audio= *([^.}|]+\.(?:oga|ogg))/igc) {
+	while ($$section_ref =~ /audio= *([^.}|]+\.(?:\w{3,4}))/igc) {
 		push @all_audios, $1;
 	}
 
@@ -120,14 +120,14 @@ sub create_audio_entries_frwikt {
 		my $text = ' {{pron-rég|';
 		$text .= get_regional_frwikt($lang_code,$region,$file);
 		$text .= '|'; # no IPA
-		if ($file =~ /fr-((l'|(un|une|le|la|des|les) )[^-.(]+)\.(?:oga|ogg)/i) {
+		if ($file =~ /fr-((l'|(un|une|le|la|des|les) )[^-.(]+)\.(?:\w{3,4})/i) {
 			$text .= "|titre=$1";
 			$edit_summary .= " as '$1'";
-		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((un|une|le|la|des|les|du)\)\.(?:oga|ogg)/i) {
+		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((un|une|le|la|des|les|du)\)\.(?:\w{3,4})/i) {
 			my $new_word = "$2 $1";
 			$text .= "|titre=$new_word";
 			$edit_summary .= " as '$new_word'";
-		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((l’)\)\.(?:oga|ogg)/i) {
+		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((l’)\)\.(?:\w{3,4})/i) {
 			my $new_word = "l'$1";
 			$text .= "|titre=$new_word";
 			$edit_summary .= " as '$new_word'";
@@ -267,7 +267,7 @@ sub decode_pron {
 
 	my @result;
 	foreach my $a_pron (@prons) {
-		$a_pron =~ /(.*\.(?:oga|ogg))(<(.*)>)?/i;
+		$a_pron =~ /(.*\.(?:\w{3,4}))(<(.*)>)?/i;
 		my $file=$1;
 		my $region = $3 ? $3 : '';
 
