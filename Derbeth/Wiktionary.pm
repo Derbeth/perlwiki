@@ -533,14 +533,14 @@ sub _speech_parts_dewikt {
 	return sort(@parts);
 }
 
-sub _speech_parts_disallowed_dewikt {
+sub _speech_parts_allowed_dewikt {
 	my @speech_parts = @_;
-	return 0 if scalar(@speech_parts) < 2;
+	return 1 if scalar(@speech_parts) < 2;
 	my $comparator = Array::Compare->new;
-	return 0 if $comparator->compare(\@speech_parts, ['Konjugierte Form', 'Partizip II']);
-	return 0 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Partizip II']);
-	return 0 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Konjugierte Form', 'Partizip II']);
-	return 1;
+	return 1 if $comparator->compare(\@speech_parts, ['Konjugierte Form', 'Partizip II']);
+	return 1 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Partizip II']);
+	return 1 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Konjugierte Form', 'Partizip II']);
+	return 0;
 }
 
 # Function: add_audio_dewikt
@@ -571,7 +571,7 @@ sub add_audio_dewikt {
 	}
 
 	my @speech_parts = _speech_parts_dewikt($section);
-	if (_speech_parts_disallowed_dewikt(@speech_parts)) {
+	if (! _speech_parts_allowed_dewikt(@speech_parts)) {
 		return (3,0,$edit_summary.'; more than one speech part ('.join(' ', @speech_parts).')');
 	}
 	if (scalar(@speech_parts)) {
