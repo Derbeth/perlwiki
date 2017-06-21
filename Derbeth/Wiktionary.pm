@@ -534,8 +534,9 @@ sub _speech_parts_dewikt {
 }
 
 sub _speech_parts_allowed_dewikt {
-	my @speech_parts = @_;
+	my ($lang_code, @speech_parts) = @_;
 	return 1 if scalar(@speech_parts) < 2;
+	return 0 if $lang_code ne 'de';
 	my $comparator = Array::Compare->new;
 	return 1 if $comparator->compare(\@speech_parts, ['Konjugierte Form', 'Partizip II']);
 	return 1 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Partizip II']);
@@ -571,10 +572,10 @@ sub add_audio_dewikt {
 	}
 
 	my @speech_parts = _speech_parts_dewikt($section);
-	if (! _speech_parts_allowed_dewikt(@speech_parts)) {
+	if (! _speech_parts_allowed_dewikt($lang_code, @speech_parts)) {
 		return (3,0,$edit_summary.'; more than one speech part ('.join(' ', @speech_parts).')');
 	}
-	if (scalar(@speech_parts)) {
+	if (scalar(@speech_parts) > 1) {
 		$edit_summary .= ' (mehrere Wortarte)';
 	}
 
