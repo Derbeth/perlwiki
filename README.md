@@ -36,7 +36,7 @@ Software:
 
 * Unix-like operating system
 * Perl
-* Perl module MediaWiki::Bot version 3.3.1 or newer
+* Perl modules: MediaWiki::Bot version 3.3.1 or newer, Array::Compare
 
 Other:
 

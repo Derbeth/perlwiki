@@ -22,6 +22,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+use strict;
+use utf8;
+use lib '.';
+
 use MediaWiki::Bot 3.3.1;
 use Derbeth::Wikitools;
 use Derbeth::Wiktionary;
@@ -31,9 +35,6 @@ use Derbeth::Util;
 use Encode;
 use Getopt::Long;
 use Term::ANSIColor;
-
-use strict;
-use utf8;
 
 # ========== settings
 

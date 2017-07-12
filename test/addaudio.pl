@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 
 use strict;
+use lib '.';
 use Derbeth::Wikitools;
 use Derbeth::Wiktionary;
 use Derbeth::I18n;

@@ -22,6 +22,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+use strict;
+use utf8;
+use lib '.';
+
 use MediaWiki::Bot;
 use Derbeth::Cache;
 use Derbeth::I18n;
@@ -31,9 +35,6 @@ use Encode;
 use Getopt::Long;
 use Pod::Usage;
 use Term::ANSIColor;
-
-use strict;
-use utf8;
 
 # ========== settings
 my $category_name = 'German pronunciation';

@@ -27,13 +27,14 @@
 
 use strict;
 use English;
+use utf8;
+use lib '.';
 
 use Derbeth::Wikitools;
 use Derbeth::Commons;
 use Encode;
 use Getopt::Long;
 use Carp;
-use utf8;
 
 my $clean_cache=0;
 my $clean_start=0; # removes all done files etc.

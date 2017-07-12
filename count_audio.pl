@@ -2,6 +2,7 @@
 
 use utf8;
 use strict;
+use lib '.';
 
 use Encode;
 use Derbeth::I18n;

@@ -2,6 +2,7 @@
 
 use strict;
 use utf8;
+use lib '.';
 
 use Derbeth::Inflection;
 use File::Slurp;

@@ -2,6 +2,7 @@
 
 use strict;
 use utf8;
+use lib '.';
 
 use MediaWiki::Bot 3.3.1;
 use Getopt::Long;

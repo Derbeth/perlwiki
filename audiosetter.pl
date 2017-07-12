@@ -26,6 +26,7 @@
 #   ./audiosetter.pl --[no]filter --[no]debug --l[anguage] hr
 #   --w[ikt] en --limit 40
 
+use lib '.';
 use MediaWiki::Bot 3.3.1;
 use Derbeth::Wikitools 0.8.0;
 use Derbeth::Wiktionary;
