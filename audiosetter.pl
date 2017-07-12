@@ -299,13 +299,17 @@ LANGUAGES: foreach my $l (@langs) {
 			mark_done($word,'has_audio');
 			next;
 		}
+		if ($result == 3) {
+			mark_done($word,'error-many-speech-parts');
+			print encode_utf8("more than 1 speech part: $word; $edit_summary\n");
+			next;
+		}
 		
 		if ($debug_mode) {
 			print ORIG encode_utf8($original_page_text),"\n";
 		}
 		
 		if ($result == 2) {
-# 			unmark_done($word);
 			mark_done($word,'error');
 			if ($debug_mode) {
 				print DEBUG encode_utf8($page_text),"\n";

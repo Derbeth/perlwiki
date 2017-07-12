@@ -1,0 +1,80 @@
+== alcoolodépendant ({{Sprache|Französisch}}) ==
+=== {{Wortart|Adjektiv|Französisch}} ===
+
+{{Französisch Adjektiv Übersicht
+|Maskulinum Singular=alcoolodépendant
+|Maskulinum Plural=alcoolodépendants
+|Femininum Singular=alcoolodépendante
+|Femininum Plural=alcoolodépendantes
+}}
+
+{{Worttrennung}}
+:al·co·o·lo·dé·pen·dant, {{Fem.}} al·co·o·lo·dé·pen·dante, {{Pl.}} al·co·o·lo·dé·pen·dants, {{Fem.}} al·co·o·lo·dé·pen·dantes
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|alkɔlɔdepɑ̃dɑ̃}}, {{Fem.}} {{Lautschrift|alkɔlɔdepɑ̃dɑ̃t}}, {{Pl.}} {{Lautschrift|alkɔlɔdepɑ̃dɑ̃}}, {{Fem.}} {{Lautschrift|alkɔlɔdepɑ̃dɑ̃t}}
+:{{Hörbeispiele}} {{Audio|Fr-Paris--alcoolodépendant.ogg|alcoolodépendant (pariserisch)}}, {{Pl.}} {{Audio|}}
+
+{{Bedeutungen}}
+:[1] ''[[Medizin]]:'' alkoholabhängig, alkoholsüchtig
+
+{{Herkunft}}
+:seit 1990 bezeugt<ref>{{Lit-Robert: Petit Robert|A=2009}}, „alcoolodépendance“ Seite 62.</ref>
+
+{{Sinnverwandte Wörter}}
+:[1] [[alcoolique]], [[éthylique]]
+
+{{Beispiele}}
+:[1] {{Beispiele fehlen|spr=fr}}
+
+==== {{Übersetzungen}} ====
+{{Ü-Tabelle|Ü-links=
+*{{de}}: [1] [[alkoholabhängig]], [[alkoholsüchtig]]
+|Ü-rechts=
+*{{en}}: [1] {{Ü|en|}}
+}}
+
+{{Referenzen}}
+:[1] {{Lit-Robert: Petit Robert|A=2009}}, „alcoolodépendance“ Seite 62.
+
+{{Quellen}}
+
+=== {{Wortart|Substantiv|Französisch}}, {{m}} ===
+
+{{Französisch Substantiv Übersicht
+|Genus=m
+|Singular=alcoolodépendant
+|Plural=alcoolodépendants
+}}
+
+{{Worttrennung}}
+:al·co·o·lo·dé·pen·dant, {{Pl.}} al·co·o·lo·dé·pen·dants
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|alkɔlɔdepɑ̃dɑ̃}}, {{Pl.}} {{Lautschrift|alkɔlɔdepɑ̃dɑ̃}}
+:{{Hörbeispiele}} {{Audio|}}, {{Pl.}} {{Audio|}}
+
+{{Bedeutungen}}
+:[1] ''[[Medizin]]:'' Alkoholabhängiger, Alkoholsüchtiger
+
+{{Herkunft}}
+:[[Konversion]] aus dem [[Adjektiv]] ''acoolodépandant''
+
+{{Sinnverwandte Wörter}}
+:[1] [[alcoolique]], [[alcoolo]], [[éthylique]], [[ivrogne]], [[pochard]], [[poivrot]]
+
+{{Weibliche Wortformen}}
+:[1] [[alcoolodépendante]]
+
+{{Beispiele}}
+:[1] {{Beispiele fehlen|spr=fr}}
+
+==== {{Übersetzungen}} ====
+{{Ü-Tabelle|Ü-links=
+*{{de}}: [1] [[Alkoholabhängiger]] {{m}}, [[Alkoholsüchtiger]] {{m}}
+|Ü-rechts=
+*{{en}}: [1] {{Ü|en|}}
+}}
+
+{{Referenzen}}
+:[1] {{Lit-Robert: Petit Robert|A=2009}}, „alcoolodépendance“ Seite 62.
