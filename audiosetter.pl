@@ -389,7 +389,6 @@ sub save_results {
 		if ($debug_mode && $finish) {close DEBUG; exit(0); }
 
 		add_audio_count('done/audio_count_'.$wikt_lang.'wikt.txt', $lang_code, $added_files);
-		$added_files = 0;
 	}
 
 	save_hash_sorted($donefile, \%done);
