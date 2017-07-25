@@ -423,6 +423,7 @@ sub print_progress {
 		print STDERR " added $added_files files for ", $lang_code;
 		print STDERR ' at ',$wikt_lang,"wikt";
 	}
+	printf STDERR ' %2.1fh left', ($word_count-$processed_words)*$pause/(60*60);
 	print STDERR "\n";
 }
 
