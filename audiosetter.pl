@@ -35,7 +35,7 @@ use Derbeth::Inflection;
 use Derbeth::Util;
 use Encode;
 use Getopt::Long;
-use Term::ANSIColor;
+use Term::ANSIColor qw/colored colorstrip/;
 
 use strict;
 use utf8;
@@ -149,6 +149,7 @@ if ($only_words && $debug_mode) {
 	Derbeth::Web::enable_caching(1);
 }
 
+my %settings = load_hash('settings.ini');
 read_hash_loose($donefile, \%done);
 
 my $server = "http://$wikt_lang.wiktionary.org/w/";
@@ -417,14 +418,23 @@ sub is_done {
 
 sub print_progress {
 	my ($sec,$min,$hour) = localtime();
-	printf STDERR '%02d:%02d %d/%d', $hour, $min, $processed_words, $word_count;
-	printf STDERR colored(' %2.0f%%', 'green'), 100*$processed_words/$word_count;
+	my $status_line = sprintf('%02d:%02d %d/%d', $hour, $min, $processed_words, $word_count)
+		. sprintf(colored(' %2.0f%%', 'green'), 100*$processed_words/$word_count);
 	unless($filter_mode) {
-		print STDERR " added $added_files files for ", $lang_code;
-		print STDERR ' at ',$wikt_lang,"wikt";
+		$status_line .= " added $added_files files for $lang_code at ${wikt_lang}wikt";
 	}
-	printf STDERR ' %2.1fh left', ($word_count-$processed_words)*$pause/(60*60);
-	print STDERR "\n";
+	$status_line .= sprintf(' %2.1fh left', ($word_count-$processed_words)*$pause/(60*60))
+		. "\n";
+	print STDERR $status_line;
+	if ($settings{audiosetter_status_file}) {
+		my $fh;
+		unless(open($fh, '>', $settings{audiosetter_status_file})) {
+			print STDERR "Cannot write status to $settings{audiosetter_status_file}\n";
+			return;
+		}
+		print $fh colorstrip($status_line);
+		close($fh);
+	}
 }
 
 sub all_languages {
