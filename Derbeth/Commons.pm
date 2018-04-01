@@ -316,6 +316,11 @@ sub word_pronounced_in_file {
 			return ($file, $POSTMATCH);
 		}
 	}
+	elsif ($code eq 'ta') {
+		if ($main_text =~ /^([^-]+)- Pronunciation in Tamil$/) {
+			return ($file, $1);
+		}
+	}
 	elsif ($code eq 'te') {
 		if ($main_text =~ / ?- ?te$/i) {
 			$skip_key_extraction = 1;
