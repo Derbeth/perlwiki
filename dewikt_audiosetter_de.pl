@@ -34,7 +34,7 @@ use Derbeth::Inflection;
 use Derbeth::Util;
 use Encode;
 use Getopt::Long;
-use Term::ANSIColor;
+use Term::ANSIColor qw/colored colorstrip/;
 
 # ========== settings
 
@@ -69,6 +69,7 @@ my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
 mkdir 'done' unless(-e 'done');
 $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit 1; };
 
+my %settings = load_hash('settings.ini');
 read_hash_loose($donefile, \%done);
 
 if ($debug_mode) {
@@ -236,7 +237,6 @@ save_results();
 
 
 sub create_editor {
-	my %settings = load_hash('settings.ini');
 	my $debug = 1;
 	my $host = "de.wiktionary.org";
 	my $result = MediaWiki::Bot->new({
@@ -285,8 +285,20 @@ sub is_done {
 }
 
 sub print_progress {
-	my ($sec,$min,$hour) = localtime();
-	printf STDERR '%02d:%02d %d/%d', $hour, $min, $processed_words, $word_count;
-	printf STDERR colored(' %2.0f%%', 'green'), 100*$processed_words/$word_count;
-	print STDERR " added $added_files files\n";
+	my ($sec,$min,$hour,$day,$mon,$year) = localtime();
+	my $status_line = sprintf('%02d:%02d %d/%d', $hour, $min, $processed_words, $word_count)
+		. sprintf(colored(' %2.0f%%', 'green'), 100*$processed_words/$word_count)
+		. " added $added_files files for de at dewikt";
+	$status_line .= sprintf(' %2.1fh left', ($word_count-$processed_words)*$pause/(60*60))
+		. "\n";
+	print STDERR $status_line;
+	if ($settings{audiosetter_status_file}) {
+		my $fh;
+		unless(open($fh, '>', $settings{audiosetter_status_file})) {
+			print STDERR "Cannot write status to $settings{audiosetter_status_file}\n";
+			return;
+		}
+		print $fh sprintf('%d-%02d-%02d ', $year+1900, $mon+1, $day).colorstrip($status_line);
+		close($fh);
+	}
 }

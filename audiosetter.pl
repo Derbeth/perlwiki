@@ -417,7 +417,7 @@ sub is_done {
 }
 
 sub print_progress {
-	my ($sec,$min,$hour) = localtime();
+	my ($sec,$min,$hour,$day,$mon,$year) = localtime();
 	my $status_line = sprintf('%02d:%02d %d/%d', $hour, $min, $processed_words, $word_count)
 		. sprintf(colored(' %2.0f%%', 'green'), 100*$processed_words/$word_count);
 	unless($filter_mode) {
@@ -432,7 +432,7 @@ sub print_progress {
 			print STDERR "Cannot write status to $settings{audiosetter_status_file}\n";
 			return;
 		}
-		print $fh colorstrip($status_line);
+		print $fh sprintf('%d-%02d-%02d ', $year+1900, $mon+1, $day).colorstrip($status_line);
 		close($fh);
 	}
 }
