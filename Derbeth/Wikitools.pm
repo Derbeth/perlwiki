@@ -371,8 +371,12 @@ sub create_editor {
 		login_data => {'username' => $settings{bot_login}, 'password' => $settings{bot_password}},
 		operator => $settings{bot_operator},
 	});
-	return undef unless $result;
-	return undef if ($result->{error} && $result->{error}->{code});
+	unless ($result) {
+		die "No result";
+	}
+	if ($result->{error} && $result->{error}->{code}) {
+		die $result->{error};
+	}
 	return $result;
 }
 
