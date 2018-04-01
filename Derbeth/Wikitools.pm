@@ -47,7 +47,7 @@ our @EXPORT = qw/create_wikt_editor
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.11.0;
+our $VERSION = 0.12.0;
 
 # Variable: $use_perlwikipedia
 our $use_perlwikipedia=0;
@@ -420,19 +420,26 @@ sub filter_to_namespace {
 }
 
 sub get_contents_include_exclude {
-	my ($editor, $include_categories, $exclude_categories, $allow_namespaces, $recache) = @_;
+	my ($editor, $include_categories, $exclude_categories, $reinclude_categories, $allow_namespaces, $recache) = @_;
 	my @result;
-	foreach my $included_category (@{$include_categories}) {
-		my @pages = get_all_category_contents($editor, "Category:$included_category", $allow_namespaces, $recache);
-		print encode_utf8("warn: no pages in $included_category\n") unless @pages;
+	foreach my $category (@{$include_categories}) {
+		my @pages = get_all_category_contents($editor, "Category:$category", $allow_namespaces, $recache);
+		print encode_utf8("warn: no pages in $category\n") unless @pages;
 		push @result, @pages;
 	}
 	my %exclude;
-	foreach my $excluded_category (@{$exclude_categories}) {
-		my @pages = get_all_category_contents($editor, "Category:$excluded_category", $allow_namespaces, $recache);
-		print encode_utf8("warn: no pages in $excluded_category\n") unless @pages;
+	foreach my $category (@{$exclude_categories}) {
+		my @pages = get_all_category_contents($editor, "Category:$category", $allow_namespaces, $recache);
+		print encode_utf8("warn: no pages in $category\n") unless @pages;
 		foreach my $page (@pages) {
 			$exclude{$page} = 1;
+		}
+	}
+	foreach my $category (@{$reinclude_categories}) {
+		my @pages = get_all_category_contents($editor, "Category:$category", $allow_namespaces, $recache);
+		print encode_utf8("warn: no pages in $category\n") unless @pages;
+		foreach my $page (@pages) {
+			$exclude{$page} = 0;
 		}
 	}
 	return grep {! $exclude{$_}} @result;

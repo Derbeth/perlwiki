@@ -89,6 +89,7 @@ my %categories = (
 		single => ['Bavarian pronunciation', 'German pronunciation of given names'],
 		include => ['German pronunciation'],
 		exclude => ['German pronunciation of names of people'],
+		reinclude => ['German pronunciation of given names'],
 	},
 	ee => {
 		include => ['Ewe pronunciation'],
@@ -107,7 +108,7 @@ my %categories = (
 	},
 	es => {
 		include => ['Spanish pronunciation'],
-		exclude => ['Spanish audiobooks'],
+		exclude => ['Spanish audiobooks', 'Spanish pronunciation of names of people'],
 	},
 	eu => {
 		include => ['Basque pronunciation'],
@@ -121,7 +122,8 @@ my %categories = (
 	fr => {
 		single => ['Quebec French pronunciation'],
 		include => ['French pronunciation'],
-		exclude => ['Ogg sound files of spoken French'],
+		exclude => ['Ogg sound files of spoken French', 'French pronunciation of names of people'],
+		reinclude => ['French pronunciation of given names'],
 	},
 	fy => {
 		include => ['Frisian pronunciation'],
@@ -168,6 +170,7 @@ my %categories = (
 	it => {
 		include => ['Italian pronunciation'],
 		exclude => ['Ogg sound files of spoken Italian', 'Italian pronunciation of titles of classical music works',
+			'Italian pronunciation of names of people',
 			'Spoken Wikinews - Italian', 'Spoken Wikipedia - Italian'],
 	},
 	ja => {
@@ -206,6 +209,7 @@ my %categories = (
 		include => ['Dutch pronunciation'],
 		exclude => ['Dutch pronunciation of buildings and places in Brussels',
 			'Dutch dialect pronunciation','Dutch pronunciation of names of municipalities',
+			'Dutch pronunciation of names of people',
 			'Dutch pronunciation (wikibooks)'],
 	},
 	nv => {
@@ -219,7 +223,7 @@ my %categories = (
 	},
 	pl => {
 		include => ['Polish pronunciation'],
-		exclude	=> ['Spoken Wikipedia - Polish'],
+		exclude	=> ['Spoken Wikipedia - Polish', 'Polish pronunciation of names of people'],
 	},
 	pt => {
 		include => ['Portuguese pronunciation'],
@@ -254,6 +258,7 @@ my %categories = (
 	},
 	sv => {
 		include => ['Swedish pronunciation'],
+		exclude => ['Swedish pronunciation of names of people'],
 	},
 	ta => {
 		include => ['Tamil pronunciation'],
@@ -460,6 +465,7 @@ foreach my $lang (sort keys %categories) {
 		my @pages = Derbeth::Wikitools::get_contents_include_exclude($editor,
 			$lang_conf->{include} || [],
 			\@excluded,
+			$lang_conf->{reinclude} || [],
 			{file=>1},
 			$refresh_lang);
 		print "$lang: ", scalar(@pages), " pages in all of ", encode_utf8(join ' ',@{$lang_conf->{include}}), "\n";
