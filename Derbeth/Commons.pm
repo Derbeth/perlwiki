@@ -48,7 +48,7 @@ my %regional_fr = ('fr-Paris' => 'Paris', 'FR Paris' => 'Paris', 'fr FR-Paris' =
 	'ca-Montréal' => 'ca', 'fr Be' => 'be', 'fr BE' => 'be', 'fr CA' => 'ca');
 # normal language code => regexp for matching alternative code
 my %code_alias=('de'=>'by|bar', 'el' => 'ell', 'eu' => 'eus', 'fr' => 'qc', 'hy' => 'hyw-hy|hyw',
-	'la'=>'lat', 'nb' => 'no', 'roa' => 'jer', 'tr'=>'tur', 'yue' => 'zh-yue');
+	'la'=>'lat', 'nb' => 'no', 'roa' => 'jer', 'roh' => 'rm', 'tr'=>'tur', 'yue' => 'zh-yue');
 my %editor_cache;
 
 # marks words with lower priority
@@ -338,6 +338,11 @@ sub word_pronounced_in_file {
 			return ($file, $POSTMATCH);
 		}
 	}
+
+	# from Lingua Libre
+	if ($main_text =~ /^LL-.+-([^-]+)$/) {
+		return ($file, _with_regional($1, '', $LOWPR));
+	}
 	# === end non-standard naming
 
 	unless ($skip_key_extraction) {
@@ -477,7 +482,7 @@ sub word_pronounced_in_file {
 		}
 	}
 	if ($code eq 'roh') {
-		if ($word =~ /^(sursilvan( \(Breil\))?)-/i) {
+		if ($word =~ /^(?:sursilv|sursilvan( \(Breil\))?)-/i) {
 			$regional = 'sursilvan';
 			$word = $POSTMATCH;
 		} elsif ($word =~ /^(putèr|vallader)-/i) {
