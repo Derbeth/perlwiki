@@ -353,7 +353,8 @@ sub create_wikt_editor {
 	});
 	return undef unless $result;
 	return undef if ($result->{error} && $result->{error}->{code});
-	$result->{api}->{config}->{max_lag_delay} = 30;
+	$result->{api}->{config}->{max_lag_delay} = 120;
+	$result->{api}->{config}->{max_lag_retries} = 6;
 	return $result;
 }
 
