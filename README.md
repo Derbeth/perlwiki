@@ -99,6 +99,7 @@ Use ./audiosetter.pl with option like `-l de,fi,ru` instead of `-a`.
 
     After you run audio_fetcher.pl, run audiosetter.pl for the first time with --cleanstart option. This will reset done/ directory and the count of added files. Otherwise audiosetter.pl will consider all work done and finish without doing anything.
 
+3.  sed -i -e '/=no_pronunciation/ d' -e '/=no_section/ d' -e '/=error/ d' done/done_dewikt_de.txt && ./dewikt_audiosetter_de.pl --recache && ./audio_error -w de --send
 
 Development
 -----------
