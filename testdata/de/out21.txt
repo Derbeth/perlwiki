@@ -1,0 +1,35 @@
+== führet ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Konjugierte Form|Deutsch}} ===
+
+{{Nebenformen}}
+:[[führt]]
+
+{{Worttrennung}}
+:füh·ret
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈfyːʁət}}
+:{{Hörbeispiele}} {{Audio|De-führet.ogg}}
+:{{Reime}} {{Reim|yːʁət|Deutsch}}
+
+{{Grammatische Merkmale}}
+*2. Person Plural Konjunktiv II Präteritum Aktiv des Verbs '''[[fahren]]'''
+
+{{Grundformverweis Konj|fahren}}
+
+=== {{Wortart|Konjugierte Form|Deutsch}} ===
+
+{{Worttrennung}}
+:füh·ret
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈfyːʁət}}
+:{{Hörbeispiele}} {{Audio|De-führet.ogg}}
+:{{Reime}} {{Reim|yːʁət|Deutsch}}
+
+{{Grammatische Merkmale}}
+*2. Person Plural Konjunktiv Präsens Aktiv des Verbs '''[[führen]]'''
+
+{{Grundformverweis Konj|führen}}
+
+{{Ähnlichkeiten 1|Anagramme=[[führte]]}}

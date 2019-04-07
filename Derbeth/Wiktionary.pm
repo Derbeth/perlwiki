@@ -538,7 +538,9 @@ sub _speech_parts_allowed_dewikt {
 	return 1 if scalar(@speech_parts) < 2;
 	return 0 if $lang_code ne 'de';
 	my $comparator = Array::Compare->new;
+	return 1 if $comparator->compare(\@speech_parts, ['Konjugierte Form', 'Konjugierte Form']);
 	return 1 if $comparator->compare(\@speech_parts, ['Konjugierte Form', 'Partizip II']);
+	return 1 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Partizip I']);
 	return 1 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Partizip II']);
 	return 1 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Konjugierte Form', 'Partizip II']);
 	return 0;

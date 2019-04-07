@@ -1,0 +1,33 @@
+== führend ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Adjektiv|Deutsch}} ===
+
+{{Deutsch Adjektiv Übersicht
+|Positiv=führend
+|Komparativ=—
+|Superlativ=—
+}}
+
+{{Worttrennung}}
+:füh·rend, {{kSt.}}
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈfyːʁənt}}
+:{{Hörbeispiele}} {{Audio|}}
+:{{Reime}} {{Reim|yːʁənt|Deutsch}}
+
+{{Bedeutungen}}
+:[1] das [[Geschehen]] bestimmend
+
+=== {{Wortart|Partizip I|Deutsch}} ===
+
+{{Worttrennung}}
+:füh·rend
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈfyːʁənt}}
+:{{Hörbeispiele}} {{Audio|}}
+
+{{Grammatische Merkmale}}
+*Partizip Präsens des Verbs '''[[führen]]'''
+
+{{Grundformverweis Konj|führen}}
