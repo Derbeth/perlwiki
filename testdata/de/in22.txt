@@ -1,0 +1,37 @@
+__TOC__
+== fairer ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Deklinierte Form|Deutsch}} ===
+
+{{Worttrennung}}
+:fai·rer
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈfɛːʁɐ}}
+:{{Hörbeispiele}} {{Audio|}}
+:{{Reime}} {{Reim|ɛːʁɐ|Deutsch}}
+
+{{Grammatische Merkmale}}
+*Nominativ Singular Maskulinum der starken Flexion des Positivs des Adjektivs '''[[fair]]'''
+*Genitiv Singular Femininum der starken Flexion des Positivs des Adjektivs '''[[fair]]'''
+*Dativ Singular Femininum der starken Flexion des Positivs des Adjektivs '''[[fair]]'''
+*Genitiv Plural alle Genera der starken Flexion des Positivs des Adjektivs '''[[fair]]'''
+
+*Nominativ Singular Maskulinum der gemischten Flexion des Positivs des Adjektivs '''[[fair]]'''
+
+{{Grundformverweis Dekl|fair}}
+
+=== {{Wortart|Komparativ|Deutsch}} ===
+
+{{Worttrennung}}
+:fai·rer
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|ˈfɛːʁɐ}}
+:{{Hörbeispiele}} {{Audio|}}
+:{{Reime}} {{Reim|ɛːʁɐ|Deutsch}}
+
+{{Grammatische Merkmale}}
+
+*Prädikative und adverbielle Form des Komparativs des Adjektivs '''[[fair]]'''
+
+{{Grundformverweis Dekl|fair}}
