@@ -86,7 +86,7 @@ my %categories = (
 		include => ['Danish pronunciation'],
 	},
 	de => {
-		single => ['Bavarian pronunciation', 'German pronunciation of given names'],
+		single => ['Bavarian pronunciation'],
 		include => ['German pronunciation'],
 		exclude => ['German pronunciation of names of people'],
 		reinclude => ['German pronunciation of given names'],
