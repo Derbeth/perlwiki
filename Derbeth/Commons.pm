@@ -340,7 +340,7 @@ sub word_pronounced_in_file {
 	}
 
 	# from Lingua Libre
-	if ($main_text =~ /^LL-.+-([^-]+)$/) {
+	if ($main_text =~ /^LL-[^-]+-[^-]+-(.+)$/) {
 		return ($file, _with_regional($1, '', $LOWPR));
 	}
 	# === end non-standard naming
