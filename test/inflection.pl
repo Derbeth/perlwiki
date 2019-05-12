@@ -29,6 +29,7 @@ sub test_extract_plural {
 	$checked += check_extract('de', 'es', 'ignore-word', 'ano.txt', ['año'], ['años']);
 	$checked += check_extract('de', 'fr', 'ignore-word', 'abricot.txt', ['abricot'], ['abricots']);
 	$checked += check_extract('de', 'fr', 'ignore-word', 'lettre.txt', ['lettre'], ['lettres']);
+	$checked += check_extract('de', 'fr', 'ignore-word', 'bloc-notes.txt', ['bloc-notes'], []);
 	$checked += check_extract('de', 'hsb', 'ignore-word', 'pjekar.txt', ['pjekar'], ['pjekarjo']);
 	$checked += check_extract('de', 'it', 'ignore-word', 'anatra.txt', ['anatra'], ['anatre']);
 	$checked += check_extract('de', 'it', 'ignore-word', 'scarpa.txt', ['scarpa'], ['scarpe']);

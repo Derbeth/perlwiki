@@ -1,0 +1,18 @@
+== bloc-notes ({{Sprache|Französisch}}) ==
+=== {{Wortart|Substantiv|Französisch}}, {{m}} ===
+
+{{Französisch Substantiv Übersicht
+|Genus=m
+|Singular=bloc-notes
+|Plural=[[blocs-notes]]
+}}
+
+{{Worttrennung}}
+:, {{Pl.}}
+
+{{Aussprache}}
+:{{IPA}} {{Lautschrift|blo.nɔtɛ}}
+:{{Hörbeispiele}} {{Audio|}}
+
+{{Bedeutungen}}
+:[1] [[Notizbuch]]
