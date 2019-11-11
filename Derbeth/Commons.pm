@@ -341,7 +341,12 @@ sub word_pronounced_in_file {
 
 	# from Lingua Libre
 	if ($main_text =~ /^LL-[^-]+-[^-]+-(.+)$/) {
-		return ($file, _with_regional($1, '', $LOWPR));
+		$main_text = $1;
+		# only allow languages from whitelist as Lingua Libre quality is very bad
+		if ($code !~ /^(zh)$/) {
+			return ();
+		}
+		return ($file, _with_regional($main_text, '', $LOWPR));
 	}
 	# === end non-standard naming
 
