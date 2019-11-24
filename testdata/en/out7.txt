@@ -7,7 +7,7 @@ Related words are Old High German {{term|wohha|lang=goh}} (Modern German {{term|
 
 ===Pronunciation===
 * {{enPR|wēk}}, {{IPA|/wiːk/}}, {{X-SAMPA|/wi:k/}}
-* {{audio|en-us-week.ogg|Audio (US)}}
+* {{audio|en|en-us-week.ogg|Audio (US)}}
 * {{rhymes|iːk}}
 * {{homophones|weak|lang=en}}
 
@@ -200,7 +200,7 @@ Related words are Old High German {{term|wohha|lang=goh}} (Modern German {{term|
 
 ===Pronunciation===
 * {{IPA|/ʋeːk/|/weːk/|lang=nl}}
-* {{audio|Nl-week.ogg|Audio|lang=nl}}
+* {{audio|nl|Nl-week.ogg|Audio}}
 
 ===Etymology===
 From {{etyl|odt|nl}} {{recons|wika|lang=odt}}, from {{proto|Germanic|wikōn|lang=nl}}.

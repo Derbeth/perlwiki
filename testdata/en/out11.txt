@@ -7,8 +7,8 @@
 this is some etymology
 
 ===Pronunciation===
-* {{audio|En-notogg.flac|Audio|lang=en}}
-* {{audio|En-uk-notogg.wav|Audio (UK)|lang=en}}
+* {{audio|en|En-notogg.flac|Audio}}
+* {{audio|en|En-uk-notogg.wav|Audio (UK)}}
 
 ===Noun===
 {{en-noun|-|head=[[sit down|sit-down]] [[money]]}}

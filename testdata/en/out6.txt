@@ -5,8 +5,8 @@ From {{etyl|dum|nl}} {{term|een|lang=dum}}, from {{etyl|odt|nl}} {{term|en|ēn|l
 
 ===Pronunciation===
 * {{IPA|/ən/|lang=nl}}
-* {{audio|Nl-Netherlands een.ogg|Audio|lang=nl}}
-* {{audio|Nl-Belgium een.ogg|Audio (Belgium)|lang=nl}}
+* {{audio|nl|Nl-Netherlands een.ogg|Audio}}
+* {{audio|nl|Nl-Belgium een.ogg|Audio (Belgium)}}
 
 ===Numeral===
 {{cardinalbox|nl|0|1|2|nul|twee|ord=eerst}}

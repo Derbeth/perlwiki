@@ -19,7 +19,7 @@ my @VALID_ARGS = qw{added_audios audio audio_pl ipa ipa_pl lang_code  plural res
 my $TESTDATA_DIR = 'testdata';
 my $TEST_TEMP_DIR = '/tmp/testaddaudio-test';
 
-my @tested_wikts = qw/de en pl simple fr/;
+my @tested_wikts = qw/de en pl fr/;
 
 `rm -rf $TEST_TEMP_DIR/`;
 `mkdir $TEST_TEMP_DIR`;

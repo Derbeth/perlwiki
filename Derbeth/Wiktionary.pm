@@ -65,14 +65,13 @@ sub create_audio_entries_enwikt {
 		my $region = shift @decoded_pron;
 
 		my $regional_name = '';
-		my $text = '* {{audio|'.$file.'|';
+		my $text = "* {{audio|$lang_code|$file|";
 		$text .= $plural ? $plural : 'Audio';
 		my $edit_summary = $file;
 		if ($region ne '') {
 			$regional_name = get_regional_name('en',$region);
 			$text .= " ($regional_name)";
 		}
-		$text .= "|lang=$lang_code";
 		$text .= '}}';
 
 		push @audios, $text;

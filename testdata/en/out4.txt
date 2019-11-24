@@ -46,7 +46,7 @@ From the {{etyl|la|fr}} {{term|verus|vērus|true, real|lang=la}}.
 ==Jèrriais==
 
 ===Pronunciation===
-* {{audio|Jer-Vrai.ogg|Audio|lang=roa}}
+* {{audio|roa|Jer-Vrai.ogg|Audio}}
 
 ===Noun===
 {{infl|roa-jer|noun|g=m}}
