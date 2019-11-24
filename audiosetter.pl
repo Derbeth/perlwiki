@@ -113,6 +113,8 @@ my $filtered_audio_filename;
 	}
 }
 
+system("renice -n 19 -p $$");
+
 if ($randomize) {
 	srand(time);
 	print "Randomized.\n";

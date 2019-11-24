@@ -66,6 +66,8 @@ GetOptions('p|limit=i' => \$edited_pages_limit, 'r|random!' => \$randomize, 'v|v
 my %done; # langcode-skip_word => 1
 my %pronunciation; # 'word' => 'en-file.ogg|en-us-file.ogg<us>'
 
+system("renice -n 19 -p $$");
+
 mkdir 'done' unless(-e 'done');
 $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results(); exit 1; };
 
