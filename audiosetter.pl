@@ -58,7 +58,7 @@ my $save_every=15000;   # bot saves results after modifying x pages
 
 my $wikt_lang='en';   # 'en','de','pl'; other Wiktionaries are not
                       # supported
-my $pause=3;          # number of seconds to wait before fetching each page
+my $pause=5;          # number of seconds to wait before fetching each page
 my $only_words='';    # comma-separated list of words - only they will be processed
 my $all_langs=0;      # add in all languages
 my $except_langs='';
