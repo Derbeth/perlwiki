@@ -60,6 +60,7 @@ my $wikt_lang='en';   # 'en','de','pl'; other Wiktionaries are not
                       # supported
 my $pause=5;          # number of seconds to wait before fetching each page
 my $only_words='';    # comma-separated list of words - only they will be processed
+my $from_list='';     # path to a file with word-audio list
 my $all_langs=0;      # add in all languages
 my $except_langs='';
 
@@ -100,10 +101,12 @@ my $filtered_audio_filename;
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
 		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize,
 		'input|i=s'=> \$input_list, 'word=s' => \$only_words,
+		'from-list=s' => \$from_list,
 		'verbose|v' => \$verbose, 'pause=i' => \$pause) or die;
 	
 	die "provide -w and -l correctly!" unless($wikt_lang && ($lang_codes || $all_langs));
 	die "cannot specify both -a and -l" if ($lang_codes && $all_langs);
+	die "list only supports de in de.wikt" if ($from_list && !($wikt_lang eq 'de' && $lang_codes eq 'de'));
 	if ($all_langs) {
 		my @except_langs = split /,/, $except_langs;
 		push @except_langs, 'th' if($wikt_lang eq 'en' && !grep('th', @except_langs));
@@ -145,6 +148,8 @@ if ($only_words) {
 		$forced_words{$w} = 1;
 	}
 	print 'Will only edit words: ', encode_utf8(join(' ', keys %forced_words)), "\n";
+} elsif ($from_list) {
+	$donefile = "done/done_from_list_${wikt_lang}.txt";
 }
 
 if ($only_words && $debug_mode) {
@@ -173,7 +178,7 @@ $SIG{INT} = $SIG{TERM} = $SIG{QUIT} = sub { save_results('finish'); close ERRORS
 # ========== Main loop
 
 LANGUAGES: foreach my $l (@langs) {
-	if ($wikt_lang eq 'de' && $l eq 'de') {
+	if ($wikt_lang eq 'de' && $l eq 'de' && !$from_list) {
 		print "Skipping de, run ./dewikt_audiosetter_de.pl\n";
 		next;
 	}
@@ -195,28 +200,7 @@ LANGUAGES: foreach my $l (@langs) {
 	}
 	print STDERR encode_utf8(get_language_name('en',$lang_code)), " on ${wikt_lang}wikt\n";
 	
-	my $audio_filename='audio_'.$lang_code.'.txt';
-	$filtered_audio_filename=$wikt_lang.'wikt_'.$audio_filename;
-	
-	$audio_filename = 'audio/'.$audio_filename;
-	$filtered_audio_filename = 'audio/'.$filtered_audio_filename;
-	
-	if ($filter_mode) {
-		read_hash_strict($filtered_audio_filename, \%pronunciation_filtered);
-		
-	} else {
-		if (-e $filtered_audio_filename) {
-			print "using filtered audios\n";
-			$audio_filename = $filtered_audio_filename;
-		}
-	}
-	
-	unless (-e $audio_filename) {
-		print "no audio for $lang_code\n";
-		next;
-	}
-	
-	read_hash_strict($audio_filename, \%pronunciation);
+	read_audio_files_into(\%pronunciation);
 	
 	if (!$debug_mode && !$filter_mode) {
 		print scalar(keys(%pronunciation)), " audios to add\n";
@@ -375,6 +359,36 @@ LANGUAGES: foreach my $l (@langs) {
 	save_results('finish');
 } # foreach language
 close ERRORS;
+
+sub read_audio_files_into {
+	my ($hash_ref) = @_;
+	if ($from_list) {
+		read_jeuwre_list($from_list, $hash_ref);
+		return;
+	}
+
+	my $audio_filename='audio_'.$lang_code.'.txt';
+	$filtered_audio_filename=$wikt_lang.'wikt_'.$audio_filename;
+
+	$audio_filename = 'audio/'.$audio_filename;
+	$filtered_audio_filename = 'audio/'.$filtered_audio_filename;
+
+	if ($filter_mode) {
+		read_hash_strict($filtered_audio_filename, \%pronunciation_filtered);
+
+	} else {
+		if (-e $filtered_audio_filename) {
+			print "using filtered audios\n";
+			$audio_filename = $filtered_audio_filename;
+		}
+	}
+
+	unless (-e $audio_filename) {
+		print "no audio for $lang_code\n";
+	}
+
+	read_hash_strict($audio_filename, $hash_ref);
+}
 
 sub save_results {
 	my $finish = shift;

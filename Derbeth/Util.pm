@@ -33,6 +33,7 @@ use File::Copy;
 our @ISA = qw/Exporter/;
 our @EXPORT = qw/read_hash_loose
 	read_hash_strict
+	read_jeuwre_list
 	load_hash
 	save_hash
 	save_hash_sorted
@@ -98,6 +99,23 @@ sub read_hash_strict {
 	}
 	close(IN);
 	return 1;
+}
+
+sub read_jeuwre_list {
+	my ($filename, $hash_ref) = @_;
+
+	open(IN, $filename) or die "cannot read $filename";
+	while(<IN>) {
+		next unless(/\S/);
+		chomp;
+		$_ = decode_utf8($_);
+		if (/^([^#]+)#\{\{Audio\|([^}]+)+\}\}$/) {
+			$hash_ref->{$1} = $2;
+		} else {
+			print STDERR encode_utf8("cannot parse $_\n");
+		}
+	}
+	close(IN);
 }
 
 # Function: load_hash
