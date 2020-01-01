@@ -86,7 +86,6 @@ my $visited_pages;
 my $edited_pages=0;
 my $added_files;
 my $last_save;
-my $input_list;
 
 # =========== Reading settings & variables
 
@@ -100,7 +99,7 @@ my $filtered_audio_filename;
 		'except=s' => \$except_langs,
 		'p|limit=i' => \$page_limit, 'c|cleanstart!' => \$clean_start,
 		'cleancache!' => \$clean_cache, 'r|random!' => \$randomize,
-		'input|i=s'=> \$input_list, 'word=s' => \$only_words,
+		'word=s' => \$only_words,
 		'from-list=s' => \$from_list,
 		'verbose|v' => \$verbose, 'pause=i' => \$pause) or die;
 	
@@ -211,10 +210,6 @@ LANGUAGES: foreach my $l (@langs) {
 		@keys = sort(@keys);
 	} else {
 		@keys = sort { return int(rand(3)) -1; } @keys;
-	}
-	if ($input_list) {
-		@keys = split /, */, $input_list;
-		print "using input list: ", encode_utf8($input_list), "\n";
 	}
 	$word_count=scalar(@keys);
 	my $small_count = $word_count < 400;
