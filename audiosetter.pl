@@ -51,8 +51,6 @@ my $randomize=0;   # process entries in random order
 my $verbose=0;
 my $clean_cache=0;
 my $clean_start=0; # removes all done files etc.
-my $stop_on_error=1;
-
 my $page_limit=40000; # bot won't change more that x number of pages
 my $save_every=15000;   # bot saves results after modifying x pages
 
@@ -334,8 +332,11 @@ LANGUAGES: foreach my $l (@langs) {
 				print STDERR 'edit ', colored('FAILED', 'red'), ' for ',encode_utf8($word);
 				print STDERR " details: $editor->{error}->{details}" if $editor->{error};
 				print STDERR "\n";
-				last if $stop_on_error;
-				next; # something went wrong, don't mark as done
+				if ($editor->{error} && $editor->{error}->{details} =~ /read-only mode/) {
+					sleep 10 * 60;
+					redo; # something went wrong, don't mark as done
+				}
+				last;
 			}
 		}
 
