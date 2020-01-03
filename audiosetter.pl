@@ -53,6 +53,7 @@ my $clean_cache=0;
 my $clean_start=0; # removes all done files etc.
 my $page_limit=40000; # bot won't change more that x number of pages
 my $save_every=15000;   # bot saves results after modifying x pages
+my $max_retries=5;
 
 my $wikt_lang='en';   # 'en','de','pl'; other Wiktionaries are not
                       # supported
@@ -84,6 +85,7 @@ my $visited_pages;
 my $edited_pages=0;
 my $added_files;
 my $last_save;
+my $error_retries=0;
 
 # =========== Reading settings & variables
 
@@ -332,7 +334,7 @@ LANGUAGES: foreach my $l (@langs) {
 				print STDERR 'edit ', colored('FAILED', 'red'), ' for ',encode_utf8($word);
 				print STDERR " details: $editor->{error}->{details}" if $editor->{error};
 				print STDERR "\n";
-				if ($editor->{error} && $editor->{error}->{details} =~ /read-only mode/) {
+				if (++$error_retries <= $max_retries && $editor->{error} && $editor->{error}->{details} =~ /read-only mode/) {
 					sleep 10 * 60;
 					redo; # something went wrong, don't mark as done
 				}
