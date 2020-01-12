@@ -246,6 +246,10 @@ LANGUAGES: foreach my $l (@langs) {
 		if (!defined($page_text)) {
 			if ($editor->{error} && $editor->{error}->{code}) {
 				print STDERR colored('cannot', 'red'), encode_utf8(" get text of $word: "), $editor->{error}->{details}, "\n";
+				if ($editor->{error} && $editor->{error}->{details} =~ /read-only mode/ && ++$error_retries <= $max_retries) {
+					sleep 10 * 60;
+					redo; # something went wrong, don't mark as done
+				}
 				last; # network error
 			}
 			print "entry does not exist: ",encode_utf8($word),"\n" if ($verbose || $small_count);
@@ -334,7 +338,7 @@ LANGUAGES: foreach my $l (@langs) {
 				print STDERR 'edit ', colored('FAILED', 'red'), ' for ',encode_utf8($word);
 				print STDERR " details: $editor->{error}->{details}" if $editor->{error};
 				print STDERR "\n";
-				if (++$error_retries <= $max_retries && $editor->{error} && $editor->{error}->{details} =~ /read-only mode/) {
+				if ($editor->{error} && $editor->{error}->{details} =~ /read-only mode/ && ++$error_retries <= $max_retries) {
 					sleep 10 * 60;
 					redo; # something went wrong, don't mark as done
 				}
