@@ -183,7 +183,7 @@ sub create_audio_entries_dewikt {
 		push @audios, $text;
 		push @summary, $edit_summary;
 	}
-	return (join(' ', @audios), scalar(@audios), join(', ', @summary));
+	return (join(', ', @audios), scalar(@audios), join(', ', @summary));
 }
 
 sub create_audio_entries_plwikt {
@@ -620,7 +620,11 @@ $newaudio/x;
 				return (2,0,$edit_summary.'; cannot replace {{fehlend}}');
 			}
 		} else { # already some pronunciation
-			unless ($$section =~ s/(\{\{Hörbeispiele}}) */$1 $audios /) {
+			if ($$section =~ s/(\{\{Hörbeispiele}}.*\{\{[aA]udio\|[^}]+\}\})( *$|, \{\{[pP]l)/$1, $audios$2/m) {
+				# ok!
+			} elsif ($$section =~ s/(\{\{Hörbeispiele}}) */$1 $audios /) {
+				$edit_summary .= ' (unable to append to end)';
+			} else {
 				return (2,0,$edit_summary.'; cannot append pron.');
 			}
 			$$section =~ s/  / /g;

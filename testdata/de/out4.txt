@@ -6,7 +6,7 @@
 
 {{Aussprache}}
 :{{IPA}} {{Lautschrift|ən}}
-:{{Hörbeispiele}} {{Audio|Nl-een.ogg}} {{Audio|Nl-een (Belgium).ogg|spr=be}}
+:{{Hörbeispiele}} {{Audio|Nl-een.ogg}}, {{Audio|Nl-een (Belgium).ogg|spr=be}}
 
 {{Bedeutungen}}
 :[1] [[ein]]

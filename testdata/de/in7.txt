@@ -12,4 +12,4 @@
 
 {{Aussprache}}
 :{{IPA}} {{Lautschrift|kæt}}, {{Pl.}} {{Lautschrift|kæʦ}}
-:{{Hörbeispiele}} {{Audio|En-uk-a cat.ogg|cat (britisch)}} {{Audio|En-uk-cat.ogg|cat (britisch)}} {{Audio|En-us-cat.ogg|cat (US-amerikanisch)}}, {{Pl.}} {{Audio|}}
+:{{Hörbeispiele}} {{Audio|En-uk-a cat.ogg|cat (britisch)}}, {{Audio|En-uk-cat.ogg|cat (britisch)}}, {{Audio|En-us-cat.ogg|cat (US-amerikanisch)}}, {{Pl.}} {{Audio|}}

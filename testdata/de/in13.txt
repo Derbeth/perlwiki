@@ -11,7 +11,7 @@
 
 {{Aussprache}}
 :{{IPA}} {{Lautschrift|…}}, {{Pl.}} {{Lautschrift|…}}
-:{{Hörbeispiele}} {{audio|En-us-mass.ogg|{{PAGENAME}} (amerikanisch)}}
+:{{Hörbeispiele}} {{audio|En-us-mass.ogg|{{PAGENAME}} (amerikanisch)}}, {{audio|En-nz-mass.ogg|spr=nz}}
 
 {{Bedeutungen}}
 :[1] ''[[Physik]]:'' Masse

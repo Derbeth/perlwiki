@@ -11,7 +11,7 @@
 
 {{Aussprache}}
 :{{IPA}} {{Lautschrift|…}}, {{Pl.}} {{Lautschrift|…}}
-:{{Hörbeispiele}} {{Audio|En-uk-mass.ogg|spr=uk}} {{audio|En-us-mass.ogg|spr=us}}
+:{{Hörbeispiele}} {{audio|En-us-mass.ogg|spr=us}}, {{audio|En-nz-mass.ogg|spr=nz}}, {{Audio|En-uk-mass.ogg|spr=uk}}
 
 {{Bedeutungen}}
 :[1] ''[[Physik]]:'' Masse

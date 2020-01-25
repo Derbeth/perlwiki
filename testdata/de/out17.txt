@@ -6,7 +6,7 @@
 
 {{Aussprache}}
 :{{IPA}} {{Lautschrift|...}}
-:{{Hörbeispiele}} {{Audio|De-Afghanen.ogg}} {{Audio|De-at-Afghanen.ogg|spr=at}}
+:{{Hörbeispiele}} {{Audio|De-at-Afghanen.ogg|spr=at}}, {{Audio|De-Afghanen.ogg}}
 
 {{Grundformverweis|Afghane}}
 
