@@ -1,0 +1,14 @@
+== {{int:filedesc}} ==
+{{Information
+ |description = Pronunciation of Yunnan (云南/雲南; Yúnnán).
+Uploaded and recorded by [[User:Peter Isotalo|Peter Isotalo]] (non-native speaker).
+ |date = {{Original upload date|2006-05-20}}
+ |source = {{own assumed}}
+ |author = {{Author assumed|[[User:Peter Isotalo|Peter Isotalo]]}}
+ |permission =
+ |other_versions =
+}}
+== {{int:license-header}} ==
+{{Self|GFDL|Cc-by-sa-3.0-migrated}}
+
+[[Category:Chinese pronunciation|Yunnan]]

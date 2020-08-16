@@ -145,6 +145,12 @@ sub _detect_by_content {
 	elsif ($lang eq 'zh') {
 		if ($wikicode =~ /Pronunciation of "[^"]+" \(([^a-z()]+)\) in Chinese/) {
 			push @detected, $1;
+		} elsif ($wikicode =~ /Pronunciation of "?\w+"? \(([^\)\/ ]+) ?(?:or|and|\/) ?([^\) ]+); +([^\)]+)\)/) {
+			push @detected, $1, $2, $3;
+		}  elsif ($wikicode =~ /Pronunciation of "?\w+"? \(([^\)\/ ]+); +([^\) ]+)\)/) {
+			push @detected, $1, $2;
+		} elsif ($wikicode =~ /Pronunciation of "?(\w+)"? \(([^\)\/ ]+) ?(?:or|and|\/) ?([^\) ]+)\)/) {
+			push @detected, $1, $2, $3;
 		}
 	}
 

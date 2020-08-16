@@ -1,0 +1,14 @@
+== {{int:filedesc}} ==
+{{Information
+|Description={{en|Pronunciation of "huángdì" (皇帝 or 黄帝) in Chinese. Female voice. Speaker from Liaoning, China.}}
+|Source=[http://packs.shtooka.net/cmn-caen-tan/ogg/cmn-5c30e2a8.ogg The Shtooka Project]
+|Date=2009-07-08
+|Author=Yue Tan
+|Permission=http://packs.shtooka.net/cmn-caen-tan/readme.txt
+|other_versions=
+}}
+
+== {{int:license-header}} ==
+{{cc-by-sa-3.0-us}}
+
+[[Category:Chinese pronunciation|huángdì]]

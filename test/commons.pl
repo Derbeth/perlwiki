@@ -50,6 +50,8 @@ sub test_detect_pronounced_word {
 	my $checked = 0;
 
 	$checked += _check_detected('zh-mofang.txt', 'zh', ['模仿']);
+	$checked += _check_detected('zh-huangdi.txt', 'zh', ['huángdì', '皇帝', '黄帝']);
+	$checked += _check_detected('zh-Yunnan.txt', 'zh', ['云南', '雲南', 'Yúnnán']);
 	$checked += _check_detected('or-Ghana dhatu.txt', 'or', ['ଘନ ଧାତୁ']);
 	$checked += _check_detected('or-Ghanagarjita.txt', 'or', ['ଘନଗର୍ଜିତ']);
 	$checked += _check_detected('ka-vietnami.txt', 'ka', ['ვიეტნამი']);
