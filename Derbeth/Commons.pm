@@ -286,6 +286,8 @@ sub word_pronounced_in_file {
 		} elsif ($main_text =~ / WA$/) {
 			$regional = 'west-armenian';
 			$main_text = $`;
+		} elsif ($main_text =~ /^Hy-/) {
+			$regional = 'east-armenian';
 		} elsif ($main_text !~ /-/) {
 			$skip_key_extraction = 1;
 			$word = $main_text;
