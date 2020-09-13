@@ -351,7 +351,7 @@ sub word_pronounced_in_file {
 	if ($main_text =~ /^LL-[^-]+-[^-]+-(.+)$/) {
 		$main_text = $1;
 		# only allow languages from whitelist as Lingua Libre quality is very bad
-		if ($code !~ /^(zh)$/) {
+		if (!_lingua_libre_accepted($code, $file)) {
 			return ();
 		}
 		return ($file, _with_regional($main_text, '', $LOWPR));
@@ -566,6 +566,11 @@ sub _with_regional {
 	my ($word, $regional, $priority) = @_;
 	$priority = '' unless(defined($priority));
 	return $regional ? "$word<$regional>$priority" : "$word$priority";
+}
+
+sub _lingua_libre_accepted {
+	my ($lang, $file) = @_;
+	return $lang eq 'zh' || ($lang eq 'bn' && $file =~ /Titodutta/);
 }
 
 1;

@@ -72,6 +72,9 @@ my %categories = (
 	bg => {
 		include => ['Bulgarian pronunciation'],
 	},
+	bn => {
+		include => ['Bengali pronunciation'],
+	},
 	ce => {
 		include => ['Chechen pronunciation'],
 	},
@@ -186,12 +189,18 @@ my %categories = (
 	ko => {
 		include => ['Korean pronunciation'],
 	},
+	ku => {
+		include => ['Kurdish pronunciation'],
+	},
 	la => {
 		include => ['Latin pronunciation'],
 		exclude => ['Recitations in Latin'],
 	},
 	li => {
 		include => ['Limburgish pronunciation'],
+	},
+	'lt' => {
+		include => ['Lithuanian pronunciation'],
 	},
 	lv => {
 		include => ['Latvian pronunciation'],
