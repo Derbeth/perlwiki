@@ -57,7 +57,7 @@ my $max_retries=5;
 
 my $wikt_lang='en';   # 'en','de','pl'; other Wiktionaries are not
                       # supported
-my $pause=5;          # number of seconds to wait before fetching each page
+my $pause=1;          # number of seconds to wait before fetching each page
 my $only_words='';    # comma-separated list of words - only they will be processed
 my $from_list='';     # path to a file with word-audio list
 my $all_langs=0;      # add in all languages
