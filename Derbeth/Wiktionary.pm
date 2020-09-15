@@ -343,8 +343,8 @@ sub add_audio_enwikt {
 	} elsif ($$section !~ /=== *Pronunciation *===/) {
 		$edit_summary .= '; added missing pron. section';
 
-		if ($$section =~ /===\s*Etymology\s*={3,}(.|\n|\r|\f)*?==/) {
-			unless ($$section =~ s/(=== *Etymology *={3,}(.|\n|\r|\f)*?)(==)/$1===Pronunciation===\n$audio_marker\n\n$3/) {
+		if ($$section =~ /===\s*Etymology\s*={3,}(.|\n|\r|\f)*?===/) {
+			unless ($$section =~ s/(=== *Etymology *={3,}(.|\n|\r|\f)*?)(===)/$1===Pronunciation===\n$audio_marker\n\n$3/) {
 				$edit_summary .= '; cannot add pron. after etymology';
 				return (2,0,$edit_summary)
 			}
