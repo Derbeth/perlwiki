@@ -121,6 +121,7 @@ my %categories = (
 	},
 	fi => {
 		include => ['Finnish pronunciation'],
+		exclude => ['Spoken Wikipedia - Finnish'],
 	},
 	fr => {
 		single => ['Quebec French pronunciation'],
