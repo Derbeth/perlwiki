@@ -181,8 +181,8 @@ LANGUAGES: foreach my $l (@langs) {
 		print "Skipping de, run ./dewikt_audiosetter_de.pl\n";
 		next;
 	}
-	if ($wikt_lang eq 'en' && $l eq 'zh') {
-		print "Skipping zh, a different template is used\n";
+	if ($wikt_lang eq 'en' && ($l eq 'th' || $l eq 'yue' || $l eq 'zh')) {
+		print "Skipping $l, a different template is used\n";
 		next;
 	}
 	$lang_code = $l;
