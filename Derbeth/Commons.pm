@@ -41,6 +41,7 @@ our $VERSION = 0.3.0;
 use vars qw($verbose);
 
 $verbose=0;
+my %editor_cache;
 
 Derbeth::Web::enable_caching(1);
 
@@ -49,7 +50,13 @@ my %regional_fr = ('fr-Paris' => 'Paris', 'FR Paris' => 'Paris', 'fr FR-Paris' =
 # normal language code => regexp for matching alternative code
 my %code_alias=('de'=>'by|bar', 'el' => 'ell', 'eu' => 'eus', 'fr' => 'qc', 'hy' => 'hyw-hy|hyw',
 	'la'=>'lat', 'nb' => 'no', 'roa' => 'jer', 'roh' => 'rm', 'tr'=>'tur', 'yue' => 'zh-yue');
-my %editor_cache;
+
+my %lingua_libre_accepted = (
+	'bn' => ['Titodutta'],
+	'es' => ['Rodelar', 'Ivanhercaz', 'Millars'],
+	'hi' => ['AryamanA'],
+	'it' => ['Happypheasant', 'Yiyi'],
+);
 
 # marks words with lower priority
 my $LOWPR = '&';
@@ -230,6 +237,16 @@ sub word_pronounced_in_file {
 	$main_text =~ s/ \(alternative pronunciation\)$// and $priority = $LOWPR;
 
 	# === Non-standard naming goes here
+	# from Lingua Libre
+	if ($main_text =~ /^LL-[^-]+-[^-]+-(.+)$/) {
+		$main_text = $1;
+		# only allow languages from whitelist as Lingua Libre quality is very bad
+		if (!_lingua_libre_accepted($code, $file)) {
+			return ();
+		}
+		return ($file, _with_regional($main_text, '', $LOWPR));
+	}
+
 	if ($cat =~ /^Latvian pronunciation/) {
 		if ($main_text =~ /^Latvian pronunciation (.*)$/) {
 			return ($file, $1);
@@ -347,15 +364,6 @@ sub word_pronounced_in_file {
 		}
 	}
 
-	# from Lingua Libre
-	if ($main_text =~ /^LL-[^-]+-[^-]+-(.+)$/) {
-		$main_text = $1;
-		# only allow languages from whitelist as Lingua Libre quality is very bad
-		if (!_lingua_libre_accepted($code, $file)) {
-			return ();
-		}
-		return ($file, _with_regional($main_text, '', $LOWPR));
-	}
 	# === end non-standard naming
 
 	unless ($skip_key_extraction) {
@@ -570,7 +578,15 @@ sub _with_regional {
 
 sub _lingua_libre_accepted {
 	my ($lang, $file) = @_;
-	return $lang eq 'zh' || ($lang eq 'bn' && $file =~ /Titodutta/);
+	return 1 if ($lang eq 'zh');
+	if (exists $lingua_libre_accepted{$lang}) {
+		foreach my $username (@{$lingua_libre_accepted{$lang}}) {
+			if (index($file, "-$username-") != -1) {
+				return 1;
+			}
+		}
+	}
+	return 0;
 }
 
 1;

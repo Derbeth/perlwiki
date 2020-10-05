@@ -59,6 +59,7 @@ Derbeth::Web::enable_caching(1);
 my %categories = (
 	ar => {
 		include => ['Arabic pronunciation'],
+		exclude => ['Moroccan Arabic pronunciation'],
 	},
 	arn => {
 		include => ['Mapudungun pronunciation'],
@@ -111,7 +112,8 @@ my %categories = (
 	},
 	es => {
 		include => ['Spanish pronunciation'],
-		exclude => ['Spanish audiobooks', 'Spanish pronunciation of names of people'],
+		exclude => ['Spanish audiobooks', 'Spanish pronunciation of names of people',
+			'Non-native Spanish pronunciation'],
 	},
 	eu => {
 		include => ['Basque pronunciation'],
@@ -173,7 +175,7 @@ my %categories = (
 	},
 	it => {
 		include => ['Italian pronunciation'],
-		exclude => ['Ogg sound files of spoken Italian', 'Italian pronunciation of titles of classical music works',
+		exclude => ['Italian pronunciation of titles of classical music works',
 			'Italian pronunciation of names of people',
 			'Spoken Wikinews - Italian', 'Spoken Wikipedia - Italian'],
 	},
