@@ -1,0 +1,11 @@
+==English==
+[[File:Mount_Rainier_from_west.jpg|thumb]]
+
+===Etymology===
+{{named-after|en|Peter Rainier|born=1741|died=1808|wplink==}}.
+
+===Pronunciation===
+* {{audio|en|En-Mount Rainier.ogg|Audio}}
+
+===Proper noun===
+{{en-proper noun|head=[[mount|Mount]] [[Rainier]]}}
