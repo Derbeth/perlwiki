@@ -312,7 +312,8 @@ my %categories = (
 	},
 	zh => {
 		include => ['Chinese pronunciation'],
-		exclude => ['Cantonese pronunciation','Shanghai dialect','Taiwanese pronunciation'],
+		exclude => ['Cantonese pronunciation','Fuzhou dialect pronunciation', 'Shanghai dialect',
+			'Southern Min pronunciation', 'Taiwanese pronunciation', 'Wu pronunciation'],
 	},
 );
 if ($refresh_lang) {

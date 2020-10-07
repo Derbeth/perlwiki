@@ -1,0 +1,27 @@
+==Chinese==
+{{zh-forms}}
+
+===Glyph origin===
+{{Han etym}}
+{{Han compound|ls=psc|肉|旨|alt1=月|c1=s|c2=p|t1=meat}}.
+
+===Etymology===
+It is thought to descend from {{inh|zh|sit-pro|*tsil||fat, grease}}, although the initial does not match the one of the Old Chinese reconstruction ({{zh-ref|Matisoff, STEDT}}; {{zh-ref|Schuessler, 2007}}).
+
+===Pronunciation===
+{{zh-pron
+|m=脂
+|c=zi1
+|h=pfs=chṳ̂
+|md=ciĕ
+|mn=chi/twv:chí
+|mn-t=zin1
+|w=1tsr
+|mc=y
+|oc=y
+|ma=
+|cat=n
+}}
+
+===Definitions===
+{{zh-hanzi}}

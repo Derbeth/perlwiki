@@ -285,6 +285,32 @@ sub decode_pron {
 	return @result;
 }
 
+sub add_zh_audio_enwikt {
+	my ($section, $pron, $lang_code, $word) = @_;
+	if ($$section !~ /\{\{zh-pron/ && $$section =~ /\{\{zh-see\|([^|}]+)\}\}/) {
+		my $traditional = $1;
+		my $fh;
+		open($fh, '>>', 'audio/simplified.txt');
+		print $fh encode_utf8("$word=$traditional\n");
+		close($fh);
+		return (2, 0, "is simplified for $traditional");
+	}
+	if ($$section !~ /\{\{zh-pron/) {
+		return (2, 0, "no {{zh-pron}}");
+	}
+	if ($$section =~ /\{\{zh-pron.+\|ma(?:udio)?=(\S+)/s) {
+		print encode_utf8("$word has audio $1\n");
+		return (1, 0, "has audio $1");
+	}
+	if ($$section =~ s/(\{\{zh-pron[^}]+\|ma(?:udio)?=)(\s*)(\|[^}]+\})/$1$pron$2$3/s) {
+		return (0, 1, "added audio $pron");
+	}
+	if ($$section !~ /ma(?:udio)?=/ && $$section =~ s/(\{\{zh-pron[^}]+\|m=[^|}]+)(\|[^}]+\})/$1|ma=$pron\n$2/) {
+		return (0, 1, "added audio $pron");
+	}
+	return (2, 0, 'cannot handle wikicode in {{zh-pron}}');
+}
+
 # Function: add_audio_enwikt
 # Returns:
 #   $result - 0 when ok, 1 when section already has all audio,
@@ -293,6 +319,9 @@ sub decode_pron {
 #   $edit_summary - edit summary text
 sub add_audio_enwikt {
 	my ($section,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural) = @_;
+	if ($lang_code eq 'zh') {
+		return add_zh_audio_enwikt($section, $pron, $lang_code, $singular);
+	}
 	my $language = get_language_name('en',$lang_code);
 	($pron_pl,$plural) = ('',''); # turned off
 

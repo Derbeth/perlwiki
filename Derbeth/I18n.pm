@@ -406,7 +406,7 @@ my %language_names = (
 		'wym' => 'Vilamovian',
 		'yi'  => 'Yiddish',
 		'yue' => 'Cantonese',
-		'zh'  => 'Mandarin'
+		'zh'  => 'Chinese'
 	}
 );
 $language_names{'simple'} = $language_names{'en'};
