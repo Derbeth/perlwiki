@@ -287,7 +287,7 @@ sub decode_pron {
 
 sub add_zh_audio_enwikt {
 	my ($section, $pron, $lang_code, $word) = @_;
-	if ($$section !~ /\{\{zh-pron/ && $$section =~ /\{\{zh-see\|([^|}]+)\}\}/) {
+	if ($$section !~ /\{\{zh-pron/ && $$section =~ /\{\{zh-see\|([^|}]+)(\}\}|\|sv)/) {
 		my $traditional = $1;
 		my $fh;
 		open($fh, '>>', 'audio/simplified.txt');
