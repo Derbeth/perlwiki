@@ -61,9 +61,12 @@ my %lingua_libre_accepted = (
 # marks words with lower priority
 my $LOWPR = '&';
 
+my %simplified_to_traditional;
+read_hash_loose('audio/simplified.txt', \%simplified_to_traditional) if (-e 'audio/simplified.txt');
+
 sub latin_chars_disallowed {
 	my ($lang) = @_;
-	return $lang =~ /^(ar|be|el|fa|he|hi|hy|ja|ka|ko|mk|ne|or|ru|te|th|uk)$/;
+	return $lang =~ /^(ar|be|el|fa|he|hi|hy|ja|ka|ko|mk|ne|or|ru|te|th|uk|zh)$/;
 }
 
 # For a pronunciation file for a non-Latin-script language, tries to guess
@@ -84,7 +87,7 @@ sub detect_pronounced_word {
 			print encode_utf8("cannot detect word: no description for File:$file\n");
 			return ();
 		}
-		return _detect_by_content($lang, $wikicode);
+		return _detect_by_content($lang, $wikicode, \%simplified_to_traditional);
 	}
 	if (_detect_by_usages_supported($lang)) {
 		return _detect_by_usages($lang,$file);
@@ -103,7 +106,7 @@ sub _detect_by_usages_supported {
 }
 
 sub _detect_by_content {
-	my ($lang, $wikicode) = @_;
+	my ($lang, $wikicode, $simplified_to_traditional_ref) = @_;
 	my @detected;
 
 	if ($lang eq 'mk') {
@@ -158,6 +161,12 @@ sub _detect_by_content {
 			push @detected, $1, $2;
 		} elsif ($wikicode =~ /Pronunciation of "?(\w+)"? \(([^\)\/ ]+) ?(?:or|and|\/) ?([^\) ]+)\)/) {
 			push @detected, $1, $2, $3;
+		}
+		my @originally_detected = @detected;
+		foreach my $sign (@originally_detected) {
+			if (exists $simplified_to_traditional_ref->{$sign}) {
+				push @detected, $simplified_to_traditional_ref->{$sign};
+			}
 		}
 	}
 

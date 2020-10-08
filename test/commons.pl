@@ -48,10 +48,12 @@ sub test_word_pronounced_in_file {
 
 sub test_detect_pronounced_word {
 	my $checked = 0;
+	my %simplified_to_traditional = ('严厉' => '嚴厲');
 
-	$checked += _check_detected('zh-mofang.txt', 'zh', ['模仿']);
-	$checked += _check_detected('zh-huangdi.txt', 'zh', ['huángdì', '皇帝', '黄帝']);
-	$checked += _check_detected('zh-Yunnan.txt', 'zh', ['云南', '雲南', 'Yúnnán']);
+	$checked += _check_detected('zh-mofang.txt', 'zh', ['模仿'], \%simplified_to_traditional);
+	$checked += _check_detected('zh-huangdi.txt', 'zh', ['huángdì', '皇帝', '黄帝'], \%simplified_to_traditional);
+	$checked += _check_detected('zh-Yunnan.txt', 'zh', ['云南', '雲南', 'Yúnnán'], \%simplified_to_traditional);
+	$checked += _check_detected('zh-yanli.txt', 'zh', ['严厉', '嚴厲'], \%simplified_to_traditional);
 	$checked += _check_detected('or-Ghana dhatu.txt', 'or', ['ଘନ ଧାତୁ']);
 	$checked += _check_detected('or-Ghanagarjita.txt', 'or', ['ଘନଗର୍ଜିତ']);
 	$checked += _check_detected('ka-vietnami.txt', 'ka', ['ვიეტნამი']);
@@ -69,10 +71,10 @@ sub test_latin_chars_disallowed {
 }
 
 sub _check_detected {
-	my ($input_file, $lang_code, $expected_arr) = @_;
+	my ($input_file, $lang_code, $expected_arr, $simplified_to_traditional_ref) = @_;
 	assert_true Derbeth::Commons::_detect_by_content_supported($lang_code);
 	my $input = read_file("testdata/commons-detect/$input_file", binmode => ':utf8');
-	my @actual = Derbeth::Commons::_detect_by_content($lang_code, $input);
+	my @actual = Derbeth::Commons::_detect_by_content($lang_code, $input, $simplified_to_traditional_ref);
 	assert_deep_equals $expected_arr, \@actual;
 	return 1;
 }

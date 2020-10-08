@@ -39,10 +39,12 @@ use Carp;
 my $clean_cache=0;
 my $clean_start=0; # removes all done files etc.
 my $refresh_lang;
+my $only; # filters like $refresh_lang but does not skip cache
 
 GetOptions(
 	'c|cleanstart!' => \$clean_start,
 	'cleancache!' => \$clean_cache,
+	'only=s' => \$only,
 	'r|refresh=s' => \$refresh_lang,
 	'v|verbose!' => \$Derbeth::Commons::verbose,
 ) or die;
@@ -316,18 +318,19 @@ my %categories = (
 			'Southern Min pronunciation', 'Taiwanese pronunciation', 'Wu pronunciation'],
 	},
 );
-if ($refresh_lang) {
+if ($refresh_lang || $only) {
+	my $lang_codes = $refresh_lang || $only;
 	my %filtered_categories;
-	my @requested_langs = split /,/, $refresh_lang;
-	my $all = $refresh_lang eq 'all';
+	my @requested_langs = split /,/, $lang_codes;
+	my $all = $lang_codes eq 'all';
 	while (my ($lang, $keys) = each(%categories)) {
 		if ($all || grep {$_ eq $lang} @requested_langs) {
 			$filtered_categories{$lang} = $keys;
 		}
 	}
 	%categories = %filtered_categories;
-	die "no categories for lang code $refresh_lang" unless keys %categories;
-	print STDERR "Refreshing $refresh_lang\n";
+	die "no categories for lang code $lang_codes" unless keys %categories;
+	print STDERR "Refreshing $lang_codes\n";
 }
 
 # 'en' => 'cat' => 'en-us-cat.ogg<us>|en-gb-cat.ogg<uk>
