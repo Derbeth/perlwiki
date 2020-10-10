@@ -532,6 +532,11 @@ sub word_pronounced_in_file {
 	elsif ($code eq 'wym') {
 		$word =~ s/ \(wersja Józefa Gary\)$//;
 	}
+	elsif ($code eq 'zh') {
+		if ($word =~ /^cmn-/) {
+			$word = $POSTMATCH;
+		}
+	}
 	# == end regional, now stripping articles
 
 	if ($code eq 'it' && $word !~ /^(un po')$/) {
