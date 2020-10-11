@@ -319,6 +319,16 @@ sub add_zh_audio_enwikt {
 #   $edit_summary - edit summary text
 sub add_audio_enwikt {
 	my ($section,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural) = @_;
+
+	if ($$section =~ /\{\{:/) {
+		return (2,0,'handling page transclusion not supported');
+	} elsif ($$section =~ /= *Etymology +1 *=/
+	|| ($$section =~ /= *Etymology/i && $POSTMATCH =~ /= *Etymology/i)) {
+		return (2,0,'handling multiple etymologies not supported');
+	} elsif ($$section =~ /= *Pronunciation/i && $POSTMATCH =~ /= *Pronunciation/i) {
+		return (2,0,'handling multiple pronunciation sections not supported');
+	}
+
 	if ($lang_code eq 'zh') {
 		return add_zh_audio_enwikt($section, $pron, $lang_code, $singular);
 	}
@@ -359,17 +369,7 @@ sub add_audio_enwikt {
 
 	my $audio_marker = ">>HEREAUDIO<<";
 
-	if ($$section =~ /\{\{:/) {
-		$edit_summary .= '; handling page transclusion not supported';
-		return (2,0,$edit_summary);
-	} elsif ($$section =~ /= *Etymology +1 *=/
-	|| ($$section =~ /= *Etymology/i && $POSTMATCH =~ /= *Etymology/i)) {
-		$edit_summary .= '; handling multiple etymologies not supported';
-		return (2,0,$edit_summary);
-	} elsif ($$section =~ /= *Pronunciation/i && $POSTMATCH =~ /= *Pronunciation/i) {
-		$edit_summary .= '; handling multiple pronunciation sections not supported';
-		return (2,0,$edit_summary);
-	} elsif ($$section !~ /=== *Pronunciation *===/) {
+	if ($$section !~ /=== *Pronunciation *===/) {
 		$edit_summary .= '; added missing pron. section';
 
 		if ($$section =~ /===\s*Etymology\s*={3,}(.|\n|\r|\f)*?===/) {
