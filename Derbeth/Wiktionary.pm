@@ -302,6 +302,10 @@ sub add_zh_audio_enwikt {
 		print encode_utf8("$word has audio $1\n");
 		return (1, 0, "has audio $1");
 	}
+	{
+		my @result = detect_multiple_enwikt($section);
+		return @result if @result;
+	}
 	if ($$section =~ s/(\{\{zh-pron[^}]+\|ma(?:udio)?=)(\s*)(\|[^}]+\})/$1$pron$2$3/s) {
 		return (0, 1, "added audio $pron");
 	}
@@ -320,17 +324,12 @@ sub add_zh_audio_enwikt {
 sub add_audio_enwikt {
 	my ($section,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural) = @_;
 
-	if ($$section =~ /\{\{:/) {
-		return (2,0,'handling page transclusion not supported');
-	} elsif ($$section =~ /= *Etymology +1 *=/
-	|| ($$section =~ /= *Etymology/i && $POSTMATCH =~ /= *Etymology/i)) {
-		return (2,0,'handling multiple etymologies not supported');
-	} elsif ($$section =~ /= *Pronunciation/i && $POSTMATCH =~ /= *Pronunciation/i) {
-		return (2,0,'handling multiple pronunciation sections not supported');
-	}
-
 	if ($lang_code eq 'zh') {
 		return add_zh_audio_enwikt($section, $pron, $lang_code, $singular);
+	}
+	{
+		my @result = detect_multiple_enwikt($section);
+		return @result if @result;
 	}
 	my $language = get_language_name('en',$lang_code);
 	($pron_pl,$plural) = ('',''); # turned off
@@ -441,6 +440,19 @@ sub add_audio_enwikt {
 	#}
 
 	return (0,$audios_count,$edit_summary);
+}
+
+sub detect_multiple_enwikt {
+	my ($section) = @_;
+	if ($$section =~ /\{\{:/) {
+		return (2,0,'handling page transclusion not supported');
+	} elsif ($$section =~ /= *Etymology +1 *=/
+	|| ($$section =~ /= *Etymology/i && $POSTMATCH =~ /= *Etymology/i)) {
+		return (2,0,'handling multiple etymologies not supported');
+	} elsif ($$section =~ /= *Pronunciation/i && $POSTMATCH =~ /= *Pronunciation/i) {
+		return (2,0,'handling multiple pronunciation sections not supported');
+	}
+	return ();
 }
 
 sub add_audio_simplewikt {

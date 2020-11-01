@@ -1,0 +1,52 @@
+==Chinese==
+
+===Etymology 1===
+
+====Glyph origin====
+{{Han compound|人|本|alt1=亻|t1=person|t2=basis|ls=ic}}.
+
+====Definitions====
+{{zh-see|體|svt}}
+
+===Etymology 2===
+{{zh-forms}}
+
+====Glyph origin====
+{{Han etym}}
+{{Han compound|人|本|c1=s|c2=p|alt1=亻|t1=person|ls=psc}}.
+
+====Pronunciation====
+{{zh-pron
+|m=bèn
+|ma=y
+|c=ban6
+|mc=y
+|oc=y
+|ma=
+|cat=a
+}}
+
+====Definitions====
+{{zh-hanzi}}
+
+# {{zh-alt-form|笨|[[coarse]] [[appearance]]; [[inferior]]}} <!-- 《廣韻·混韻》体，麤皃。又劣也。 -->
+# {{n-g|Used in {{zh-l|体夫|[[pallbearer]]}}}}. <!-- 《康熙字典》 体，蒲本反。体夫，轝柩之夫。 -->
+
+====Compounds====
+{{zh-der|体夫}}
+
+===Etymology 3===
+{{zh-forms}}
+
+====Pronunciation====
+{{zh-pron
+|m=cuì
+|cat=pn
+}}
+
+====Definitions====
+{{zh-hanzi}}
+
+# {{zh-hg}} name of [[prison]] <!-- 《龍龕手鑑》 俗，千内反。獄名。 -->
+
+----
