@@ -523,6 +523,12 @@ sub word_pronounced_in_file {
 	elsif ($code eq 'sv') {
 		$word =~ s/^en //g;
 	}
+	elsif ($code eq 'sw') {
+		if ($word =~ /^(ke)-/) {
+			$regional = $1;
+			$word = $POSTMATCH;
+		}
+	}
 	elsif ($code eq 'tl') {
 		if ($word =~ /^ph-/i) {
 			# all Tagalog is spoken in Phillipines; it's not regional, so ignore

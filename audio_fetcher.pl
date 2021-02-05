@@ -274,6 +274,9 @@ my %categories = (
 		include => ['Swedish pronunciation'],
 		exclude => ['Swedish pronunciation of names of people'],
 	},
+	sw => {
+		include => ['Swahili pronunciation'],
+	},
 	ta => {
 		include => ['Tamil pronunciation'],
 		exclude => ['Tamil audio songs', 'Tamil audio articles', 'Tamil stories', 'Machine pronunciations'],
