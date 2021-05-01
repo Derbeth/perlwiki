@@ -858,7 +858,14 @@ sub add_audio {
 }
 
 sub initial_cosmetics_enwikt {
-	return '';
+	my $page_text_ref = shift @_;
+	my @summary;
+
+	if ($$page_text_ref =~ s/(\{\{(?:stroke|han))_(order|stroke)/$1 $2/ig) {
+		push @summary, 'cosmetic';
+	}
+
+	return join(', ', @summary);
 }
 
 sub initial_cosmetics_simplewikt {

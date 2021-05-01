@@ -42,6 +42,7 @@ our @EXPORT = qw/create_wikt_editor
 	split_article_wikt
 	split_article_dewikt
 	split_article_enwikt
+	split_article_enwikt_direct
 	split_article_plwikt
 	get_category_contents
 	extract_page_contents
@@ -216,6 +217,12 @@ sub _split_article_de {
 sub split_article_enwikt {
 	my ($lang, $article_text) = @_;
 	my $lang_name = get_language_name('en',$lang);
+	return _join_sections($article_text,
+		_split_article_en($lang_name, $article_text));
+}
+
+sub split_article_enwikt_direct {
+	my ($lang_name, $article_text) = @_;
 	return _join_sections($article_text,
 		_split_article_en($lang_name, $article_text));
 }
