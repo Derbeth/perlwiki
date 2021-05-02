@@ -18,7 +18,7 @@ my %categories = (
 	bw => {
 		include => ['Bw.png stroke order images'],
 		exclude => [
-			'Disputed  diagrams',
+			'Disputed diagrams',
 			'Abw.png stroke order images',
 			'Hbw.png stroke order images',
 			'Jbw.png stroke order images',
@@ -28,7 +28,7 @@ my %categories = (
 	animate => {
 		include => ['Order.gif stroke order images'],
 		exclude => [
-			'Disputed  diagrams',
+			'Disputed diagrams',
 			'Aorder.gif stroke order images',
 			'Horder.gif stroke order images',
 			'Iorder.gif stroke order images',
@@ -42,11 +42,51 @@ my %categories = (
 	red => {
 		include => ['Red.png stroke order images'],
 		exclude => [
-			'Disputed  diagrams',
+			'Disputed diagrams',
 			'Ared.png stroke order images',
 			'Ired.png stroke order images',
 			'Jred.png stroke order images',
 			'Tred.png stroke order images',
+		]
+	},
+	tbw => {
+		include => ['Tbw.png stroke order images'],
+		exclude => ['Disputed  diagrams'],
+	},
+	hbw => {
+		include => ['Hbw.png stroke order images'],
+		exclude => ['Disputed diagrams'],
+	},
+	jbw => {
+		include => ['Jbw.png stroke order images'],
+		exclude => ['Disputed diagrams'],
+	},
+	tanimate => {
+		include => ['Torder.gif stroke order images'],
+		exclude => [
+			'Disputed diagrams',
+			'AnimationRequest',
+		]
+	},
+	hanimate => {
+		include => ['Horder.gif stroke order images'],
+		exclude => [
+			'Disputed diagrams',
+			'AnimationRequest',
+		]
+	},
+	cursive => {
+		include => ['Cursive-order.gif stroke order images'],
+		exclude => [
+			'Disputed diagrams',
+			'AnimationRequest',
+		]
+	},
+	janimate => {
+		include => ['Jorder.gif stroke order images'],
+		exclude => [
+			'Disputed diagrams',
+			'AnimationRequest',
 		]
 	},
 );
@@ -69,7 +109,7 @@ foreach my $type (sort keys %categories) {
 }
 
 my %signs;
-foreach my $type (qw/bw animate red/) {
+foreach my $type (qw/bw animate red tbw hbw jbw tanimate hanimate cursive janimate/) {
 	foreach my $file (@{$by_type{$type}}) {
 		if ($file !~ /^([^-]+)-/) {
 			print encode_utf8("Unexpected file: $file\n");

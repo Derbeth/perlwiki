@@ -64,11 +64,6 @@ foreach my $sign (sort keys %strokes) {
 	}
 
 	my $initial_summary = initial_cosmetics('en',\$page_text);
-	if ($page_text =~ /\{\{stroke order[^}]*\}\}|\{\{han stroke[^}]*/i) {
-		print encode_utf8("$sign: has $&\n");
-		$done{$sign} = 'has_stroke';
-		next;
-	}
 	if ($page_text =~ /#REDIRECT.*/i) {
 		print encode_utf8("$sign:$&\n");
 		$done{$sign} = 'redirect';
@@ -77,6 +72,22 @@ foreach my $sign (sort keys %strokes) {
 
 	my($before,$section,$after) = split_article_enwikt_direct('Translingual',$page_text);
 
+	my @existing_templates = ($page_text =~ /\{\{stroke order[^}]*\}\}|\{\{han stroke[^}]*/gi);
+	if (@existing_templates) {
+		my $template = $&;
+		my ($stroke_type) = parse_type($strokes{$sign});
+		if ($section =~ /=$stroke_type\b/ || ($stroke_type eq 'bw' && ($section =~ /\{\{stroke order(?:\|strokes?=\d+)?\}\}/ || $section =~ /=gbw/))) {
+			print encode_utf8("$sign: has same type ($stroke_type)\n");
+			$done{$sign} = 'has_same_stroke';
+		} elsif ($stroke_type =~ /^(?:bw|animate)$/ && $section !~ /=(?:bw|gbw|animate)/) {
+			print encode_utf8("$sign: has different "), join(' ', @existing_templates), " (trying ", colored($stroke_type, 'brown'), ")\n";
+			$done{$sign} = 'has_other_stroke_misses_chinese';
+		} else {
+			print encode_utf8("$sign: has different "), join(' ', @existing_templates), " (trying $stroke_type)\n";
+			$done{$sign} = 'has_other_stroke';
+		}
+		next;
+	}
 	if ($section eq '') {
 		print encode_utf8("$sign: no Translingual\n");
 		$done{$sign} = 'no_section';
@@ -126,16 +137,16 @@ save_results();
 
 sub add_stroke {
 	my ($section_ref, $stroke_info) = @_;
+	my ($stroke_type, $file) = parse_type($stroke_info);
+
 	my $argument;
-	$stroke_info =~ /^([^<]+)<([^>]+)>$/ or die "wrong $stroke_info";
-	my ($stroke_type, $file) = ($1, $2);
-	given ($stroke_type) {
-		when('bw') { $argument=''; }
-		when('red') { $argument="|[[File:$file|100px]]"; }
-		when('animate') { $argument='|type=animate'; }
-		default { die "unexpected stroke type $stroke_type"; }
-	}
-	if ($stroke_type eq 'bw' && $$section_ref =~ /\{\{han char.*sn=(\d+)\|/i) {
+	if ($stroke_type eq 'bw') { $argument=''; }
+	elsif ($stroke_type eq 'red') { $argument="|[[File:$file|100px]]"; }
+	elsif ($stroke_type eq 'animate') { $argument='|type=animate'; }
+	elsif ($stroke_type =~ /^(?:hbw|jbw|tbw|hanimate|janimate|tanimate|cursive)$/) { $argument="|type=$stroke_type"; }
+	else { die "unexpected stroke type $stroke_type"; }
+
+	if ($stroke_type =~ /bw$/ && $$section_ref =~ /\{\{han char.*sn=(\d+)\|/i) {
 		$argument .= "|strokes=$1";
 	}
 
@@ -143,6 +154,13 @@ sub add_stroke {
 	my $edit_summary = ($stroke_type eq 'red') ? "added {{stroke order}} (red)" : $stroke_template;
 	my $added = ($$section_ref =~ s/(Translingual\s*==)\n/$1\n$stroke_template\n/);
 	return ($added, "added $edit_summary");
+}
+
+sub parse_type {
+	my ($stroke_info) = @_;
+	$stroke_info =~ /^([^<]+)<([^>]+)>$/ or die "wrong $stroke_info";
+	my ($stroke_type, $file) = ($1, $2);
+	return ($stroke_type, $file);
 }
 
 sub save_results {
