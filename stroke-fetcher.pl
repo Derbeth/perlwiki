@@ -10,7 +10,7 @@ use Derbeth::Commons;
 use Encode;
 
 my %blacklist;
-foreach my $key (qw/睡-bw.png 请-bw.png/) {
+foreach my $key (qw//) {
 	$blacklist{$key} = 1;
 }
 
