@@ -591,6 +591,7 @@ sub _speech_parts_allowed_dewikt {
 	return 1 if $comparator->compare(\@speech_parts, ['Adjektiv', 'Konjugierte Form', 'Partizip II']);
 	return 1 if $comparator->compare(\@speech_parts, ['Deklinierte Form', 'Komparativ']);
 	return 1 if $comparator->compare(\@speech_parts, ['Deklinierte Form', 'Superlativ']);
+	return 1 if $comparator->compare(\@speech_parts, ['Deklinierte Form', 'Konjugierte Form']);
 	return 1 if $comparator->compare(\@speech_parts, ['Konjugierte Form', 'Konjugierte Form']);
 	return 1 if $comparator->compare(\@speech_parts, ['Konjugierte Form', 'Partizip II']);
 	return 0;
