@@ -413,7 +413,7 @@ my %language_names = (
 		'wo'  => 'Wolof',
 		'wym' => 'Vilamovian',
 		'yi'  => 'Yiddish',
-		'yue' => 'Cantonese',
+		'yue' => 'Chinese',
 		'zh'  => 'Chinese'
 	}
 );

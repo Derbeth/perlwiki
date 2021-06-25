@@ -287,6 +287,14 @@ sub decode_pron {
 
 sub add_zh_audio_enwikt {
 	my ($section, $pron, $lang_code, $word) = @_;
+	my $key;
+	if ($lang_code eq 'zh') {
+		$key = 'm';
+	} elsif ($lang_code eq 'yue') {
+		$key = 'c';
+	} else {
+		die "unexpected $lang_code for $word";
+	}
 	if ($$section !~ /\{\{zh-pron/ && $$section =~ /\{\{zh-see\|([^|}]+)(\}\}|\|sv)/) {
 		my $traditional = $1;
 		my $fh;
@@ -298,7 +306,7 @@ sub add_zh_audio_enwikt {
 	if ($$section !~ /\{\{zh-pron/) {
 		return (2, 0, "no {{zh-pron}}");
 	}
-	if ($$section =~ /\{\{zh-pron.+\|ma(?:udio)?=(\S+)/s) {
+	if ($$section =~ /\{\{zh-pron.+\|${key}a(?:udio)?=(\S+)/s) {
 		print encode_utf8("$word has audio $1\n");
 		return (1, 0, "has audio $1");
 	}
@@ -306,10 +314,10 @@ sub add_zh_audio_enwikt {
 		my @result = detect_multiple_enwikt($section);
 		return @result if @result;
 	}
-	if ($$section =~ s/(\{\{zh-pron[^}]+\|ma(?:udio)?=)(\s*)(\|[^}]+\})/$1$pron$2$3/s) {
+	if ($$section =~ s/(\{\{zh-pron[^}]+\|${key}a(?:udio)?=)(\s*)(\|[^}]+\})/$1$pron$2$3/s) {
 		return (0, 1, "added audio $pron");
 	}
-	if ($$section !~ /ma(?:udio)?=/ && $$section =~ s/(\{\{zh-pron[^}]+\|m=[^|}]+)(\|[^}]+\})/$1|ma=$pron\n$2/) {
+	if ($$section !~ /${key}a(?:udio)?=/ && $$section =~ s/(\{\{zh-pron[^}]+\|$key=[^|}]+)(\|[^}]+\})/$1|${key}a=$pron\n$2/) {
 		return (0, 1, "added audio $pron");
 	}
 	return (2, 0, 'cannot handle wikicode in {{zh-pron}}');
@@ -324,7 +332,7 @@ sub add_zh_audio_enwikt {
 sub add_audio_enwikt {
 	my ($section,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural) = @_;
 
-	if ($lang_code eq 'zh') {
+	if ($lang_code eq 'yue' || $lang_code eq 'zh') {
 		return add_zh_audio_enwikt($section, $pron, $lang_code, $singular);
 	}
 	{
