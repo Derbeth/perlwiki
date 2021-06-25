@@ -52,10 +52,18 @@ my %code_alias=('de'=>'by|bar', 'el' => 'ell', 'eu' => 'eus', 'fr' => 'qc', 'hy'
 	'la'=>'lat', 'nb' => 'no', 'roa' => 'jer', 'roh' => 'rm', 'tr'=>'tur', 'yue' => 'zh-yue');
 
 my %lingua_libre_accepted = (
-	'bn' => ['Titodutta'],
-	'es' => ['Rodelar', 'Ivanhercaz', 'Millars'],
-	'hi' => ['AryamanA'],
-	'it' => ['Happypheasant', 'Yiyi'],
+	'bn'  => ['Titodutta'],
+	'eo'  => ['Lepticed7'],
+	'es'  => ['Ivanhercaz', 'Millars', 'Rodelar'],
+	'fr'  => ['Benoît Prieur', 'Darkdadaah', 'GrandCelinien', 'Lepticed7', 'LoquaxFR', 'Lyokoï', 'Opsylac', 'Pamputt', 'Penegal', 'Poslovitch', 'T. Le Berre', 'Touam', 'X-Javier', 'WikiLucas00'],
+	'hi'  => ['AryamanA'],
+	'it'  => ['Happypheasant', 'Yiyi'],
+	'mr'  => ['Neelima64', 'SangeetaRH', 'नंदिनी रानडे'],
+	'ro'  => ['KlaudiuMihaila'],
+	'pl'  => ['Poemat'],
+	'sv'  => ['Salgo60'],
+	'uk'  => ['Tohaomg'],
+	'yue' => ['Justinrleung'],
 );
 
 # marks words with lower priority
@@ -66,7 +74,7 @@ read_hash_loose('audio/simplified.txt', \%simplified_to_traditional) if (-e 'aud
 
 sub latin_chars_disallowed {
 	my ($lang) = @_;
-	return $lang =~ /^(ar|be|el|fa|he|hi|hy|ja|ka|ko|mk|ne|or|ru|te|th|uk|zh)$/;
+	return $lang =~ /^(ar|be|el|fa|he|hi|hy|ja|ka|ko|mar|mk|ne|or|ru|te|th|uk|yue|zh)$/;
 }
 
 # For a pronunciation file for a non-Latin-script language, tries to guess
@@ -251,6 +259,7 @@ sub word_pronounced_in_file {
 		$main_text = $1;
 		# only allow languages from whitelist as Lingua Libre quality is very bad
 		if (!_lingua_libre_accepted($code, $file)) {
+			print "skipping: not on LL whitelist ", encode_utf8($page), "\n" if $verbose;
 			return ();
 		}
 		return ($file, _with_regional($main_text, '', $LOWPR));

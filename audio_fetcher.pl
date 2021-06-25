@@ -213,6 +213,9 @@ my %categories = (
 	mg => {
 		include => ['Malagasy pronunciation'],
 	},
+	mr => {
+		include => ['Marathi pronunciation'],
+	},
 	nb => {
 		include => ['Norwegian pronunciation'],
 	},

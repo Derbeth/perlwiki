@@ -101,6 +101,7 @@ our %text_to_regional_param_dewikt;
 		'us-ncalif' => 'amerikanisch Nordkalifornien',
 		'vallader' => 'Vallader',
 	},
+	# [[Module:etymology_languages/data]]
 	'en' => {
 		'am-lat' => 'Latin America',
 		'ar' => 'Argentina',
@@ -297,6 +298,7 @@ my %language_names = (
 		'lv'  => 'Lettisch',
 		'mg'  => 'Malagasy',
 		'mk'  => 'Mazedonisch',
+		'mr'  => 'Marathi',
 		'nb'  => 'Norwegisch',
 		'ne'  => 'Nepali',
 		'nl'  => 'Niederländisch',
@@ -331,6 +333,7 @@ my %language_names = (
 		'yue' => 'Kantonesisch',
 		'zh'  => 'Chinesisch'
 	},
+	# [[Module:languages]]
 	'en' => {
 		'ar'  => 'Arabic',
 		'arn' => 'Mapudungun',
@@ -378,6 +381,7 @@ my %language_names = (
 		'lv'  => 'Latvian',
 		'mg'  => 'Malagasy',
 		'mk'  => 'Macedonian',
+		'mr'  => 'Marathi',
 		'nb'  => 'Norwegian',
 		'ne'  => 'Nepali',
 		'nl'  => 'Dutch',
