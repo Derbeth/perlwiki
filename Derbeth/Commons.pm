@@ -53,12 +53,15 @@ my %code_alias=('de'=>'by|bar', 'el' => 'ell', 'eu' => 'eus', 'fr' => 'qc', 'hy'
 
 my %lingua_libre_accepted = (
 	'bn'  => ['Titodutta'],
+	'ca'  => ['Millars=val', 'Toniher', 'Unjoanqualsevol'],
+	'en'  => ['AryamanA=us', 'Commander Keane=au', 'Justinrleung=ca'],
 	'eo'  => ['Lepticed7'],
-	'es'  => ['Ivanhercaz', 'Millars', 'Rodelar'],
-	'fr'  => ['Benoît Prieur', 'Darkdadaah', 'GrandCelinien', 'Lepticed7', 'LoquaxFR', 'Lyokoï', 'Opsylac', 'Pamputt', 'Penegal', 'Poslovitch', 'T. Le Berre', 'Touam', 'X-Javier', 'WikiLucas00'],
+	'es'  => ['Ivanhercaz', 'MiguelAlanCS=pe', 'Millars', 'Rodelar'],
+	'fr'  => ['Benoît Prieur', 'Darkdadaah', 'DenisdeShawi=ca', 'DSwissK=ch', 'GrandCelinien', 'Lepticed7', 'LoquaxFR', 'Lyokoï', 'Mecanautes', 'Opsylac', 'Pamputt', 'Penegal', 'Poslovitch', 'T. Le Berre', 'Touam', 'X-Javier', 'WikiLucas00'],
 	'hi'  => ['AryamanA'],
 	'it'  => ['Happypheasant', 'Yiyi'],
 	'mr'  => ['Neelima64', 'SangeetaRH', 'नंदिनी रानडे'],
+	'oc'  => ['Davidgrosclaude'],
 	'ro'  => ['KlaudiuMihaila'],
 	'pl'  => ['Poemat'],
 	'sv'  => ['Salgo60'],
@@ -258,11 +261,16 @@ sub word_pronounced_in_file {
 	if ($main_text =~ /^LL-[^-]+-[^-]+-(.+)$/) {
 		$main_text = $1;
 		# only allow languages from whitelist as Lingua Libre quality is very bad
-		if (!_lingua_libre_accepted($code, $file)) {
+		my $regional = _lingua_libre_accepted($code, $file);
+		if (!(defined $regional)) {
 			print "skipping: not on LL whitelist ", encode_utf8($page), "\n" if $verbose;
 			return ();
 		}
-		return ($file, _with_regional($main_text, '', $LOWPR));
+		if ($code eq 'oc') {
+			if ($page =~ /Q35735/) { $regional = 'gas'; }
+			elsif ($page =~ /Q942602/) { $regional = 'lan'; }
+		}
+		return ($file, _with_regional($main_text, $regional, $LOWPR));
 	}
 
 	if ($cat =~ /^Latvian pronunciation/) {
@@ -607,15 +615,21 @@ sub _with_regional {
 
 sub _lingua_libre_accepted {
 	my ($lang, $file) = @_;
-	return 1 if ($lang eq 'zh');
+	return '' if ($lang eq 'zh');
 	if (exists $lingua_libre_accepted{$lang}) {
-		foreach my $username (@{$lingua_libre_accepted{$lang}}) {
+		foreach my $user_entry (@{$lingua_libre_accepted{$lang}}) {
+			my ($username, $regional);
+			if ($user_entry =~ /(.+)=(.+)/) {
+				($username, $regional) = ($1, $2);
+			} else {
+				($username, $regional) = ($user_entry, '');
+			}
 			if (index($file, "-$username-") != -1) {
-				return 1;
+				return $regional;
 			}
 		}
 	}
-	return 0;
+	return undef;
 }
 
 1;

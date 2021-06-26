@@ -78,6 +78,9 @@ my %categories = (
 	bn => {
 		include => ['Bengali pronunciation'],
 	},
+	ca => {
+		include => ['Catalan pronunciation'],
+	},
 	ce => {
 		include => ['Chechen pronunciation'],
 	},
@@ -231,6 +234,9 @@ my %categories = (
 	},
 	nv => {
 		include => ['Navajo pronunciation'],
+	},
+	oc => {
+		include => ['Lingua Libre pronunciation-oci'],
 	},
 	'or' => {
 		include => ['Odia pronunciation'],
