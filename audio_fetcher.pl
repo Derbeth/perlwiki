@@ -66,6 +66,9 @@ my %categories = (
 	arn => {
 		include => ['Mapudungun pronunciation'],
 	},
+	ary => {
+		include => ['Moroccan Arabic pronunciation'],
+	},
 	ba => {
 		include => ['Bashkir pronunciation'],
 	},
@@ -507,6 +510,12 @@ foreach my $lang (sort keys %categories) {
 }
 
 apply_low_priority();
+
+foreach my $lang (sort keys %categories) {
+	if (!(exists $audio{$lang})) {
+		print "$lang: no audio found\n";
+	}
+}
 
 system("mkdir audio") unless (-e 'audio');
 

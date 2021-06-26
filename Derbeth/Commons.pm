@@ -52,6 +52,7 @@ my %code_alias=('de'=>'by|bar', 'el' => 'ell', 'eu' => 'eus', 'fr' => 'qc', 'hy'
 	'la'=>'lat', 'nb' => 'no', 'roa' => 'jer', 'roh' => 'rm', 'tr'=>'tur', 'yue' => 'zh-yue');
 
 my %lingua_libre_accepted = (
+	'ary' => ['Anass Sedrati', 'Fenakhay'],
 	'bn'  => ['Titodutta'],
 	'ca'  => ['Millars=val', 'Toniher', 'Unjoanqualsevol'],
 	'en'  => ['AryamanA=us', 'Commander Keane=au', 'Justinrleung=ca'],
@@ -77,7 +78,7 @@ read_hash_loose('audio/simplified.txt', \%simplified_to_traditional) if (-e 'aud
 
 sub latin_chars_disallowed {
 	my ($lang) = @_;
-	return $lang =~ /^(ar|be|el|fa|he|hi|hy|ja|ka|ko|mar|mk|ne|or|ru|te|th|uk|yue|zh)$/;
+	return $lang =~ /^(ar|ary|be|el|fa|he|hi|hy|ja|ka|ko|mar|mk|ne|or|ru|te|th|uk|yue|zh)$/;
 }
 
 # For a pronunciation file for a non-Latin-script language, tries to guess
