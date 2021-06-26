@@ -120,7 +120,7 @@ my %categories = (
 	},
 	es => {
 		include => ['Spanish pronunciation'],
-		exclude => ['Spanish audiobooks', 'Spanish pronunciation of names of people',
+		exclude => ['Spanish pronunciation of names of people',
 			'Non-native Spanish pronunciation'],
 	},
 	eu => {
@@ -134,9 +134,8 @@ my %categories = (
 		exclude => ['Spoken Wikipedia - Finnish'],
 	},
 	fr => {
-		single => ['Quebec French pronunciation'],
 		include => ['French pronunciation'],
-		exclude => ['Ogg sound files of spoken French', 'French pronunciation of names of people'],
+		exclude => ['French pronunciation of names of people'],
 		reinclude => ['French pronunciation of given names'],
 	},
 	fy => {
@@ -276,11 +275,10 @@ my %categories = (
 	},
 	sr => {
 		include => ['Serbian pronunciation'],
-		exclude => ['Serbian pronunciation of placenames', 'Spoken Wikipedia Serbian', 'Serbian pronunciation of names of people'],
+		exclude => ['Serbian pronunciation of placenames', 'Serbian pronunciation of names of people'],
 	},
 	sq => {
 		include => ['Albanian pronunciation'],
-		exclude => ['Ogg sound files of spoken Albanian'],
 	},
 	sv => {
 		include => ['Swedish pronunciation'],
@@ -291,7 +289,7 @@ my %categories = (
 	},
 	ta => {
 		include => ['Tamil pronunciation'],
-		exclude => ['Tamil audio songs', 'Tamil audio articles', 'Tamil stories', 'Machine pronunciations'],
+		exclude => ['Tamil stories'],
 	},
 	te => {
 		include => ['Telugu pronunciation'],
