@@ -632,6 +632,10 @@ sub add_audio_dewikt {
 	if (scalar(@speech_parts) > 1) {
 		$edit_summary .= ' (mehrere Wortarte)';
 	}
+	my @pronunciation_kinds = ($$section =~ /\{\{Hörbeispiele}}/g);
+	if (scalar(@speech_parts) == 1 && scalar(@pronunciation_kinds) > 1) {
+		return (2,0,$edit_summary.'; more than one kind of pronunciation');
+	}
 
 	$$section =~ s/:\[\[Hilfe:IPA\|IPA\]\]:/:{{IPA}}/g;
 	$$section =~ s/:\[\[Hilfe:Hörbeispiele\|Hörbeispiele\]\]:/:{{Hörbeispiele}}/g;

@@ -1,0 +1,27 @@
+== Narrenbein ({{Sprache|Deutsch}}) ==
+=== {{Wortart|Substantiv|Deutsch}}, {{n}} ===
+
+{{Deutsch Substantiv Übersicht
+|Genus=n
+|Nominativ Singular=Narrenbein
+|Nominativ Plural=Narrenbeine
+|Genitiv Singular=Narrenbeins
+|Genitiv Singular*=Narrenbeines
+|Genitiv Plural=Narrenbeine
+|Dativ Singular=Narrenbein
+|Dativ Plural=Narrenbeinen
+|Akkusativ Singular=Narrenbein
+|Akkusativ Plural=Narrenbeine
+}}
+
+{{Worttrennung}}
+:Nar·ren·bein, {{Pl.}} Nar·ren·bei·ne
+
+{{Aussprache}}
+:{{IPA}} ''standardsprachlich (Deutschland):'' {{Lautschrift|ˈnaʁənˌbaɪ̯n}}
+:{{Hörbeispiele}} {{Audio|}}
+:{{IPA}} ''standardsprachlich (Schweiz):''<ref>Vergleiche {{Lit-De Gruyter: Deutsches Aussprachewörterbuch|A=1}}, Stichpunkt »2.2.5 Diphthonge«, Seite 263.<br />Vergleiche ebenda, Stichpunkt »2.3.2 Plosive«, Seite 265.<br />Vergleiche ebenda, Stichpunkt »2.3.4 r-Laute«, Seite 266.<br />Vergleiche ebenda, Stichpunkt »2.4.4 Die Suffixe <-en>, <-em> und <-el>«, Seite 268.</ref> {{Lautschrift|ˈnarənˌbaɪ̯n}}
+:{{Hörbeispiele}} {{Audio|}}
+
+{{Bedeutungen}}
+:[1] {{K|Schweiz|t1=;|Anatomie}} [[höckerartig]]e [[Stelle]] an der [[Innenseite]] des [[Ellenbogen]]s, die besonders [[schmerzempfindlich]] ist, da dort der [[Nervus ulnaris]] direkt unter der [[Haut]] [[verlaufen|verläuft]]
