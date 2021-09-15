@@ -69,6 +69,9 @@ my %categories = (
 	ary => {
 		include => ['Moroccan Arabic pronunciation'],
 	},
+	az => {
+		include => ['Azerbaijani pronunciation'],
+	},
 	ba => {
 		include => ['Bashkir pronunciation'],
 	},

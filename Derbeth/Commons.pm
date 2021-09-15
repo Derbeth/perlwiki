@@ -53,6 +53,7 @@ my %code_alias=('de'=>'by|bar', 'el' => 'ell', 'eu' => 'eus', 'fr' => 'qc', 'hy'
 
 my %lingua_libre_accepted = (
 	'ary' => ['Anass Sedrati', 'Fenakhay'],
+	'az'  => ['Azerbaijani audiorecordings'],
 	'bn'  => ['Titodutta'],
 	'ca'  => ['Millars=val', 'Toniher', 'Unjoanqualsevol'],
 	'en'  => ['AryamanA=us', 'Commander Keane=au', 'Justinrleung=ca'],
@@ -408,7 +409,12 @@ sub word_pronounced_in_file {
 	}
 
 	# === Regional parts stripping goes here
-	if ($code eq 'bg') {
+	if ($code eq 'az') {
+		if ($word =~ /^az-/i) {
+			$word = $POSTMATCH; # remove
+		}
+	}
+	elsif ($code eq 'bg') {
 		if ($word =~ /^bg-/i) {
 			$word = $POSTMATCH; # remove
 		}
