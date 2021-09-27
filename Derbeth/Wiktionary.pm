@@ -400,9 +400,13 @@ sub add_audio_enwikt {
 			}
 		}
 	} else {
-		unless ($$section =~ s/(===\s*Pronunciation\s*={3,})/$1\n$audio_marker/) {
-			$edit_summary .= '; cannot add audio after pron. section';
-			return (2,0,$edit_summary);
+		if ($$section =~ s/(\{\{es-IPA\}\})/$1\n$audio_marker/) {
+			# ok, add below IPA
+		} else {
+			unless ($$section =~ s/(===\s*Pronunciation\s*={3,})/$1\n$audio_marker/) {
+				$edit_summary .= '; cannot add audio after pron. section';
+				return (2,0,$edit_summary);
+			}
 		}
 	}
 
