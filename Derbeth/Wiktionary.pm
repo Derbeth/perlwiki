@@ -413,7 +413,7 @@ sub add_audio_enwikt {
 	$$section =~ s/\r\n/\n/g;
 	while ($$section =~ /($audio_marker\n)(\*[^\n]+\n)/) {
 		my $next_line = $2;
-		if ($next_line =~ /homophones|rhymes|hyphenation/i) {
+		if ($next_line =~ /homophones|rhymes|hyphenation/i || $next_line =~ /\{\{[^}]*$/) {
 			last;
 		} else {
 			$$section =~ s/($audio_marker\n)(\*[^\n]+\n)/$2$1/;

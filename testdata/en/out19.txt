@@ -1,0 +1,16 @@
+==Spanish==
+
+===Etymology===
+From {{af|es|a-|brazo|t2=arm|-ar}}.
+
+===Pronunciation===
+* {{audio|es|Es-abrazar.ogg|Audio}}
+* {{IPA| az
+|[ɡœˈræ]|[d͡ʒœˈræ]
+}}
+* {{hyphenation|az|gö|rə}}
+
+===Verb===
+{{es-verb}}
+
+# {{lb|es|transitive}} to [[hug]], to [[embrace]] (a person, an animal)
