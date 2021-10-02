@@ -86,63 +86,6 @@ sub create_audio_entries_simplewikt {
 	return ($text, $count, $summary);
 }
 
-# Function: create_audio_entries_frwikt
-# Parameters:
-#   $pron - 'en-us-solder.ogg<us>|en-solder.ogg|en-au-solder.ogg<au>'
-#
-# Returns:
-#   $audios - '* {{pron-reg|en-us-solder.ogg|audio (US)}}\n* {{pron-reg...}}'
-#   $edit_summary - list of added files
-#                   en-us-solder.ogg, en-solder.ogg, en-au-solder.ogg
-sub create_audio_entries_frwikt {
-	my ($lang_code,$pron,$section_ref,$singular,$plural) = @_;
-
-	my @audios;
-	my @summary;
-
-	my @all_audios;
-	while ($$section_ref =~ /audio= *([^.}|]+\.(?:\w{3,4}))/igc) {
-		push @all_audios, $1;
-	}
-
-	my @decoded_pron = decode_pron($pron, $section_ref, $singular);
-	while (@decoded_pron) {
-		my $file = shift @decoded_pron;
-		my $region = shift @decoded_pron;
-
-		if ($region && $region ne 'Paris') {
-			next if (grep(/\b$region\b/i, @all_audios));
-		} else {
-			next if (grep(!/\b(be|ca)\b/i, @all_audios));
-		}
-
-		my $edit_summary = $file;
-		my $text = ' {{pron-rég|';
-		$text .= get_regional_frwikt($lang_code,$region,$file);
-		$text .= '|'; # no IPA
-		if ($file =~ /fr-((l'|(un|une|le|la|des|les) )[^-.(]+)\.(?:\w{3,4})/i) {
-			$text .= "|titre=$1";
-			$edit_summary .= " as '$1'";
-		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((un|une|le|la|des|les|du)\)\.(?:\w{3,4})/i) {
-			my $new_word = "$2 $1";
-			$text .= "|titre=$new_word";
-			$edit_summary .= " as '$new_word'";
-		} elsif ($file =~ /Fr-Paris--([^-.(]+) \((l’)\)\.(?:\w{3,4})/i) {
-			my $new_word = "l'$1";
-			$text .= "|titre=$new_word";
-			$edit_summary .= " as '$new_word'";
-		}
-		$text .= "|audio=$file";
-		$text .= '}}';
-
-		push @audios, $text;
-		push @summary, $edit_summary;
-		push @all_audios, $file;
-	}
-	return (join("\n*", @audios), scalar(@audios), join(', ', @summary));
-}
-
-
 sub create_audio_entries_dewikt {
 	my ($lang_code,$pron,$section_ref,$singular,$plural) = @_;
 
@@ -233,8 +176,6 @@ sub create_audio_entries {
 		@retval = create_audio_entries_enwikt(@args);
 	} elsif ($wikt_lang eq 'pl') {
 		@retval = create_audio_entries_plwikt(@args);
-	} elsif ($wikt_lang eq 'fr') {
-		@retval = create_audio_entries_frwikt(@args);
 	} elsif ($wikt_lang eq 'simple') {
 		@retval = create_audio_entries_simplewikt(@args);
 	} else {
@@ -509,57 +450,6 @@ sub add_audio_simplewikt {
 	$$section =~ s/\r\n/\n/g;
 	while ($$section =~ /($MARK\n)(\*[^\n]+\n)/) {
 		$$section =~ s/($MARK\n)(\*[^\n]+\n)/$2$1/;
-	}
-
-	unless ($$section =~ s/$MARK/$audios/) {
-		$edit_summary .= '; lost audios marker';
-		return (2,0,$edit_summary);
-	}
-	if ($$section =~ /$MARK/) {
-		$edit_summary .= '; cannot remove audios marker';
-		return (2,0,$edit_summary);
-	}
-
-	return (0,$audios_count,$edit_summary);
-}
-
-sub add_audio_frwikt {
-	my ($section,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural) = @_;
-
-	my ($audios,$audios_count,$edit_summary)
-		= create_audio_entries('fr',$lang_code,$pron,$section,$singular);
-
-	if ($audios eq '') {
-		return (1,0,'');
-	}
-	if ($check_only) {
-		return (0,0,'');
-	}
-
-	$edit_summary = 'added audio '.$edit_summary;
-	my $MARK = '>>HERE<<';
-
-	if ($$section !~ /\{\{-pron-\}\}/) {
-		$edit_summary .= '; added missing pron. section';
-
-		my $sec='{{-pron-}}';
-		my $ad=0;
-		$ad = ($$section =~ s/(\{\{-homo-)/$sec\n\n$1/) unless($ad);
-		$ad = ($$section =~ s/(\{\{-paro-)/$sec\n\n$1/) unless($ad);
-		$ad = ($$section =~ s/(\{\{-anagr-)/$sec\n\n$1/) unless($ad);
-		$ad = ($$section =~ s/(\{\{-réf-)/$sec\n\n$1/) unless($ad);
-		$ad = ($$section =~ s/(\{\{-voir-)/$sec\n\n$1/) unless($ad);
-		$ad = ($$section =~ s/(\[\[Catégorie:)/$sec\n\n$1/) unless($ad);
-	}
-
-	unless ($$section =~ s/(\{\{-pron-\}\})/$1\n*$MARK/) {
-		$edit_summary .= '; cannot add pronunciation section';
-		return (2,0,$edit_summary);
-	}
-
-	$$section =~ s/\r\n/\n/g;
-	while ($$section =~ /(\* *$MARK\n)(\*[^\n]+\n)/) {
-		$$section =~ s/(\* *$MARK\n)(\*[^\n]+\n)/$2$1/;
 	}
 
 	unless ($$section =~ s/$MARK/$audios/) {
@@ -868,8 +758,6 @@ sub add_audio {
 		return add_audio_plwikt($section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl);
 	} elsif ($wikt_lang eq 'simple') {
 		return add_audio_simplewikt($section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl);
-	} elsif ($wikt_lang eq 'fr') {
-		return add_audio_frwikt($section_ref,$pron,$lang_code,$check_only,$singular,$pron_pl,$plural,$ipa_sing,$ipa_pl);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}
@@ -895,10 +783,6 @@ sub initial_cosmetics_simplewikt {
 	}
 
 	return join(', ', @summary);
-}
-
-sub initial_cosmetics_frwikt {
-	return '';
 }
 
 sub initial_cosmetics_dewikt {
@@ -1043,8 +927,6 @@ sub initial_cosmetics {
 		return initial_cosmetics_plwikt(@args);
 	} elsif ($wikt_lang eq 'simple') {
 		return initial_cosmetics_simplewikt(@args);
-	} elsif ($wikt_lang eq 'fr') {
-		return initial_cosmetics_frwikt(@args);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}
@@ -1081,10 +963,6 @@ sub final_cosmetics_enwikt {
 }
 
 sub final_cosmetics_simplewikt {
-	return '';
-}
-
-sub final_cosmetics_frwikt {
 	return '';
 }
 
@@ -1149,8 +1027,6 @@ sub final_cosmetics {
 		return final_cosmetics_plwikt(@args);
 	} elsif ($wikt_lang eq 'simple') {
 		return final_cosmetics_simplewikt(@args);
-	} elsif ($wikt_lang eq 'fr') {
-		return final_cosmetics_frwikt(@args);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}
