@@ -8,6 +8,14 @@ use lib '.';
 use Derbeth::Wikitools;
 use Derbeth::Commons;
 use Encode;
+use Getopt::Long;
+
+my $refresh;
+
+GetOptions(
+	'r|refresh!' => \$refresh,
+	'v|verbose!' => \$Derbeth::Commons::verbose,
+) or die;
 
 my %blacklist;
 foreach my $key (qw//) {
@@ -101,7 +109,8 @@ foreach my $type (sort keys %categories) {
 		$categories{$type}->{include},
 		$categories{$type}->{exclude},
 		[],
-		{file=>1});
+		{file=>1},
+		$refresh);
 	print "$type: ", scalar(@pages), " pages\n";
 	@pages = map { s/^File://; $_ } @pages;
 	@pages = grep { !exists $blacklist{$_} } @pages;
