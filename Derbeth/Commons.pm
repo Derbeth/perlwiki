@@ -349,6 +349,11 @@ sub word_pronounced_in_file {
 			return ($file, $POSTMATCH);
 		}
 	}
+	elsif ($code eq 'nb') {
+		if ($main_text =~ /^NB - Pronunciation of Norwegian Bokmål «([^»]+)»/) {
+			return ($file, "$1&");
+		}
+	}
 	elsif ($code eq 'ne') {
 		if ($main_text !~ /-/) {
 			$skip_key_extraction = 1;
