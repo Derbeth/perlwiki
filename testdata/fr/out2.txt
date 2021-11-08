@@ -1,5 +1,0 @@
-== {{=fr=}} ==
-
-{{-pron-}}
-* {{pron-rég|France (Paris)||titre=l'checkme|audio=Fr-Paris--checkme (l’).ogg}}
-

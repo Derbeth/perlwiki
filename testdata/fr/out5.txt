@@ -1,7 +1,0 @@
-== {{=fr=}} ==
-
-{{-pron-}}
-* {{pron-rég|Belgique||audio=fr-foo fr BE.ogg}}
-* {{pron-rég|France||audio=fr-foo.ogg}}
-* {{pron-rég|Canada||audio=fr-ca-foo.ogg}}
-

@@ -1,5 +1,0 @@
-== {{=fr=}} ==
-
-{{-pron-}}
-* {{pron-rég|France||titre=des un|audio=fr-des un.ogg}}
-

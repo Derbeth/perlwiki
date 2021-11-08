@@ -94,8 +94,6 @@ sub split_article_wikt {
 		return split_article_plwikt($lang_code, $article_text);
 	} elsif ($wikt_lang eq 'simple') {
 		return split_article_simplewikt($lang_code, $article_text);
-	} elsif ($wikt_lang eq 'fr') {
-		return split_article_frwikt($lang_code, $article_text);
 	} else {
 		croak "Wiktionary $wikt_lang not supported";
 	}
@@ -245,38 +243,6 @@ sub _split_article_en {
 		++$lang_index;
 	}
 	
-# 	print "lang index: $lang_index\n";
-	return ($lang_index, @sections);
-}
-
-# Function: split_article_frwikt
-# Parameters:
-#  $lang - 'en', 'de'
-#  $article_text - full article text
-sub split_article_frwikt {
-	my ($lang, $article_text) = @_;
-	return _join_sections($article_text,
-		_split_article_fr($lang, $article_text));
-}
-
-sub _split_article_fr {
-	my ($lang, $article_text) = @_;
-
-	my @sections = split /(== *\{\{ *=[-a-zA-Z ]+= *\}\} *==)/, $article_text;
-
-# 	print "sections: $#sections\n";
-
-	my $lang_index=0;
-# 	print "lang: '$lang'\n";
-
-	foreach my $section (@sections) {
-# 		print "$section\n&&&&&&&&&&&&\n";
-		if ($section =~ /== *\{\{ *=$lang= *\}\} *==/) {
-			last;
-		}
-		++$lang_index;
-	}
-
 # 	print "lang index: $lang_index\n";
 	return ($lang_index, @sections);
 }
