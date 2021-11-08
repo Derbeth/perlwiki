@@ -1,0 +1,14 @@
+==Italian==
+
+===Pronunciation===
+{{it-pr|relegàte}}
+
+===Verb===
+{{head|it|verb form}}
+
+# {{inflection of|it|relegare||2|p|pres|indc|;|2|p|impr}}
+# {{feminine plural of|it|relegato}}
+
+[[Category:Italian past participle forms]]
+
+----
