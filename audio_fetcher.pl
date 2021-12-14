@@ -388,7 +388,7 @@ sub save_pron {
 	foreach my $k (@keys) {
 		my @params = ($lang, $k, $file, $regional);
 		if ($low_priority) {
-			push @lp_audio, join('&', @params);
+			push @lp_audio, join('|!|', @params);
 		} else {
 			_save_pron_validated(@params);
 		}
@@ -398,7 +398,7 @@ sub save_pron {
 
 sub apply_low_priority {
 	foreach my $row (@lp_audio) {
-		my ($lang, $k, $file, $regional) = split(/&/, $row);
+		my ($lang, $k, $file, $regional) = split(/\|!\|/, $row);
 		_save_pron_validated($lang, $k, $file, $regional);
 	}
 }
@@ -465,6 +465,14 @@ sub process_page {
 			$regional = $1;
 		}
 
+		if ($word eq '') {
+			print encode_utf8("wrong word pronounced in $page: "), join(',', @words), "\n";
+			exit 1;
+		}
+		if ($word =~ /=/) {
+			print encode_utf8("skipping because unhandled characters in $page: "), join(',', @words), "\n";
+			next;
+		}
 		save_pron($editor, $code, $word, $file, $regional, $low_priority);
 	}
 }

@@ -262,6 +262,7 @@ sub word_pronounced_in_file {
 	# from Lingua Libre
 	if ($main_text =~ /^LL-[^-]+-[^-]+-(.+)$/) {
 		$main_text = $1;
+		$main_text =~ s/^ +//;
 		# only allow languages from whitelist as Lingua Libre quality is very bad
 		my $regional = _lingua_libre_accepted($code, $file);
 		if (!(defined $regional)) {
@@ -273,6 +274,10 @@ sub word_pronounced_in_file {
 			elsif ($page =~ /Q942602/) { $regional = 'lan'; }
 		}
 		return ($file, _with_regional($main_text, $regional, $LOWPR));
+	}
+	if ($main_text =~ /^LL/) {
+		print STDERR encode_utf8("skipping wrong Lingua Libre '$page'\n");
+		return ();
 	}
 
 	if ($cat =~ /^Latvian pronunciation/) {

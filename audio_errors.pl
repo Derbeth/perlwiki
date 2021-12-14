@@ -87,6 +87,9 @@ foreach my $lang (sort(keys(%langs))) {
 		my @decoded = decode_pron($pron);
 		my @files;
 		for (my $i=0; $i<=$#decoded; $i += 2) {
+			if (!$decoded[$i]) {
+				print STDERR "error $i >@decoded<($pron)\n";
+			}
 			push @files, $decoded[$i]; # only file names
 		}
 
