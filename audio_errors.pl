@@ -64,6 +64,9 @@ if ($wikt_lang eq 'de') {
 print "$errors_count errors\n";
 exit if $oneline;
 foreach my $lang (sort(keys(%langs))) {
+	if ($wikt_lang eq 'en' && $lang =~ /^(?:eo|th|yue|zh)$/) {
+		next;
+	}
 	print "== ", encode_utf8(get_language_name($wikt_lang, $lang)), "==\n";
 	print "{| class=\"wikitable\"\n";
 	my %audio;
