@@ -56,6 +56,7 @@ my %lingua_libre_accepted = (
 	'az'  => ['Azerbaijani audiorecordings'],
 	'bn'  => ['Titodutta'],
 	'ca'  => ['Millars=val', 'Toniher', 'Unjoanqualsevol'],
+	'de'  => ['Jeuwre'],
 	'en'  => ['AryamanA=us', 'Commander Keane=au', 'Justinrleung=ca'],
 	'eo'  => ['Lepticed7'],
 	'es'  => ['AdrianAbdulBaha=co', 'Ivanhercaz', 'MiguelAlanCS=pe', 'Millars', 'Rodelar'],
@@ -272,6 +273,9 @@ sub word_pronounced_in_file {
 		if ($code eq 'oc') {
 			if ($page =~ /Q35735/) { $regional = 'gas'; }
 			elsif ($page =~ /Q942602/) { $regional = 'lan'; }
+		}
+		if ($code eq 'de') {
+			$main_text =~ s/ \([^)]+\)$//;
 		}
 		return ($file, _with_regional($main_text, $regional, $LOWPR));
 	}
