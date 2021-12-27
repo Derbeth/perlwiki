@@ -1,0 +1,21 @@
+name: Build
+on: push
+
+jobs:
+  perl:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        perl-version:
+          - '5.32'
+          - 'latest'
+
+    container:
+      image: perl:${{ matrix.perl-version }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: cpanm --quiet --installdeps --notest .
+      - run: make test
