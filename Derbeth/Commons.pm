@@ -57,7 +57,7 @@ my %lingua_libre_accepted = (
 	'bn'  => ['Titodutta'],
 	'ca'  => ['Millars=val', 'Toniher', 'Unjoanqualsevol'],
 	'de'  => ['Jeuwre'],
-	'en'  => ['AryamanA=us', 'Commander Keane=au', 'Justinrleung=ca'],
+	'en'  => ['AryamanA=us', 'Commander Keane=au', 'Justinrleung=ca', 'Vininn126=us'],
 	'eo'  => ['Lepticed7'],
 	'es'  => ['AdrianAbdulBaha=co', 'Ivanhercaz', 'MiguelAlanCS=pe', 'Millars', 'Rodelar'],
 	'fr'  => ['Benoît Prieur', 'Darkdadaah', 'DenisdeShawi=ca', 'DSwissK=ch', 'GrandCelinien', 'Lepticed7', 'LoquaxFR', 'Lyokoï', 'Mecanautes', 'Opsylac', 'Pamputt', 'Penegal', 'Poslovitch', 'T. Le Berre', 'Touam', 'X-Javier', 'WikiLucas00'],
