@@ -28,6 +28,7 @@ my %valid_args;
 foreach (@VALID_ARGS) { $valid_args{$_} = 1; }
 
 for my $wikt_lang(@tested_wikts) {
+	my $passed=1;
 	my $i=0;
 	while(1) {
 		my $test_input = "${TESTDATA_DIR}/$wikt_lang/in${i}.txt";
@@ -49,14 +50,16 @@ for my $wikt_lang(@tested_wikts) {
 			print encode_utf8("Edit summary: $summary\n");
 			if ($interactive) {
 				system("kdiff3 $test_output $test_expected -L1 Received -L2 Expected");
+				exit(11);
 			} else {
 				system("diff -u $test_output $test_expected");
+				$passed = 0;
 			}
-			exit(11);
 		}
 
 		++$i;
 	}
+	exit(11) unless ($passed);
 	print "$wikt_lang: $i tests succeeded.\n";
 	system("rm -f $TEST_TEMP_DIR/*");
 }
