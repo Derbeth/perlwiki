@@ -226,6 +226,23 @@ sub decode_pron {
 	return @result;
 }
 
+sub add_pl_audio_enwikt {
+	my ($section, $pron, $lang_code, $word) = @_;
+	my @decoded_pron = decode_pron($pron, $section, $word);
+	unless (@decoded_pron) {
+		return (1, 0, "has audio");
+	}
+	# just first one
+	my $file = shift @decoded_pron;
+	if ($$section =~ /\{\{[pP]l-p[^}]*\|a=/) {
+		return (2, 0, "already has other audio");
+	}
+	if ($$section =~ s/(\{\{[pP]l-p[^}]*)(}})/$1|a=$file$2/) {
+		return (0, 1, "added audio $file");
+	}
+	return (2, 0, "cannot add");
+}
+
 sub add_zh_audio_enwikt {
 	my ($section, $pron, $lang_code, $word) = @_;
 	my $key;
@@ -275,6 +292,8 @@ sub add_audio_enwikt {
 
 	if ($lang_code eq 'yue' || $lang_code eq 'zh') {
 		return add_zh_audio_enwikt($section, $pron, $lang_code, $singular);
+	} elsif ($lang_code eq 'pl') {
+		return add_pl_audio_enwikt($section, $pron, $lang_code, $singular);
 	}
 	{
 		my @result = detect_multiple_enwikt($section);
@@ -289,10 +308,10 @@ sub add_audio_enwikt {
 		= create_audio_entries('en',$lang_code,$pron_pl,$section,$singular,$plural);
 
 	if ($audios eq '' && $audios_pl eq '') {
-		return (1,'','');
+		return (1,0,'');
 	}
 	if ($check_only) {
-		return (0,'','');
+		return (0,0,'');
 	}
 
 	$audios_count += $audios_count_pl;

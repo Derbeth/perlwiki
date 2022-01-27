@@ -1,0 +1,10 @@
+==Polish==
+
+===Etymology===
+From {{inh|pl|sla-pro|*mostъ||bridge}}.
+
+===Pronunciation===
+* {{pl-p|mɔst|a=Pl-most.ogg}}
+
+===Noun===
+{{pl-noun|m-in}}
