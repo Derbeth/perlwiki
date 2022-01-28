@@ -467,7 +467,7 @@ sub process_page {
 
 		if ($word eq '') {
 			print encode_utf8("wrong word pronounced in $page: "), join(',', @words), "\n";
-			exit 1;
+			next;
 		}
 		if ($word =~ /=/) {
 			print encode_utf8("skipping because unhandled characters in $page: "), join(',', @words), "\n";
