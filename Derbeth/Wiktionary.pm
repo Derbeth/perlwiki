@@ -789,6 +789,9 @@ sub initial_cosmetics_enwikt {
 	if ($$page_text_ref =~ s/(\{\{(?:stroke|han))_(order|stroke)/$1 $2/ig) {
 		push @summary, 'cosmetic';
 	}
+	if ($$page_text_ref =~ s/(\{\{pl-p[^}]*)\|a=}}/$1}}/ig) {
+		push @summary, 'cosmetic';
+	}
 
 	return join(', ', @summary);
 }
