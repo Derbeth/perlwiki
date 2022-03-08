@@ -376,8 +376,11 @@ sub get_all_category_contents {
 	if (defined $cached_pages) {
 		@pages = @$cached_pages;
 	} else {
+		print encode_utf8($category), ': ' if $Derbeth::Commons::verbose;
+		select()->flush();
 		@pages = $editor->get_all_pages_in_category($category, { max => 0 });
 		cache_write_values($key, \@pages);
+		print scalar(@pages), " pages\n" if $Derbeth::Commons::verbose;
 	}
 	return filter_to_namespace($allow_namespaces, @pages);
 }
@@ -403,7 +406,12 @@ sub get_contents_include_exclude {
 	}
 	my %exclude;
 	foreach my $category (@{$exclude_categories}) {
-		my @pages = get_all_category_contents($editor, "Category:$category", $allow_namespaces, $recache);
+		my @pages;
+		if ($category eq 'Speech impediments') { # is broken for some reason
+			@pages = get_category_contents_perlwikipedia($editor, "Category:$category", undef, $allow_namespaces, $recache);
+		} else {
+			@pages = get_all_category_contents($editor, "Category:$category", $allow_namespaces, $recache);
+		}
 		print encode_utf8("warn: no pages in $category\n") unless @pages;
 		foreach my $page (@pages) {
 			$exclude{$page} = 1;

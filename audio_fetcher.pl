@@ -58,6 +58,10 @@ if ($clean_cache) {
 
 Derbeth::Web::enable_caching(1);
 
+my @always_exclude = (
+	'Deletion requests',
+	'Speech impediments',
+);
 my %categories = (
 	ar => {
 		include => ['Arabic pronunciation'],
@@ -502,6 +506,7 @@ foreach my $lang (sort keys %categories) {
 		my @excluded;
 		push @excluded, @{$lang_conf->{exclude}} if $lang_conf->{exclude};
 		push @excluded, @{$lang_conf->{single}} if $lang_conf->{single};
+		push @excluded, @always_exclude;
 		my @pages = Derbeth::Wikitools::get_contents_include_exclude($editor,
 			$lang_conf->{include} || [],
 			\@excluded,
