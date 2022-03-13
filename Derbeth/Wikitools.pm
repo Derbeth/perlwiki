@@ -408,9 +408,9 @@ sub get_contents_include_exclude {
 	foreach my $category (@{$exclude_categories}) {
 		my @pages;
 		if ($category eq 'Speech impediments') { # is broken for some reason
-			@pages = get_category_contents_perlwikipedia($editor, "Category:$category", undef, $allow_namespaces, $recache);
+			@pages = get_category_contents_perlwikipedia($editor, "Category:$category", undef, $allow_namespaces, 0);
 		} else {
-			@pages = get_all_category_contents($editor, "Category:$category", $allow_namespaces, $recache);
+			@pages = get_all_category_contents($editor, "Category:$category", $allow_namespaces, 0);
 		}
 		print encode_utf8("warn: no pages in $category\n") unless @pages;
 		foreach my $page (@pages) {
