@@ -71,6 +71,7 @@ my %lingua_libre_accepted = (
 	'sv'  => ['Salgo60'],
 	'uk'  => ['Tohaomg'],
 	'yue' => ['Justinrleung'],
+	'zh'  => ['Aa087159', 'Assassas77', 'Jun Da (Yug)', 'KhawaChenpo', 'Liang (MichaelSchoenitzer)', 'Vickylin77amis', 'Wang Cheng (Yug)', '雲角']
 );
 
 # marks words with lower priority
@@ -637,7 +638,6 @@ sub _with_regional {
 
 sub _lingua_libre_accepted {
 	my ($lang, $file) = @_;
-	return '' if ($lang eq 'zh');
 	if (exists $lingua_libre_accepted{$lang}) {
 		foreach my $user_entry (@{$lingua_libre_accepted{$lang}}) {
 			my ($username, $regional);
