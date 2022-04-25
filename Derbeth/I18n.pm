@@ -264,6 +264,7 @@ my %language_names = (
 		'zh'  => 'język chiński standardowy'
 	},
 	'de' => {
+		'af' => 'Afrikaans',
 		'ar'  => 'Arabisch',
 		'arn' => 'Mapudungun',
 		'ary' => 'Marokkanisch-Arabisch',
@@ -351,6 +352,7 @@ my %language_names = (
 	},
 	# [[Module:languages]]
 	'en' => {
+		'af' => 'Afrikaans',
 		'ar'  => 'Arabic',
 		'arn' => 'Mapudungun',
 		'ary' => 'Moroccan Arabic',

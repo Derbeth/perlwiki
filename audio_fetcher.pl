@@ -63,6 +63,9 @@ my @always_exclude = (
 	'Speech impediments',
 );
 my %categories = (
+	af => {
+		include => ['Afrikaans pronunciation'],
+	},
 	ar => {
 		include => ['Arabic pronunciation'],
 		exclude => ['Moroccan Arabic pronunciation'],

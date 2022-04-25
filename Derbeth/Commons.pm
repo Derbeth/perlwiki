@@ -52,6 +52,7 @@ my %code_alias=('de'=>'by|bar', 'el' => 'ell', 'eu' => 'eus', 'fr' => 'qc', 'hy'
 	'la'=>'lat', 'nb' => 'no', 'roa' => 'jer', 'roh' => 'rm', 'tr'=>'tur', 'yue' => 'zh-yue');
 
 my %lingua_libre_accepted = (
+	'af'  => ['Anon1314', 'Iwan.Aucamp', 'Oesjaar'],
 	'ary' => ['Anass Sedrati', 'Fenakhay'],
 	'az'  => ['Azerbaijani audiorecordings'],
 	'bn'  => ['Titodutta'],
