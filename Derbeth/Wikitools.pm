@@ -228,7 +228,7 @@ sub split_article_enwikt_direct {
 sub _split_article_en {
 	my ($lang, $article_text) = @_;
 	
-	my @sections = split /^(==[-'a-zA-Zāâäáèëéíīõüú ]+==[^=])/m, $article_text;
+	my @sections = split /^(==[-'\w ]+==[^=])/mu, $article_text;
 	
 # 	print "sections: ", scalar(@sections), "\n";
 	

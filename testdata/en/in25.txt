@@ -1,0 +1,34 @@
+==Dutch==
+
+===Pronunciation===
+* {{audio|nl|Nl-abnormale.ogg|Audio}}
+
+===Adjective===
+{{head|nl|adjective form}}
+
+# {{nl-adj form of|infl|abnormaal}}
+
+----
+
+==German==
+
+===Adjective===
+{{head|de|adjective form}}
+
+# {{de-adj form of|abnormal}}
+
+----
+
+==Norwegian Bokmål==
+
+===Pronunciation===
+* {{IPA|nb|/abnɔrˈmɑːlə/}}
+* {{audio|nb|nb-abnormale.ogg|Audio}}
+* {{rhymes|nb|ɑːlə}}
+* {{hyph|nb|ab|nor|ma|le}}
+
+===Adjective===
+{{nb-adj-form}}
+
+# {{definite singular of|nb|abnormal}}
+# {{plural of|nb|abnormal}}
