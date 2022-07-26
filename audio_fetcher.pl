@@ -253,6 +253,9 @@ my %categories = (
 	'or' => {
 		include => ['Odia pronunciation'],
 	},
+	pa => {
+		include => ['Punjabi pronunciation'],
+	},
 	pam => {
 		include	=> ['Kapampangan pronunciation'],
 	},
