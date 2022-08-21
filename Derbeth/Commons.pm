@@ -617,6 +617,14 @@ sub word_pronounced_in_file {
 		if ($word =~ /^(a|an|the|to) (.+)$/) {
 			push @result, _with_regional($2, $regional, $LOWPR);
 		}
+	} elsif ($code eq 'hy') {
+		my %identical = ('և' => 'եւ', 'եւ' => 'և');
+		while (my ($from, $to) = each %identical) {
+			my $changed = $word;
+			if ($changed =~ s/$from/$to/g) {
+				push @result, _with_regional($changed, $regional, $LOWPR);
+			}
+		}
 	}
 	# === Handling 'second pronunciation variant'
 	if ($code =~ /^(ce|is|ta|zh)$/) {
