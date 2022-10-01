@@ -64,7 +64,10 @@ my %lingua_libre_accepted = (
 	'fa'  => ['Afsham23'],
 	'fr'  => ['Benoît Prieur', 'Darkdadaah', 'DenisdeShawi=ca', 'DSwissK=ch', 'GrandCelinien', 'Lepticed7', 'LoquaxFR', 'Lyokoï', 'Mecanautes', 'Opsylac', 'Pamputt', 'Penegal', 'Poslovitch', 'T. Le Berre', 'Touam', 'X-Javier', 'WikiLucas00'],
 	'hi'  => ['AryamanA'],
-	'hy'  => ['Vahagn Petrosyan=east-armenian'],
+	'hy'  => [
+		'Vahagn Petrosyan=east-armenian',
+		'Yevgenya Shamshyan (Vahagn Petrosyan)=east-armenian',
+	],
 	'it'  => ['Happypheasant', 'Yiyi'],
 	'mr'  => ['Neelima64', 'SangeetaRH', 'नंदिनी रानडे'],
 	'oc'  => ['Davidgrosclaude'],
