@@ -360,7 +360,7 @@ sub add_audio_enwikt {
 			}
 		}
 	} else {
-		if ($$section =~ s/(\{\{es-IPA\}\}|\{\{it-pr[^}]*\}\})/$1\n$audio_marker/) {
+		if ($$section =~ s/(\{\{es-IPA\}\}|\{\{it-pr[^}]*\}\}|\{\{hy-pron[^}]*\}\})/$1\n$audio_marker/) {
 			# ok, add below IPA
 		} else {
 			unless ($$section =~ s/(===\s*Pronunciation\s*={3,})/$1\n$audio_marker/) {

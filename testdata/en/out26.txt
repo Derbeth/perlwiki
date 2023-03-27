@@ -1,0 +1,8 @@
+==Armenian==
+
+===Pronunciation===
+{{hy-pron}}
+* {{audio|hy|Hy-foo.ogg|Audio}}
+
+===Noun===
+{{hy-noun}}
