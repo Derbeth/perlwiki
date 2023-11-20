@@ -57,16 +57,19 @@ foreach my $word (@keys) {
 		next;
 	}
 	sleep $pause;
-	my @hist = $editor->get_history($word, 1);
+	my @hist = $editor->get_history($word, {'rvlimit' => 1});
 	unless (@hist) {
-		die "cannot get history for $word";
+		die encode_utf8("cannot get history for $word");
 	}
 	if ($hist[0]->{user} ne $settings{bot_login}) {
-		print encode_utf8("$word already reverted by $hist[0]->{user}\n");
+		print encode_utf8("$word edited by $hist[0]->{user}\n");
 		$done{$word} = 'not_last_edit';
-	} elsif($hist[0]->{comment} !~ /LL/) {
+	} elsif($hist[0]->{comment} =~ /added missing pron. section/) {
 		print encode_utf8("$word not reverted due to comment '$hist[0]->{comment}'\n");
 		$done{$word} = 'wrong_comment';
+	} elsif($hist[0]->{timestamp_date} ne '2023-11-20') {
+		print encode_utf8("$word not reverted due to date '$hist[0]->{timestamp_date}'\n");
+		$done{$word} = 'wrong_date';
 	} else {
 		$editor->undo($word, $hist[0]->{revid}, "Undo own adding of $lang_code audio\n");
 		if ($editor->{error}) {
