@@ -70,6 +70,7 @@ my %lingua_libre_accepted = (
 	],
 	'it'  => ['Happypheasant', 'Yiyi'],
 	'mr'  => ['Neelima64', 'SangeetaRH', 'नंदिनी रानडे'],
+	'mt'  => ['GħawdxiVeru'],
 	'oc'  => ['Davidgrosclaude'],
 	'ro'  => ['KlaudiuMihaila'],
 	'pl'  => ['KaMan', 'Olaf', 'Poemat', 'Tashi', 'ThineCupOverfloweth'],
