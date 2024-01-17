@@ -148,7 +148,7 @@ foreach my $word (@entries) {
 		print "warning: page has empty text: ",encode_utf8($word),"\n";
 	}
 
-	my $initial_summary = initial_cosmetics('de',\$page_text);
+	my $initial_summary = initial_cosmetics('de',\$page_text,$word);
 	my ($before,$section,$after) = split_article_wikt('de',$lang_code,$page_text,1);
 
 	if ($section eq '') {

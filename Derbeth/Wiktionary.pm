@@ -922,10 +922,12 @@ sub initial_cosmetics_plwikt {
 # Returns:
 #   edit summary
 sub initial_cosmetics {
-	my ($wikt_lang, $page_text_ref) = @_;
+	my ($wikt_lang, $page_text_ref, $word) = @_;
+	die unless $word;
 	my @args = ($page_text_ref);
 
 	# remove all underscores from audio
+	$$page_text_ref =~ s/(\{\{audio[^}]+)\{\{PAGENAME}}/$1$word/g;
 	my $repeat=1;
 	while ($repeat) {
 		$repeat=0;

@@ -264,7 +264,7 @@ LANGUAGES: foreach my $l (@langs) {
 			print "warning: page has empty text: ",encode_utf8($word),"\n";
 		}
 		
-		my $initial_summary = initial_cosmetics($wikt_lang,\$page_text);
+		my $initial_summary = initial_cosmetics($wikt_lang,\$page_text,$word);
 		
 		my($before,$section,$after) = split_article_wikt($wikt_lang,$lang_code,$page_text,1);
 		

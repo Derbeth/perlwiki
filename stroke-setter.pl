@@ -63,7 +63,7 @@ foreach my $sign (sort keys %strokes) {
 		next;
 	}
 
-	my $initial_summary = initial_cosmetics('en',\$page_text);
+	my $initial_summary = initial_cosmetics('en',\$page_text,$sign);
 	if ($page_text =~ /#REDIRECT.*/i) {
 		print encode_utf8("$sign:$&\n");
 		$done{$sign} = 'redirect';

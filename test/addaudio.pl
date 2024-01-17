@@ -92,7 +92,7 @@ sub do_test {
 		return (0, '');
 	}
 
-	my $initial_summary = initial_cosmetics($wikt_lang,\$text);
+	my $initial_summary = initial_cosmetics($wikt_lang,\$text,$word);
 	my ($before, $section, $after) = split_article_wikt($wikt_lang,$lang_code,$text,1);
 	my ($result,$added_audios,$edit_summary) = add_audio($wikt_lang,\$section,$args{'audio'},$lang_code,0,$word,$args{'audio_pl'},$args{'plural'},$args{'ipa'},$args{'ipa_pl'});
 	$text = $before.$section.$after;
