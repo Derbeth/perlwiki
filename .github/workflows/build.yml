@@ -16,6 +16,6 @@ jobs:
       image: perl:${{ matrix.perl-version }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - run: cpanm --quiet --installdeps --notest .
       - run: make test
