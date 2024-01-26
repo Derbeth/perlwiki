@@ -923,7 +923,7 @@ sub initial_cosmetics_plwikt {
 #   edit summary
 sub initial_cosmetics {
 	my ($wikt_lang, $page_text_ref, $word) = @_;
-	die unless $word;
+	confess 'no word passed' unless(defined($word));
 	my @args = ($page_text_ref);
 
 	# remove all underscores from audio
