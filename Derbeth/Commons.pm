@@ -261,10 +261,6 @@ sub word_pronounced_in_file {
 		print "skipping synthesized ", encode_utf8($page), "\n" if $verbose;
 		return;
 	}
-	if ($main_text =~ /Fr--?Paris--/) {
-		print "skipping to blacklist User:Jjackoti\n" if $verbose;
-		return;
-	}
 	if ($main_text =~ /Voice of America/) {
 		return ();
 	}

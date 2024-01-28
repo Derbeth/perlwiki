@@ -147,6 +147,7 @@ my %categories = (
 		include => ['French pronunciation'],
 		exclude => ['French pronunciation of names of people'],
 		reinclude => ['French pronunciation of given names'],
+		exclude_users => ['Jjackoti'],
 	},
 	fy => {
 		include => ['Frisian pronunciation'],
@@ -521,7 +522,8 @@ foreach my $lang (sort keys %categories) {
 			\@excluded,
 			$lang_conf->{reinclude} || [],
 			{file=>1},
-			$refresh_lang);
+			$refresh_lang,
+			$lang_conf->{exclude_users} || []);
 		print "$lang: ", scalar(@pages), " pages in all of ", encode_utf8(join ' ',@{$lang_conf->{include}}), "\n";
 
 		my $main_included = $lang_conf->{include}->[0];

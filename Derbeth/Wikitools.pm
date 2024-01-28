@@ -44,11 +44,12 @@ our @EXPORT = qw/create_wikt_editor
 	split_article_enwikt
 	split_article_enwikt_direct
 	split_article_plwikt
+	get_audio_uploads
 	get_category_contents
 	extract_page_contents
 	get_linking_to
 	get_wikicode/;
-our $VERSION = 0.12.0;
+our $VERSION = 0.13.0;
 
 # Variable: $use_perlwikipedia
 our $use_perlwikipedia=0;
@@ -354,6 +355,21 @@ sub create_editor {
 	return $result;
 }
 
+sub get_audio_uploads {
+	my ($editor, $username, $recache) = @_;
+	my $key = $editor->{host} . '|uploads|' . $username;
+	my $cached_pages = $recache ? undef : cache_read_values($key);
+	return @$cached_pages if (defined $cached_pages);
+
+	my $query = {action=>'query',list=>'usercontribs',ucuser=>$username, ucnamespace=>6,
+		ucprop => 'title', ucshow => 'new', uclimit => 'max'};
+	my $result_ref = $editor->{api}->list($query, {max=>500})
+		|| die $editor->{api}->{error}->{code} . ': ' . $editor->{api}->{error}->{details};
+	my @pages = grep !/\.(jpg|JPG|gif|png|svg)$/, map { $_->{title} } @{$result_ref};
+	cache_write_values($key, \@pages);
+	return @pages;
+}
+
 sub get_category_contents_perlwikipedia {
 	my ($editor,$category,$maxparts,$allow_namespaces,$recache) = @_;
 	my $key = $editor->{host} . '|' . $category;
@@ -397,7 +413,7 @@ sub filter_to_namespace {
 }
 
 sub get_contents_include_exclude {
-	my ($editor, $include_categories, $exclude_categories, $reinclude_categories, $allow_namespaces, $recache) = @_;
+	my ($editor, $include_categories, $exclude_categories, $reinclude_categories, $allow_namespaces, $recache, $exclude_users) = @_;
 	my @result;
 	foreach my $category (@{$include_categories}) {
 		my @pages = get_all_category_contents($editor, "Category:$category", $allow_namespaces, $recache);
@@ -422,6 +438,13 @@ sub get_contents_include_exclude {
 		print encode_utf8("warn: no pages in $category\n") unless @pages;
 		foreach my $page (@pages) {
 			$exclude{$page} = 0;
+		}
+	}
+	foreach my $username (@{$exclude_users}) {
+		my @pages = get_audio_uploads($editor, $username, $recache);
+		print encode_utf8("warn: no user $username\n") unless @pages;
+		foreach my $page (@pages) {
+			$exclude{$page} = 1;
 		}
 	}
 	return grep {! $exclude{$_}} @result;
