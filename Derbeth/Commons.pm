@@ -63,9 +63,10 @@ my %lingua_libre_accepted = (
 	'eo'  => ['Lepticed7'],
 	'es'  => ['AdrianAbdulBaha=co', 'Ivanhercaz', 'MiguelAlanCS=pe', 'Millars', 'Rodelar'],
 	'eu'  => ['Aioramu', 'Theklan', 'Xabier Cañas'],
-	'fa'  => ['Afsham23'],
+	'fa'  => ['Afsham23', 'Darafsh', 'Mazanin (مازنین)'],
 	'fi'  => ['Anniina (WikiLucas00)', 'Susannaanas'],
 	'fr'  => ['Benoît Prieur', 'Darkdadaah', 'DenisdeShawi=ca', 'DSwissK=ch', 'GrandCelinien', 'Helenou66', 'Lepticed7', 'LoquaxFR', 'Lyokoï', 'Mecanautes', 'Opsylac', 'Pamputt', 'Penegal', 'Poslovitch', 'T. Le Berre', 'Touam', 'X-Javier', 'WikiLucas00'],
+	'he'  => ['Uziel302', 'YaronSh'],
 	'hi'  => ['AryamanA'],
 	'hy'  => [
 		'Vahagn Petrosyan=east-armenian',
@@ -78,15 +79,16 @@ my %lingua_libre_accepted = (
 	'mr'  => ['Neelima64', 'SangeetaRH', 'नंदिनी रानडे'],
 	'mt'  => ['GħawdxiVeru'],
 	'oc'  => ['Davidgrosclaude'],
-	'ro'  => ['KlaudiuMihaila'],
+	'ro'  => ['Andreea Teodoraa', 'Filosoful', 'KlaudiuMihaila', 'OrangeFlu'],
 	# Trabkin - native, but microphone issues
 	'pl'  => ['Anwar2', 'Czupirek', 'Gower', 'KaMan', 'Jest Spoczko', 'Liskowskyy', 'Olaf', 'Poemat', 'Sobsz', 'Tashi', 'ThineCupOverfloweth'],
 	'ru'  => ['Cinemantique', 'Lvova', 'Svetlov Artem', 'Tatiana Kerbush'],
 	'sl'  => ['Zupanurska'],
-	'sv'  => ['Salgo60'],
+	'sv'  => ['Ainali', 'Moonhouse', 'Salgo60'],
+	'tr'  => ['ToprakM'],
 	# Bicolino34 - native, but audio quality bad
 	'uk'  => ['Tohaomg'],
-	'yue' => ['Justinrleung'],
+	'yue' => ['Justinrleung', 'Luilui6666'],
 	'zh'  => ['Aa087159', 'Assassas77', 'Jun Da (Yug)', 'KhawaChenpo', 'Liang (MichaelSchoenitzer)', 'Vickylin77amis', 'Wang Cheng (Yug)', '雲角']
 );
 
