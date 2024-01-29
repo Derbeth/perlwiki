@@ -933,9 +933,11 @@ sub initial_cosmetics {
 		$repeat=0;
 		while ($$page_text_ref =~ /\{\{audio([^}]+)}}/igc) {
 			my $inside = $1;
-			if ($inside =~ /_/) {
+			if ($inside =~ /_|&#/) {
 				my $changed = $inside;
 				$changed =~ s/_/ /g;
+				$changed =~ s/&#39;/'/g;
+				# escape
 				$inside =~ s/(\[|\||\(|\))/\\$1/g;
 				$$page_text_ref =~ s/$inside/$changed/g;
 				$repeat = 1;
