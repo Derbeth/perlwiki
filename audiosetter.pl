@@ -286,7 +286,7 @@ LANGUAGES: foreach my $l (@langs) {
 			= add_audio($wikt_lang,\$section,$pron,$lang_code,$filter_mode,$word,$pron_pl,$plural);
 		
 		if ($result == 1) {
-			print encode_utf8("has audio: $word\n");
+			print encode_utf8("has audio: $word $edit_summary\n");
 			mark_done($word,'has_audio');
 			next;
 		}

@@ -259,7 +259,7 @@ sub add_zh_audio_enwikt {
 		open($fh, '>>', 'audio/simplified.txt');
 		print $fh encode_utf8("$word=$traditional\n");
 		close($fh);
-		return (2, 0, "is simplified for $traditional");
+		return (1, 0, "is simplified for $traditional");
 	}
 	if ($$section !~ /\{\{zh-pron/) {
 		return (2, 0, "no {{zh-pron}}");

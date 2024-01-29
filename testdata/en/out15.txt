@@ -10,7 +10,7 @@ It is thought to descend from {{inh|zh|sit-pro|*tsil||fat, grease}}, although th
 
 ===Pronunciation===
 {{zh-pron
-|m=脂
+|m=脂,,wūrǔ,3nb=non-standard variant in Mainland
 |ma=LL-Q7850 (zho)-雲角-脂.wav
 |c=zi1
 |h=pfs=chṳ̂
