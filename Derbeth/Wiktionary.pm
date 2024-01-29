@@ -31,6 +31,7 @@ use Derbeth::I18n 0.8.0;
 use Derbeth::Wikitools;
 use Array::Compare;
 use Encode;
+use HTML::Entities;
 use URI::Escape;
 use Carp;
 
@@ -936,7 +937,7 @@ sub initial_cosmetics {
 			if ($inside =~ /_|&#/) {
 				my $changed = $inside;
 				$changed =~ s/_/ /g;
-				$changed =~ s/&#39;/'/g;
+				$changed = decode_entities($changed);
 				# escape
 				$inside =~ s/(\[|\||\(|\))/\\$1/g;
 				$$page_text_ref =~ s/$inside/$changed/g;
