@@ -254,7 +254,7 @@ sub add_zh_audio_enwikt {
 	} else {
 		die "unexpected $lang_code for $word";
 	}
-	if ($$section !~ /\{\{zh-pron/ && $$section =~ /\{\{zh-see\|([^|}]+)(\}\}|\|sv)/) {
+	if ($$section !~ /\{\{zh-pron/ && $$section =~ /\{\{zh-see\|([^|}]+)(\}\}|\|sv?)/) {
 		my $traditional = $1;
 		my $fh;
 		open($fh, '>>', 'audio/simplified.txt');
