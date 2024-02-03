@@ -276,7 +276,7 @@ sub add_zh_audio_enwikt {
 	if ($$section =~ s/(\{\{zh-pron[^}]+\|${key}a(?:udio)?=)(\s*)(\|[^}]+\})/$1$pron$2$3/s) {
 		return (0, 1, "added audio $pron");
 	}
-	if ($$section !~ /${key}a(?:udio)?=/ && $$section =~ s/(\{\{zh-pron[^}]+\|$key=[^|}]+)(\|[^}]+\})/$1|${key}a=$pron\n$2/) {
+	if ($$section !~ /\|${key}a(?:udio)?=/ && $$section =~ s/(\{\{zh-pron.*\|$key=[^\n]+\n)(.*==)/$1|${key}a=$pron\n$2/s) {
 		return (0, 1, "added audio $pron");
 	}
 	return (2, 0, 'cannot handle wikicode in {{zh-pron}}');

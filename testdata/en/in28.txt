@@ -1,0 +1,17 @@
+==Chinese==
+{{zh-forms}}
+
+===Pronunciation===
+{{zh-pron
+|m=wǔ辱,,wūrǔ,3nb=non-standard variant in Mainland
+|m_note="wūrǔ" - from contamination by {{zh-l|污辱}}
+|c=mou5 juk6
+|h=pfs=n:vú-yu̍k/s:vú-yuk
+|mn=zz,kh:bú-jio̍k/xm,qz,tp,ph:bú-lio̍k
+|mn-t=bhu2 rog8
+|ma=Zh-wuru.ogg
+|cat=v
+}}
+
+===Verb===
+{{zh-verb}}
