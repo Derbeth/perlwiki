@@ -1,4 +1,4 @@
-== இலக்கணம் ({{Sprache|Tamil}}) ==
+== {{Abc|இலக்கணம்}} ({{Sprache|Tamil}}) ==
 === {{Wortart|Adjektiv|Tamil}} ===
 
 {{Umschrift}}
