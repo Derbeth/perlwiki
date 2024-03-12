@@ -248,7 +248,7 @@ sub word_pronounced_in_file {
 	my ($page, $code, $cat) = @_;
 	$cat = '' unless(defined($cat));
 
-	if ($page !~ /(?:File|Image):(.+)\.(flac|ogg|oga|opus|wav)/i) {
+	if ($page !~ /(?:File|Image):(.+)\.(flac|ogg|oga|opus|wav|mp3)/i) {
 		print "skipping because of extension ", encode_utf8($page), "\n" if $verbose;
 		return ();
 	}
