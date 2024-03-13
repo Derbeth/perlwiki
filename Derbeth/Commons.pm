@@ -82,7 +82,10 @@ my %lingua_libre_accepted = (
 	'ro'  => ['Andreea Teodoraa', 'Filosoful', 'KlaudiuMihaila', 'OrangeFlu'],
 	# Trabkin - native, but microphone issues
 	'pl'  => ['Anwar2', 'Czupirek', 'Gower', 'KaMan', 'Jest Spoczko', 'Liskowskyy', 'Olaf', 'Poemat', 'Sobsz', 'Tashi', 'ThineCupOverfloweth'],
-	'ru'  => ['Cinemantique', 'Lvova', 'Svetlov Artem', 'Tatiana Kerbush'],
+	'ru'  => [
+		'Cinemantique', 'Cokewanna', 'DoctorandusManhattan', 'DomesticFrog', 'Infovarius',
+		'Lvova', 'Pacha Tchernof', 'Rominf', 'Sofia Sycheva', 'Svetlov Artem', 'Tatiana Kerbush',
+	],
 	'sl'  => ['Zupanurska'],
 	'sv'  => ['Ainali', 'Moonhouse', 'Salgo60'],
 	'tr'  => ['ToprakM'],
