@@ -90,7 +90,7 @@ my %lingua_libre_accepted = (
 	'sv'  => ['Ainali', 'Moonhouse', 'Salgo60'],
 	'tr'  => ['ToprakM'],
 	# Bicolino34 - native, but audio quality bad
-	'uk'  => ['Tohaomg'],
+	'uk'  => ['Fanat22012', 'Po ukraińsku (Andriana)', 'Renvoy', 'Snizhana Umanets', 'Tohaomg'],
 	'yue' => ['Justinrleung', 'Luilui6666'],
 	'zh'  => ['Aa087159', 'Assassas77', 'Jun Da (Yug)', 'KhawaChenpo', 'Liang (MichaelSchoenitzer)', 'Vickylin77amis', 'Wang Cheng (Yug)', '雲角']
 );
