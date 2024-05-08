@@ -58,7 +58,7 @@ my %lingua_libre_accepted = (
 	'be'  => ['Ssvb'],
 	'bn'  => ['Galpadattya', 'Titodutta'],
 	'ca'  => ['Millars=val', 'Toniher', 'Unjoanqualsevol'],
-	'de'  => ['Jeuwre'],
+	'de'  => ['Jeuwre', 'Mighty Wire'],
 	'en'  => ['AryamanA=us', 'Commander Keane=au', 'Justinrleung=ca', 'Vealhurl=uk', 'Vininn126=us', 'Wodencafe=us'],
 	'eo'  => ['Lepticed7'],
 	'es'  => ['AdrianAbdulBaha=co', 'Ivanhercaz', 'MiguelAlanCS=pe', 'Millars', 'Rodelar'],
