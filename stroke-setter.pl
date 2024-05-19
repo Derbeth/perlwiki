@@ -80,7 +80,7 @@ foreach my $sign (sort keys %strokes) {
 			print encode_utf8("$sign: has same type ($stroke_type)\n");
 			$done{$sign} = 'has_same_stroke';
 		} elsif ($stroke_type =~ /^(?:bw|animate)$/ && $section !~ /=(?:bw|gbw|animate)/) {
-			print encode_utf8("$sign: has different "), join(' ', @existing_templates), " (trying ", colored($stroke_type, 'brown'), ")\n";
+			print encode_utf8("$sign: has different "), join(' ', @existing_templates), " (trying ", colored($stroke_type, 'red'), ")\n";
 			$done{$sign} = 'has_other_stroke_misses_chinese';
 		} else {
 			print encode_utf8("$sign: has different "), join(' ', @existing_templates), " (trying $stroke_type)\n";
