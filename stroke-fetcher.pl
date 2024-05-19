@@ -114,6 +114,7 @@ foreach my $type (sort keys %categories) {
 	print "$type: ", scalar(@pages), " pages\n";
 	@pages = map { s/^File://; $_ } @pages;
 	@pages = grep { !exists $blacklist{$_} } @pages;
+	@pages = grep { $_ !~ /-j$type/ } @pages; # for some reason exclusion does not work
 	$by_type{$type} = \@pages;
 }
 
